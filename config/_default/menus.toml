@@ -22,11 +22,6 @@
   name = "Schedule"
   url = "#schedule"
   weight = 50
-[[main]]
-
-  name = "Data and Coding Assignments"
-  url = "#DDA"
-  weight = 70
 
 [[main]]
   name = "Project"
@@ -35,5 +30,5 @@
     
 [[main]]
   name = "Syllabus"
-  url = "files/MethodsCogSCI_syllabus.pdf"
+  url = "/Syllabus/"
   weight = 80

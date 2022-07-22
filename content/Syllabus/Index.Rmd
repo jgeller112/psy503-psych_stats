@@ -1,0 +1,109 @@
+---
+title: "Syllabus"
+slug: syllabus
+citeproc: yes
+output:
+  html_document:
+    toc: yes
+    df_print: paged
+  blogdown::html_page:
+    toc: yes
+    fig_caption: no
+---
+
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+
+`r blogdown::shortcode("courseinfo")`
+
+# Course Introduction
+
+Research methodology/design, measurement, statistical analysis, and statistical computing are vast areas, each with their own texts, literature, advances, and sub-disciplines within psychology. Exhaustive coverage of any one of these topics is beyond the scope of a semester-long course. Rather, my goal is to provide you with a solid introduction to these topics and to develop an understanding of how integration of these areas is vital to conducting scientific research. My hope is that this course prepares you to pursue further coursework and independent study in each of these quantitative areas.
+
+
+\vspace{.75cm}
+# Topics
+
+This course covers the statistical and computational foundations of psychological methods. You will learn about probability theory, causal inference, statistical inference, and the general linear model. 
+
+We will use R, R Markdown, and Git/GitHub.
+
+\vspace{.75cm}
+# Audience
+
+This course is designed for quantitative psychologists but it is relevant to any social and natural scientists studying human behavior.  
+
+\vspace{.75cm}
+# Prerequisite
+
+The main prerequisite for this course is a strong desire and willingness to learn. It is not essential that you have taken any statistics, probability, or programming courses in the past. We will start with the basics.   
+
+__NOTE:__ Students are expected to enroll in _PSY 505: Advances in Statistical Methods and Research Practices in Psychology_ (Fall 2022, T: 11am - 1pm), which constitutes an important complement to this course. You can think of PSY 505 as the required precept time of the week for PSY 503. Please reach out to me if you would like to enroll in PSY 503 but are not able to take PSY 505.      
+
+\vspace{.75cm}
+
+# Course Objectives
+
+Broadly speaking, by the end of this course, students will be able to:
+formulate testable research hypotheses, based on operational definitions of variables;
+describe how various statistical analyses or strategies address different types of questions and hypotheses; interpret statistical results; and
+articulate rationale, strengths, and limitations of various statistical analytical methods.
+
+This will be an applied course wherein practical data analysis skills will be emphasized over formal mathematical proofs.
+
+\vspace{.75cm}
+# Assignments
+
+## Data Analysis and Coding
+
+```{r, child=c('DDA.Rmd')}
+
+```
+
+## Final Project
+
+```{r, child=c('Project.Rmd')}
+
+```
+
+# Grades
+
+```{r assignments-grades, include=FALSE}
+assignments <- tribble(
+  ~Points,  ~Assignment,
+  10*10      , "DAC",
+  30, "Final Project",
+) %>%
+  mutate(Percent = Points / sum(Points),
+         Percent = scales::percent(Percent)) 
+
+grading <- tribble(
+  ~Grade, ~Range,
+  "A",  "90–100%",
+  "B",  "80–89%",
+   "C",  "70-79%", 
+  "D",  "60-69%"
+)
+```
+
+```{r show-assignments-table, echo=FALSE, results="asis"}
+assignments_total <- tibble(Assignment = "Total",
+                            Points = sum(assignments$Points),
+                            Percent = NA)
+
+bind_rows(assignments, assignments_total) %>% 
+  select(Assignment, Percent, Points) %>% 
+  pandoc.table(justify = "lrr", missing = "")
+```
+
+
+```{r show-grades-table, echo=FALSE, results="asis"}
+grading %>%
+  pandoc.table(justify = "lc", 
+               col.names = c("Grade", "Range"))
+```
+
+
