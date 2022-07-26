@@ -76,7 +76,7 @@ datasets (it is essentially the equivalent of 4 DAAs).
 
 ```{r assignments-grades, include=FALSE}
 assignments <- tribble(
-  ~Points,  ~Assignment,
+  ~Points,  ~Assignment, 
   10*5      , "DAC",
   30, "Final Project",
   20, "Final Exam"
