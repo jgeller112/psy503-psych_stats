@@ -12,11 +12,11 @@ lessons:
     hasclass: True
     
   
-  - title: "Install R and RStudio"
+  - title: "Causality"
     date: [T]
     slides: ""
-    notes: 'Prior to class, please install <a href = "https://vimeo.com/203516510">R</a>, <a href = "https://vimeo.com/203516968">RStudio</a>'
-    reading: ""
+    notes: ""
+    reading: "01b_reading"
     hasclass: True
     
   - title: "Tutorial: Introduction to R/Markdown/Papaja"
