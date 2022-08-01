@@ -1,92 +1,84 @@
 lessons:
 
-  - title: '<span class="fake-header-table">Research Issues and Practices</span>'
+  - title: '<span class="fake-header-table">Foundations of Statistics in Psychological Science</span>'
     header: True
 
   - title: "Introduction to the course"
-    date: "Week 1 [T, 9/06]"
+    date: "Week 1 [W, 9/07]"
     reading: ""
     slides: ""
     class: ""
-    notes: 'Welcome! Please complete the <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfLhhG-tKtUbqJyFMfW_Vc-sueswR6TzmKr0R5TJs7Z4EJVSg/viewform?usp=sf_link">class survey</a>.'
+    notes: 'Welcome! Please complete the <a href = "https://forms.gle/HQCBwH9SaQ8ujqxt8">class survey</a>.'
     hasclass: True
     
   
-  - title: "Causality"
-    date: [T]
+  - title: "Causality, Potential Outcomes, and Experimental Designs, Oh My!" 
+    date: "Week 2 [MW, 9/12-9/14]"
     slides: ""
     notes: ""
-    reading: "01b_reading"
+    reading: "01a-reading"
     hasclass: True
     
-  - title: "Tutorial: Introduction to R/Markdown/Papaja"
-    date: "Week 2 [T, 9/13]"
+  - title: "To Switch or not to Switch? Introduction to Probability"
+    date: "Week 3 [MW, 9/19-9/21]"
     notes: ""
     slides: ""
     reading: ""
     hasclass: True
     
-  - title: "Seminar: Robert Calin-Jageman, Ph.D. (Dominican University)"
-    date: "Week 3 [T, 9/20]"
+  - title: "Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST"
+    date: "Week 4 [MW, 9/26-9/28]"
     slides: ""
-    notes: 'Prior to the talk Bob will lead a short workshop on ESCI in R and JAMOVI'
+    notes: ''
     reading: ""
     hasclass: True
     
-  - title: "Tutorial: Data Wrangling in R"
-    date: "Week 4 [T, 9/27]"
-    slides: ""
-    notes: ""
-    reading: ""
-    hasclass: True
-    
-  - title: "Seminar: Daniël Lakens, Ph.D. (Eindhoven University of Technology)"
-    date: "Week 5 [T, 10/04]"
+  - title: "Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST"
+    date: "Week 5 [MW, 10/03-10/12/]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: True
     
-  - title: "Seminar: Ulrich Schimmack, Ph.D. (University of Toronto Mississauga)"
-    date: "Week 6 [T, 10/11]"
+  - title: "Break"
+    date: "Week 6 [MW, 10/17-10/10/19]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: True
     
-  - title: "Break (No Class)"
-    date: "Week 7 [T, 10/18]"
+  - title: "Fitting Models to Data"
+    date: "Week 7 [MW, 10/24-10/26]"
+    slides: ""
+    notes: ""
+    reading: ""
+    hasclass: True
+    
+  - title: "Correlation and Regression"
+    date: "Week 8 [MW, 10/31-10/11-02]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: False
     
-  - title: "Discussion: Open Science and Replication/Reproducibility"
-    date: "Week 8 [T, 10/25]"
-    slides: ""
-    notes: "In class we will fill out preregistration'"
-    reading: ""
-    hasclass: True
-    hasassignment: True
-    
-  - title: "Seminar: Bob McMurrary (The University of Iowa)"
-    date: "Week 9 [T, 11/01]"
+  - title: "More Regression"
+    date: "Week 9 [MW, 11/7-11/09]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: True
     hasassignment: True
     
-  - title: "Seminar: Erin Buchanan, Ph.D. (Harrisburg University of Science and Technology)"
-    date: "Week 10 [T, 11/08]"
+  - title: "Comparing Means (*t*-tests and ANOVA)"
+    date: "Week 10 [MW, 11/14-11/16]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: True
     hasassignment: True
     
-  - title: "Antoine Coutrot, Ph.D.(French National Centre for Scientific Research)"
-    date: "Week 11 [T, 11/15]"
+  - title: "Comparing Means (*t*-tests and ANOVA)"
+    date: "Week 11 [MW, 11/21-11/23]"
     slides: ""
     notes: ""
     reading: ""
@@ -94,23 +86,31 @@ lessons:
     hasassignment: True
     
   - title: "Thanksgiving Break"
-    date: "Week 12 [T, 11/22]"
+    date: "Week 12[MW, 11/28-11/30]"
+    slides: ""
+    notes: ""
+    reading: ""
+    hasclass: False
+    hasassignment: True
+    
+  - title: "Extensions to the GLM: Multilevel Modeling"
+    date: "Week 13 [MW,12/5-12-7]"
+    slides: ""
+    notes: ""
+    reading: ""
+    hasclass: True
+    
+  - title: "Reading Days - No Class"
+    date: "Week 14 [MW, 12/12-12/14]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: False
     
-  - title: "Tutorial: Data Visualization in R "
-    date: "Week 13 [T, 11/29]"
+  - title: "Final Exam"
+    date: "Week 15 [T, 12/6]"
     slides: ""
-    notes: ""
-    reading: ""
-    hasclass: False
-    
-  - title: "Discussion: Computational Reproducibility"
-    date: "Week 14 [T, 12/6]"
-    slides: ""
-    notes: ""
+    notes: "Take home final exam due by 12/21"
     reading: ""
     hasclass: False
     
