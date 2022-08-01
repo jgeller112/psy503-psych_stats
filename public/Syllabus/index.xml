@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>syllabi | PSY 503: Psych Statistics</title>
+    <link>/syllabus/</link>
+      <atom:link href="/syllabus/index.xml" rel="self" type="application/rss+xml" />
+    <description>syllabi</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <image>
+      <url>/img/cogsciimage.jpeg</url>
+      <title>syllabi</title>
+      <link>/syllabus/</link>
+    </image>
+    
+    <item>
+      <title>Syllabus</title>
+      <link>/syllabus/syllabus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/syllabus/syllabus/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#course-introduction&#34; id=&#34;toc-course-introduction&#34;&gt;Course Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#topics&#34; id=&#34;toc-topics&#34;&gt;Topics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#audience&#34; id=&#34;toc-audience&#34;&gt;Audience&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#prerequisite&#34; id=&#34;toc-prerequisite&#34;&gt;Prerequisite&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#course-objectives&#34; id=&#34;toc-course-objectives&#34;&gt;Course Objectives&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#assignments&#34; id=&#34;toc-assignments&#34;&gt;Assignments&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data-analysis-and-coding&#34; id=&#34;toc-data-analysis-and-coding&#34;&gt;Data Analysis and Coding&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#final-project&#34; id=&#34;toc-final-project&#34;&gt;Final Project&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#part-1-reproducible-report-10-points&#34; id=&#34;toc-part-1-reproducible-report-10-points&#34;&gt;Part 1: Reproducible report (10 points)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#part-2-apa-paper-in-r-markdown-10-points&#34; id=&#34;toc-part-2-apa-paper-in-r-markdown-10-points&#34;&gt;Part 2: APA paper in R markdown (10 points)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#part-3-power-analysis-10-points&#34; id=&#34;toc-part-3-power-analysis-10-points&#34;&gt;Part 3: Power analysis (10 points)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#final-exam&#34; id=&#34;toc-final-exam&#34;&gt;Final Exam&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#grades&#34; id=&#34;toc-grades&#34;&gt;Grades&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;course-introduction&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Course Introduction&lt;/h1&gt;
+&lt;p&gt;Research methodology/design, measurement, statistical analysis, and statistical computing are vast areas, each with their own texts, literature, advances, and sub-disciplines within psychology. Exhaustive coverage of any one of these topics is beyond the scope of a semester-long course. Rather, my goal is to provide you with a solid introduction to these topics and to develop an understanding of how integration of these areas is vital to conducting scientific research. My hope is that this course prepares you to pursue further coursework and independent study in each of these quantitative areas.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;topics&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Topics&lt;/h1&gt;
+&lt;p&gt;This course covers the statistical and computational foundations of psychological methods. You will learn about probability theory, causal inference, statistical inference, and the general linear model.&lt;/p&gt;
+&lt;p&gt;We will use R, R Markdown, and Git/GitHub.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;audience&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Audience&lt;/h1&gt;
+&lt;p&gt;This course is designed for quantitative psychologists but it is relevant to any social and natural scientists studying human behavior.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;prerequisite&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Prerequisite&lt;/h1&gt;
+&lt;p&gt;The main prerequisite for this course is a strong desire and willingness to learn. It is not essential that you have taken any statistics, probability, or programming courses in the past. We will start with the basics.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Students are expected to enroll in &lt;em&gt;PSY 505: Advances in Statistical Methods and Research Practices in Psychology&lt;/em&gt; (Fall 2022, T: 11am - 1pm), which constitutes an important complement to this course. You can think of PSY 505 as the required precept time of the week for PSY 503. Please reach out to me if you would like to enroll in PSY 503 but are not able to take PSY 505.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;course-objectives&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Course Objectives&lt;/h1&gt;
+&lt;p&gt;Broadly speaking, by the end of this course, students will be able to:
+formulate testable research hypotheses, based on operational definitions of variables;
+describe how various statistical analyses or strategies address different types of questions and hypotheses; interpret statistical results; and
+articulate rationale, strengths, and limitations of various statistical analytical methods.&lt;/p&gt;
+&lt;p&gt;This will be an applied course wherein practical data analysis skills will be emphasized over formal mathematical proofs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;assignments&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Assignments&lt;/h1&gt;
+&lt;div id=&#34;data-analysis-and-coding&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data Analysis and Coding&lt;/h2&gt;
+&lt;p&gt;There will roughly 10 DCAs over the course of the semester that will involve practicing your R skills and analyzing a set of data and interpreting the findings. For each DCA, I will post a scenario describing a
+research project accompanied by a fictional data set. Your task is to analyze the data and to write a “Results &amp;amp; Discussion” report in RMD. You may work together and/or
+consult one another when analyzing the data but you must work alone when writing the
+report&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-project&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Project&lt;/h2&gt;
+&lt;p&gt;Your semester project assignment is due at the end of the semester and is submitted as a link on Canvas.&lt;/p&gt;
+&lt;p&gt;We will discuss this project across the semester. As an overview, you will be demonstrating that you can conduct a reproducible analysis, which is an analysis of data that is independently verifiable. For example, someone else could obtain your data and code and independently reproduce your analysis.&lt;/p&gt;
+&lt;p&gt;You will complete three related parts.&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;Reproducible Report: Obtain open-data from an existing psych paper, load the data in R, and attempt to reproduce the statistical analysis that the original authors reported.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;APA paper: Learn how to use the &lt;code&gt;papaja&lt;/code&gt; package that allows you to compile .Rmd files to APA style manuscripts in pdf form. Then, write a short APA-style research report that describes your reproducible analysis.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Simulation based power analysis: Include a simulation based power analysis at the end of your APA paper.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div id=&#34;part-1-reproducible-report-10-points&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Part 1: Reproducible report (10 points)&lt;/h3&gt;
+&lt;div id=&#34;finding-a-paper-with-data&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Finding a paper with data&lt;/h4&gt;
+&lt;p&gt;Here are a few tips for finding a psych paper with open data. &lt;strong&gt;Most important&lt;/strong&gt;, for this assignment you do not need to re-analyze &lt;strong&gt;all of the data&lt;/strong&gt; from a particular paper. Many papers have multiple experiments, and multiple analyses, including analyses you may not be familiar with. You can restrict your re-analysis to a portion of the paper. For example, you might only re-analyze the results from one experiment, and perhaps only the results relevant to one of the tests reported for the experiment. &lt;strong&gt;You can limit your re-analyses to tests that have been covered in lecture or lab&lt;/strong&gt;.&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://osf.io&#34;&gt;https://osf.io&lt;/a&gt; The open science framework contains many repositories of open data that are part of published papers.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Some journals, including Psychological Science, put badges on papers with open data. Look for the blue open-data badge. You will usually find the link to the open-data in the paper.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;loading-the-data-into-r&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Loading the data into R&lt;/h4&gt;
+&lt;p&gt;The data you find could be in many different formats. It should be possible to load it into R and transform the data into the format/organization that you need to complete the analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;re-analysis-of-original-data&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Re-analysis of original data&lt;/h4&gt;
+&lt;p&gt;Focus on a single analysis that was relevant to one of the research questions. For example, if the analysis involved several t-tests:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Conduct and report the same t-tests&lt;/li&gt;
+&lt;li&gt;Report a table of means&lt;/li&gt;
+&lt;li&gt;Report a graph of the means&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div id=&#34;write-a-reproducible-report&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Write a reproducible report&lt;/h4&gt;
+&lt;p&gt;The concept of a reproducible report is that someone else could exactly reproduce your analysis given your report. It is easy to make reproducible reports using R markdown. If you write your report in an .Rmd file, and that file includes your scripts for loading and analyzing the data, then by sharing your .rmd file, other people can exactly reproduce your report.&lt;/p&gt;
+&lt;p&gt;Your report should include the following (the points add up to 10 for part 1).&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;A brief description of the research question and experiment (with citation to the paper, and link to find the data) (3 points)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The R code chunks necessary to complete the re-analysis (3 points).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A write-up of your re-analysis results. (3 points)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A brief discussion of whether you were successful or not. (1 point)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-2-apa-paper-in-r-markdown-10-points&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Part 2: APA paper in R markdown (10 points)&lt;/h3&gt;
+&lt;div id=&#34;papaja&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Papaja&lt;/h4&gt;
+&lt;p&gt;In part 2, you will learn how to use the &lt;code&gt;papaja&lt;/code&gt; package to create APA style manuscripts using R markdown. We will discuss how to use &lt;code&gt;papaja&lt;/code&gt; in class. You will create a new .rmd file using the papaja template, and then transfer your reproducible report into this format. You will write very brief sections for:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;abstract (50-100 words) (1 point)&lt;/li&gt;
+&lt;li&gt;introduction (1 or two paragraphs) (1 point)&lt;/li&gt;
+&lt;li&gt;methods (1 paragraph) (1 point)&lt;/li&gt;
+&lt;li&gt;results (Your re-analysis results) (3 point)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;must include the R code chunks for the analysis&lt;/li&gt;
+&lt;li&gt;full points only if the reporting of results is also reproducible (not by hand), as in the the example (see below).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;5&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;discussion (very brief, 1 paragraph) (1 point)&lt;/li&gt;
+&lt;li&gt;references (cite the paper, and anything else you want to cite) (1 point)&lt;/li&gt;
+&lt;li&gt;A completed .Rmd file and successfully compiled .pdf using &lt;code&gt;papaja&lt;/code&gt; (2 points)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Again, the purpose here is not to write a full-length APA paper, but to get some experience with using the &lt;code&gt;papaja&lt;/code&gt; package.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-3-power-analysis-10-points&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Part 3: Power analysis (10 points)&lt;/h3&gt;
+&lt;div id=&#34;simulation-based-power-analysis&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Simulation based power analysis&lt;/h4&gt;
+&lt;p&gt;In part 3 you will add a simulation-based power analysis to your APA-style manuscript. Specifically, you should report a graph showing a power-curve for the design. We will discuss how to conduct simulation based power analyses in class.&lt;/p&gt;
+&lt;p&gt;The following should be included in the general discussion of your APA-paper (from part 2).&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;The R code chunk conducting your power analysis (3 points)&lt;/li&gt;
+&lt;li&gt;A paragraph or two discussing and explaining your power analysis to the reader, as well as reporting the results of the power analysis. (3 points)&lt;/li&gt;
+&lt;li&gt;A graph depicting a power-curve for the design. (2 points)&lt;/li&gt;
+&lt;li&gt;A statement about how the design might be changed to achieve a desired or preferred amount of power. (2 points)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-exam&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Exam&lt;/h2&gt;
+&lt;p&gt;The final exam will be take-home and will involve analyzing and interpreting several
+datasets (it is essentially the equivalent of 4 DAAs).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;grades&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Grades&lt;/h1&gt;
+&lt;table style=&#34;width:50%;&#34;&gt;
+&lt;colgroup&gt;
+&lt;col width=&#34;22%&#34; /&gt;
+&lt;col width=&#34;13%&#34; /&gt;
+&lt;col width=&#34;13%&#34; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;Assignment&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Percent&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Points&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;DAC&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;50%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Final Project&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;30%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;30&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Final Exam&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20%&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;Total&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table style=&#34;width:25%;&#34;&gt;
+&lt;colgroup&gt;
+&lt;col width=&#34;11%&#34; /&gt;
+&lt;col width=&#34;13%&#34; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;Grade&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Range&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;A&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;90–100%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;B&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;80–89%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;C&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;70-79%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;D&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;60-69%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
