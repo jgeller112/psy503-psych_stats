@@ -1,10 +1,10 @@
 ---
-title: "Readings"
+title: "01-Readings 09-12"
 
 ---
 #  Causality
 
-[Shadish, Cook, & Campbell paper](/readings_pdf/shadish_cook_campbell_chapter_1.pdf)
+[Shadish, Cook, & Campbell chapter](/readings_pdf/shadish_cook_campbell_chapter_1.pdf)
 
 [West and Thoemmes(2010)](/readings_pdf/West and Thoemmes - 2010 - Campbell’s and Rubin’s perspectives on causal infe.pdf)
 

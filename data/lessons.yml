@@ -1,6 +1,6 @@
 lessons:
 
-  - title: '<span class="fake-header-table">Foundations of Statistics in Psychological Science</span>'
+  - title: '<span class="fake-header-table">**The Basics**</span>'
     header: True
 
   - title: "Introduction to the course"
@@ -19,18 +19,18 @@ lessons:
     reading: "01a-reading"
     hasclass: True
     
-  - title: "To Switch or not to Switch? Introduction to Probability"
+  - title: "Fitting Models to Data"
     date: "Week 3 [MW, 9/19-9/21]"
     notes: ""
     slides: ""
     reading: ""
     hasclass: True
     
-  - title: "Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST"
+  - title: "To Switch or not to Switch? Introduction to Probability"
     date: "Week 4 [MW, 9/26-9/28]"
     slides: ""
     notes: ''
-    reading: ""
+    reading: "04a-reading"
     hasclass: True
     
   - title: "Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST"
@@ -47,12 +47,15 @@ lessons:
     reading: ""
     hasclass: True
     
-  - title: "Fitting Models to Data"
+  - title: "Estimation and Uncertainty: Power and Effect Size"
     date: "Week 7 [MW, 10/24-10/26]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: True
+    
+  - title: '<span class="fake-header-table">**THE GLM**</span>'
+    header: True
     
   - title: "Correlation and Regression"
     date: "Week 8 [MW, 10/31-10/11-02]"
