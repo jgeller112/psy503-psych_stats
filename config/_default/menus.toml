@@ -5,11 +5,6 @@
 
 
 [[main]]
-  name = "About"
-  url = "#about"
-  weight = 10
-
-[[main]]
   name = "Logistics"
   url = "#logistics"
   weight = 20
