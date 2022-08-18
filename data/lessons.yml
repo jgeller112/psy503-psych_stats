@@ -19,6 +19,14 @@ lessons:
     reading: "01a-reading"
     hasclass: True
     
+  - title: "Assumptions and Threats to Causal Inference" 
+    date: "Week 2 [MW, 9/12-9/14]"
+    slides: ""
+    notes: ""
+    reading: "01b-reading"
+    hasclass: True
+  
+  
   - title: "Fitting Models to Data"
     date: "Week 3 [MW, 9/19-9/21]"
     notes: ""
