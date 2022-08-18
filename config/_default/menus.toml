@@ -16,14 +16,14 @@
 [[main]]
   name = "Schedule"
   url = "#schedule"
-  weight = 50
-
-[[main]]
-  name = "Project"
-  url = "#Project"
-  weight = 70
+  weight = 80
     
 [[main]]
   name = "Syllabus"
   url = "/Syllabus/"
-  weight = 80
+  weight = 40
+  
+[[main]]
+  name = "Project"
+  url = "#Project"
+  weight = 90
