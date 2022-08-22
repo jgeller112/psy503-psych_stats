@@ -2,7 +2,10 @@
 title: "05a-Readings"
 date: '`r Sys.Date()`'
 ---
+
 # Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST
+
+[Dienes](/readings_pdf/NP-inference.pdf)
 
 [Cohen 1994](/readings_pdf/cohen_earth.pdf)
 
