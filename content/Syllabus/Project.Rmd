@@ -1,7 +1,6 @@
 ---
 title: "Project"
 author: "Jason Geller"
-date: '2022-07-21'
 output: html_document
 ---
 
@@ -11,7 +10,7 @@ We will discuss this project across the semester. As an overview, you will be de
 
 You will complete three related parts.
 
-1. Reproducible Report: Obtain open-data from an existing psych paper, load the data in R, and attempt to reproduce the statistical analysis that the original authors reported.
+1. Reproducible Report: Obtain open-data from an existing psych paper, load the data in R, and attempt to reproduce the statistical analysis that the original authors reported. If you have your own data you would like to analyze you can use this to
 
 2. APA paper: Learn how to use the `papaja` package that allows you to compile .Rmd files to APA style manuscripts in pdf form. Then, write a short APA-style research report that describes your reproducible analysis.
 
@@ -53,6 +52,8 @@ Your report should include the following (the points add up to 10 for part 1).
 
 4. A brief discussion of whether you were successful or not. (1 point)
 
+*If you would like to run an additional analysis (not included in paper), also include a write-up of this. 
+
 ### Part 2: APA paper in R markdown (10 points)
 
 #### Papaja
@@ -75,7 +76,7 @@ Again, the purpose here is not to write a full-length APA paper, but to get some
 
 #### Simulation based power analysis
 
-In part 3 you will add a simulation-based power analysis to your APA-style manuscript. Specifically, you should report a graph showing a power-curve for the design. We will discuss how to conduct simulation based power analyses in class.
+In part 3 you will add a simulation-based power analysis to your APA-style manuscript. While it is never advisable to calculate post-hoc power, think about this is as a future replication attempt. That is, given the current parameters (e.g., $\mu M$, $\sigma \Sigma$), if you were to replicate this study how many Ps would you need to achieve a certain level of power. Specifically, you should report a graph showing a power-curve for the design. We will discuss how to conduct simulation based power analyses in class.
 
 The following should be included in the general discussion of your APA-paper (from part 2).
 
@@ -84,3 +85,6 @@ The following should be included in the general discussion of your APA-paper (fr
 3. A graph depicting a power-curve for the design. (2 points)
 4. A statement about how the design might be changed to achieve a desired or preferred amount of power. (2 points)
 
+# Note
+
+In order to receive full points your analysis must be reproducible. To ensure this, provide a fellow classmate with your paper and have them re-run it. If they can't, make changes to ensure it can be reproduced by me. 

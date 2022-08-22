@@ -16,7 +16,6 @@ library(tidyverse)
 library(pander)
 ```
 
-
 # Course Introduction
 
 Research methodology/design, measurement, statistical analysis, and statistical computing are vast areas, each with their own texts, literature, advances, and sub-disciplines within psychology. Exhaustive coverage of any one of these topics is beyond the scope of a semester-long course. Rather, my goal is to provide you with a solid introduction to these topics and to develop an understanding of how integration of these areas is vital to conducting scientific research. My hope is that this course prepares you to pursue further coursework and independent study in each of these quantitative areas.
@@ -46,11 +45,19 @@ __NOTE:__ Students are expected to enroll in _PSY 505: Advances in Statistical M
 # Course Objectives
 
 Broadly speaking, by the end of this course, students will be able to:
-formulate testable research hypotheses, based on operational definitions of variables;
-describe how various statistical analyses or strategies address different types of questions and hypotheses; interpret statistical results; and
-articulate rationale, strengths, and limitations of various statistical analytical methods.
+formulate testable research hypotheses, based on operational definitions of variables; describe how various statistical analyses or strategies address different types of questions and hypotheses; interpret statistical results; and articulate rationale, strengths, and limitations of various statistical analytical methods.
 
 This will be an applied course wherein practical data analysis skills will be emphasized over formal mathematical proofs.
+
+# Office Hourse
+
+I will hold weekly office hours. If you need to see me outside of these hours please schedule here: https://outlook.office365.com/owa/calendar/Fall2022@princeton.edu/bookings/
+
+# Textbooks
+
+No textbook is required for this course. 
+
+I am going to use a combination of articles and textbook chaI will post links to all readings on the course website. 
 
 \vspace{.75cm}
 # Assignments
@@ -69,8 +76,7 @@ This will be an applied course wherein practical data analysis skills will be em
 
 ## Final Exam
 
-The final exam will be take-home and will involve analyzing and interpreting several
-datasets (it is essentially the equivalent of 4 DAAs).
+The final exam will be take-home and will involve analyzing and interpreting several datasets. 
 
 # Grades
 

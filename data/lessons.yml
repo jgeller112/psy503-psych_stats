@@ -23,7 +23,7 @@ lessons:
     date: "Week 2 [MW, 9/12-9/14]"
     slides: ""
     notes: ""
-    reading: "01b-reading"
+    reading: "01b-Reading"
     hasclass: True
   
   
@@ -45,7 +45,7 @@ lessons:
     date: "Week 5 [MW, 10/03-10/12/]"
     slides: ""
     notes: ""
-    reading: ""
+    reading: "05a-reading"
     hasclass: True
     
   - title: "Break"
@@ -80,7 +80,7 @@ lessons:
     hasclass: True
     hasassignment: True
     
-  - title: "Comparing Means (*t*-tests and ANOVA)"
+  - title: "Comparing Means (*t*-tests and ANOVAs)
     date: "Week 10 [MW, 11/14-11/16]"
     slides: ""
     notes: ""
@@ -88,7 +88,7 @@ lessons:
     hasclass: True
     hasassignment: True
     
-  - title: "Comparing Means (*t*-tests and ANOVA)"
+  - title: "Comparing Means (Categorical variables, Interactions, and Contrast Coding)"
     date: "Week 11 [MW, 11/21-11/23]"
     slides: ""
     notes: ""
