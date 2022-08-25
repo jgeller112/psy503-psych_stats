@@ -7,7 +7,7 @@ lessons:
     date: "Week 1 [W, 9/07]"
     reading: ""
     slides: ""
-    class: ""
+    class: "/static/slides/01-Introduction"
     notes: 'Welcome! Please complete the <a href = "https://forms.gle/HQCBwH9SaQ8ujqxt8">class survey</a>.'
     hasclass: True
     
