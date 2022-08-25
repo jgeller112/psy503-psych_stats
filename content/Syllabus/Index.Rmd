@@ -64,13 +64,13 @@ I am going to use a combination of articles and textbook chaI will post links to
 
 ## Data Analysis and Coding
 
-```{r, child=c('DDA.Rmd')}
+```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/content/Syllabus/sections/DDA.Rmd"}
 
 ```
 
 ## Final Project
 
-```{r, child=c('Project.Rmd')}
+```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/content/Syllabus/sections/Project.Rmd"}
 
 ```
 
