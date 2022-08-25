@@ -65,7 +65,7 @@ style_solarized_dark(
       "margin-top" = "-10px"
     ),
     "p .remark-inline-code" = list(
-      "background-color" = "orange",
+      "background-color" = "black",
       "padding" = "2px 2px",
       "margin" = "0 -2px"
     ),
@@ -99,6 +99,7 @@ class: center, middle
 - By appointment
 
   - Microsoft Bookings:
+  
   **https://outlook.office365.com/owa/calendar/Fall2022@princeton.edu/bookings/**
 
 ---
@@ -108,6 +109,7 @@ class: center, middle
   
   - __https://psy503-found-stats.netlify.app__
   
+**I will use canvas to post announcements and submitted work. In addition, you can email me through there. **
 ---
 # Required Text:
 
@@ -174,21 +176,12 @@ examples
 
 ---
 
-# My Statistical Goals for You
-<br>
-<br>
-.pull-left[
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.height="100%", out.width = "100%"}
 
-knitr::include_graphics("nomath.png")
-```
-]
+---
 
-.pull-right[
-  - The goal here is NOT to rely on performing low-level arithmetic or memorizing equations (I can never remember these)
-  
-  - Remember the underlying concepts is far more important
-]
+background-image: url("nomath.png")
+background-position: 100% 100%
+background-size: 100% 100%
 
 ---
 # My Statistical Goals for You
