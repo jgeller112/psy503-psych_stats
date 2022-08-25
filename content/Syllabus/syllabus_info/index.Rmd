@@ -1,6 +1,7 @@
 ---
 title: "Syllabus"
 slug: syllabus
+date: '`r Sys.Date()`'
 citeproc: yes
 output:
   html_document:
@@ -64,13 +65,13 @@ I am going to use a combination of articles and textbook chaI will post links to
 
 ## Data Analysis and Coding
 
-```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/content/Syllabus/sections/DDA.Rmd"}
+```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/static/content/DDA.Rmd"}
 
 ```
 
 ## Final Project
 
-```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/content/Syllabus/sections/Project.Rmd"}
+```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/static/content/Project.Rmd"}
 
 ```
 
