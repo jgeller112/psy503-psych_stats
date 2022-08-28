@@ -30,7 +30,15 @@ subtitle = "We will meet once a week"
   icon = "chair"
   icon_pack = "fas"
   name = "Office"
-  description = "PSH 325"  
+  description = "PSH 325"
+
+[[feature]]
+  icon = "calendar"
+  icon_pack = "fas"
+  name = "Schedule A  Meeting"
+  description = "https://calendly.com/jg9120/30min"
+  
+  
 +++
 
 <!-- Calendly badge widget begin -->
