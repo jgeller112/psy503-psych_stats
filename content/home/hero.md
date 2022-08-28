@@ -8,7 +8,7 @@ weight: 10
 title: "Foundations of Statistical Methods in Psychology"
 
 # Hero image (optional). Enter filename of an image in the `static/media/` folder. actually "static/img/"
-hero_media: "avatar.png"
+hero_media: "psy503.png"
 
 
 design:
