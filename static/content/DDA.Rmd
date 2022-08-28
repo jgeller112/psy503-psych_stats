@@ -6,4 +6,4 @@ output: html_document
 ---
 There will roughly 10 problem sets over the course of the semester that will involve applying what you learned in class and practicing your R skills and analyzing a set of data and interpreting the findings. You may work together and/or
 consult one another when analyzing the data but you must work alone when writing the
-report
+report.
