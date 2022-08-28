@@ -63,7 +63,7 @@ I am going to use a combination of articles and textbook chaI will post links to
 \vspace{.75cm}
 # Assignments
 
-## Data Analysis and Coding
+## Problem Sets
 
 ```{r, child="/Users/jgeller1/Desktop/psy503-stats-princeton/static/content/DDA.Rmd"}
 
@@ -79,14 +79,21 @@ I am going to use a combination of articles and textbook chaI will post links to
 
 The final exam will be take-home and will involve analyzing and interpreting several datasets. 
 
+
+## Participation
+
+It is important that you engage with the material. To this end, It is expected you will participate during class (i.e., come prepared each class session with questions and comments). To make sure you understand the material, and are engaging with it, I will frequently quiz you before class. These quizzes will part of your participation grade.  
+
+
 # Grades
 
 ```{r assignments-grades, include=FALSE}
 assignments <- tribble(
   ~Points,  ~Assignment, 
   10*5      , "Problem Sets",
-  30, "Final Project",
-  20, "Final Exam"
+  20, "Final Project",
+  20, "Final Exam", 
+    10, "Participation"
 ) %>%
   mutate(Percent = Points / sum(Points),
          Percent = scales::percent(Percent)) 
