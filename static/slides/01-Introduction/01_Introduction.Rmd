@@ -1,7 +1,7 @@
 ---
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
 subtitle: "Introduction and Course Expectations"
-author: "Jason Geller, Ph.D."
+author: "Jason Geller, Ph.D. (Pronouns: He/Him/His)"
 institute: "Princeton University"
 date:  '`r Sys.Date()`'
 output:
@@ -77,7 +77,7 @@ style_solarized_dark(
 ```
 class: center, middle
 
-# Welcome!
+# Welcome to PSY 503!
 
 ---
 
@@ -119,6 +119,12 @@ class: center, middle
 
 **I am going to use a combination of articles and textbook chapters that I will post links to all readings on the course website.**
 ---
+class: center, middle
+
+
+**PSY 505 is required**
+
+---
 # Course Objectives
 
 - Understand the role and philosophy of hypothesis testing
@@ -138,7 +144,7 @@ class: center, middle
 
 - 50% Problem Sets (10 x 5) 
 
-- 20% Project
+- 20% Final Project
 
 - 20% Final Exam 
 
@@ -147,27 +153,21 @@ class: center, middle
 
 # Grades
 
-```{r assignments-grades, include=FALSE}
+```{r assignments-grades, echo=FALSE}
+
+library(knitr)
+
 assignments <- tribble(
   ~Points,  ~Assignment, 
   10*5      , "Problem Sets",
   30, "Final Project",
   20, "Final Exam", 
   10, "Participation"
-) %>%
-  mutate(Percent = Points / sum(Points),
-         Percent = scales::percent(Percent)) 
-
-grading <- tribble(
-  ~Grade, ~Range,
-  "A",  "90–100%",
-  "B",  "80–89%",
-   "C",  "70-79%", 
-  "D",  "60-69%"
 )
+
+reactable::reactable(assignments, bordered = TRUE, striped = TRUE, highlight = TRUE)
 ```
 ---
-
 # Lectures
 
 - I’ll highlight main concepts
@@ -178,10 +178,6 @@ examples
 -  It is your responsibility to dig deeper when you need and / or want to
 
 -  Graduate studies – learning to be independent and thinking on your own!
-
----
-
-
 ---
 
 background-image: url("nomath.png")
