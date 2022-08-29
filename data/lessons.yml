@@ -59,7 +59,7 @@ lessons:
     date: "Week 7 [MW, 10/24-10/26]"
     slides: ""
     notes: ""
-    reading: ""
+    reading: "05b-reading"
     hasclass: True
     
   - title: '<span class="fake-header-table">**THE GLM**</span>'
