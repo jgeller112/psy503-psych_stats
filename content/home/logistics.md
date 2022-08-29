@@ -18,7 +18,7 @@ subtitle = "We will meet once a week"
   icon = "building"
   icon_pack = "fas"
   name = "Location"
-  description = "PSH 209"
+  description = "Neuro Inst A03"
   
 [[feature]]
   icon = "play-circle"
