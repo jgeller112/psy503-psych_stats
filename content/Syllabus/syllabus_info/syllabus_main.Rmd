@@ -54,10 +54,28 @@ __NOTE:__ Students are expected to enroll in _PSY 505: Advances in Statistical M
 
 # Course Objectives
 
-Broadly speaking, by the end of this course, students will be able to:
-formulate testable research hypotheses, based on operational definitions of variables; describe how various statistical analyses or strategies address different types of questions and hypotheses; interpret statistical results; and articulate rationale, strengths, and limitations of various statistical analytical methods.
+-	Apply principles of causal inference
+- Understand principles of probability and likelihood
+-	Understand statistical inference in classical frameworks
+-	Build and interpret general linear models
+-	Diagnose model misspecification and misfit
+-	Use statistical models to inform decisions, make predictions, and answer scientific questions
+-	Implement statistical models in a modern computing environment
 
-This will be an applied course wherein practical data analysis skills will be emphasized over formal mathematical proofs.
+# Student Learning Outcomes
+
+At the end of the course, students will be able to:
+
+-	Interpret probabilities, confidence intervals, p values, and likelihood, posterior, and confidence distributions
+-	Fit general models in R
+-	Create informative visualizations of data, model predictions, and model diagnostics
+-	Interpret standardized and unstandardized effect sizes from general linear models 
+-	Express conclusions drawn from generalized linear models in terms of estimates and uncertainty
+-	Translate numerical model results into implications for scientific questions
+-	Use analytic and simulation methods to make predictions from generalized linear models
+-	Diagnose and correct model misfit in generalized linear models
+-	Apply course principles and skills to basic multilevel models
+-	Prepare analytic reports using RMarkdown
 
 # Office Hours
 
