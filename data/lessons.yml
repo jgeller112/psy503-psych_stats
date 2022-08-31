@@ -3,7 +3,7 @@ lessons:
   - title: '<span class="fake-header-table">**The Basics**</span>'
     header: True
 
-  - title: "Introduction to the course"
+  - title: "Course Introduction"
     date: "Week 1 [W, 9/07]"
     reading: ""
     slides:
@@ -27,18 +27,18 @@ lessons:
     hasclass: True
   
   
-  - title: "Fitting Models to Data"
+  - title: "To Switch or not to Switch? Introduction to Probability"
     date: "Week 3 [MW, 9/19-9/21]"
     notes: ""
     slides: ""
-    reading: ""
+    reading: "04a-reading"
     hasclass: True
     
-  - title: "To Switch or not to Switch? Introduction to Probability"
+  - title: "Models and Monsters"
     date: "Week 4 [MW, 9/26-9/28]"
     slides: ""
     notes: ''
-    reading: "04a-reading"
+    reading: ""
     hasclass: True
     
   - title: "Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST"
