@@ -1,5 +1,5 @@
 ---
-title: "01-Readings 09-12"
+title: "01-Readings"
 
 ---
 #  Causality
