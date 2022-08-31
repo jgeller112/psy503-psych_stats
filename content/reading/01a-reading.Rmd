@@ -4,13 +4,14 @@ title: "01-Readings 09-12"
 ---
 #  Causality
 
-[Shadish, Cook, & Campbell chapter](/readings_pdf/shadish_cook_campbell_chapter_1.pdf)
+[Shadish, Cook, & Campbell (2001) Chapter 1](/readings_pdf/shadish_cook_campbell_chapter_1.pdf)
 
-[West and Thoemmes(2010)](/readings_pdf/West and Thoemmes - 2010 - Campbell’s and Rubin’s perspectives on causal infe.pdf)
-
-[Robin Gomila Chapter 2](https://www.dropbox.com/s/wtfau3kpjsfzgm8/503_bookdown.pdf?dl=0)
+[Gerber & Green (2012)Chapter 2](/readings_pdf/GG_Field_Experiments_Ch02.pdf)
 
 Optional: 
+[Robin Gomila Chapter 2](https://www.dropbox.com/s/wtfau3kpjsfzgm8/503_bookdown.pdf?dl=0)
+
+[West and Thoemmes(2010)](/readings_pdf/West and Thoemmes - 2010 - Campbell’s and Rubin’s perspectives on causal infe.pdf)
 
 [Internal Validity - Quantitude Podcast](https://quantitudepod.org/episode-26-the-internal-validity-pre-flight-checklist/)
 
