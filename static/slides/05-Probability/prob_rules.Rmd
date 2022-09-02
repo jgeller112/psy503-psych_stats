@@ -1,0 +1,61 @@
+---
+title: "prob_rules"
+output: html_document
+date: "2022-08-26"
+---
+
+# Rules of Probability
+
+# Union
+
+> The union of two sets encompasses any element that exists in either one or both of them. We can represent this visually as a venn diagram as shown.
+>
+> ![](union-venndiagram.svg)
+
+------------------------------------------------------------------------
+
+# Intersection
+
+> The intersection between two sets encompasses any element that exists in BOTH sets and is often written out as:
+
+![](intersection-venndiagram.svg)
+
+# Addition Rule
+
+> If there are two events, A and B, the addition rule states that the probability of event A or B occurring is the sum of the probability of each event minus the probability of the intersection:
+
+## Mutually Exclusive
+
+P(A or B) = P(A) + P(B)
+
+![](mutually-exclusive-venndiagram.svg)
+
+## Non-mutually Exclusive
+
+![](addition-rule-independent-venndiagram.webp)
+
+# Multiplication Rule
+
+# The multiplication rule is used to find the probability of two events, *A* and *B*, happening simultaneously. 
+
+![](coin-tree-diagram.svg)
+
+# Complement
+
+> All possible outcomes outside of the set.
+
+Write it as *A^C^*
+
+![](complement-venndiagram.svg)
+
+# Independent Events
+
+> Two events are *independent* if the occurrence of one event does not affect the probability of the other one occurring.
+
+![](marble-diagram-2-IE.svg)
+
+# Dependent Events
+
+![](marble-diagram-1-dep.svg)
+
+# 

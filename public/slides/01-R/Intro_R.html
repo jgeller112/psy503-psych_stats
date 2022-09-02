@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Research Issues and Practices in Psychology</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D" />
+    <meta name="date" content="2022-07-14" />
+    <script src="Intro_R_files/header-attrs/header-attrs.js"></script>
+    <link href="Intro_R_files/tabwid/tabwid.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Research Issues and Practices in Psychology
+## Week 1: Gentle R Introduction
+### Jason Geller, Ph.D
+### 2022-07-14
+
+---
+
+
+
+
+
+
+# Objective
+
+.left-column[
+- Get you started with R
+
+-  Load your first dataset in R
+
+-  Explain some basic terminology and concepts
+
+]
+
+.right-column[
+
+-  Explain how to structure any data analysis project
+
+-  Learn how to run commands and save scripts
+
+&lt;img src="lover.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# I know it is scary
+
+&lt;img src="nocluedog.png" width="65%" style="display: block; margin: auto;" /&gt;
+---
+
+# Outline
+
++ ` Why R `
+
++ IDE
+
++ R commands &amp; functions
+
+  -  Tidyverse &amp; the Pipe Operator
+  
++ Multiple Functions
+
++ Reading in data
+
++ Saving R scripts
+
+---
+Why R?
+
++ Free and open-source
+
+--
+
++ Flexibility
+
+--
++ Programming language (not point-and-click)
+
+--
++ Excellent graphics (via `ggplot2`)
+
+--
++ Easy to generate with reproducible reports
+
+--
++ Easy to integrate with other tool
+
+-- 
++ Inclusive Community
+
+
+???
+
+R was created in early part of 1990s. Is free and open source. What does that mean?
+Open to everyone. Anyone can contribute. I have a package called gazeR. There is a package for lots of things you make want to do. 
+
+---
+
+background-image: url(console_layout.png)
+background-position: center
+background-size: cover
+
+---
+
+# Outline
+
++ Why R
+
++ IDE
+
++ `R commands &amp; functions`
+
+  -  Tidyverse &amp; the Pipe Operator
+  
++ Multiple Functions
+
++ Reading in data
+
++ Saving R scripts
+
+---
+
+# Assignment of Variables
+
+- A variable is a symbol that stands for another value (just like “X” in algebra)
+
+
+
+```r
+x &lt;- 4
+
+x
+```
+
+```
+## [1] 4
+```
+
+--
+- The arrow `&lt;-` is called an ASSIGNMENT OPERATOR, and tells R to save an object called x that has the value of 6. This is similar to saving a value in a graphing calculator.
+
+- Can use `=` if you want 
+--
+
+
+```r
+x + 7 
+```
+
+```
+## [1] 11
+```
+
+
+---
+
+# Vectors
+
+- Allows multiple types of classes to be concatenated together
+
+    -  Numeric 
+
+
+```r
+x &lt;-  c(2,6,16)
+
+x
+```
+
+```
+## [1]  2  6 16
+```
+
+    - `x` here is called an object
+--
+ - Logical (TRUE/FALSE)
+ 
+
+```r
+x[1]==2
+```
+
+```
+## [1] TRUE
+```
+
+---
+
+# Vectors
+
+- Character
+    
+
+```r
+x &lt;- c("cat", "bat")
+
+gender &lt;- c("male", "female")
+```
+
+- Factors
+
+- Turn character strings into specific categories
+
+
+```r
+gender &lt;- as.factor(gender)
+
+gender
+```
+
+```
+## [1] male   female
+## Levels: female male
+```
+
+---
+# Indexing
+- Vectors can be indexed 
+
+
+```r
+x[1] # retreve first
+```
+
+```
+## [1] "cat"
+```
+
+```r
+x[2] # retreive second
+```
+
+```
+## [1] "bat"
+```
+
+```r
+x[-2] # everythin but that numbe 
+```
+
+```
+## [1] "cat"
+```
+--
+
+- Change values in vector
+
+
+```r
+x[1] &lt;- 7
+
+x
+```
+
+```
+## [1] "7"   "bat"
+```
+
+---
+
+# Vectors
+
+- Logical vectors
+
+
+
+---
+# Ch
+# R as a Calculator
+
+- Typing in a simple calculation show us the result
+
+
+
+```r
+608+ 28
+```
+
+```
+## [1] 636
+```
+--
+
+```r
+11527-283
+```
+
+```
+## [1] 11244
+```
+--
+
+```r
+# divison
+400/65
+```
+
+```
+## [1] 6.153846
+```
+
+```r
+#multiplication
+2*4
+```
+
+```
+## [1] 8
+```
+
+```r
+#exponentiation
+5^2
+```
+
+```
+## [1] 25
+```
+
+---
+
+# Functions
+
+- Take an object, do something to it, and return the result
+
+- More complex calculations can be done  with functions:
+
+  - What is square root of 64?
+
+
+```r
+# sqrt function
+# in parenthesis: what we want to perform function on
+sqrt(64)
+```
+
+```
+## [1] 8
+```
+
+  - Read left to right
+
++ What do you think `abs(-7)` does?
+
+
+```r
+sr=function(a, b){
+  
+  a=x
+  b=x
+  
+  c=a + b
+  return(c)
+}
+
+sr(2,3)
+```
+---
+
+# Arguments 
+
+- Some functions have settings
+(“arguments”) that we can adjust:
+
+- `round(3.14)`
+  - Rounds off to the nearest integer (zero  decimal places)
+  
+- `round(3.14, digits=1)`
+  - One decimal place
+  
+---
+
+# Getting Help
+
+1. Help files
+
+&lt;img src="help1.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+---
+
+background-image: url(help2.png)
+background-position: center
+background-size: cover
+
+---
+
+# Exercises
+
+1. Open a blank new script  
+
+1.1 File -&gt; New File &gt; R Script
+
+1.2 Ctrl + Shift + N 
+
+1.3 Click on new script icon
+
+2. In one of these scripts type "Hello World" 
+
+3. To paste strings together you can use the `paste`() function (e.g., paste("Hello", "World")).
+
+3.1 Use the `paste` function to string together a sentence of your choice. Assign it to a variable or object. 
+
+5. Modify the function above and instead of returning the sum return the .  
+
+
+# Outline
+
+
++ Why R
+
++ IDE
+
++ R commands &amp; functions
+
+  -  `Tidyverse &amp; the Pipe Operator`
+  
++ Multiple Functions
+
++ Reading in data
+
++ Saving R scripts
+
+---
+
+# Tidyverse and Pipes
+
+- The `tidyverse` is an ecosystem of R packages designed for  data science. All packages share an  underlying design philosophy,  grammar, and data structures.
+
+&lt;img src="hex.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+background-image: url(tidyversepacks.jpg)
+background-position: center
+background-size: cover
+---
+
+# Installing Tidyverse
+
+&lt;img src="cran.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+```r
+install.packages(tidyverse)
+```
+
+- Load package
+
+
+```r
+library(tidyverse)
+```
+---
+
+# Pipes
+
+- `tidyverse` provides another interface to functions—the pipe operator
+
+  - Makes code easier to read and follow: 
+
+- This: 
+
+
+```r
+a %&gt;% 
+  round()
+```
+
+--
+
+- Can be converted into: 
+
+  - Start with a and then round
+  
+- Become popular is the `|&gt;` pipe
+
+---
+
+# Outline
+
+
++ Why R
+
++ IDE
+
++ R commands &amp; functions
+
+  -  Tidyverse &amp; the Pipe Operator
+  
++ `Multiple Functions`
+
++ Reading in data
+
++ Saving R scripts
+
+---
+# Multiple Functions
+
+
+- Pipe operator makes it easy to do multiple functions in a row
+
+
+
+```r
+-16 %&gt;% 
+  sqrt() %&gt;%
+  abs()
+```
+
+- What is this doing?
+
+---
+
+# Outline
+
++ Why R
+
++ IDE
+
++ R commands &amp; functions
+
+  -  Tidyverse &amp; the Pipe Operator
+  
++ Multiple Functions
+
++ `Reading in data`
+
++ Saving R scripts
+
+---
+
+# Reading in Data
+
+- Download the file
+
+
+```r
+# read in csv file
+fac&lt;- read.csv(file.choose())
+
+fac&lt;- read.csv("path_to_file")
+```
+
+- General form: dataframe.name &lt;-read.csv('filename')
+
+
+---
+# Data Frames and Tibbles
+
+&gt; A data frame is a spreadsheet. It is two-dimensional with rows and columns. 
+
+  - Instead of creating a number of vectors we store all the vectors into a single DF
+  
+  - Can store numeric data (phone number, postal code, coordinates, etc.), float data (internet IP address, etc.), logical data (wants to receive ads: FALSE/TRUE, etc.), etc.
+
+  
+
+```r
+car_model &lt;- c("Ford Fusion", "Hyundai Accent", "Toyota Corolla")
+car_price &lt;- c(25000, 16000, 18000)
+car_mileage &lt;- c(27, 36, 32)
+```
+
+
+
+```r
+cars_df &lt;- data.frame(model=car_model, price=car_price, mileage=car_mileage)
+
+flextable::flextable(cars_df)%&gt;% flextable::autofit()
+```
+
+
+&lt;template id="ae3d8d7c-374b-4f4c-a3c0-6570b1ef7375"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-8ef9e838{}.cl-8ef28ebc{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-8ef2a7ee{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-8ef2a7f8{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-8ef2dbf6{width:59.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc00{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc0a{width:97.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc0b{width:59.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc14{width:97.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc15{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc16{width:97.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc17{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc1e{width:59.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc1f{width:54.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc20{width:59.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8ef2dc28{width:97.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-8ef9e838'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-8ef2dc28"&gt;&lt;p class="cl-8ef2a7ee"&gt;&lt;span class="cl-8ef28ebc"&gt;model&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc1f"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;price&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc20"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;mileage&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-8ef2dc0a"&gt;&lt;p class="cl-8ef2a7ee"&gt;&lt;span class="cl-8ef28ebc"&gt;Ford Fusion&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc00"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;25,000&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dbf6"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;27&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-8ef2dc14"&gt;&lt;p class="cl-8ef2a7ee"&gt;&lt;span class="cl-8ef28ebc"&gt;Hyundai Accent&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc15"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;16,000&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc0b"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;36&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-8ef2dc16"&gt;&lt;p class="cl-8ef2a7ee"&gt;&lt;span class="cl-8ef28ebc"&gt;Toyota Corolla&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc17"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;18,000&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-8ef2dc1e"&gt;&lt;p class="cl-8ef2a7f8"&gt;&lt;span class="cl-8ef28ebc"&gt;32&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="04c62ee3-f77b-4a4d-bd48-b56fc6d7a7ed"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("04c62ee3-f77b-4a4d-bd48-b56fc6d7a7ed");
+var template = document.getElementById("ae3d8d7c-374b-4f4c-a3c0-6570b1ef7375");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+---
+
+# `Here` package
+
+- `Here` helps set relative as opposed to absolute paths
+
+  - Why would this be a problem?
+
+
+```r
+#setwd("your path here")
+```
+  
+--
+
+```r
+#install here
+library(here)
+
+# here
+
+here::here()
+```
+
+```
+## [1] "/Users/jgeller1/Desktop/505-psych_issues_research"
+```
+
+```r
+# can use with read.csv
+```
+
+---
+
+
+# Loading the Data
+
+- Disclaimer: `Create new project folder first, open up R second`
+
+The faculty dataset contains aggregated data per faculty:
+
+- faculty: Business, Economics, Political Science, Sociology
+- students: number of students
+- profs: number of profs
+- salary: amount of salary
+- costs: amount of costs dataset entails demographic and school-related information on imaginary students, such as
+
+---
+ # Load the data
+ 
+ ## CSV
+ 
+
+```r
+fac=read.csv(here::here("static", "slides", "01-R", "datasets", "faculty.csv"))
+
+fac
+```
+
+```
+##             faculty students profs salary costs
+## 1          Business      339    76  57273 33346
+## 2         Economics      225    79  83292 33527
+## 3 Political Science      264    63  66425 24965
+## 4         Sociology      162    77  54246 29640
+```
+
+---
+# Looking at the Data 
+
+
+```r
+fac%&gt;%
+  summary()
+```
+
+```
+##    faculty             students         profs           salary     
+##  Length:4           Min.   :162.0   Min.   :63.00   Min.   :54246  
+##  Class :character   1st Qu.:209.2   1st Qu.:72.75   1st Qu.:56516  
+##  Mode  :character   Median :244.5   Median :76.50   Median :61849  
+##                     Mean   :247.5   Mean   :73.75   Mean   :65309  
+##                     3rd Qu.:282.8   3rd Qu.:77.50   3rd Qu.:70642  
+##                     Max.   :339.0   Max.   :79.00   Max.   :83292  
+##      costs      
+##  Min.   :24965  
+##  1st Qu.:28471  
+##  Median :31493  
+##  Mean   :30370  
+##  3rd Qu.:33391  
+##  Max.   :33527
+```
+
+
+
+```r
+library(skimr)
+
+fac%&gt;%
+  skim()
+```
+
+
+Table: Data summary
+
+|                         |           |
+|:------------------------|:----------|
+|Name                     |Piped data |
+|Number of rows           |4          |
+|Number of columns        |5          |
+|_______________________  |           |
+|Column type frequency:   |           |
+|character                |1          |
+|numeric                  |4          |
+|________________________ |           |
+|Group variables          |None       |
+
+
+**Variable type: character**
+
+|skim_variable | n_missing| complete_rate| min| max| empty| n_unique| whitespace|
+|:-------------|---------:|-------------:|---:|---:|-----:|--------:|----------:|
+|faculty       |         0|             1|   8|  17|     0|        4|          0|
+
+
+**Variable type: numeric**
+
+|skim_variable | n_missing| complete_rate|     mean|       sd|    p0|      p25|     p50|      p75|  p100|hist  |
+|:-------------|---------:|-------------:|--------:|--------:|-----:|--------:|-------:|--------:|-----:|:-----|
+|students      |         0|             1|   247.50|    74.07|   162|   209.25|   244.5|   282.75|   339|▇▇▇▁▇ |
+|profs         |         0|             1|    73.75|     7.27|    63|    72.75|    76.5|    77.50|    79|▂▁▁▁▇ |
+|salary        |         0|             1| 65309.00| 13058.85| 54246| 56516.25| 61849.0| 70641.75| 83292|▇▁▃▁▃ |
+|costs         |         0|             1| 30369.50|  4023.69| 24965| 28471.25| 31493.0| 33391.25| 33527|▃▁▃▁▇ |
+
+---
+
+# Looking at the Data
+
+- Select specific columns
+
+  - use $ operator to grab one column
+
+
+```r
+fac$column_name %&gt;% 
+  summary()
+```
+
+```
+## Length  Class   Mode 
+##      0   NULL   NULL
+```
+
+
+
+```r
+fac%&gt;% 
+  select(column_name) %&gt;%
+  summary()
+```
+---
+
+# Looking at the Data
+
+- Whole data frame
+
+
+```r
+fac
+```
+
+```
+##             faculty students profs salary costs
+## 1          Business      339    76  57273 33346
+## 2         Economics      225    79  83292 33527
+## 3 Political Science      264    63  66425 24965
+## 4         Sociology      162    77  54246 29640
+```
+
+- fist 6 rows
+
+
+```r
+head(fac)
+```
+
+```
+##             faculty students profs salary costs
+## 1          Business      339    76  57273 33346
+## 2         Economics      225    79  83292 33527
+## 3 Political Science      264    63  66425 24965
+## 4         Sociology      162    77  54246 29640
+```
+
+- last 6 rows
+
+
+
+```r
+tail(fac)
+```
+
+```
+##             faculty students profs salary costs
+## 1          Business      339    76  57273 33346
+## 2         Economics      225    79  83292 33527
+## 3 Political Science      264    63  66425 24965
+## 4         Sociology      162    77  54246 29640
+```
+
+---
+
+# Looking at Data
+
+
+```r
+# look at specific variables
+table(fac$students)
+```
+
+```
+## 
+## 162 225 264 339 
+##   1   1   1   1
+```
+
+```r
+# let's try another package
+library("janitor")
+tabyl(fac$students)
+```
+
+```
+##  fac$students n percent
+##           162 1    0.25
+##           225 1    0.25
+##           264 1    0.25
+##           339 1    0.25
+```
+
+---
+# Reading in Other File Types
+
+- Excel
+
+
+```r
+library(readxl)
+
+fac&lt;-  read_excel('/Users/jg/Desktop/experiment.xlsx', sheet=2)
+# excel files can have multiple sheets
+```
+
+- SPSS
+
+
+```r
+library(haven)
+
+fac&lt;-  read_spss('/Users/jg/Desktop/experiment.spss')
+```
+---
+
+---
+# Outline
+
++ Why R
+
++ IDE
+
++ R commands &amp; functions
+
+  -  Tidyverse &amp; the Pipe Operator
+  
++ Multiple Functions
+
++ Reading in data
+
++ `Saving R scripts`
+---
+# Saving Files
+
+
+```r
+write.csv(fac, file="df.csv")
+
+write.table(fac, file="df.txt")
+```
+---
+
+# Getting help
+
+1. R help files
+2. Cheat sheets  (https://rstudio.cloud/learn/cheat-sheets)
+3. Google!
+
+---
+
+# Exercise
+
+1. Create a variable called y with the value of 7
+
+2. Save the results of 6 + 3 as a variable called a.
+
+3. Create a new project folder for this course entitled "psy_505" (run the .Rproj file)
+
+  3.1 Place the exercise.csv file in the folder
+  
+5. Using here assign the file to a name of your choice
+
+7. Explore the data set by running the commands head(data), str(data), glimpse(data) and summary(data) in your R script. You will use these a lot in the future, so have a closer look at the different outputs in the console (lower left). Remember to save your script!
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "18:10",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

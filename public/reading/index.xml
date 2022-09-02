@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Readings | PSY 503: Psych Statistics</title>
+    <link>/reading/</link>
+      <atom:link href="/reading/index.xml" rel="self" type="application/rss+xml" />
+    <description>Readings</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 29 Aug 2022 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/cogsciimage.jpeg</url>
+      <title>Readings</title>
+      <link>/reading/</link>
+    </image>
+    
+    <item>
+      <title>05a-Readings</title>
+      <link>/reading/05a-reading/</link>
+      <pubDate>Mon, 29 Aug 2022 00:00:00 +0000</pubDate>
+      <guid>/reading/05a-reading/</guid>
+      <description>
+
+
+&lt;div id=&#34;estimation-and-uncertainty-statistical-inference-estimatiom-nhst&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/Imai_2017_Chapter_7_PART_II.pdf&#34;&gt;Imai 2007&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/cohen_earth.pdf&#34;&gt;Cohen 1994&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://lakens.github.io/statistical_inferences/pvalue.html&#34;&gt;Lakens&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/CopyOfcortina%20and%20Dunlop%201997%20significance%20testing%20p%20value.pdf&#34;&gt;Cortina &amp;amp; Dunlap 1997&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/fneymanpearson.pdf&#34;&gt;Perezgonzalez 2005&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Optional:&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>04a-Readings</title>
+      <link>/reading/04a-reading/</link>
+      <pubDate>Thu, 18 Aug 2022 00:00:00 +0000</pubDate>
+      <guid>/reading/04a-reading/</guid>
+      <description>
+
+
+&lt;div id=&#34;probability&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Probability&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/imai%20probability%20chapter.pdf&#34;&gt;Imai 2008&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>01-Readings</title>
+      <link>/reading/01a-reading/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/reading/01a-reading/</guid>
+      <description>
+
+
+&lt;div id=&#34;causality&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Causality&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/shadish_cook_campbell_chapter_1.pdf&#34;&gt;Shadish, Cook, &amp;amp; Campbell (2001) Chapter 1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/GG_Field_Experiments_Ch02.pdf&#34;&gt;Gerber &amp;amp; Green (2012)Chapter 2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Optional:
+&lt;a href=&#34;https://www.dropbox.com/s/wtfau3kpjsfzgm8/503_bookdown.pdf?dl=0&#34;&gt;Robin Gomila Chapter 2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/West%20and%20Thoemmes%20-%202010%20-%20Campbell’s%20and%20Rubin’s%20perspectives%20on%20causal%20infe.pdf&#34;&gt;West and Thoemmes(2010)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://quantitudepod.org/episode-26-the-internal-validity-pre-flight-checklist/&#34;&gt;Internal Validity - Quantitude Podcast&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>05b-Readings</title>
+      <link>/reading/05b-reading/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/reading/05b-reading/</guid>
+      <description>
+
+
+&lt;div id=&#34;power-and-effect-sizes&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Power and Effect Sizes&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/lakens_effect_size.pdf&#34;&gt;Lakens 2013&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/funder_effect.pdf&#34;&gt;Funder &amp;amp; Ozer (2019)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/power_jamovi.pdf&#34;&gt;Bartlett &amp;amp; Charles&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;/readings_pdf/power_jamovi.pdf&#34;&gt;Lakens &amp;amp; Caldwell 2021&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

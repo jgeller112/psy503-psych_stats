@@ -1,0 +1,22 @@
+---
+title: "05a-Readings"
+date: '`r Sys.Date()`'
+---
+
+# Estimation and Uncertainty: Statistical Inference, Estimatiom, NHST
+
+[Imai 2007](/readings_pdf/Imai_2017_Chapter_7_PART_II.pdf)
+
+[Cohen 1994](/readings_pdf/cohen_earth.pdf)
+
+[Lakens](https://lakens.github.io/statistical_inferences/pvalue.html)
+
+[Cortina & Dunlap 1997](/readings_pdf/CopyOfcortina and Dunlop 1997 significance testing p value.pdf)
+
+[Perezgonzalez 2005](/readings_pdf/fneymanpearson.pdf)
+
+Optional: 
+
+
+
+

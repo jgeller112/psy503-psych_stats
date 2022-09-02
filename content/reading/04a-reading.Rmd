@@ -1,0 +1,11 @@
+---
+title: "04a-Readings"
+date: '`r Sys.Date()`'
+---
+# Probability
+
+
+[Imai 2008](/readings_pdf/imai probability chapter.pdf)
+
+
+

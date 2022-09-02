@@ -1,0 +1,619 @@
+---
+title: "PSY 505: Foundations of Statistical Methods in Psychological Science"
+subtitle: "More Causality: Assumptions and Threats"
+institute: Princeton University
+author: "Jason Geller, Ph.D."
+date:  '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 12:8
+      countIncrementalSlides: true
+      background-image: url("lover.png")
+      background-size: cover
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "36%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  fig.show = TRUE,
+  hiline = TRUE
+)
+
+hook_source <- knitr::knit_hooks$get('source')
+knitr::knit_hooks$set(source = function(x, options) {
+  x <- stringr::str_replace(x, "^[[:blank:]]?([^*].+?)[[:blank:]]*#<<[[:blank:]]*$", "*\\1")
+  hook_source(x, options)
+})
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_solarized_dark(
+  header_font_google = google_font("Aleo"),
+  header_h1_font_size = "36px",
+  header_color = "black",
+  text_font_google = google_font("Aleo"),
+  text_font_size = "28px",
+  text_color = "black", 
+  background_color = "orange", 
+  code_font_google = google_font("Share Tech Mono"),
+  extra_css = list(
+    ".remark-slide-content h2" = list(
+      "margin-top" = "2em",
+      "margin-bottom" = "2em"
+    ),
+    .big = list("font-size" = "150%"),
+    .small = list("font-size" = "75%"),
+    .subtle = list(opacity = "0.6"),
+    ".countdown-has-style h3, .countdown-has-style h3 ~ p, .countdown-has-style h3 ~ ul" = list(
+      "margin" = "0"
+    ),
+    ".countdown-has-style pre" = list(
+      "margin-top" = "-10px"
+    ),
+    "p .remark-inline-code" = list(
+      "background-color" = "orange",
+      "padding" = "2px 2px",
+      "margin" = "0 -2px"
+    ),
+    blockquote = list("margin-left" = 0),
+    "em" = list(color = "#2aa198")
+  ),
+)
+
+```
+
+
+# Notation   
+
+- _Indexing experimental individuals/units:_ the subscript $i$ refers to
+unit 1 to N  
+
+--
+
+- _Defining treatment assignment:_ The variable $z_i$ indicates whether the ith individual is assigned to receive the treatment  
+
+--
+
+- _Defining treatment:_ The variable $d_i$ indicates whether the ith subject is treated 
+
+--
+
+
+- $z_i = 1$ means the ith subject was assigned to receive the treatment 
+
+--
+
+- $z_i = 0$ means the ith subject was not assigned to receive the treatment 
+
+--
+
+- $d_i = 1$ means the ith subject receives the treatment  
+
+--
+
+- $d_i = 0$ means the ith subject does not receive the treatment  
+
+---
+# Potential outcomes 
+
+- Regardless of which treatment an individual receives, all individuals have a potential response in the event that treatment is or is not received  
+
+- Potential outcomes are written $Y_i(d)$, where the argument $d$ indexes the treatment  
+---
+# Potential outcomes  
+
+- $Y_i(1)$ is the potential outcome if the ith individual was treated  
+
+
+
+- $Y_i(0)$ is the potential outcome if the ith individual was not treated  
+
+
+- Potential outcomes are fixed attributes of each individual and represent the outcome that would be observed hypothetically if that individual were treated or untreated  
+---
+# Conditional Potential Outcomes  
+
+- Potential outcomes for a subset of subjects   
+
+
+- $Y_i(d) | X = x$ denotes potential outcomes when the condition $X = x$ holds for individual $i$  
+---
+# Conditional Potential Outcomes  
+
+- $Y_i(0) | d_i = 0$: untreated potential outcome for individuals who do not receive the treatment  
+
+
+- $Y_i(0) | d_i = 1$: untreated potential outcome for individuals who do receive the treatment  
+
+- $Y_i(1) | d_i = 0$: treated potential outcome for individuals who do not receive the treatment  
+
+
+- $Y_i(1) | d_i = 1$: treated potential outcome for individuals who do receive the treatment   
+---
+# Potential and observed outcomes  
+
+- The $Y_i(1)$s are observed for individuals who are treated, and the $Y_i(0)$s are observed for individuals who are not treated.    
+
+- For any individual, we observe either $Y_i(1)$ or $Y_i(0)$, never both at the same time  
+
+- We can express the connection between the observed outcome $Y_i$ and the underlying potential outcomes through the "switching equation":   
+
+\begin{equation} 
+  Y_i = Y_i(1)d_i + Y_i(0)(1-d_i)
+\end{equation} 
+
+---
+# ATE    
+
+\begin{equation}
+    \begin{split}
+\mathrm{ATE} &= \mu_{Y(1)} - \mu_{Y(0)}
+    \end{split}
+\end{equation}
+
+in which $\mu_{Y(1)}$ is the average of $Y_i(1)$ for all individuals and $\mu_{Y_i(0)}$ is the average of $Y_i(0)$ for all individuals. 
+---
+# Estimation of the ATE  
+
+In experimental studies, researchers estimate $\mu_{Y(1)}$ using the mean $\widehat{\mu}_{Y(1)}$ of observed $Y(1)$ and $\mu_{Y(0)}$ using the mean $\widehat{\mu}_{Y(0)}$ of observed $Y_i(0)$. We have:  
+
+\begin{equation}
+\widehat{\mathrm{ATE}} = \widehat{\mu}_{Y_i(1)} - \widehat{\mu}_{Y_i(0)}
+\end{equation}
+
+in which $\widehat{\mathrm{ATE}}$ is the estimated ATE, $\widehat{\mu}_{Y_i(1)}$ is the estimated $\mu_{Y_i(1)}$, and $\widehat{\mu}_{Y_i(0)}$ is the estimated $\mu_{Y_i(0)}$.  
+
+---
+
+class: center middle
+
+# Experimental Assumptions and Threats to Causal Identification 
+---
+# Assumptions and statistical methods: generalities
+
+- Statistical methods involve assumptions 
+
+- Problem:  
+
+  - Assumptions do not always hold  
+  
+  - Quite easily violated
+
+- Do everything you can to make sure that assumptions hold    
+
+- When they are violated (or you suspect they may be violated):   
+
+  - Use corrective methods   
+  
+  - Discuss possible implications of violated assumptions in your articles    
+  
+---
+# Precision of Individual Experiment
+
+- Do experiments inevitably provide precise estimates of the ATE?   
+
+- An estimate from just one experiment is only a best guess about the true value of the ATE  
+
+- ATE is often too high or too low   
+
+- Our dataset is just one of many possible data sets that could have been created via random assignment. If we would redo the exact same random assignment procedure, different units would be allocated to treatment and control groups!  
+
+- So what is the point?  
+---
+# Experimental estimates of ATEs are unbiased
+
+- What is bias?  
+
+ > Estimates are __unbiased__ if they yield the correct estimate of the ATE __in expectation__ (i.e., on average)  
+
+  - The average estimated ATE across all possible random assignments is equal to the true ATE  
+- Assumptions: necessary conditions for experimental estimates of the ATE to be unbiased   
+---
+# Independence: A necessary condition    
+
+Treatment status is statistically independent of potential outcomes and background attributes $(X)$:  
+
+$$ D_i \perp\!\!\!\perp Y_i(0), \: Y_i(1), \: X $$
+This means that knowing whether an individual is treated provides no information about the individual’s potential outcomes or background attributes.   
+---
+class: center middle
+#  Random Assignment
+---
+# Random Assignment: Intuition 
+
+
+- __In expectation:__ proper randomization of participants into experimental conditions creates groups that are similar on every single dimension except for the treatment   
+
+- __In expectation:__ Random assignment of individuals to different environments $E_0$ and $E_1$ creates subpopulations that have the exact same characteristics at the moment they enter these environments. 
+  - Same heart rate, amount of sleep, age, income, or level of stress, etc.
+---
+# Random assignment: Implication 
+
+__In expectation:__ any difference in means between the treatment and control groups is caused by the presence of the treatment 
+---
+# Illustration in R
+
+- Randomly assigns individuals from a population of size $N = 500$ to one of two groups 
+
+- Repeat this many many times: 100,000 times 
+
+- Compare the average characteristics of the individuals that are assigned to each group  
+
+# Let's open R Studio 
+---
+
+
+```{r}
+library(tidyverse)
+
+# Simulate age of 500 participants (range: 18-99)
+# store in an object called: age_vector
+
+age_vector <- sample(18:99, 
+                     size = 500, 
+                     replace = TRUE)
+
+head(age_vector)
+
+```
+
+```{r}
+# Randomly assign each individual to an experimental group
+# store in an object called: random_assign
+# experimental groups are called: "treatment" vs. "control"
+
+condition <- c("control", "treatment")
+
+random_assign <- sample(condition, 
+                        size = 500, 
+                        replace = TRUE)
+
+head(random_assign)
+
+
+```
+---
+
+```{r}
+
+ #Put these two vectors into a dataset (tibble) 
+# call this dataset: assignment_tibble
+
+assignment_tibble <- tibble(age_vector, 
+                            random_assign)
+
+# Calculate mean for each experimental group 
+
+assignment_tibble %>%
+  group_by(random_assign) %>%
+  summarise(mean = mean(age_vector))
+
+
+```
+
+---
+
+```{r}
+
+#################################################################
+### simulate characteristics of group for 100,000 experiments ###
+#################################################################
+
+# create container in which we will store each of the 100,000 average age of control
+control_container <- rep(NA, 100000)
+
+# create container in which we will store each of the 100,000 average age of treatment
+treatment_container <- rep(NA, 100000)
+
+# write for loop
+
+for (i in 1:100000){
+  
+  age_vector <- sample(18:99, 
+                       size = 500, 
+                       replace = TRUE)
+  
+  random_assign <- sample(c("control", "treatment"), 
+                          size = 500, 
+                          replace = TRUE)
+  
+  control_container[i] <- mean(age_vector[random_assign == "control"])
+  
+  treatment_container[i] <- mean(age_vector[random_assign == "treatment"])
+  
+}
+
+mean(control_container)
+
+mean(treatment_container)
+
+```
+
+---
+# Lessons from R simulations
+
+- __In expectation: Groups are comparable!__  
+
+  - This demonstration is true for every possible characteristic of participants 
+  - The only difference between treatment and control conditions is the presence vs. absence of treatment (in expectation)  
+---
+# Causal Inference Assumptions: Excludability (a.k.a. exclusion restriction) 
+
+- The _only_ relevant causal agent is receipt of the treatment   
+
+- The exclusion restriction breaks down if: 
+
+  - Treatment assignment $z_i$ sets in motion causes of $Y_i$ other than the treatment $d_i$   
+  - Asymmetries in measurement between conditions  
+  - Noncompliance to the treatment  
+
+---
+# Treatment Assignment brings in other causes  
+
+- Study causal effect of writing fiction on students' creativity.  
+
+- Treatment group: invitation to "enroll in a writing program that will increase their creativity"  
+
+# Asymmetries in measurement  
+
+- Experimenter in charge of measuring the outcome of interest knows treatment status  
+
+- Participants know their treatment status and hypotheses   
+---
+# Noncompliance to the treatment    
+
+- Assumption that participants _comply_ (or _adhere_) to their randomly assigned experimental condition  
+
+- Why would participants not comply? 
+
+- How can noncompliance introduce bias in estimates of the population ATE? 
+
+  - Invalidates treatment assignment   
+  
+  - Participants self-select into or select out from their assigned condition   
+  
+  - Participants who do not comply often have different potential outcomes schedules   
+  
+---
+# Assumption 2: Non-interference  
+
+- Often called SUTVA   
+  
+  - Stable Unit Treatment Value Assumption  
+
+
+- Participants' potential outcomes not affected by the treatment assignment of other participants  
+
+# Realistic?  
+
+---
+class: middle center
+
+# Internal Validity
+
+>  Extent to which you can be confident that a cause-and-effect relationship established in a study cannot be explained by other factors.
+
+---
+# Threats to Internal Validity
+
+Shaddish, Cook, and Campbell (2001) list 8 threats: 
+
+- Ambiguous Temporal Precedence
+- Selection 
+- Maturation
+- History
+- Regression
+- Attrition
+- Testing
+- Instrumentation
+
+---
+# Maturation
+<br>
+<br>
+<br>
+<br>
+
+  > Participants are changing  naturally over time betweenpre-test and post-test. Change  is not due to the IV.
+
+
+- Rule out by using a control/comparison group.
+
+---
+
+# History
+<br>
+<br>
+<br>
+<br>
+
+  > An event intervenes between  pre-test and post-test to change participants. Changes are not due to the IV.
+
+
+- Maybe something big happened in the news that was related to your study.
+
+- Rule out by using a  control/comparison group.
+
+---
+
+# Regression to the mean
+
+<br>
+<br>
+<br>
+<br>
+
+> Participants are selected for intervention based on their extreme scores. On re-measurement, their scores become more moderate, but changes are not due to the IV
+
+  - A group's average is extreely depressed at pretest, in part becasue some memebers volunteered for therapy when they were feeling worse
+
+- Rule out by using a control/comparison group.
+
+---
+
+# Attrition
+<br>
+<br>
+<br>
+<br>
+
+> Participants drop out of thestudy at different rates from  treatment group and control group
+
+--
+Maybe they got: 
+
+- Illness
+- Died
+- Left the experiment
+
+---
+
+# Testing
+
+<br>
+<br>
+<br>
+<br>
+
+> Participants’ responses change over repeated testing. Changes are not due to the IV
+
+  - GRE verbal scores improve only becasue students take the same ersion of the test both times
+
+- Solve by using a between-subjects, post-test only design 
+
+---
+# Instrumentation
+
+<br>
+<br>
+<br>
+<br>
+
+> The meaning of a measuring instrument changes over repeated use. Changes are not due to the IV.
+
+
+- Coders become bored or fatigued over time
+
+
+- Solve by using masked coders, randomly assigning coders to stimuli,, or training
+---
+# Threats to generalization (or particularization)  
+
+- Individual vs. Average causal effects  
+
+
+- External validity  
+---
+# Individual vs. Average causal effects  
+
+- Average causal effects cannot be particularized to any single individual 
+
+  - Unless additional assumption: constant treatment effect  
+  
+- Important consideration in clinical and health contexts  
+---
+# External validity  
+
+- A single study = one piece of evidence for the existence of an effect within constrains of:  
+
+  - Population  
+  
+  - Treatments  
+  
+  - Outcome measures 
+  
+  - Settings 
+  
+  - Period 
+  
+
+- Be cautious  
+
+---
+# Observational Design
+
+
+- Relative to the experimental design, observational designs have weaker internal validity (less control) but stronger external validity (more naturalistic)
+
+  - Observational design usually requires longitudinal data that comprise both pretest and posttest time periods
+  - Key to a good observational design is high-quality comparison, so one must think really hard about the control group and document equivalence
+
+---
+# Observational Design
+
+ - __Natural experiment__: Naturally occurring event with pseudo-random variation in treatment status
+    - Unplanned intervention (“shock”): Mother Nature and government policy changes are frequently the source of natural experiments
+    - Assignment is outside the control of the investigator, but also of the participants
+
+- __Quasi-experiment__: Units “choose” whether they receive treatment, but that choice can sometimes be controlled via design and statistical adjustments
+      - Assignment is fully controlled by the participants
+      - Chief threat to internal validity is selection bias (i.e., endogenous treatment assignment)
+---
+class: middle center
+
+# In-Class Activity
+
+---
+# Part 1: Random Assignment
+
+Randomly assign students to the Treatment or the Control group. 
+
+# Part 2:
+
+# Quiet Phase
+
+For those in the Control group, go to:
+https://www.humanbenchmark.com/tests/reactiontime/
+
+- Read the instructions, and click to start the trial.
+- Record the reaction time from the first trial here.
+
+---
+# Noisy Phase
+<html>
+  <head>
+    <title>Audio</title>
+  </head>
+  <body>
+    <script>
+      function play() {
+        var audio = document.getElementById("audio")
+        audio.play();
+      }
+    </script>
+    <input type="button" value="PLAY" onclick="play()">
+    <audio id="audio" src="babbbe.mp3"></audio>
+  </body>
+</html>
+
+For those in the Treatment group, go to:
+https://www.humanbenchmark.com/tests/reactiontime/
+
+- Read the instructions, and click to start the trial.
+- Record the reaction time from the first trial here.
+
+
+---
+# Part 3: Questions
+
+
+- Are the treatment and control groups similar in every respect except the distraction? Were the classroom conditions exactly the same for both groups? Make plots to check if the groups were similar in their video game playing, sports participation, driving frequency, and handedness.
+
+- How might you improve the design of the experiment?
+- What is the importance of the random assignment to the treatment or control group? What might be a concern if people were allowed to self-select into the treatment or control group? 
+
+

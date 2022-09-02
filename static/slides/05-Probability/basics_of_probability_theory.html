@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 503: Research Issues and Applications in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D." />
+    <meta name="date" content="2022-08-27" />
+    <script src="basics_of_probability_theory_files/header-attrs/header-attrs.js"></script>
+    <link href="basics_of_probability_theory_files/tabwid/tabwid.css" rel="stylesheet" />
+    <script src="basics_of_probability_theory_files/kePrint/kePrint.js"></script>
+    <link href="basics_of_probability_theory_files/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# PSY 503: Research Issues and Applications in Psychological Science
+## Introduction to Probability
+### Jason Geller, Ph.D.
+### Princeton University
+### 2022-08-27
+
+---
+
+
+
+
+
+
+# Probability Warm-up
+
+1. What is probability of drawing the ace of spades from a fair deck of cards?
+
+2. What is the probability of drawing an ace of any suit?
+
+3. You are going to roll some dice twice. What is the chance you roll double 1s?
+
+4. What is the chance that a live specimen of New Jersey Devil will be found?
+
+5. Who is more likely to be a victim of a street robbery, a young man or an old lady?
+
+6. Yesterday the whether forecaster said that there was a 30% chance of rain today, and it rained today. Was she right or wrong?
+---
+class: center, inverse
+
+background-image: url("weather.png")
+
+---
+# Different Ways of Thinking About Probability
+
+&lt;br&gt;
+&lt;br&gt;
+
+&gt; Classical probability is based on information we have
+
+ - Coin tosses
+  
+- Dice
+---
+&lt;img src="bridge.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+$$ P(death) = \frac{P(number of deaths)}{P(total)} $$
+---
+# Different Ways of Thinking About Probability
+
+-  Frequentist 
+
+  - Relative frequency -&gt; Proportion of times an event occurs out of all occasions it could have occurred
+  
+  - Over the long-run (many repetitions) what is the probability of X event?
+
+---
+# Coin Flips
+
+&lt;iframe src="https://seeing-theory.brown.edu/basic-probability/index.html" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+---
+# Frequentist and Bayesian Views of Probability
+
+-  Bayesian (Personal belief)
+
+  - In what realistic setting would we actually perform the same experiment infinite times?
+  
+  - Many probability questions concern the outcome of a singular trial rather than hypothetical repeated trials, and decision makers with the same information may differ
+  
+      - What is the likelihood that Russia will use a nuclear weapon against Ukraine?
+
+---
+# What is Probability Theory? 
+
+&lt;img src="prob.JPG" width="80%" height="20%" style="display: block; margin: auto;" /&gt;
+---
+# What is Probability Theory
+
+&lt;br&gt;
+&lt;br&gt; 
+
+Probability theory is the study of __random processes__
+
+- Is used to characterize events that are uncertain in advance
+
+
+&lt;img src="probability-line.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Random Processes: Intuition
+
+.pull-left[
+
+- Let's flip a fair coin  
+
+
+```r
+set.seed(973)
+
+coinflips &lt;- function(x) {
+    flip &lt;- rbinom(x, 1, 0.5)
+    flip &lt;- ifelse(flip==1, "Tails", "Heads")
+    return(flip)
+}
+```
+
+  1.   Can you tell me what the outcome will be?   
+
+  2.  If we were to flip a fair coin many many times, would you be able to tell the proportion of times that we would obtain heads?  
+]
+--
+.pull-right[
+- If answer to first question is "NO" 
+
+
+AND
+
+- Answer to second question is "YES"   
+
+
+THEN  
+
+- You are dealing with a random process  
+]
+---
+# Definition
+
+&lt;br&gt;
+&lt;br&gt;
+
+&gt; Random processes are __mechanisms__ that produce (probabilistic) outcomes...  from __a world of possible__ outcomes...  with some degree of __uncertainty__ but with __regularity__.  
+---
+# Probability Terminlogy  
+
+- __Experiment__ or __Trial__:
+    - Any activity that produces or observes an outcome
+
+- __Sample space:__ `\(\Omega\)` 
+
+  - The set of all possible outcomes
+
+- __Outcome:__ `\(\omega\)`  
+
+  - Possible realization of the random process  
+
+- __Event:__ `\(A\)`, `\(B\)`, `\(C\)`, etc. 
+
+  - A given outcome or set of outcomes  
+
+---
+# Examples of Random Processes
+
+- Random assignment of `\(N\)` individuals to an experimental condition    
+
+&lt;br&gt;
+
+- Random draw of a sample of `\(n\)` individuals from a population of `\(N\)` individuals  
+
+&lt;br&gt;
+
+- Rolling a die  
+
+---
+# Illustration: Random Assignment 
+
+- We randomly assigned an individual to a Treatment (T) vs. Control (C)  
+
+- Sample space?   We could express `\(\Omega\)` in the following ways:   
+
+  - `\(\Omega = \{\mathrm{Treatment, \: Control\}}\)`  
+  
+  - `\(\Omega = \{\mathrm{T, \: C\}}\)`  
+
+- What if we assigned two individuals to Treatment (T) vs. Control (C)   
+
+  - `\(\Omega = \{\mathrm{TT, \:TC, \:CT, \:CC}\}\)`   
+---
+# Events  
+
+An _event_ is a subset of the sample space `\(\Omega\)` and corresponds to the realization of one or more than one outcomes `\(\omega\)`   
+
+# Example  
+
+
+- Let `\(\Omega = \{\mathrm{TT, \:TC, \:CT, \:CC}\}\)`   
+
+
+- We could let `\(A\)` be __event__ that both individuals are assigned to the same experimental condition  
+
+- We could write:  
+
+  - `\(A = \{TT, \: CC\}\)` 
+
+- Another example?  
+
+---
+# Notations   
+
+&lt;img src="images/prob_notation.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Practice with Events  
+
+- We randomly assign 8 participants to T vs. C  
+
+  - Possible outcome:  `\(\omega =  \mathrm{TTTTCCTC}\)`
+  
+  - Sample space: Set of all possible strings of length 8 of T's and C's  
+---
+# Practice with Events  
+
+- Let's __randomly__ generate a possible outcome `\(\omega_j\)` in R \vspace{.40cm}
+
+
+```r
+sample(c("T", "C"), 
+       size = 8, 
+       replace = TRUE)
+```
+
+```
+[1] "T" "T" "C" "T" "C" "C" "T" "C"
+```
+
+- In the background, does R draw from this sample space?     
+
+- NO: Keep in mind that R draws an outcome `\(\omega_j\)` from `\(\Omega = \{T, C\}\)` 8 times in a row with replacement  
+
+---
+# Random Sampling With and Without Replacement
+
+A __simple random sample__ requires that each individual in the population has an equal chance of being selected.
+
+An __independent random sample__ requires that each individual has an equal chance of being selected and that the probability of being selected stays constant from one selection to the next if more than one individual is selected.
+
+__Random sampling__: A sampling process/technique where both the requirements of equal chance and constant probability are met.
+---
+# More practice with events  
+
+- Let `\(C_1\)` be the event that the first participant is assigned to the control condition  
+
+  - e.g., `\(\{\mathrm{CTCTCTTT}\}\)`, `\(\{\mathrm{CTTTTTTC}\}\)`, or `\(\{\mathrm{CCCCCTTC}\}\)`   
+  
+
+- We could express this more generally:  
+
+  - `\(C_1 = \{(C, \: \omega_2, \: ..., \: \omega_8) : \omega_j \in \{\mathrm{T, C\}} \: \mathrm{for} \: 2 \leq j \leq 8\}\)`  
+---
+# More practice with events   
+
+- Let `\(C_i\)` be the event that the `\(i\)`th participant is assigned to the control condition, for `\(i = 1, \:2,\: 3,\: ...,\: 8\)`, and use `\(C_i\)` to define other events.   
+
+- Let `\(A\)` be the event, that at least one participant was assigned to control condition. We can write:   
+
+\begin{equation}
+A = C_1 \cup C_2 \cup ... \cup C_8
+\end{equation}
+
+i.e., Participant 1 or participant 2 or ... or participant 8 was assigned to control   
+
+- We could have written:  
+
+\begin{equation}
+A = \bigcup^8_{i = 1} C_i  
+\end{equation}
+---
+# More practice with events    
+
+\begin{equation}
+B = \bigcap^8_{i = 1} C_i
+\end{equation}
+
+In plain English?  
+
+---
+# Naive probability of an event  
+
+Let `\(A\)` be an event with a finite sample space `\(\Omega\)`. The _naive probability_ of `\(A\)` is 
+\begin{equation}
+P(A) = \frac{|A|}{|\Omega|} 
+\end{equation}
+
+in which |A| is the number of possible outcomes `\(\omega\)` that satisfy A, and |$\Omega$| is the total number of possible outcomes `\(\omega\)` within `\(\Omega\)`.   
+
+# Wait, why is this naive?  
+
+- Requires `\(\Omega\)` to be finite   
+
+- Requires each possible outcome `\(\omega\)` to have the same weight    
+
+  - This can be misleading!  
+
+  - e.g., polls, attrition
+---
+# Probability model: Definition  
+
+- The __probability model__ of a random phenomenon is the mathematical representation of this phenomenon. It includes:      
+
+  - All of the possible outcomes included in the sample space  
+  
+  - The probability of each possible probabilistic outcome `\(\omega\)` included in the sample space  
+
+- This is all that there is to know about a random phenomenon  
+
+- Very powerful: Contain enough information to predict with certainty the percentage of times that an outcome `\(\omega\)` will happen if we repeat the random generative process many (many, many, many) times   
+---
+# Probability model: Intuition  
+
+Overall, the probability of an outcome `\(\omega\)` is the percentage of times that this outcome will happen if we repeat the random generative process: 
+
+- Over and over again  
+
+- Independently  
+
+- Under the exact same conditions  
+---
+# Probability Model: Example  
+
+- The probability model of rolling a fair die includes:   
+
+  - Its sample space: `\(\Omega = \{1,\:2,\:3,\:4,\:5,\:6\}\)`  
+  
+  - The probability of each possible outcome `\(\omega_j\)` is: `\(\mathrm{P}(w_j) = \frac{1}{6}\)`   
+
+
+If we wonder what are the possible outcomes of rolling a fair die, we simply need to look at the probability model to realize that there are 6 possible outcomes. 
+
+If we wonder how likely it is that we will get a 6 after rolling a fair die, again, we can look at its probability model and learn that the probability of getting a 6 is `\(\frac{1}{6}\)`   
+---
+class: center, inverse
+
+background-image: url("fightclub.jpeg")
+
+# Rules of Probability
+
+---
+# Probability Rule # 1  
+
+- Probabilities take values between 0 and 1 (inclusive)   
+
+  - For some event `\(A\)`: `$$0 \leq P(A) \leq 1$$`
+
+- Probability cannot be negative    
+
+- Probability cannot be greater than 1
+---
+# Probability Rule# 2  
+
+- Since `\(\Omega\)` is the entire sample space, `$$P(\Omega) = 1$$`  
+
+- e.g., What is the probability of getting an even or an odd number after rolling a fair die?  
+
+---
+# Probability Rule #3  
+
+## Complement
+
+- The complement of event `\(A\)` is referred to as `\(A^c\)`  
+
+- By definition $$ P(A) + P(A^c) = 1$$  
+
+- This implies $$ P(A^c) = 1 - P(A)$$
+
+&lt;img src="union-venndiagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+#Probability Rule # 4
+
+ Probability Rule #4
+
+- Addition Rule
+
+  &gt; If there are two events, A and B, the addition rule states that the probability of event A or B occurring is the sum of the probability of each event minus the probability of the intersection:
+
+.pull-left[
+
+- Mutually Exclusive
+
+P(A or B) = P(A) + P(B)
+&lt;img src="union-venndiagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+.pull-right[
+## Non-mutually Exclusive
+&lt;img src="addition-rule-independent-venndiagram.webp" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Union
+
+&gt; The union of two sets encompasses any element that exists in either one or both of them. We can represent this visually as a venn diagram as shown.
+&gt;
+&gt; ![](union-venndiagram.svg)
+
+---
+# Intersection
+
+&gt; The intersection between two sets encompasses any element that exists in BOTH sets and is often written out as:
+
+&lt;img src="intersection-venndiagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Multiplication Rule
+
+# The multiplication rule is used to find the probability of two events, *A* and *B*, happening simultaneously. 
+
+&lt;img src="coin-tree-diagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Independent Events
+
+&gt; Two events are *independent* if the occurrence of one event does not affect the probability of the other one occurring.
+
+.pull-left[
+
+&lt;img src="marble-diagram-2-IE.svg" width="60%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+&lt;img src="marble-diagram-1-dep.svg" width="60%" style="display: block; margin: auto;" /&gt;
+]
+---
+class: middle center
+
+# Probability Rules 
+
+---
+# Probability Rule # 1  
+
+- Probabilities take values between 0 and 1 (inclusive)   
+
+  - For some event `\(A\)`: `$$0 \leq P(A) \leq 1$$`
+
+- Probability cannot be negative    
+
+- Probability cannot be greater than 1
+---
+# Probability Rule# 2  
+
+- Since `\(\Omega\)` is the entire sample space, `$$P(\Omega) = 1$$`  
+
+- e.g., What is the probability of getting an even or an odd number after rolling a fair die?  
+
+
+# Probability Rule #4
+
+- Addition Rule
+
+  - Probability that either one or both events occur
+---
+# Mutually Exclusive Events  
+
+- Two events `\(A_i\)` and `\(A_j\)` are __mutually exclusive__ (or __disjoint__) if they cannot happen at the same time 
+    
+&lt;img src="images/disjoint.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+\neq j$, we have: `$$A_i \: \cap \: A_j = \emptyset$$`  
+---
+# Mutually Exclusive Events  
+
+- Given any number of _mutually exclusive_ events `\(A_1, \: A_2, \: ..., \: A_n\)`, the probability that one of these events will occur is the sum of their individual probabilities: 
+
+  - `\(P(A_1 \: \cup \: A_2 \: \cup \: ... \: \cup \:A_n) = P(A_1) \: + P(A_2) \: + ... + \: P(A_n)\)`  
+---
+# Non-Mutually Exclusive Events  
+
+&lt;img src="images/disjointwhole.png" width="70%" style="display: block; margin: auto;" /&gt;
+- Under the addition rule: `$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$`  
+
+- But what is `\(P(A \cap B)\)`?  `\(P(A \cap B) = 0\)`  
+
+- Therefore, `$$P(A \cup B) = P(A) + P(B)$$`  
+---
+
+# Probablity #5
+
+- Multiplication Rule
+
+  - Probability both events occur
+
+- Dependent
+
+P(A ∩ B) = P(B) P(A|B)
+
+- Independent
+
+P(A and B) = P(A)*P(B)
+
+---
+# Conditional Probablity
+
+$$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
+
+
+Three probabilities 𝑝(𝐴├|𝐵┤) is a conditional probability, while 𝑝(𝐴∩𝐵) is a joint probability and 𝑝(𝐵) is a marginal probability
+
+- Marginal probability: Likelihood that a randomly sampled outcome has 𝐴
+
+- Joint probability;  intersection, or the likelihood that a randomly sampled outcome has both 𝐴 and 𝐵 together (e.g., it is where 𝐴 and 𝐵 overlap in a Venn diagram)
+
+- Conditional probability
+
+  - Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
+  
+  - We would say “𝐴 given 𝐵” or “𝐴 conditional on 𝐵” 
+
+---
+# Independence
+
+`\(A\)` and `\(B\)` are independent if the occurrence of `\(A\)` does not influence the occurrence of `\(B\)`, and if the occurrence of `\(B\)` does not influence the occurrence of `\(A\)`. 
+
+If two events `\(A\)` and `\(B\)` are independent, knowing that `\(A\)` occurred does not inform the chances that `\(B\)` occurred. We have:  
+
+\begin{equation}
+P(A|B) = P(A)
+\end{equation}
+
+\begin{equation}
+P(B|A) = P(B)
+\end{equation}
+---
+# Conditional probability is everywhere 
+
+- Examples?   
+
+- Causal effects   
+
+    - If a treatment `\(d_i\)` has an effect on `\(Y_i\)`, knowing that `\(d_i\)` occurred tells us something about the probability that `\(Y_i\)` occurs.   
+  &lt;br&gt;
+    - If a training improves performance at a test, knowing that an individual took that drug before the test provides information about the probability that this individual passed vs. failed.  
+---
+
+#  Conditional Probability 
+
+- The likelihood of an event or outcome __based__ on the occurrence of a previous event or outcome
+
+If `\(A\)` and `\(B\)` are events with `\(P(B) &gt; 0\)`, the _conditional probability_ of A given B is 
+
+\begin{equation}
+P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}
+\end{equation}
+---
+# Illustration  
+
+$$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
+
+&lt;img src="images/cond_prob.png" width="30%" /&gt;
+
+- Conditional probabilities allow us to update the probability of an event `\(A\)` based on the occurrence of another event  
+
+- `\(P(A)\)` is called the _prior probability_  
+
+- `\(P(A|B)\)` is called the _posterior probability_  
+---
+# Multiplication rule  
+
+\begin{equation}
+P(A|B)P(B) = P(A\: \cap \: B)
+\end{equation}
+
+
+The multiplication rule follows directly from Equation (3).  
+
+---
+# Implication  
+
+If `\(A\)` and `\(B\)` are independent events, we have: 
+
+\begin{equation}
+P(A\: \cap \: B) = P(A)P(B)
+\end{equation}  
+
+---
+# Practice with grant proposal
+
+You are about to send a grant proposal to an organization. While you read about the grant, you realize that your grant proposal will be sent to 5 different referees, who can be either social or cognitive psychologists. Imagine that for each grant proposal, the committee flips a coin five times and assigns the proposal to a social psychologist every time the flip returns heads, and to a cognitive psychologist every time the flip returns tails.  
+
+Assume an infinite pool of social and cognitive psychologists. What are the chances that your grant proposal is assigned to 5 cognitive psychologists?   
+---
+# Practice with grant proposal
+
+Let `\(C_i\)` be the event that your grant proposal is assigned to a cognitive psychologist. Since the events are independent from each other, we have:
+
+\small
+$$
+    \begin{split}
+P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &amp;= P(C_1) \times P(C_2) \times P(C_3) \times P(C_4) \times P(C_5) \\
+&amp;= (\frac{1}{2})^5 \\
+&amp;= \frac{1}{32} \\
+    \end{split}
+$$
+---
+# Law of Total Probability (LTP)
+
+Let `\(\{A_1, \: A_2, \: ..., \: A_n\}\)` be a partition of `\(\Omega\)`. This means that the `\(A_i\)` events are mutually exclusive and their union is `\(\Omega\)`. If `\(P(A_i) &gt; 0\)` for all `\(i\)`, then  
+
+\begin{equation}
+P(B) = \sum_{i = 1}^n P(B \cap A_i) 
+\end{equation}  
+
+&lt;img src="images/ltp.png" width="40%" /&gt;
+---
+# LTP: Two events
+
+In the special case of two events, we have:  
+
+`$$P(B) = P(B \: \cap \: A) +  P(B \: \cap \: A^C)$$`  
+
+---
+# Bayes' Rule  
+
+- Reversing a conditional probability allows us to find `\(P(A|B)\)` if we know `\(P(B|A)\)`: 
+
+- Bayes' rule: 
+\begin{equation}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{equation}  
+
+---
+# Monty Hall Problem
+
+- On the 1980s gameshow, Let’s Make a Deal, a contestant chooses 1 of 3 doors to win a prize (1 door conceals a car, the other 2 doors conceal goats), and after the contestant makes their choice, the host (who knows what is behind the doors) opens 1 of the remaining 2 doors they did not choose but that has a goat, and then offers the contestant the opportunity to change their choice to the only remaining door
+
+- If you were the contestant, what would you do? Would you stick with your original choice? Or would you switch?
+
+---
+# Monty Hall
+
+&lt;img src="images/monty.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+- The winning strategy is to switch, but how is this possible?
+  - Our intuition tells us our chance of winning the car increases from 1∕3 to 1∕2 when there are only two doors to choose from
+  - In reality, our chance of winning the car remains 1∕3 if we stick with our original choice, but increases to 2∕3 if we switch
+
+---
+#Monty Hall Simulations
+
+
+```r
+set.seed(973)
+
+monty &lt;- function() {
+    prize &lt;- sample(x = 1:3, size = 1, replace = TRUE)
+    choice &lt;- sample(x = 1:3, size = 1, replace = TRUE)
+    monty &lt;- sample(x = c(1:3)[-c(choice, prize)], size = 1, replace = TRUE)
+    return(ifelse(prize != choice, yes = "Switch", no = "Stick"))
+}
+
+monty()
+```
+
+```
+## [1] "Stick"
+```
+
+```r
+monty()
+```
+
+```
+## [1] "Switch"
+```
+
+---
+
+
+```r
+run &lt;- rep(NA, 100000)
+
+for (i in 1:100000) {
+    run[i] &lt;- monty()
+}
+
+prop.table(table(run))
+```
+
+```
+## run
+##   Stick  Switch 
+## 0.33147 0.66853
+```
+
+```r
+## strategy
+##   Stick  Switch 
+## 0.33147 0.66853 
+```
+
+---
+# Illustration: Covid-19  
+
+If you tested positive for Covid-19, what is the chance you actually have it?
+
+  1.  85% of the people who have Covid-19 test positive (sensitivity) 
+  
+  2.  96% of the people who do not have Covid-19 test negative  (specificity)
+  
+  3.  3%  of the population has Covid
+
+---
+# Illustration: Covid-19
+
+- Let:   
+
+  - `\(Covid\)` be the event of having Covid-19   
+  
+  - `\(Pos\)` be the event of testing positive 
+  
+  
+  - `\(Neg\)` be the event of testing negative  
+
+
+- We know that:  
+
+  - `\(P(Covid) = \frac{1}{30}\)`    
+  
+  - `\(P(Pos|Covid) = .85\)`  
+  
+  - `\(P(Neg|Covid^C) = .96\)`   
+
+
+- We need to calculate: 
+
+  - `\(P(Covid|Pos)\)`     
+
+# Illustration: Covid-19
+
+- Bayes' Rule: 
+
+\small
+$$ P(Covid|Pos) = \frac{P(Pos|Covid)P(Covid)}{P(Pos)} $$
+
+- `\(P(Pos)\)`?   
+  - Use Law of Total Probability  
+---
+# Illustration: Covid-19  
+
+$$
+    \begin{split}
+P(Pos) &amp;= P(Pos \: \cap \: Covid) + P(Pos \: \cap \: Covid^C) \\
+&amp;= P(Pos|Covid)P(Covid) + P(Pos|Covid^C)P(Covid^C) \\ 
+&amp;= 0.85\times \frac{1}{130} + (1-0.96)\times (1-\frac{1}{130}) \\
+&amp;= 0.0462
+    \end{split}
+$$
+
+We can now derive `\(P(Covid|Pos)\)` using Bayes' rule:   
+
+`$$P(Covid|Pos) = \frac{.85 * \frac{1}{130}}{.0462} = .142$$`
+
+# Lessons from Bayes' rule 
+
+- Based on the results of this test, the probability that your friend actually has covid-19 is .142   
+
+  - That's a 14.2% chance of actually having covid-19.   
+  
+- Bayes' rule often yields counter-intuitive results!  
+
+- Importance of base rates  
+---
+class: center middle
+
+# Probability Theory vs. Statistical Inference 
+
+---
+# Probability Theory  
+
+- We know the probability model of the random generative process    
+
+- We ask: given the data generative process, what data is likely?  
+---  
+# Probability Theory  
+
+- For any given random phenomenon, probability theory is a set of tools that
+assume prior knowledge of:  
+
+  - The sample space   
+  
+  - The probability of a set of events defined on that sample space   
+  
+- Allows you to find the probability of any other possible event from that sample space  
+
+---
+# Problem 
+
+- We usually don't know the probability model  
+
+- OK, we can find the probability of every outcome in the sample space by observing many many repetitions   
+
+  - BUT most random phenomena cannot be repeated again, again, and again   
+
+- We generally need to infer the probability of each possible outcome using information on a few realizations of the random phenomenon of interest     
+
+---
+# Probability and Statistics
+
+- By knowing your population makeup, you have a better idea of the probability of obtaining certain samples.
+
+- Probability links population with samples.
+
+- Inferential statistics rely on this connection when they use sample data as the basis for making conclusions about populations.	
+
+&lt;img src="unnamed.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+# Statisical Inference
+
+- For any given random phenomenon, statistical inference is a set of tools that
+uses knowledge of:  
+
+  - A finite number of realizations of a random phenomenon   
+  
+- ... to tell you how to make educated guesses about:  
+
+  - The sample space  
+  
+  - The probability of events defined on that sample space   
+---
+# Probability Theory vs. Statistical Inference 
+
+- Probability theory asks:  
+
+  - Assuming that the probability of observing heads in a coin flip is 0.5  
+    - What is the probability of observing HHTT if we flip a coin four
+times?  
+
+- Statistical inference asks:   
+
+  - Suppose that you flip a coin four times and observe HHTT  
+  
+     - What is your best guess for the probability of observing heads when flipping that coin? How confident are you in your guess?
+
+---
+# Typical Probability Theory Question 
+
+- In the 2012 US presidential elections, 51.1% of voters voted in favor of Barack Obama     
+
+- If you were to randomly select 1,000 people that voted in this election, what is the probability that at least 500 of them voted in favor of Barack Obama?  
+
+- In other words, if you were to take many many random samples of 1000 people from the population of voters, in which fraction of these samples would you have at least 500 people that voted in favor of Barack Obama?  
+
+# Typical Statistical Inference Question
+
+- Before the ellection, FiveThirtyEight listed the [results](http://projects.fivethirtyeight.com/2016-election-forecast/national-polls/) for multiple election polls:  
+  
+- Using the information from Ipsos, what is your best guess on the total fraction of voters that would vote for Clinton if the elections were to happen now? How confident are you in your guess?  
+  
+- Would your guess be different if you were to use information from the ABC News/Washington Post poll? What if you were to combine information from both?  
+
+- Example relevant to psychology research?  
+---
+# Law of Small Numbers 
+
+## Example
+
+---
+# Law of Small Numbers
+
+- The typical probability theory and statistical inference questions are very hard to answer intuitively    
+
+- Kahneman and Tversky showed that humans tend to make a cognitive error that they called the _Law of Small Numbers_  
+- This cognitive error has a probability theory manifestation:  
+
+  - People underestimate the probability of sequential streaks occurring by chance
+
+- and a statistical inference manifestation:  
+
+  - People overestimate the information about underlying probabilities contained in short sequences of outcomes from a random phenomenon. Even worse, they suggest theories to explain these regularities!    
+---
+# Law of Small Numbers: Illustration  
+
+In the 2010 NBA finals between the Boston Celtics and the LA Lakers, Celtic guard Ray Allen made seven three-point shots in a row. This is an example of what journalists call "hot streak". Observers usually tend to theorize about the reasons underlying hot streaks and cold streaks.
+---
+
+class: middle center
+
+#In-Class Analysis
+
+---
+# Data
+
+- Florida voter registration data
+
+
+```r
+library(here)
+
+voter=read.csv(here::here("static","slides","05-Probability","data", "florida-voters.csv"))
+
+voter %&gt;% 
+  glimpse()
+```
+
+```
+## Rows: 10,000
+## Columns: 6
+## $ surname &lt;chr&gt; "PIEDRA", "LYNCH", "CHESTER", "LATHROP", "HUMMEL", "CHRISTISON…
+## $ county  &lt;int&gt; 115, 115, 115, 115, 115, 115, 115, 115, 1, 1, 115, 115, 115, 1…
+## $ VTD     &lt;int&gt; 66, 13, 103, 80, 8, 55, 84, 48, 41, 39, 26, 45, 11, 48, 22, 88…
+## $ age     &lt;int&gt; 58, 51, 63, 54, 77, 49, 77, 34, 56, 60, 44, 45, 80, 83, 88, 55…
+## $ gender  &lt;chr&gt; "f", "m", "m", "m", "f", "m", "f", "f", "f", "m", "m", "f", "m…
+## $ race    &lt;chr&gt; "white", "white", NA, "white", "white", "white", "white", "whi…
+```
+
+```r
+voter &lt;- na.omit(voter) 
+
+voter %&gt;% 
+  glimpse()
+```
+
+```
+## Rows: 9,113
+## Columns: 6
+## $ surname &lt;chr&gt; "PIEDRA", "LYNCH", "LATHROP", "HUMMEL", "CHRISTISON", "HOMAN",…
+## $ county  &lt;int&gt; 115, 115, 115, 115, 115, 115, 115, 1, 1, 115, 115, 115, 115, 1…
+## $ VTD     &lt;int&gt; 66, 13, 80, 8, 55, 84, 48, 41, 39, 26, 45, 11, 48, 88, 25, 82,…
+## $ age     &lt;int&gt; 58, 51, 54, 77, 49, 77, 34, 56, 60, 44, 45, 80, 83, 55, 33, 63…
+## $ gender  &lt;chr&gt; "f", "m", "m", "f", "m", "f", "f", "f", "m", "m", "f", "m", "f…
+## $ race    &lt;chr&gt; "white", "white", "white", "white", "white", "white", "white",…
+```
+
+```r
+dim(voter)
+```
+
+```
+## [1] 9113    6
+```
+
+---
+# Data: Setup
+
+
+```r
+head(voter) %&gt;%
+  flextable::flextable()
+```
+
+
+&lt;template id="5f0a9f90-9d29-4b5d-991d-58b43eef79d4"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-ad7dcaf6{}.cl-ad6b0952{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ad6b6bc2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ad6b6bd6{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-ad6da9f0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ad6dab26{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ad6dab30{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ad6dab31{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ad6dab3a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ad6dab3b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-ad7dcaf6'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6dab3b"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;surname&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab3a"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;county&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab3a"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;VTD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab3a"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;age&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab3b"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;gender&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab3b"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;race&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;PIEDRA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;58&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;LYNCH&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;51&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;LATHROP&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;80&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;54&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;HUMMEL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;CHRISTISON&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;55&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab26"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;49&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6da9f0"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-ad6dab30"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;HOMAN&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab31"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab31"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;84&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab31"&gt;&lt;p class="cl-ad6b6bd6"&gt;&lt;span class="cl-ad6b0952"&gt;77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab30"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-ad6dab30"&gt;&lt;p class="cl-ad6b6bc2"&gt;&lt;span class="cl-ad6b0952"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="620b44d3-0fd0-46f4-82d0-2ebd55a14bd5"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("620b44d3-0fd0-46f4-82d0-2ebd55a14bd5");
+var template = document.getElementById("5f0a9f90-9d29-4b5d-991d-58b43eef79d4");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+---
+# Marginal Probabilties
+
+What are these again?
+
+--
+
+
+```r
+library(knitr)
+marg.race &lt;- voter %&gt;%
+  count(race)%&gt;%
+  mutate(prop=prop.table(n)) %&gt;%
+  kable()
+
+marg.race
+```
+
+
+
+|race     |    n|      prop|
+|:--------|----:|---------:|
+|asian    |  175| 0.0192033|
+|black    | 1194| 0.1310216|
+|hispanic | 1192| 0.1308022|
+|native   |   29| 0.0031823|
+|other    |  310| 0.0340173|
+|white    | 6213| 0.6817733|
+
+---
+# Gender
+
+
+
+```r
+marg.gender &lt;- voter %&gt;%
+  group_by(gender) %&gt;%
+  summarise(n=n())%&gt;%
+  mutate(freq=n/sum(n)) %&gt;%
+  kable()
+
+marg.gender
+```
+
+
+
+|gender |    n|      freq|
+|:------|----:|---------:|
+|f      | 4883| 0.5358279|
+|m      | 4230| 0.4641721|
+---
+# Conditional Probability
+
+
+$$ P(black|male) =  $$
+
+```r
+library(janitor)
+cond_racegender &lt;- voter %&gt;%
+  filter(gender=="m") %&gt;%
+  tabyl(race)%&gt;%
+  kable()
+
+cond_racegender
+```
+
+
+
+|race     |    n|   percent|
+|:--------|----:|---------:|
+|asian    |   92| 0.0217494|
+|black    |  516| 0.1219858|
+|hispanic |  526| 0.1243499|
+|native   |   12| 0.0028369|
+|other    |  152| 0.0359338|
+|white    | 2932| 0.6931442|
+---
+# 
+
+$$ P(black \cap male) $$
+
+```r
+library(janitor)
+
+joint &lt;- voter %&gt;%
+  select(race, gender) %&gt;%
+  group_by(race, gender) %&gt;%
+  count(race, gender) %&gt;%
+  ungroup() %&gt;% 
+  mutate(total=sum(n), prop=n/total)
+
+joint
+```
+
+```
+## # A tibble: 12 × 5
+##    race     gender     n total    prop
+##    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;
+##  1 asian    f         83  9113 0.00911
+##  2 asian    m         92  9113 0.0101 
+##  3 black    f        678  9113 0.0744 
+##  4 black    m        516  9113 0.0566 
+##  5 hispanic f        666  9113 0.0731 
+##  6 hispanic m        526  9113 0.0577 
+##  7 native   f         17  9113 0.00187
+##  8 native   m         12  9113 0.00132
+##  9 other    f        158  9113 0.0173 
+## 10 other    m        152  9113 0.0167 
+## 11 white    f       3281  9113 0.360  
+## 12 white    m       2932  9113 0.322
+```
+
+# Data: Independance
+
+
+
+```r
+marg.race &lt;- voter %&gt;%
+ group_by(race)%&gt;%
+  tabyl(race)
+
+marg.gender &lt;- voter %&gt;%
+   group_by(gender)%&gt;%
+  tabyl(gender)
+
+marg.race
+```
+
+```
+##      race    n     percent
+##     asian  175 0.019203336
+##     black 1194 0.131021617
+##  hispanic 1192 0.130802151
+##    native   29 0.003182267
+##     other  310 0.034017338
+##     white 6213 0.681773291
+```
+
+```r
+marg.gender
+```
+
+```
+##  gender    n   percent
+##       f 4883 0.5358279
+##       m 4230 0.4641721
+```
+
+
+
+```r
+0.13*0.464 
+```
+
+```
+## [1] 0.06032
+```
+
+
+```r
+library(kableExtra)
+
+joint &lt;- voter %&gt;%
+  select(race, gender) %&gt;%
+  group_by(race, gender) %&gt;%
+  count(race, gender) %&gt;%
+  ungroup() %&gt;% 
+  mutate(total=sum(n), prop=n/total) %&gt;%
+  kable() %&gt;%
+  kable_styling() %&gt;%
+  row_spec(4, bold = T, background = "black")
+
+joint
+```
+
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; race &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; total &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; prop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 83 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0091079 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 92 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0100955 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 678 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0743992 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;background-color: black !important;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;background-color: black !important;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;background-color: black !important;"&gt; 516 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;background-color: black !important;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;background-color: black !important;"&gt; 0.0566224 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 666 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0730824 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 526 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0577197 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0018655 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0013168 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 158 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0173379 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 152 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0166795 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3281 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3600351 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2932 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3217382 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "18:10",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

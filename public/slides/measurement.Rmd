@@ -1,0 +1,619 @@
+---
+title: "Research Methods in Cognitive Science"
+subtitle: "Week 5: Measurement"
+author: 
+  - "Jason Geller, Ph.D"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+      background-image: url(skills.jpeg)
+      background-size: cover
+    
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "36%",
+  cache = FALSE,
+  echo = FALSE,
+  message = FALSE, 
+  warning = FALSE,
+  fig.show = TRUE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_solarized_light(
+  header_font_google = google_font("Arvo"),
+  header_h1_font_size = "36px",
+  text_font_google = google_font("Cabin"),
+  text_font_size = "28px",
+  code_font_google = google_font("Share Tech Mono"),
+  extra_css = list(
+    ".remark-slide-content h2" = list(
+      "margin-top" = "2em",
+      "margin-bottom" = "2em"
+    ),
+    .big = list("font-size" = "150%"),
+    .small = list("font-size" = "75%"),
+    .subtle = list(opacity = "0.6"),
+    ".countdown-has-style h3, .countdown-has-style h3 ~ p, .countdown-has-style h3 ~ ul" = list(
+      "margin" = "0"
+    ),
+    ".countdown-has-style pre" = list(
+      "margin-top" = "-10px"
+    ),
+    "p .remark-inline-code" = list(
+      "background-color" = "#6c71c41a",
+      "padding" = "2px 2px",
+      "margin" = "0 -2px"
+    ),
+    blockquote = list("margin-left" = 0),
+    "em" = list(color = "#2aa198")
+  )
+)
+
+```
+# Housekeeping
+
+- Next Tuesday: A120 (RuCCS Eye-tracking lab) 
+
+  - Team 1 - 3:00-3:30
+  - Team 2 - 3:30: 4:00
+  
+- Next Thursday
+
+  - Sarah Colby (University of Iowa)  
+  
+-  Tuesday (October 12th)
+
+   - Team 3 - 3:00-3:30 
+   - Team 4 - 3:30-4:00
+   - Team 5 - 4:00-4:30
+
+---
+Last Class
+
+- #680 422
+
+<iframe src="https://app.sli.do/event/ad8fkgyj" height="50%" width="50%" frameBorder="0" style="min-height: 560px;" title="Slido"></iframe>
+
+```{r, echo=FALSE}
+library(countdown)
+countdown(minutes = 5)
+```
+
+---
+# Today
+
+- What is measurement?
+
+- Scales of measurement
+
+- Reliability and validity
+  
+- Measurement in practice: listening effort
+---
+class: inverse center middle
+
+> "Whatever exists at all exists in some amount. To know it thoroughly involves knowing its quantity as well as its quality.”
+  -Edward L. Thorndike
+  
+???
+
+Welcome back, gang. Today we are going to talk about measurement. Measurement is probably the most fundamental part of doing science. For instance, as a cognitive scientist I am interested in learning and memory. If I wanted to know how learning increased over time or how many items are stored in memory and for how long I would have measure it. Knowing how to measure them is critical knowing about the thing itself. 
+
+---
+# Measurement
+
+> The assignment of scores so that the scores represent some characteristic of the individuals
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+
+knitr::include_graphics("weightheight.jpeg")
+```
+
+???
+
+A formal definition from your book is: 
+---
+# What things do we want to measure?
+
+.pull-left[
+
+- Depression
+- Effort
+- Intelligence
+- Memory
+- Social support
+- Extroversion
+- Eating behavior
+- Parent child relationships
+- Attention
+- Burn out
+- Hopelessness
+
+]
+
+.pull-right[
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+
+knitr::include_graphics("poppins.png")
+```
+]
+
+???
+
+A lot of what we want to study in the cognitive sciences cannot be measured easily--they defy direct observation. So we could use a measuring tape to get our heights but we could not use it to measure personality, unless we are mary poppins. To eaxmine constructs, psychologists do many things. They observe, they get ratings, ask people to fill out surveys. 
+
+There are multiple ways to do this. We usually give them tasks to do or we ask them to fill out surveys. 
+
+---
+# Constructs ≠ Variables
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("latent.png")
+```
+
+???
+
+constructs are these big broad mental abstractions
+
+we call these latent constructs
+
+To study them we need ways to operationalize them by turning them into numbers. For depression we can base it on a score or rating  ore self-reported. We care about the scores bc we think they tell us about the construct. 
+
+Important to know here. Super important
+constructs are not variables. We use variables to get at the constructs. It is hard to understand this bc the media talks about constructs all the time.   
+---
+# Scales of Measurement
+
+- Variables are defined and categorized four ways: 
+
+1. Nominal -> categorical data 
+2. Ordinal
+3. Interval
+4. Ratio
+
+**NOIR**
+
+---
+# Nominal
+
+- Nominal ≈ name, so numbers on a nominal scale just name or stand for a category or individual
+
+- Numerals arbitrarily assigned to name events/objects
+
+– Given 2 nominal measurements: 
+
+  - Can determine whether the same or not
+  - Not able to tell if one has more or less of measured attribute
+  
+- Examples: gender, experimental vs control group
+---
+# Ordinal
+
+– Data have characteristics of nominal scale + more
+
+– Numbers indicate the ordering of individuals on some dimension
+
+- Given 2 ordinal measurements:
+
+  - Can state whether they have equal amounts of the attribute or not
+  - May not be able to make statements about the difference between the pair of scores
+  
+- Examples: Ranking on a task, rating your preferences
+
+---
+# An Olympic Example
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("gold.png")
+```
+  
+---
+# Interval 
+
+- Data have characteristics of ordinal scale +  more
+
+- Intervals have consistent meaning – equal  units
+
+- No true zero
+
+- Example: temperature in °F
+
+---
+# Ratio
+
+- Intervals have consistent meaning –  equal units
+
+– True zero 
+
+– Ratios are meaningful
+
+– Examples: frequencies, times, rates
+---
+# An Olympic Example
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("gold.png")
+```
+---
+Knowledge Check
+
+<iframe src="https://app.sli.do/event/hvreh8tr" height="100%" width="100%" frameBorder="0" style="min-height: 560px;" title="Slido"></iframe>
+---
+
+---
+# Reliability
+
+> How consistent or how precise a measure/method is
+
+  - Test-Retest (over time)
+  
+  - Internal (across time)
+  
+  - Interrater  (between different researchers)
+  
+---
+
+# Reliability
+
+> Consistency of a measure: 
+
+  - Test-Retest (across time)
+  
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+
+knitr::include_graphics("testretest.png")
+```
+---
+# Reliability
+
+> Consistency of a measure: 
+
+  - Test-retest (across time)
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+
+knitr::include_url("https://www.proprofs.com/quiz-school/story.php?title=mte2mdawoq2srl")
+```
+---
+# Reliability
+
+> Consistency of a measure:
+  
+  - Internal (across items)
+  
+  1. I love Halloween. **Agree**
+  2. I feel happy when I decorate my house for Halloween. **Agree**
+  3. I feel angry when the Halloween season is approaching. **Disagree**
+  
+    - Cronbach's $\alpha$
+      - .8  
+---
+# Reliability
+
+> Consistency of a measure:
+  
+  - Interrater (across different researchers)
+---
+# Validty
+
+>  Accuracy [e.g., are we really measuring what we think we are measuring?]
+  
+  - Face validity
+>  The extent to which a measurement method appears “on its face” to measure the construct of interest
+
+  - Criterion or convergent validity
+> The extent to which people’s scores on a measure are correlated with other variables (known as criteria) that one would expect them to be correlated with.
+
+  - Discriminate  or divergent validity
+> The extent to which scores on a measure of a construct are not correlated with measures of other, conceptually distinct, constructs and thus discriminate between them.
+
+---
+# Bank Robbery
+
+- Eyewitness memory plays an important role in helping police solve crimes. However, people’s abilities to accurately recall what they saw can substantially impact whether a criminal is convicted—and equally, if an innocent person is wrongfully convicted. So, it’s important to get it right. 
+
+- First, let’s find out how well you can remember what happens during a bank robbery
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+# Viewing #1
+
+- You have now viewed a clip of a simulated bank robbery.
+
+Take a few minutes to write down your description of the main offender
+
+---
+# Work with partner
+
+Take a few minutes to write down your description of the main offender
+
+- Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
+For example: if there were 5 agreements and 3 disagreements… 
+[a] 5 x 100 = 500
+[b] 5 + 3 = 8
+[c] 500/8 = 62.5% inter-observer agreement
+
+- What percentage agreement did you end up with? What do you think it says about the reliability of the instructions you were given?
+
+```{r, echo=FALSE}
+library(countdown)
+countdown(minutes = 5)
+```
+
+---
+# Group Discussion
+
+- What sort of percentage agreements did we get?
+- What do you think these percentages tell us about the reliability of the instructions you were given?
+---
+# Viewing #2
+
+- We will watch the video again. 
+- Then you will get new instructions for describing the offender. 
+- Then you will work with your partner to calculate inter-rater reliability again
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+---
+# Viewing #2
+
+Using the checklist below, describe the main offender: 
+
+- Were they male or female?
+- What was their hair colour?
+- What was their skin colour?
+- What colour were their eyes?
+- What was the colour of their shirt?
+- Were they wearing a jacket? If so, what colour was it?
+- Were they wearing long pants, jeans, or shorts?
+- What colour was their pants/jeans/shorts?
+- Were they wearing glasses?
+- Were they wearing a hat? 
+- Were they wearing a balaclava?
+- Did he/she have a gun?
+- Did he/she have a knife?
+- Were they carrying anything? If yes, what was it?
+
+---
+# Work with partner
+Take a few minutes to write down your description of the main offender
+
+- Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
+
+- What percentage agreement did you end up with? What do you think it says about the reliability of the instructions you were given?
+
+> For example: if there were 5 agreements and 3 disagreements
+ [a] 5 x 100 = 500
+ [b] 5 + 3 = 8
+ [c] 500/8 = 62.5% inter-observer agreement
+ 
+```{r, echo=FALSE}
+library(countdown)
+countdown(minutes = 5)
+```
+
+---
+# Viewing #3
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+---
+Using the checklist below, describe the main offender
+- Were they male or female?
+- What was their hair colour?
+- What was their skin colour?
+- What colour were their eyes?
+- What was the colour of their shirt?
+- Were they wearing a jacket? If so, what colour was it?
+- Were they wearing long pants, jeans, or shorts?
+- What colour was their pants/jeans/shorts?
+- Were they wearing glasses?
+- Were they wearing a hat? 
+- Were they wearing a balaclava?
+- Did he/she have a gun?
+- Did he/she have a knife?
+- Were they carrying anything? If yes, what was it?
+
+---
+# On your own this time
+
+Now, using the same formula, calculate how well you agree within yourself (test-retest reliability). That is, what is the level of correspondence between your observations at Viewing #2 and your observations at Viewing #3?
+
+- Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
+
+```{r, echo=FALSE}
+library(countdown)
+countdown(minutes = 5)
+```
+
+---
+# Group Discussion
+
+How do these results compare with the results for the inter-rater reliability calculations, i.e., are they different? In what way? Any ideas why or why not?
+
+
+---
+background-image: url(listeningeffort.png)
+background-position: center
+background-size: cover
+---
+# Listening Effort
+
+- Conceptual definition
+
+> The deliberate allocation of mental resources to overcome obstacles in goal pursuit when carrying out a listening task
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("list.png")
+```
+---
+# Operationalization
+
+- How do we measure "accuracy"?
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("acc.png")
+```
+---
+# Operationalization
+
+- How do we measure "effort"
+
+  - Self-report:
+
+“how hard did you have to work mentally to accomplish your level of performance?”
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("selfeffort.png")
+```
+
+---
+# How do we measure "effort"
+
+.pull-left[
+
+- Physiological measures
+
+  - Pupil size
+  - Skin conductance (GSR)
+  - Heart rate
+]
+
+--
+.pull-right[
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("pupil.png")
+```
+]
+---
+# How do we measure "effort"
+
+.pull-left[
+
+- Behavioral measures
+
+  - Recall
+]
+
+
+.pull-right[
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("behaveeffort.png")
+```
+]
+
+---
+# How do we measure "effort"?
+
+.pull-left[
+
+- Behavioral measures
+
+  - dual-task
+]
+
+.pull-right[
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("dual.png")
+```
+]
+---
+# How many measures of listening effort in the literature?
+
+- 24!
+---
+# Measuring Listening Effort (Strand et al., 2018)
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("corr1.png")
+```
+
+--
+
+- *r* - .2 
+---
+# Jingle and Jangle Fallacy (Thorndike, 1904; Kelley, 1927; Flake & Fried, 2020)
+
+
+- Jingle 
+
+> Falsely assuming that two tasks measure the same construct because they have the same name
+
+---
+# Measuring Listening Effort (Strand et al., 2018)
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("corr2.png")
+```
+
+--
+
+
+---
+# Jingle and Jangle Fallacy (Thorndike, 1904; Kelley, 1927; Flake & Fried, 2020)
+
+- Jingle 
+
+> Falsely assuming that two tasks measure the same construct because they have the same name
+
+- Jangle 
+
+> Falsely assuming that two tasks measure different constructs because they have different names
+---
+
+# Key Points
+
+- Constructs ≠ variables
+
+- Constructs are measured multiple ways, which may lead to different outcomes
+
+- Thinking carefully about measurement is fundamental to understanding replication
+---
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("timeline.jpeg")
+```
+---
+# Group Work
+
+- What are the two key constructs of interest (across the three studies)?
+- How were the constructs measured?
+- How did the authors select the measures and where do the measures come from?
+- How were the measurement decisions in these studies described and justified?
+
+
+<img align="left" width="200" height="200" src="study2.png">
+<img align="right" width="200" height="200" src="study5.png">
+<img align="center" width="200" height="200" src="study6.png">
+
+
+
+
+
+

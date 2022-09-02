@@ -1,0 +1,179 @@
+---
+title: ''
+author: Daniel Anderson
+date: 2021-08-17
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+  nature:
+    highlightStyle: github
+    highlightLines: true
+    countIncrementalSlides: false
+---
+#  Slides to accompany Weathington, Cunningham & Pittenger (2010), Chapter 2: Ethics and Research 
+
+
+
+---
+#  Objectives 
+
+Ethics?
+Approaches to ethical analysis
+Making Ethical Decisions
+The Ethical Code of the American Psychological Association
+The Institutional Review Board
+Special situations
+
+
+---
+#  Ethics? 
+
+Study and application of moral standards
+Basic moral principles involve:
+Focus on the well-being of others
+Transcending self-interest and personal goals
+Universal truths, constants
+Impartiality
+
+
+---
+#  Ethical Code 
+
+Code of conduct
+Accepted rules and regulations
+Psychologists follow APA’s code, but most fields of science have a similar code
+Personal and organizational codes may conflict
+You should strive to focus on the moral principles
+
+
+---
+#  Utilitarianism 
+
+Ethical behavior if positive outcomes > negative ones
+Ends justify the means
+For psychologists and social science researchers:
+Results should benefit others (more than the study process will harm subjects)
+Best possible methods are being used for data collection
+
+
+---
+#  Utilitarianism 
+
+Advantages
+Rationale for temporary discomfort in research
+Common sense view on morality of research
+Disadvantages
+What are the true impacts of a study?
+What is the cost of discomfort to participants?
+What are true benefits?
+
+
+---
+#  Principle of Rights 
+
+Emphasizes universal privilege
+Highlights the ethicalness of intentions
+Categorical imperative: never treat humanity as a means, but also as an end
+Basis for APA ethics – ensuring basic rights
+
+---
+#  Principle of Rights 
+
+Advantages
+Research procedures must respect dignity of participants
+All people are to be treated as equal
+Disadvantages
+Conflicting rights of individuals
+Perhaps too absolutist
+
+---
+#  APA Ethics 
+
+Need for a code by late 1940s:
+Following WWII, U.S. nuclear experiments, Tuskegee Institute experiments, others…
+APA’s ethical standards (1970s)
+Eventually linked with creation of IRBs through the National Research Act (1974)
+Current revision
+[Current revision](http://www.apa.org/ethics/)
+
+---
+#  Developing the APA Code of Ethics 
+
++ First code  1953
+	+ Hobbs committee
+	+ Critical incidents procedure
+	+ Most recent revision (2002)
+	+ 2002 revision includes 10 general categories of ethical issues
+	+ 5 general principles + 89 specific standards
+
+---
+#  The APA Code of Ethics (cont’d) 
+
+Five general principles of the APA code:
+Beneficence and non-malfeasance
+Constantly weigh costs & benefits; produce greatest good
+Fidelity and responsibility
+Constantly aware of responsibility to society
+Integrity
+Scrupulously honest
+Justice
+Fair treatment
+Respect for people’s rights and dignity
+Safeguard welfare, protect rights
+
+---
+#  Seeking IRB Approval 
+
+Complexity of process depends on complexity and risks of the study
+ALL research with humans (and animals) must:
+use valid methods
+follow legal/ethical standards
+be IRB approved
+
+---
+#  Seeking IRB Approval 
+
+Project must meet responsibility and qualification criteria
+Responsible for welfare/dignity of participants
+Qualified to do the research (students with supervision OK)
+
+---
+#  Seeking IRB Approval 
+
+With humans, voluntary implied consent required
+Consent forms must:
+Be descriptive and clear
+Explain confidentiality/anonymity procedures
+Provide participants with stated rights and protections inherent in the study
+
+---
+#  Special Issues 
+
+Young participants
+If under 18*, or disabled the guardian must give consent
+Video/audio recording
+Need consent and confidentiality promises
+Deception
+By omission or commission requires debriefing + special conditions
+
+---
+#  Debriefing 
+
+Telling participants about the study
+Helps them understand the importance of their involvement in research
+Required if deception is used
+Often left out, but very important
+
+---
+#  Ethical Dilemmas in Research 
+
+For in-class discussions:
+Conformity among participants
+Eavesdropping for unobtrusive observation
+Requiring student participation
+Asking questions about sexual behaviors
+
+---
+#  What’s Next 
+
++ *Instructor to complete as a heads-up to the students

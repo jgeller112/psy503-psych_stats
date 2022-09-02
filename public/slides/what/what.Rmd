@@ -1,0 +1,167 @@
+---
+title: ' What is cognitive science? '
+subtitle: 'Lecture 1 Notes'
+author: Daniel Anderson
+date: 2021-08-17
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+  nature:
+    highlightStyle: github
+    highlightLines: true
+    countIncrementalSlides: false
+---
+#  What is cognitive science? 
+
++ Goal of Cog Sci: to understand the mind and how it works.
+Cognitive Science is the interdisciplinary study of the mind as an information processor .
+
+
+---
+#  Mind 
+
++ What is a mind?
+	+ Do animals have minds?
+	+ Do computers have minds?
+	+ Does mind mean consciousness?
+	+ Can a mind be distributed?
+		+ Like a termite colony – maybe a mind can emerge from the interaction of lots of agents.
+		+ Emergent complexity
+
+
+---
+#  What is a mind? 
+
++ Is it identical to the physical matter of the brain?
+	+ Is it the organization or structure of physical matter?
+	+ Is it equivalent to the operations the brain performs?
+	+ Is it completely outside or beyond the physical brain?
+	+ Working definition : a mind is a set of mental processes and cognitive capacities.
+		+ A mind is what a brain does.
+
+
+---
+#  interdisciplinary 
+
++ Philosophy
+	+ Raises questions
+	+ Defines concepts
+	+ Gives us directions
+	+ Psychology
+	+ Focus on mental processes
+	+ Learning, Memory, Attention
+	+ Neuroscience
+	+ Focus on the brain
+	+ Maps mental processes to physical structures
+	+ Linguistics
+	+ Focus on one area of cognition – language
+	+ Models language as a system
+	+ Models the steps in processing language
+	+ Computer Science
+	+ Helps define the problems
+	+ Engineers solutions to problems the mind has solved
+		+ Object recognition
+		+ Speech perception
+	+ Offers possible models for and constraints on human cognition
+
+
+---
+#  Information processing 
+
++ What is information?
+	+ Claude Shannon defined the bit as an atomic piece of information for computing.
+	+ For computation, anything can be represented as information.
+	+ Information theory:
+	+ Ordered sequence of symbols.
+	+ Information processing
+	+ Input – Output
+		+ Input can be sensory, a mental representation, or a symbol.
+		+ Output can be a behavior or a mental representation.
+
+
+---
+#  Computer metaphor 
+
++ Input : perception (mouse, keyboard)
+	+ Processing : thought (CPU)
+	+ Storage : memory (hard disk)
+	+ Output : behavior (monitor, printer)
+
+
+---
+#  What is cognitive science? 
+
++ Using all the tools available from various fields to describe and understand the mind:
+	+ All built on an understanding of mind as computation – mental activity as information processing.
+
+
+---
+#  What is a mind? 
+
++ What is a mental state? Is it equivalent to a physical brain state?
+	+ Is it a consequence of a brain state?
+	+ Is it something else entirely?
+	+ Functionalism: mental states are defined by their functional profiles.
+
+---
+#  Multiple realizability 
+
++ Pain can be experienced by humans, animals… maybe even AI?
+	+ Multiple realizability : the same mental state can be instantiated in multiple physical systems.
+		+ A mental state can correspond to different physical configurations.
+
+---
+#  functionalism 
+
++ What makes something a thought, desire, pain (or any other type of mental state) depends not on its internal constitution, but solely on its function, or the role it plays, in the cognitive system of which it is a part.
+	+ Janet Levin
+	+ A functionalist theory might characterize pain as a state that tends to be caused by bodily injury, to produce the belief that something is wrong with the body and the desire to be out of that state […] [A] ll and only creatures with internal states that meet these conditions, or play these roles, are capable of being in pain.
+
+---
+#  The Multiple Realizability Thesis 
+
++ Hilary Putnam
+	+ P1. All mental kinds are multiply realizable by distinct physical kinds.
+	+ P2. If a given mental kind is multiply realizable by distinct physical kinds, then it cannot be identical to any specific physical kind.
+	+ C1. No mental kind is identical to any specific physical kind.
+
+---
+#  Computer metaphor 
+
++ Mind-Body is like Software-Hardware
+	+ Software generates actions, functions
+	+ Hardware executes the functions
+	+ Where do the actions exist?
+	+ When I type, words appear on the screen.
+	+ At one level, this is easily observable.
+	+ At the hardware level, it is not observable.
+
+---
+#  reductionism 
+
++ Can the mind be reduced to properties of the body?
+	+ If we understand all the facts about the body – the brain, all the neurons, connections, biochemistry, etc. – will we understand the mind?
+	+ Reductionists say yes. An explanation of the mind can be reduced to an explanation of the body.
+	+ Functionalists will say no. Mental states are not reducible to physical states.
+	+ But there’s still a practical problem: complexity.
+
+---
+#  What do you think? 
+
++ Is there a definition of mind or mental state that is intuitively satisfying to you?
+	+ How would you answer questions like:
+		+ Can we fully explain the mind and thought by explaining the physical apparatus (the brain) and its configurations?
+		+ Can the mind be understood using the same tools as biology and physics?
+		+ Is the mind a substance, a form, a function, an activity?
+
+---
+#  Key concepts 
+
++ Mind
+	+ Interdisciplinary
+	+ Information processing
+	+ Mind as computer
+	+ Functionalism
+	+ Multiple realizability
+	+ Mental state, brain state
+	+ Reductionism
