@@ -1,5 +1,4 @@
 lessons:
-
   - title: '<span class="fake-header-table">**The Basics**</span>'
     header: True
 
@@ -23,7 +22,7 @@ lessons:
     date: "Week 2 [MW, 9/12-9/14]"
     slides: ""
     notes: ""
-    reading: "01b-Reading"
+    reading: "01b-Readings"
     hasclass: True
   
   
