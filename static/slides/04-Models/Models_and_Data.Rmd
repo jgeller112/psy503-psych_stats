@@ -2,7 +2,7 @@
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
 subtitle: "Models and Monsters: Thinking with Data"
 institute: "Princeton University"
-author: "Jason Geller, Ph.D."
+author: "Jason Geller, Ph.D. (he/him/his)"
 date:  '`r Sys.Date()`'
 output:
   xaringan::moon_reader:
@@ -86,12 +86,10 @@ knitr::include_graphics('titanic.jpeg')
 ```
 ---
 class:middle center
-> __statistical modeling__ = "making models of distributions"
+> __statistical modeling__ = "making models of **distributions**"
 
 ---
 # Distributions
-
-
 
 ```{r echo=FALSE,out.height="25%", out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
 
@@ -139,7 +137,7 @@ That is, the error for any observation is the difference between the observed va
 - But he lost control, causing innocent deaths
 ]
 
-.pull-left[
+.pull-right[
 ```{r echo=FALSE,out.height="50%",out.width="70%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('golem.jpg')
@@ -162,7 +160,7 @@ knitr::include_graphics('golem.jpg')
 
 .pull-left[
 - Experiment
-    - Take 200 7-year-olds
+    - Take (*N* = 200)  7-year-olds
     
     - Randomly assign to 2 groups
     
@@ -320,7 +318,6 @@ Small Roman letter
   - $y_i$
   
           - The score for the “ith” person
-
 ]
 
 .pull-right[
@@ -410,12 +407,68 @@ knitr::include_graphics('normaldist.svg')
 
 ]
 ---
-#  A Simple Model
+# Building a Model - Normal Distribution
 
-.pull-right[]
+- Properties of a normal distribution
 
+  - Shape
+
+```{r echo=FALSE,out.height="30%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('properties_of_nd.png')
+
+```
+
+---
+# Building a Model - Normal Distribution
+
+
+```{r echo=FALSE,out.height="100%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('skew2.png')
+
+```
+
+---
+# Building a Model - Normal Distribution
+
+
+```{r echo=FALSE,out.height="100%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('kur2.png')
+
+```
+
+---
+
+# Building a Model - Normal Distribution
+ - Empirical Rule
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('interpsd11.png')
+
+```
+
+---
+# Building a Model - Normal Distribution
+
+- Properties of a normal distribution
+
+  - Empirical Rule
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('sd2.png')
+
+```
+
+
+---
+# A Simple Model
+
+.pull-right[
 - $Y_1$ ∼ Normal(100, 15)
-
 
 - $Y_2$ ∼ Normal(100, 15)
 
@@ -427,8 +480,8 @@ knitr::include_graphics('normaldist.svg')
    
 - What does this model say?
 ]
---
 
+--
 .pull-right[
 
 1. Everyone’s score comes from the same distribution
@@ -490,7 +543,6 @@ knitr::include_graphics('complex.svg')
 
 ---
 # Unknown Paramters
-
 
 .pull-left[
 
@@ -594,11 +646,18 @@ knitr::include_graphics('GLM.svg')
 
 ```
 
+# Z scores
 
 
+- Having characterized a distribution in terms of its central tendency and variability, it is often useful to express the individual scores in terms of where they sit with respect to the overall distribution.
 
 
+$Z(x) = \frac{x - \mu}{\sigma}$
 
+- Z-score tells us how far away any data point is from the mean, in units of standard deviation.
+
+---
+Example
 
 
 
