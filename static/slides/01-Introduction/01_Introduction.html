@@ -4,7 +4,7 @@
     <title>PSY 503: Foundations of Statistical Methods in Psychological Science</title>
     <meta charset="utf-8" />
     <meta name="author" content="Jason Geller, Ph.D. (Pronouns: He/Him/His)" />
-    <meta name="date" content="2022-08-28" />
+    <meta name="date" content="2022-09-05" />
     <script src="01_Introduction_files/header-attrs/header-attrs.js"></script>
     <script src="01_Introduction_files/core-js/shim.min.js"></script>
     <script src="01_Introduction_files/react/react.min.js"></script>
@@ -18,11 +18,21 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # PSY 503: Foundations of Statistical Methods in Psychological Science
+]
+.subtitle[
 ## Introduction and Course Expectations
+]
+.author[
 ### Jason Geller, Ph.D. (Pronouns: He/Him/His)
+]
+.institute[
 ### Princeton University
-### 2022-08-28
+]
+.date[
+### 2022-09-05
+]
 
 ---
 
@@ -35,7 +45,56 @@ class: center, middle
 # Welcome to PSY 503!
 
 ---
+# Questionaire
 
+&lt;img src="q1.png" width="75%" style="display: block; margin: auto;" /&gt;
+---
+# Questionaire
+
+&lt;img src="q2.png" width="75%" style="display: block; margin: auto;" /&gt;
+---
+# Questionaire
+
+&lt;img src="q3_feels.png" width="75%" style="display: block; margin: auto;" /&gt;
+---
+# Questionaire
+
+&lt;img src="q4_ner.png" width="75%" style="display: block; margin: auto;" /&gt;
+---
+# Questionaire
+
+&lt;img src="Picture1.png" width="95%" style="display: block; margin: auto;" /&gt;
+---
+# Questionnaire Responses
+
+- What statistical methods do you use/plan to use in your research?
+
+  - Computational modeling
+  
+  - Linear Regression
+  
+  - Logistic Regression
+  
+  - PCA/EFA/CFA 
+  
+  - Multilevel Modeling/MLM 
+  
+  - ANOVA
+---
+# Questionnaire Responses
+
+- What topics would you like to see discussed?
+
+  - Bayesian Modeling
+
+  - MLM 
+
+  - How to use R 
+
+  - Non-parametric analyses
+
+  - Power Analysis/Determination
+---
 # Instructor Contact: 
 
 - Office: PSH 325
@@ -47,37 +106,44 @@ class: center, middle
 - Twitter: jgeller_phd
 
 ---
-# Office Hours:
+# Office Hours
 
-- MW: 1:00 P.M. - 3:00 P.M. 
+- M 1:00 P.M.- 3:00 P.M.; W 1:00 P.M. - 2:00 P.M. 🪑
 
-- By appointment (use Calendly) 
+- By appointment
 
-
-&lt;!-- Calendly inline widget begin --&gt;
-&lt;div class="calendly-inline-widget" data-url="https://calendly.com/jg9120/30min?primary_color=00ff4b" style="min-width:320px;height:630px;"&gt;&lt;/div&gt;
-&lt;script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async&gt;&lt;/script&gt;
-&lt;!-- Calendly inline widget end --&gt;
+  - Calendly: **https://calendly.com/jg9120/30min**
 
 ---
-# Course Content:
+# Course Content
 
 - Readings, Assignments, and Schedule: 
   
-  - __https://psy503-found-stats.netlify.app__
+  - https://psy503-found-stats.netlify.app
   
-**I will use canvas to post announcements and submitted work. In addition, you can email me through Canvas. **
+- I will use Canvas to: 
+
+  - Send announcements  
+  
+  - Retrieve assignments
+  
+  - Answer and send emails
+  
+- I will post html versions of slides day of class (on website). PDFs will be added to the OSF page after class. 
+  
 ---
+
 # Required Text:
 
 - None
 
 **I am going to use a combination of articles and textbook chapters that I will post links to all readings on the course website.**
 ---
-class: center, middle
+# Precept Time
 
+- Tuesdays: 11-1
 
-**PSY 505 is required**
+## **PSY 505 is required**
 
 ---
 # Course Objectives
@@ -108,7 +174,8 @@ class: center, middle
 
 # Grades
 
-preserve4561d11bfe9e935f
+<div id="htmlwidget-cfb8a8f3fdc366017493" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cfb8a8f3fdc366017493">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Points":[50,30,20,10],"Assignment":["Problem Sets","Final Project","Final Exam","Participation"]},"columns":[{"accessor":"Points","name":"Points","type":"numeric"},{"accessor":"Assignment","name":"Assignment","type":"character"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"bordered":true,"striped":true,"dataKey":"153bbc533d5beb774cee00318df33999"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 ---
 # Lectures
 
@@ -148,7 +215,7 @@ class: center middle main-title section-title-7
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "18:10",
+"ratio": "16:9",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"
@@ -192,6 +259,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
