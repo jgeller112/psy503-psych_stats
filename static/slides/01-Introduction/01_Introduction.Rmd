@@ -80,6 +80,95 @@ class: center, middle
 # Welcome to PSY 503!
 
 ---
+# About Me
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE}
+
+knitr::include_graphics("jg.jpg")
+```
+---
+# My Journey
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="100%", out.height="60%"}
+
+library(vistime)
+library(tidyverse)
+batman_data <- data.frame(
+
+  
+   event = c("M.S. DePaul University",
+                  "Ph.D. Iowa State University",
+                  "Post-doc -  University of Alabama-Birmingham", 
+                  "Postdoc - University of Iowa",
+             "RuCCS",
+                  "Here at Princeton"),
+
+  start = as.character(c("2009-08-09","2012-08-08", "2017-01-08", "2019-04-07", "2020-07-05", "2022-01-07")), 
+  end = as.character(c("2012-05-06","2017-08-08", "2019-01-04", "2020-01-07", "2022-01-08", "2023-01-07"))
+) 
+
+
+pp <- gg_vistime(batman_data, optimize_y = FALSE)
+
+pp <- pp + theme(axis.text.x = element_text(size = 20, color = "black", angle = 30))+ 
+                   theme(text=element_text(size=12))
+
+pp
+
+```
+---
+# Research Interests
+
+.pull-left[
+
+- Language processing
+
+  - Mechanisms and representations
+      - Auditory and visual word recognition
+      - Semantics
+          - **Under ambiguity**
+- Learning and memory
+
+    - Metamemory
+    - Desirable difficulties
+]
+--
+
+.pull-right[
+- Meta-research (philosophy of science)
+
+  - Replication issues in psychology and neuroscience
+  ]
+---
+# Ice Breaker
+
+.pull-left[
+
+<br>
+<br>
+
+- Name
+
+- Lab
+
+- Research interests
+
+- Where are you from?
+
+- What is a boring fact about you?
+
+- One fun thing you did during the summer
+
+]
+
+--
+.pull-right[
+```{r, echo=FALSE, warning=FALSE, out.width="100%", out.height="100%"}
+
+knitr::include_graphics("quant.jpeg")
+```
+]
+---
 # Questionaire
 
 ```{r echo=FALSE,out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
@@ -111,6 +200,11 @@ knitr::include_graphics("q3_feels.png")
 knitr::include_graphics("q4_ner.png")
 
 ``` 
+---
+background-image: url("nomath.png")
+background-position: 100% 100%
+background-size: 100% 100%
+
 ---
 # Questionaire
 
@@ -198,10 +292,9 @@ knitr::include_graphics("Picture1.png")
 
 - Tuesdays: 11-1
 
-## **PSY 505 is required**
-
+# **PSY 505 is required**
 ---
-# Course Objectives
+# My Statistical Goals for You
 
 - Understand the role and philosophy of hypothesis testing
 
@@ -209,12 +302,11 @@ knitr::include_graphics("Picture1.png")
 
 - Identify the appropriate statistical tests to use
 
-- Perform basic to advanced statistical models
+- Perform basic to advanced statistical models in R 
 
 - Build a stronger understanding of probability by using sampling and resampling techniques
 
-- Develop an ability to write and communicate statistical results.
-
+- Develop an ability to write and communicate statistical results
 ---
 # Assignments
 
@@ -225,24 +317,6 @@ knitr::include_graphics("Picture1.png")
 - 20% Final Exam 
 
 - 10% Participation
----
-
-# Grades
-
-```{r assignments-grades, echo=FALSE}
-
-library(knitr)
-
-assignments <- tribble(
-  ~Points,  ~Assignment, 
-  10*5      , "Problem Sets",
-  30, "Final Project",
-  20, "Final Exam", 
-  10, "Participation"
-)
-
-reactable::reactable(assignments, bordered = TRUE, striped = TRUE, highlight = TRUE)
-```
 ---
 # Lectures
 
@@ -255,21 +329,22 @@ examples
 
 -  Graduate studies – learning to be independent and thinking on your own!
 ---
+# Attendance
 
-background-image: url("nomath.png")
-background-position: 100% 100%
-background-size: 100% 100%
+- No attendance requirements
+
+- If you are sick please stay home
 
 ---
-# My Statistical Goals for You
+# Class Enviroment
 
-- Understand the logic and rationale behind statistical approaches
+I would like to create a learning environment for my students that supports a diversity of thoughts, perspectives and experiences, and honors your identities (including race, gender, class, sexuality, religion, ability, SES, etc. ) To help accomplish this:
 
-- Build a statistical repertoire
+ - If you have a name and/or set of pronouns that differ from those that appear in your official Rutgers records, please let me know!
+ 
+- If you feel like your performance in the class is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. I want to be a resource for you. Remember that you can also submit anonymous feedback (which will lead to me making a general announcement to the class, if necessary to address your concerns). 
 
-- Use the appropriate test
-
-- Learn a high-level program to execute stats (i.e.,R)
+- I (like many people) am still in the process of learning about diverse perspectives and identities. If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it. (Again, anonymous feedback is always an option).
 ---
 class: center middle main-title section-title-7
 # Questions?
