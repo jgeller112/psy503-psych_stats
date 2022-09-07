@@ -11,7 +11,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 16:9
+      ratio: 18:10
       countIncrementalSlides: true
       background-image: url("lover.png")
       background-size: cover
@@ -21,7 +21,7 @@ output:
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
   fig.width=9, fig.height=3.5, fig.retina=3,
-  out.width = "80%",
+  out.width = "60%",
   cache = FALSE,
   echo = TRUE,
   message = FALSE, 
@@ -281,12 +281,19 @@ knitr::include_graphics("Picture1.png")
 - I will post html versions of slides day of class (on website). PDFs will be added to the OSF page after class. 
   
 ---
-
 # Required Text:
 
 - None
 
 **I am going to use a combination of articles and textbook chapters that I will post links to all readings on the course website.**
+---
+# Class Format
+
+```{r echo=FALSE,out.width="95%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics("r.png")
+
+``` 
 ---
 # Precept Time
 
