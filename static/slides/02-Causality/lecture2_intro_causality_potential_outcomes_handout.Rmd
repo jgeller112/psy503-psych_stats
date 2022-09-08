@@ -106,10 +106,38 @@ style_solarized_dark(
 
 class: middle center
 
-> __Causation = Correlation + time order + nonspuriousness__
+
+ How do we know if **X** causes **Y**?
+
 --
 
-How do we know we have it right?
+.box-inv-3.medium[**X** causes **Y** if…]
+
+--
+
+.box-inv-3.medium[…we intervene and change **X**<br>without changing anything else…]
+
+--
+
+.box-inv-3.medium[…and **Y** changes]
+
+---
+# **Y** "listens to" **X**
+
+
+> "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears"<br>(Pearl, Glymour, and Jewell 2016, 5–6)]
+
+--
+
+.box-inv-3[**Y** doesn't necessarily listen only to **X**]
+
+---
+class: middle center 
+
+# Causality 
+
+> __Causation = Correlation + time order + nonspuriousness__
+--
 
 ---
 # Today
@@ -136,7 +164,7 @@ How do we know we have it right?
 
   - Divided sailors into treatment groups (one being Vit C)
   
-- Sailors that took vitamin C did not contract scurvy 
+- Sailors that took vitamin C did not get scurvy 
 
 
 - Vitamin C deficiency  -> Scurvy
@@ -196,7 +224,7 @@ countdown(minutes = 5, seconds = 00)
 
 - Causal relationships   
 
-  - "Manipulating $X$ impacts $Y$"     
+  - "Manipulating $X$ 💥  $Y$"     
 
 - Direction of effects  
 
@@ -294,6 +322,7 @@ class: center middle
 \tau_i = Y_i(1) - Y_i(0)   
 \end{equation}  
 
+---
 # Implications 
 
 - If $\tau_i = 0$, using testing has no causal effect on $Y_i$  
@@ -410,7 +439,7 @@ avg
 
 - It is an extremely important concept in psychology    
   - Identify and quantify average effects of treatments in populations  
---- 
+---
 # Problems? 
 
 - $\tau_i$ is forever unknown    
@@ -444,6 +473,9 @@ class: middle center
     - Randomization ensures groups are identical (on average) and thus there is no selection bias in the estimate of the ATE
     
     - Balances all observed variables as well as unobserved variables
+
+---
+# Experimental Design
 
 - Helps us: 
 
