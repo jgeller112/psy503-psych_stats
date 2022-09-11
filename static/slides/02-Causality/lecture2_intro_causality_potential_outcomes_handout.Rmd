@@ -139,12 +139,10 @@ class: middle center
 ---
 # **Y** "listens to" **X**
 
+<br>
+<br>
 
 > "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears" - <br>-Pearl, Glymour, and Jewell 2016, 5–6
-
---
-
-.box-inv-3[**Y** doesn't necessarily listen only to **X**]
 
 ---
 class: middle center 
@@ -205,23 +203,18 @@ knitr::include_graphics('hurricane.png')
 
 **list goes on and on**
 
-??? 
-effects of causes = likely effects of interventions
-
-causes of effects = observational 
-
 ---
 
 # What do we learn from studies of the effects of causes? 
 
 - Causal relationships   
 
-  - "Manipulating $X$ 💥  $Y$"     
+  - Manipulating $X$ 💥  $Y$   
 
 - Direction of effects  
 
-  - "Manipulating $X$ ⬆️/ ⬇️ $Y$ 
-  - "Manipulating $X$  ⬆️/ ⬇️ the probability of $Y$"   
+  - Manipulating $X$ ⬆️/ ⬇️ $Y$ 
+  - Manipulating $X$  ⬆️/ ⬇️ the probability of $Y$   
   
 - Magnitude of effects
 
@@ -273,7 +266,7 @@ class: center middle
 
 - Framework developed by Donald Rubin (Rubin, 1974, 1975)   
 
-- Mathematical definition of causal effects at the individual level   
+- Mathematical definition of causal effects at the individual level 
 
 - Establishes the impossibility of measuring causal effects for an individual 
 
@@ -288,7 +281,10 @@ What is Causality (Formally)?
 
 - Let $Y_i$ be an outcome (e.g., performance on  test)  
 
->A treatment $d_i$ has a causal effect on an outcome $Y_i$   for individual $i$ (e.g., student) if the action of $d_i$ on  individual $i$ impacts $Y_i$ (i.e., the extent to which a student using quizzing affects performance)
+<br>
+<br>
+
+> A treatment $d_i$ has a causal effect on an outcome $Y_i$   for individual $i$ (e.g., student) if the action of $d_i$ on  individual $i$ impacts $Y_i$ (i.e., the extent to which a student using quizzing affects performance)
 
 ---
 # Core Concept: Potential Outcomes (Counterfactuals) 
@@ -347,8 +343,7 @@ knitr::include_graphics('potentialoutcomes.JPG')
 ``` 
 
 --
-- How could we predict the counterfactual given that we never
-observe it?
+- Prediction problem (do we care about this at individual level?)
 
 ---
 class: center middle main-title section-title-7
@@ -359,16 +354,19 @@ class: center middle main-title section-title-7
 
 <br>
 <br>
+
+- A **population** is a set of units defined a priori by the researcher
  
  > The term population refers to the entire group of individuals from a specified group
  
 ---
-# Average Treatment Effect: Population
+# Average Treatment Effect
+
+.box-inv-7.medium[Solution: Use averages instead]
 
 $$
 \text{ATE} = E(Y_1 - Y_0) = E(Y_1) - E(Y_0)
 $$
-.box-inv-7.medium[Solution: Use averages instead]
 
  > .box-7[Difference between average/expected value when<br>program is on vs. expected value when program is off]
 
@@ -406,8 +404,7 @@ avg<-mean(df$t)
 
 colnames(df) <- c("Student", "$Y_i$(0)", "$Y_i$(1)", "$\\tau_i$")
 
-  knitr::kable(df, escape=FALSE) %>%
-  kable_material_dark()
+  knitr::kable(df, escape=FALSE, align="cccc")
 
 ```
 
@@ -500,7 +497,6 @@ class: middle center
   
         - Does a causal effect exist at all? 
   
-
   - Statistical significance 
 
       - Estimate the magnitude of causal effects   
@@ -513,12 +509,10 @@ class: middle center
 ---
 # Random Porcesses in R
 
-*set seed*
-
 - Sampling without replacement
 
 ```{r}
-
+# set.seed?
 #sample(x, size, replace = FALSE, prob = NULL)
 
 sample(1:10, 5)
@@ -536,11 +530,11 @@ sample(1:10, 5, replace = TRUE)
 
 - Simulation in R
 
-- Randomly assigns individuals from a population of size $N = 500$ to one of two groups 
+  - Randomly assigns individuals from a population of size $N = 500$ to one of two groups 
 
-- Repeat this many many times: 100,000 times 
+  - Repeat this many many times: 100,000 times 
 
-- Compare the average characteristics of the individuals that are assigned to each group  
+  - Compare the average characteristics of the individuals that are assigned to each group  
 
 **Open R Studio**
 ---
@@ -663,7 +657,7 @@ ed_data %>%
 ---
 # Example 
 
-- Let our population of interest be all students in this class (**N** = 10)  
+- Let our population of interest be all students in this class (**N** = 8)  
 
 - Let's imagine that we can run an experiment on the entire population of interest  
 
@@ -691,8 +685,9 @@ df_i <- data.frame(student=1:10, Z_i = sample(0:1, 10, replace=TRUE), Y_i=sample
 
 colnames(df_i) <- c("Student", "$Z_i$", "$Y_i$")
 
-knitr::kable(df_i, escape=FALSE) %>%
+knitr::kable(df_i, align = "ccc") %>%
   kable_material_dark()
+
 
 ```
 ---
@@ -707,7 +702,7 @@ df_i_out <- df_i %>%
 
 colnames(df_i_out) <- c("Student", "$Y_i$(1)", "$Y_i$(0)", "$\\tau_i$")
 
-knitr::kable(df_i_out, escape=FALSE) %>%
+knitr::kable(df_i_out, escape=FALSE, align="cccc") %>%
   kable_material_dark()
 ```
 
@@ -716,7 +711,7 @@ knitr::kable(df_i_out, escape=FALSE) %>%
 
 - Causal inference is a missing data problem! 
 
-- We can express the connection between the observed outcome $Y_i$ and the underlying potential outcomes through the "switching equation":   
+- Observed outcome $Y_i$ -> Underlying potential outcomes
 
 \begin{equation} 
   Y_i = Y_i(1)z_i + Y_i(0)(1-z_i)
@@ -730,7 +725,7 @@ knitr::kable(df_i_out, escape=FALSE) %>%
 ???
 The switching equation works a lot like Schrodinger’s cat paradox. Schrodinger’s cat is placed in a sealed box and receives a dose of poison when an atom emits a radiation. As long as the box is sealed, there is no way we can know whether the cat is dead or alive. When we open the box, we observe either a dead cat or a living cat, but we cannot observe the cat both alive and dead at the same time. The switching equation is like opening the box, it collapses the observed outcome into one of the two potential ones.
 ---
-Urn Example
+# Urn Example
 
 ---
 # Estimation of the ATE: Samples
@@ -758,12 +753,63 @@ In experimental studies, researchers estimate $\mu_{Y_i(1)}$ using the mean $\wi
 
 in which $\widehat{\mathrm{ATE}}$ is the estimated ATE, $\widehat{\mu}_{Y(1)}$ is the estimated $\mu_{Y(1)}$, and $\widehat{\mu}_{Y(0)}$ is the estimated $\mu_{Y(0)}$.  
 ---
-# Knowledge Check
+# ATT and ATU
 
-1. Designing an experiment: Suppose you are interested in the effect of the presence of vending machines in schools on childhood obesity. What controlled experiment would you want to do
-(in a world without ethical, logistical, or financial constraints) to evaluate this question?
+- Average treatment on the treated
 
-2.Give the average treatment effect in the population and the estimated treatment effect based on a simple comparison of treatment and control
+  - Effect for those with treatment
+
+--
+- Average treatment on the untreated
+
+  - Effect for those without treatment
+
+```{r po-table, echo=FALSE}
+po <- tibble(
+  Person = 1:8,
+  Age = c("Old", "Old", "Old", "Old", "Young", "Young", "Young", "Young"),
+  Treated = c(TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
+  Y1 = c(80, 75, 85, 70, 75, 80, 90, 85),
+  Y0 = c(60, 70, 80, 60, 70, 80, 100, 80)
+) %>% 
+  mutate(delta = Y1 - Y0) %>% 
+  mutate(actual = ifelse(Treated, Y1, Y0)) %>% 
+  mutate(`Outcome with program` = ifelse(Treated, paste0("**", Y1, "**"), Y1),
+         `Outcome without program` = ifelse(!Treated, paste0("**", Y0, "**"), Y0),
+         Effect = paste0("**", delta, "**"))
+
+```
+---
+
+.smaller.sp-after[
+```{r basic-po-att, echo=FALSE}
+po %>% 
+  select(Person, Age, Treated, starts_with("Outcome"), Effect) %>% 
+  knitr::kable(align = "cccccc")
+```
+]
+
+.pull-left.small[
+$\delta = (\bar{Y}_\text{T}\ |\ P = 1) - (\bar{Y}_\text{T}\ |\ P = 0)$
+
+$\delta = (\bar{Y}_\text{U}\ |\ P = 1) - (\bar{Y}_\text{U}\ |\ P = 0)$
+]
+
+.pull-right.small[
+$\text{CATE}_\text{Treated} = \frac{20 + 5 + 5 + 5}{4} = 8.75$
+
+$\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25$
+]
+
+---
+
+# Knowledge Check 1
+
+- Designing an experiment: Suppose you are interested in the effect of the presence of vending machines in schools on childhood obesity. What controlled experiment would you want to do to evaluate this question?
+---
+# Knowledge Check 2
+
+- Give the average treatment effect in the population and the estimated treatment effect based on a simple comparison of treatment and control
 
 ```{r, echo=FALSE}
 
@@ -777,7 +823,9 @@ df=tibble::tribble(
     "Sarah", 10L, 1L,  8L,  9L,
     "Karen",  2L, 1L,  4L,  1L,
    "Claire", 11L, 1L,  9L, 13L
-  )
+  ) %>%
+knitr::kable(align = "cccccc") %>%
+   kable_material_dark()
 
 df
 ```
