@@ -76,7 +76,19 @@ style_solarized_dark(
 )
 
 ```
+# Today
 
+.blockquote[
+## `r icons::fontawesome("location-arrow")` Aim
+
+- Working definition of causality
+
+- Look at a method to formally explain causation 
+
+- Better understand the role causality in psychology
+
+]
+---
 # Heider and Simmel (1944)
 
 - What is going on here?
@@ -102,6 +114,9 @@ style_solarized_dark(
 --
 - Colds go away a few days after you take vitamin C
 
+--
+- Hurricanes with female names cause more deaths
+
 ---
 
 class: middle center
@@ -125,7 +140,7 @@ class: middle center
 # **Y** "listens to" **X**
 
 
-> "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears"<br>(Pearl, Glymour, and Jewell 2016, 5–6)]
+> "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears" - <br>-Pearl, Glymour, and Jewell 2016, 5–6
 
 --
 
@@ -134,42 +149,32 @@ class: middle center
 ---
 class: middle center 
 
-# Causality 
-
 > __Causation = Correlation + time order + nonspuriousness__
 --
-
 ---
-# Today
+# Disclaimer: Causality is NOT Correlation?
 
-.blockquote[
-## `r icons::fontawesome("location-arrow")` Aim
+ > Associations:
 
-- Explain the importance of causality in science and how we examine it statistically
-
-- Define the system of notation used to describe causality
-
-- Definitions of core terms: average treatment effect, expectation, random assignment, potential outcome
-
-]
-
----
-# Causality: Scurvy and Vitamin C
-
-- Sailors at sea getting scurvy
-
-  - Why?
-
-- James Lind decided to test this experimentally
-
-  - Divided sailors into treatment groups (one being Vit C)
+  - Describes the world as it happened
   
-- Sailors that took vitamin C did not get scurvy 
+  - No meaningful directionality
 
+```{r echo=FALSE,out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
 
-- Vitamin C deficiency  -> Scurvy
+knitr::include_graphics('nickcage.jpeg')
 
+``` 
+---
 
+<br>
+<br>
+<br>
+```{r echo=FALSE,out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('hurricane.png')
+
+``` 
 ---
 # Causality in Psychology 
 
@@ -184,6 +189,7 @@ class: middle center
 ---
 # "Causes of Effects" or "Effects of Causes"? 
 
+--
 - Psychology studies generally focus on the __"effects of causes"__  
 --
 
@@ -199,9 +205,27 @@ class: middle center
 
 **list goes on and on**
 
+??? 
+effects of causes = likely effects of interventions
+
+causes of effects = observational 
+
 ---
 
+# What do we learn from studies of the effects of causes? 
 
+- Causal relationships   
+
+  - "Manipulating $X$ 💥  $Y$"     
+
+- Direction of effects  
+
+  - "Manipulating $X$ ⬆️/ ⬇️ $Y$ 
+  - "Manipulating $X$  ⬆️/ ⬇️ the probability of $Y$"   
+  
+- Magnitude of effects
+
+---
 class: middle center
 
 
@@ -219,22 +243,7 @@ countdown(minutes = 5, seconds = 00)
 
 ```
 ---
-
-# What do we learn from studies of the effects of causes? 
-
-- Causal relationships   
-
-  - "Manipulating $X$ 💥  $Y$"     
-
-- Direction of effects  
-
-  - "Manipulating $X$ ⬆️/ ⬇️ $Y$ 
-  - "Manipulating $X$  ⬆️/ ⬇️ the probability of $Y$"   
-  
-- Magnitude of effects
-
----
-# What is Causality (Formally)? 
+# Basic Concept 
 
 - Notion of causality is tied to an __action__ applied to a __unit__
 
@@ -244,35 +253,17 @@ countdown(minutes = 5, seconds = 00)
 
   - __Unit__: Target of study (__individual__ , __classrooms__)
   
+      - **i**  
+  
   - __Treatment__: Intervention received by one group of units but not the other
   
-  - __Response__: Outcome of study
-
----
-# Disclaimer: Causality is NOT Correlation?
-
- > Associations: parameters of the joint distribution of observed data
-
-  - Describes the world as it happened
+      - **d** or **z** 
   
-  - No meaningful directionality
-
-```{r echo=FALSE,out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('nickcage.jpeg')
-
-``` 
----
-#What is Causality (Formally)? 
-
-- Let $d_i$ be a treatment (e.g., testing)  
-
-- Let $Y_i$ be an outcome (e.g., performance on  test)  
-
->A treatment $d_i$ has a causal effect on an outcome $Y_i$   for individual $i$ (e.g., sailor) if the action of $d_i$ on  individual $i$ impacts $Y_i$ (i.e., the extent to which a student using quizzing affects performance)
+  - __Response__: Outcome of study
+  
+      - **Y** 
 
 ---
-
 class: center middle
 
 # The Rubin Causal Model: A Powerful Framework to Study Causal Effects and Threats to Causal Inference
@@ -291,6 +282,15 @@ class: center middle
 
 
 ---
+What is Causality (Formally)? 
+
+- Let $d_i$ be a treatment (e.g., testing)  
+
+- Let $Y_i$ be an outcome (e.g., performance on  test)  
+
+>A treatment $d_i$ has a causal effect on an outcome $Y_i$   for individual $i$ (e.g., student) if the action of $d_i$ on  individual $i$ impacts $Y_i$ (i.e., the extent to which a student using quizzing affects performance)
+
+---
 # Core Concept: Potential Outcomes (Counterfactuals) 
 
 - Each individual has different __potential outcomes__ in alternative environments 
@@ -299,16 +299,17 @@ class: center middle
 
   - Measure the outcome of interest $Y_i$ for individual $i$ in two environments $E_0$ and $E_1$ that differ on one aspect: $d_i$  
 --
+
 - Example: 
 
-  - Does the minimum wage increase the unemployment rate?
+  - Does the minimum wage increase with the unemployment rate?
     
       - Unemployment rate went up after the minimum wage increased
         
       - Would the unemployment rate have gone up, had the minimum wage increase not occurred?
 
 ---
-# Definition
+# Potential Outcomes Notation
 
 - $E_0$: $d_i = 0$, treatment was not applied to individual $i$        
 
@@ -344,6 +345,11 @@ class: middle center
 knitr::include_graphics('potentialoutcomes.JPG')
 
 ``` 
+
+--
+- How could we predict the counterfactual given that we never
+observe it?
+
 ---
 class: center middle main-title section-title-7
 
@@ -353,10 +359,8 @@ class: center middle main-title section-title-7
 
 <br>
 <br>
-
- - A population is a set of units defined a priori by the researcher
  
- > The term population refers to all of the individuals from a specified group
+ > The term population refers to the entire group of individuals from a specified group
  
 ---
 # Average Treatment Effect: Population
@@ -374,7 +378,7 @@ $$
 ---
 # Hypothetical Scenario: Set Up
 
-- Let our _population of interest_ be students in this class ($N = 10$) 
+- Let our _population of interest_ be students in this class (**N** = 8) 
 
 --
 
@@ -402,8 +406,9 @@ avg<-mean(df$t)
 
 colnames(df) <- c("Student", "$Y_i$(0)", "$Y_i$(1)", "$\\tau_i$")
 
-df %>% 
-  flextable::flextable()
+  knitr::kable(df, escape=FALSE) %>%
+  kable_material_dark()
+
 ```
 
 ---
@@ -437,10 +442,15 @@ avg
 
 - Describes how the outcome of interest $Y_i$ would change on average in the population if the treatment was applied to every single individual in the population. 
 
-- It is an extremely important concept in psychology    
+- It is an extremely important concept in psychology   
+
   - Identify and quantify average effects of treatments in populations  
 ---
 # Problems? 
+
+<br>
+
+<br>
 
 - $\tau_i$ is forever unknown    
 
@@ -460,9 +470,16 @@ class: middle center
 
   > __Randomized experiment__: Chance process determines assignment of units to treatment conditions (e.g., coin flip, random number generator)
 
-  - When participants are prevented from choosing their treatment group, any difference in outcomes is attributable to the causal effect of treatment and nothing 
 
+---
+# Random?
 
+<br>
+<br>
+
+- Every person (or unit) has some chance (i.e., a non-zero probability) of being selected into the treatment or control group
+
+- The selection is based upon a random process (e.g., names out of a hat, a random number generator, rolls of dice, etc.)
 ---
 # Experimental Design
 
@@ -484,30 +501,142 @@ class: middle center
         - Does a causal effect exist at all? 
   
 
-    - Statistical significance 
+  - Statistical significance 
 
-    - Estimate the magnitude of causal effects   
+      - Estimate the magnitude of causal effects   
+      - What is the direction of the causal effect? 
+
+  - Practical significance  
   
-
-        - What is the direction of the causal effect? 
-
-    - Practical significance  
-  
-        - Is the causal effect relevant?  
+      - Is the causal effect relevant?  
   
 ---
 # Random Porcesses in R
 
+*set seed*
+
+- Sampling without replacement
+
 ```{r}
 
+#sample(x, size, replace = FALSE, prob = NULL)
 
 sample(1:10, 5)
 
-#sample_n()
 ```
+
+- Sampling with  Replacement
 ```{r}
-coin_flips <- rbernoulli(n = 10, p = 0.5)
-coin_flips
+
+sample(1:10, 5, replace = TRUE)
+
+```
+---
+# Randomization Magic
+
+- Simulation in R
+
+- Randomly assigns individuals from a population of size $N = 500$ to one of two groups 
+
+- Repeat this many many times: 100,000 times 
+
+- Compare the average characteristics of the individuals that are assigned to each group  
+
+**Open R Studio**
+---
+# Randomization Magic
+
+<br>
+<br>
+
+```{r}
+library(tidyverse)
+
+# Simulate age of 500 participants (range: 18-99)
+# store in an object called: age_vector
+
+age_vector <- sample(18:99, 
+                     size = 500, 
+                     replace = TRUE)
+
+head(age_vector)
+
+```
+---
+```{r}
+# Randomly assign each individual to an experimental group
+# store in an object called: random_assign
+# experimental groups are called: "treatment" vs. "control"
+
+condition <- c("control", "treatment")
+
+random_assign <- sample(condition, 
+                        size = 500, 
+                        replace = TRUE)
+
+head(random_assign)
+
+
+```
+---
+```{r}
+
+ #Put these two vectors into a dataset (tibble) 
+# call this dataset: assignment_tibble
+
+assignment_tibble <- tibble(age_vector, 
+                            random_assign)
+
+# Calculate mean for each experimental group 
+
+assignment_tibble %>%
+  group_by(random_assign) %>%
+  summarise(mean = mean(age_vector))
+
+
+```
+---
+```{r}
+#################################################################
+### simulate characteristics of group for 100,000 experiments ###
+#################################################################
+
+control_container <- rep(NA, 100000)
+# create container in which we will store each of the 100,000 average age of treatment
+treatment_container <- rep(NA, 100000)
+# write for loop
+for (i in 1:100000){
+  
+  age_vector <- sample(18:99, 
+                       size = 500, 
+                       replace = TRUE)
+  
+  random_assign <- sample(c("control", "treatment"), 
+                          size = 500, 
+                          replace = TRUE)
+  
+  control_container[i] <- mean(age_vector[random_assign == "control"])
+  
+  treatment_container[i] <- mean(age_vector[random_assign == "treatment"])
+  
+}
+
+mean(control_container)
+
+mean(treatment_container)
+
+```
+---
+# Sample Practice
+
+
+```{r}
+
+# imagine you are writing paper and need to decide the author order of 5 authors. How would you do this?
+
+#Find 10 random numbers between 0 and 100
+
+# Draw 5 random letters from uppercase alphabets
 ```
 
 ---
@@ -532,7 +661,9 @@ ed_data %>%
 ```
 
 ---
-- Let our population of interest be all students in this class ($N = 10$)  
+# Example 
+
+- Let our population of interest be all students in this class (**N** = 10)  
 
 - Let's imagine that we can run an experiment on the entire population of interest  
 
@@ -547,7 +678,6 @@ ed_data %>%
   
 ---
 # Hypothetical Experimental Dataset 
-
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, set.seed=666, echo=FALSE}
 
@@ -582,9 +712,7 @@ knitr::kable(df_i_out, escape=FALSE) %>%
 ```
 
 ---
-# Potential and Observed Outcomes  
-
-- The previous slide makes it clear that $Y_i(1)$s are observed for individuals who are treated, and $Y_i(0)$s are observed for individuals who are not treated   
+# Potential and Observed Outcomes : Switching Equation
 
 - Causal inference is a missing data problem! 
 
@@ -594,10 +722,20 @@ knitr::kable(df_i_out, escape=FALSE) %>%
   Y_i = Y_i(1)z_i + Y_i(0)(1-z_i)
 \end{equation} 
 
----
-# Estimation of the ATE in experiments   
+- Treatment Applied: $$Y_i = 1 * Y^1_i  + 0 * Y^0_i$$
+  $$Y_i = Y^1_i$$
+- Treatment Not Applied: $$Y_i = 0 * Y1_i + 0 * Y_i0$$
+  $$Y_i = Y^0_i$$
 
-First, let's work in Equation (2) to express the ATE with regards to $Y_i(0)$ and $Y_i(1)$: 
+???
+The switching equation works a lot like Schrodinger’s cat paradox. Schrodinger’s cat is placed in a sealed box and receives a dose of poison when an atom emits a radiation. As long as the box is sealed, there is no way we can know whether the cat is dead or alive. When we open the box, we observe either a dead cat or a living cat, but we cannot observe the cat both alive and dead at the same time. The switching equation is like opening the box, it collapses the observed outcome into one of the two potential ones.
+---
+Urn Example
+
+---
+# Estimation of the ATE: Samples
+
+First, let's work in previous equation to express the ATE with regards to $Y_i(0)$ and $Y_i(1)$: 
 
 \begin{equation}
     \begin{split}
@@ -620,4 +758,27 @@ In experimental studies, researchers estimate $\mu_{Y_i(1)}$ using the mean $\wi
 
 in which $\widehat{\mathrm{ATE}}$ is the estimated ATE, $\widehat{\mu}_{Y(1)}$ is the estimated $\mu_{Y(1)}$, and $\widehat{\mu}_{Y(0)}$ is the estimated $\mu_{Y(0)}$.  
 ---
+# Knowledge Check
+
+1. Designing an experiment: Suppose you are interested in the effect of the presence of vending machines in schools on childhood obesity. What controlled experiment would you want to do
+(in a world without ethical, logistical, or financial constraints) to evaluate this question?
+
+2.Give the average treatment effect in the population and the estimated treatment effect based on a simple comparison of treatment and control
+
+```{r, echo=FALSE}
+
+df=tibble::tribble(
+     ~names,  ~x, ~z, ~y0, ~y1,
+     "Cody",  3L, 0L,  5L,  5L,
+    "Henna",  5L, 0L,  8L, 10L,
+    "Jamie",  2L, 1L,  5L,  3L,
+  "Branson",  8L, 0L, 12L, 13L,
+   "Nicole",  5L, 0L,  4L,  2L,
+    "Sarah", 10L, 1L,  8L,  9L,
+    "Karen",  2L, 1L,  4L,  1L,
+   "Claire", 11L, 1L,  9L, 13L
+  )
+
+df
+```
 
