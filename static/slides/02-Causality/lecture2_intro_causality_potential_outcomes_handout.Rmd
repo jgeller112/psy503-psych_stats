@@ -238,7 +238,7 @@ countdown(minutes = 5, seconds = 00)
 ---
 class: center middle
 
-# The Rubin Causal Model: A Powerful Framework to Study Causal Effects and Threats to Causal Inference
+# The Rubin Causal Model: A Powerful Framework to Study Causal Effects
 
 ---
 # Rubin Causal Model
@@ -266,7 +266,7 @@ class: center middle
   
       - **i**  
   
-  - __Treatment__: Intervention received by one group of units but not the other
+  - __Treatment__(action): Intervention received by one group of units but not the other
   
       - **d** or **z** 
   
