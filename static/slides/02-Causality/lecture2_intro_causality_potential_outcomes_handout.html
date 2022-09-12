@@ -104,7 +104,7 @@ class: middle center
 &lt;br&gt;
 &lt;br&gt;
 
-&gt; "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears" - &lt;br&gt;-Pearl, Glymour, and Jewell 2016, 5–6
+&gt; "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears"  &lt;br&gt;-Pearl, Glymour, and Jewell 2016, 5–6
 
 ---
 class: middle center 
@@ -182,12 +182,30 @@ class: middle center
 
 ## Take a few minutes and think about causality in your research 
 
-<div class="countdown" id="timer_33218c63" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_ee3dc7c0" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ---
-# Basic Concept 
+class: center middle
+
+# The Rubin Causal Model: A Powerful Framework to Study Causal Effects and Threats to Causal Inference
+
+---
+# Rubin Causal Model
+
+- Framework developed by Donald Rubin (Rubin, 1974, 1975)   
+
+- Mathematical definition of causal effects at the individual level 
+
+- Establishes the impossibility of measuring causal effects for an individual 
+
+
+.footnote[[1].Other Theories: Judea Pearl's **The Book of Why**]
+
+
+---
+# What is Causality (Formally)? 
 
 - Notion of causality is tied to an __action__ applied to a __unit__
 
@@ -206,24 +224,6 @@ class: middle center
   - __Response__: Outcome of study
   
       - **Y** 
-
----
-class: center middle
-
-# The Rubin Causal Model: A Powerful Framework to Study Causal Effects and Threats to Causal Inference
-
----
-# Rubin Causal Model
-
-- Framework developed by Donald Rubin (Rubin, 1974, 1975)   
-
-- Mathematical definition of causal effects at the individual level 
-
-- Establishes the impossibility of measuring causal effects for an individual 
-
-
-.footnote[[1].Other Theories: Judea Pearl's **The Book of Why**]
-
 
 ---
 What is Causality (Formally)? 
@@ -893,7 +893,7 @@ First, let's work in previous equation to express the ATE with regards to `\(Y_i
 
 in which `\(\mu_{Y(1)}\)` is the average value of `\(Y_i(1)\)` for all individuals and `\(\mu_{Y(0)}\)` is the average value of `\(Y(0)\)` for all subjects.
 ---
-# Estimation of the ATE in experiments   
+# Estimation of the ATE in Experiments   
 
 In experimental studies, researchers estimate `\(\mu_{Y_i(1)}\)` using the mean `\(\widehat{\mu}_{Y(1)}\)` of all observed `\(Y_i(1)\)` and `\(Y_i(0)\)` using the mean `\(\widehat{\mu}_{Y(0)}\)` of observed `\(Y_i(0)\)`. We have:  
 

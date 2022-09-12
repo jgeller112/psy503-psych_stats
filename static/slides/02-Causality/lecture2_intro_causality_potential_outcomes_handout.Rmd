@@ -142,7 +142,7 @@ class: middle center
 <br>
 <br>
 
-> "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears" - <br>-Pearl, Glymour, and Jewell 2016, 5–6
+> "A variable **X** is a cause of a variable **Y** if **Y** in any way relies on **X** for its value.… **X** is a cause of **Y** if **Y** listens to **X** and decides its value in response to what it hears"  <br>-Pearl, Glymour, and Jewell 2016, 5–6
 
 ---
 class: middle center 
@@ -236,7 +236,25 @@ countdown(minutes = 5, seconds = 00)
 
 ```
 ---
-# Basic Concept 
+class: center middle
+
+# The Rubin Causal Model: A Powerful Framework to Study Causal Effects and Threats to Causal Inference
+
+---
+# Rubin Causal Model
+
+- Framework developed by Donald Rubin (Rubin, 1974, 1975)   
+
+- Mathematical definition of causal effects at the individual level 
+
+- Establishes the impossibility of measuring causal effects for an individual 
+
+
+.footnote[[1].Other Theories: Judea Pearl's **The Book of Why**]
+
+
+---
+# What is Causality (Formally)? 
 
 - Notion of causality is tied to an __action__ applied to a __unit__
 
@@ -255,24 +273,6 @@ countdown(minutes = 5, seconds = 00)
   - __Response__: Outcome of study
   
       - **Y** 
-
----
-class: center middle
-
-# The Rubin Causal Model: A Powerful Framework to Study Causal Effects and Threats to Causal Inference
-
----
-# Rubin Causal Model
-
-- Framework developed by Donald Rubin (Rubin, 1974, 1975)   
-
-- Mathematical definition of causal effects at the individual level 
-
-- Establishes the impossibility of measuring causal effects for an individual 
-
-
-.footnote[[1].Other Theories: Judea Pearl's **The Book of Why**]
-
 
 ---
 What is Causality (Formally)? 
@@ -743,7 +743,7 @@ First, let's work in previous equation to express the ATE with regards to $Y_i(0
 
 in which $\mu_{Y(1)}$ is the average value of $Y_i(1)$ for all individuals and $\mu_{Y(0)}$ is the average value of $Y(0)$ for all subjects.
 ---
-# Estimation of the ATE in experiments   
+# Estimation of the ATE in Experiments   
 
 In experimental studies, researchers estimate $\mu_{Y_i(1)}$ using the mean $\widehat{\mu}_{Y(1)}$ of all observed $Y_i(1)$ and $Y_i(0)$ using the mean $\widehat{\mu}_{Y(0)}$ of observed $Y_i(0)$. We have:  
 
