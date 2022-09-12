@@ -150,7 +150,7 @@ class: middle center
 > __Causation = Correlation + time order + nonspuriousness__
 --
 ---
-# Disclaimer: Causality is NOT Correlation?
+# Correlation ≠ Causation
 
  > Associations:
 
