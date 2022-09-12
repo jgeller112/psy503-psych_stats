@@ -3,4 +3,4 @@ title: "01b-Readings"
 
 ---
 
-[Shadish, Cook, & Campbell chapter](/readings_pdf/ShadishCookCampbellExperimental2002_chapter2.pdf)
+[Shadish, Cook, & Campbell chapter 2](/readings_pdf/ShadishCookCampbellExperimental2002_chapter2.pdf)
