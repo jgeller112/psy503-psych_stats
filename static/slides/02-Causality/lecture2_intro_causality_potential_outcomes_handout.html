@@ -4,7 +4,7 @@
     <title>PSY 503: Foundations of Statistical Methods in Psychological Science</title>
     <meta charset="utf-8" />
     <meta name="author" content="Jason Geller, Ph.D.(he/him/his)" />
-    <meta name="date" content="2022-09-11" />
+    <meta name="date" content="2022-09-12" />
     <script src="lecture2_intro_causality_potential_outcomes_handout_files/header-attrs/header-attrs.js"></script>
     <link href="lecture2_intro_causality_potential_outcomes_handout_files/countdown/countdown.css" rel="stylesheet" />
     <script src="lecture2_intro_causality_potential_outcomes_handout_files/countdown/countdown.js"></script>
@@ -20,7 +20,7 @@ class: center, middle, inverse, title-slide
 # PSY 503: Foundations of Statistical Methods in Psychological Science
 ]
 .subtitle[
-## Casuality, Potential Outcomes, and Experiments
+## Causality, Potential Outcomes, and Experiments
 ]
 .author[
 ### Jason Geller, Ph.D.(he/him/his)
@@ -29,7 +29,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### 2022-09-11
+### 2022-09-12
 ]
 
 ---
@@ -41,7 +41,7 @@ class: center, middle, inverse, title-slide
 # Today
 
 .blockquote[
-## &lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M444.52 3.52L28.74 195.42c-47.97 22.39-31.98 92.75 19.19 92.75h175.91v175.91c0 51.17 70.36 67.17 92.75 19.19l191.9-415.78c15.99-38.39-25.59-79.97-63.97-63.97z"&gt;&lt;/path&gt;&lt;/svg&gt; Aim
+## Aim
 
 - Working definition of causality
 
@@ -137,7 +137,7 @@ class: middle center
 
     - Generally interested in __identifying__ and __quantifying__ causal relationships  
     
-    - What does this mean?
+      - What does this mean?
 ---
 # "Causes of Effects" or "Effects of Causes"? 
 
@@ -182,7 +182,7 @@ class: middle center
 
 ## Take a few minutes and think about causality in your research 
 
-<div class="countdown" id="timer_419296a8" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_6e8dc6c1" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -869,7 +869,7 @@ ed_data %&gt;%
 
 - Treatment Applied: `$$Y_i = 1 * Y^1_i  + 0 * Y^0_i$$`
   `$$Y_i = Y^1_i$$`
-- Treatment Not Applied: `$$Y_i = 0 * Y1_i + 0 * Y_i0$$`
+- Treatment Not Applied: `$$Y_i = 0 * Y^1_i + 1 * Y_i^0$$`
   `$$Y_i = Y^0_i$$`
 
 ???
@@ -1009,87 +1009,6 @@ in which `\(\widehat{\mathrm{ATE}}\)` is the estimated ATE, `\(\widehat{\mu}_{Y(
 
 `\(\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25\)`
 ]
-
----
-
-# Knowledge Check 1
-
-- Designing an experiment: Suppose you are interested in the effect of the presence of vending machines in schools on childhood obesity. What controlled experiment would you want to do to evaluate this question?
----
-# Knowledge Check 2
-
-- Give the average treatment effect in the population and the estimated treatment effect based on a simple comparison of treatment and control
-
-&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:center;"&gt; names &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; x &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; z &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; y0 &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; y1 &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Cody &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Henna &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 8 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 10 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Jamie &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Branson &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 8 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 12 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 13 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Nicole &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Sarah &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 10 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 8 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Karen &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Claire &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 11 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 13 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -1097,7 +1016,7 @@ in which `\(\widehat{\mathrm{ATE}}\)` is the estimated ATE, `\(\widehat{\mu}_{Y(
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "16:9",
+"ratio": "18:11",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"

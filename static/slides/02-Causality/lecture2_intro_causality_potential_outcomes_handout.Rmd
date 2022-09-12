@@ -1,6 +1,6 @@
 ---
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
-subtitle: "Casuality, Potential Outcomes, and Experiments"
+subtitle: "Causality, Potential Outcomes, and Experiments"
 institute: "Princeton University"
 author: "Jason Geller, Ph.D.(he/him/his)"
 date:  '`r Sys.Date()`'
@@ -11,7 +11,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 16:9
+      ratio: 18:11
       countIncrementalSlides: true
       background-image: url("lover.png")
       background-size: cover
@@ -79,7 +79,7 @@ style_solarized_dark(
 # Today
 
 .blockquote[
-## `r icons::fontawesome("location-arrow")` Aim
+## Aim
 
 - Working definition of causality
 
@@ -183,7 +183,7 @@ knitr::include_graphics('hurricane.png')
 
     - Generally interested in __identifying__ and __quantifying__ causal relationships  
     
-    - What does this mean?
+      - What does this mean?
 ---
 # "Causes of Effects" or "Effects of Causes"? 
 
@@ -719,7 +719,7 @@ knitr::kable(df_i_out, escape=FALSE, align="cccc") %>%
 
 - Treatment Applied: $$Y_i = 1 * Y^1_i  + 0 * Y^0_i$$
   $$Y_i = Y^1_i$$
-- Treatment Not Applied: $$Y_i = 0 * Y1_i + 0 * Y_i0$$
+- Treatment Not Applied: $$Y_i = 0 * Y^1_i + 1 * Y_i^0$$
   $$Y_i = Y^0_i$$
 
 ???
@@ -800,33 +800,3 @@ $\text{CATE}_\text{Treated} = \frac{20 + 5 + 5 + 5}{4} = 8.75$
 
 $\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25$
 ]
-
----
-
-# Knowledge Check 1
-
-- Designing an experiment: Suppose you are interested in the effect of the presence of vending machines in schools on childhood obesity. What controlled experiment would you want to do to evaluate this question?
----
-# Knowledge Check 2
-
-- Give the average treatment effect in the population and the estimated treatment effect based on a simple comparison of treatment and control
-
-```{r, echo=FALSE}
-
-df=tibble::tribble(
-     ~names,  ~x, ~z, ~y0, ~y1,
-     "Cody",  3L, 0L,  5L,  5L,
-    "Henna",  5L, 0L,  8L, 10L,
-    "Jamie",  2L, 1L,  5L,  3L,
-  "Branson",  8L, 0L, 12L, 13L,
-   "Nicole",  5L, 0L,  4L,  2L,
-    "Sarah", 10L, 1L,  8L,  9L,
-    "Karen",  2L, 1L,  4L,  1L,
-   "Claire", 11L, 1L,  9L, 13L
-  ) %>%
-knitr::kable(align = "cccccc") %>%
-   kable_material_dark()
-
-df
-```
-
