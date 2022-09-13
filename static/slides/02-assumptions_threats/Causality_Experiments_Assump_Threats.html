@@ -6,6 +6,8 @@
     <meta name="author" content="Jason Geller, Ph.D." />
     <meta name="date" content="2022-09-13" />
     <script src="Causality_Experiments_Assump_Threats_files/header-attrs/header-attrs.js"></script>
+    <script src="Causality_Experiments_Assump_Threats_files/kePrint/kePrint.js"></script>
+    <link href="Causality_Experiments_Assump_Threats_files/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -39,23 +41,81 @@ class: center, middle, inverse, title-slide
 1 .  Give the average treatment effect in the population, and the estimated treatment effect based on a simple comparison of treatment and
 control
 
-
-|names   |  x|  z| y0| y1|
-|:-------|--:|--:|--:|--:|
-|Cody    |  3|  0|  5|  5|
-|Henna   |  5|  0|  8| 10|
-|Jamie   |  2|  1|  5|  3|
-|Branson |  8|  0| 12| 13|
-|Nicole  |  5|  0|  4|  2|
-|Sarah   | 10|  1|  8|  9|
-|Karen   |  2|  1|  4|  1|
-|Claire  | 11|  1|  9| 13|
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; names &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; x &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; z &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; y0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; y1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cody &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Henna &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Jamie &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Branson &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Nicole &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Sarah &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Karen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Claire &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 2. Inferring causality requires 3 things. What are they?
 
 3. What is the fundamental problem of causal inference? How can we solve it?
 
 ---
-# Notation: Recap  
+# Notation
 
 - _Indexing experimental individuals/units:_ the subscript `\(i\)` refers to
 unit 1 to N  
@@ -90,11 +150,9 @@ unit 1 to N
 - Regardless of which treatment an individual receives, all individuals have a potential response in the event that treatment is or is not received  
 
 - Potential outcomes are written `\(Y_i(d)\)`, where the argument `\(d\)` indexes the treatment 
+    - `\(Y_i(1)\)` is the potential outcome if the ith individual was treated  
 
-  - `\(Y_i(1)\)` is the potential outcome if the ith individual was treated  
-
-
-  - `\(Y_i(0)\)` is the potential outcome if the ith individual was not treated  
+    - `\(Y_i(0)\)` is the potential outcome if the ith individual was not treated  
 
 - Potential outcomes are fixed attributes of each individual and represent the outcome that would be observed hypothetically if that individual were treated or untreated  
 ---
@@ -102,17 +160,17 @@ unit 1 to N
 
 - Potential outcomes for a subset of subjects   
 
-- `\(Y_i(d) | X = x\)` denotes potential outcomes when the condition `\(X = x\)` holds for individual `\(i\)`  
+  - `\(Y_i(d) | X = x\)` denotes potential outcomes when the condition `\(X = x\)` holds for individual `\(i\)`  
 
-- `\(Y_i(0) | d_i = 0\)`: untreated potential outcome for individuals who do not receive the treatment  
+  - `\(Y_i(0) | d_i = 0\)`: untreated potential outcome for individuals who do not receive the treatment  
 
-- `\(Y_i(0) | d_i = 1\)`: untreated potential outcome for individuals who do receive the treatment  
+  - `\(Y_i(0) | d_i = 1\)`: untreated potential outcome for individuals who do receive the treatment  
 
-- `\(Y_i(1) | d_i = 0\)`: treated potential outcome for individuals who do not receive the treatment  
+  - `\(Y_i(1) | d_i = 0\)`: treated potential outcome for individuals who do not receive the treatment  
 
-- `\(Y_i(1) | d_i = 1\)`: treated potential outcome for individuals who do receive the treatment   
+  - `\(Y_i(1) | d_i = 1\)`: treated potential outcome for individuals who do receive the treatment   
 ---
-# Estimation of the ATE: Samples
+# Estimation of the ATE
 
 `\begin{equation}
     \begin{split}
@@ -135,44 +193,6 @@ In experimental studies, researchers estimate `\(\mu_{Y_i(1)}\)` using the mean 
 
 in which `\(\widehat{\mathrm{ATE}}\)` is the estimated ATE, `\(\widehat{\mu}_{Y(1)}\)` is the estimated `\(\mu_{Y(1)}\)`, and `\(\widehat{\mu}_{Y(0)}\)` is the estimated `\(\mu_{Y(0)}\)`.  
 ---
-# ATT and ATU
-
-- Average treatment on the treated
-
-  - Effect for those with treatment
---
-- Average treatment on the untreated
-
-  - Effect for those without treatment
-
-
----
-
-.smaller.sp-after[
-
-| Person |  Age  | Treated | Outcome with program | Outcome without program | Effect  |
-|:------:|:-----:|:-------:|:--------------------:|:-----------------------:|:-------:|
-|   1    |  Old  |  TRUE   |        **80**        |           60            | **20**  |
-|   2    |  Old  |  TRUE   |        **75**        |           70            |  **5**  |
-|   3    |  Old  |  TRUE   |        **85**        |           80            |  **5**  |
-|   4    |  Old  |  FALSE  |          70          |         **60**          | **10**  |
-|   5    | Young |  TRUE   |        **75**        |           70            |  **5**  |
-|   6    | Young |  FALSE  |          80          |         **80**          |  **0**  |
-|   7    | Young |  FALSE  |          90          |         **100**         | **-10** |
-|   8    | Young |  FALSE  |          85          |         **80**          |  **5**  |
-]
-
-.pull-left.small[
-`\(\delta = (\bar{Y}_\text{T}\ |\ P = 1) - (\bar{Y}_\text{T}\ |\ P = 0)\)`
-
-`\(\delta = (\bar{Y}_\text{U}\ |\ P = 1) - (\bar{Y}_\text{U}\ |\ P = 0)\)`
-]
-
-.pull-right.small[
-`\(\text{CATE}_\text{Treated} = \frac{20 + 5 + 5 + 5}{4} = 8.75\)`
-
-`\(\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25\)`
-]
 ---
 # Precision of Individual Experiment
 
@@ -196,6 +216,114 @@ in which `\(\widehat{\mathrm{ATE}}\)` is the estimated ATE, `\(\widehat{\mu}_{Y(
   
 - Assumptions: necessary conditions for experimental estimates of the ATE to be unbiased   
 ---
+# ATT and ATU
+
+- Average treatment on the treated
+
+  - Effect for those with treatment
+--
+
+- Average treatment on the untreated
+
+  - Effect for those without treatment
+
+
+---
+
+.smaller.sp-after[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Person &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Treated &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Outcome with program &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Outcome without program &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Effect &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Old &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **80** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **20** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Old &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **75** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **5** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Old &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **85** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **5** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Old &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **60** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **10** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Young &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TRUE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **75** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 70 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **5** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Young &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **80** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **0** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Young &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **100** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **-10** &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Young &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **80** &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; **5** &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.pull-left.small[
+`\(\delta = (\bar{Y}_\text{T}\ |\ P = 1) - (\bar{Y}_\text{T}\ |\ P = 0)\)`
+
+`\(\delta = (\bar{Y}_\text{U}\ |\ P = 1) - (\bar{Y}_\text{U}\ |\ P = 0)\)`
+]
+
+.pull-right.small[
+`\(\text{CATE}_\text{Treated} = \frac{20 + 5 + 5 + 5}{4} = 8.75\)`
+
+`\(\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25\)`
+]
+---
+class:middle center
 # Conditions, Assumptions, and Threats to Causal Identification 
 
 ---
@@ -220,11 +348,11 @@ This means that knowing whether an individual is treated provides no information
 - This demonstration is true for every possible characteristic of
 participants
 
-The only difference between treatment and control is the
-presence vs. absence of treatment (in expectation)
+**The only difference between treatment and control is the
+presence vs. absence of treatment (in expectation)**
 
 ---
-# Causal Inference Assumption 1: Excludability (A.K.A. exclusion restriction) 
+# Causal Inference Assumption 1: Excludability (A.K.A. Exclusion Restriction)
 
 - The _only_ relevant causal agent is receipt of the treatment   
 
@@ -235,25 +363,28 @@ presence vs. absence of treatment (in expectation)
   - Asymmetries in measurement between conditions  
   
   - Noncompliance to the treatment  
-
+---
 # Treatment Assignment Brings in Other Causes  
 
 - Study causal effect of writing fiction on students' creativity.  
 
 - Treatment group: invitation to "enroll in a writing program that will increase their creativity"  
+
 ---
 # Asymmetries in Measurement  
 
 - Experimenter in charge of measuring the outcome of interest knows treatment status  
 
-- Participants know their treatment status and hypotheses   
+- Participants know their treatment status and hypotheses
+
 ---
-# Noncompliance to the treatment    
+# Noncompliance to the Treatment    
 
 - Assumption that participants _comply_ (or _adhere_) to their randomly assigned experimental condition  
 
 - Why would participants not comply? 
 --
+
 - How can noncompliance introduce bias in estimates of the population ATE? 
 
   - Invalidates treatment assignment   
@@ -269,19 +400,17 @@ presence vs. absence of treatment (in expectation)
   
   - Stable Unit Treatment Value Assumption
   
-.pull-left[
-  
-1. Consistency: Well-defined treatment
---
-  - E.g., Exercise
-  ]
+- Consistency: Well-defined treatment
 
+  - E.g., Exercise
+
+&lt;center&gt;
 &lt;iframe width="560" height="315" src="https://www.youtube.com/embed/JB2di69FmhE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
 ---
-# Assumption 2: Non-interference 
 
-2. No-interference - `\(y_i\)` treatment has no effect on outcome any other person `\(y_j\)`
---
+# Assumption 2: Non-interference
+
+- No interference - `\(Y_i\)` treatment has no effect on outcome any other person `\(Y_j\)`
   - E.g., Tutoring and grades 
 --  
   - Realistic? 
@@ -289,10 +418,14 @@ presence vs. absence of treatment (in expectation)
 ---
 class:middle center
 
-# Threats to Experiments 
+# Threats to Validity
 
 ---
+
 # Internal Validity
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
 
 &gt;  Extent to which you can be confident that a cause-and-effect relationship established in a study cannot be explained by other factors.
 
@@ -318,8 +451,8 @@ Shadish, Cook, and Campbell (2001) list 8 threats:
 &lt;br&gt;
 
   &gt; Participants are changing naturally over time between pre-test and post-test. Change is not due to the intervention/treatment.
-
 --
+
 - Rule out by using a control/comparison group.
 
 ---
@@ -332,6 +465,7 @@ Shadish, Cook, and Campbell (2001) list 8 threats:
   &gt; An event intervenes between  pre-test and post-test to change participants. Changes are not due to the IV.
 
 --
+
 - Maybe something big happened in the news that was related to your study.
 
 - Rule out by using a control/comparison group.
@@ -346,8 +480,8 @@ Shadish, Cook, and Campbell (2001) list 8 threats:
 
 &gt; Participants are selected for intervention based on their extreme scores. On re-measurement, their scores become more moderate, but changes are not due to the IV
 
-  - A group's average is extremely depressed at pretest, in part because some members volunteered for therapy when they were feeling worse
 
+- A group's average is extremely depressed at pretest, in part because some members volunteered for therapy when they were feeling worse
 
 - Rule out by using a control/comparison group.
 
@@ -379,11 +513,10 @@ Maybe they got:
 
 &gt; Participants’ responses change over repeated testing. Changes are not due to the IV
 
-  - GRE verbal scores improve only because students take the same ersion of the test both times
+  - GRE verbal scores improve only because students take the same version of the test both time
+  --
   
---
-
-- Solve by using a between-subjects, post-test only design 
+  - Solve by using a between-subjects, post-test only design 
 
 ---
 # Instrumentation
@@ -396,11 +529,11 @@ Maybe they got:
 &gt; The meaning of a measuring instrument changes over repeated use. Changes are not due to the treatment.
 
 --
+
 - Coders become bored or fatigued over time
 
-- Solve by using masked coders, randomly assigning coders to stimuli,, or training
+- Solve by using masked coders, randomly assigning coders to stimuli, or training
 ---
-
 # Statistical Conclusion Validity
 
 - Are the statistics correct?
@@ -414,15 +547,61 @@ Maybe they got:
 .box-inv-1[A training program causes incomes to rise by $40]
 
 .center.small[
-
-|Person |Group     | Before | After  | Difference |
-|:------|:---------|:------:|:------:|:----------:|
-|295    |Control   | 122.09 | 229.04 |   106.95   |
-|126    |Treatment | 205.60 | 199.84 |   -5.76    |
-|400    |Control   | 133.25 | 130.40 |   -2.85    |
-|94     |Treatment | 270.11 | 206.56 |   -63.54   |
-|250    |Control   | 344.37 | 222.89 |  -121.49   |
-|59     |Treatment | 312.41 | 268.06 |   -44.35   |
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Person &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Group &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Before &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; After &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Difference &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 295 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Control &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 122.09 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 229.04 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 106.95 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 126 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Treatment &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 205.60 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 199.84 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -5.76 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 400 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Control &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 133.25 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 130.40 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -2.85 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 94 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Treatment &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 270.11 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 206.56 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -63.54 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 250 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Control &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 344.37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 222.89 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -121.49 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Treatment &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 312.41 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 268.06 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -44.35 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 
 ---
@@ -458,7 +637,6 @@ Maybe they got:
 ]
 
 ---
-
 # Test assumptions
 
 .box-inv-1[Every statistical test has certain assumptions]
@@ -479,13 +657,10 @@ Maybe they got:
 
 # Fishing and p-hacking
 
-.box-inv-1[Wouldn't it be awesome to run thousands of models&lt;br&gt;with different combinations of variables&lt;br&gt;until you find coefficients that are statistically significant?]
-
+- Wouldn't it be awesome to run thousands of models with different combinations of variables&lt;until you find coefficients that are statistically significant?
 --
 
-.box-1.large[Don't!]
-
---
+Don't!
 
 .center[
 &lt;figure&gt;
@@ -498,28 +673,17 @@ Maybe they got:
 &lt;https://projects.fivethirtyeight.com/p-hacking/&gt;
 
 ---
-
 # Spurious statistical significance
 
 .box-inv-1.sp-after[If *p* threshold is 0.05 and you measure 20 outcomes,&lt;br&gt;1 will likely
----
-# External validity  
 
-- A single study = one piece of evidence for the existence of an effect within constrains of:  
-
-  - Population  
-  
-  - Treatments  
-  
-  - Outcome measures 
-  
-  - Settings 
-  
-  - Period 
-  
-- Be cautious  
+.center[
+&lt;figure&gt;
+  &lt;img src="xkcd.png" alt="spurious" title="spurious" width="60%"&gt;
+&lt;/figure&gt;
+]
 ---
- # Observational Design
+# Observational Design
 
 - Relative to the experimental design, observational designs have weaker internal validity (less control) but stronger external validity (more naturalistic)
 
@@ -541,6 +705,7 @@ Maybe they got:
 
 - On all platforms
 
+- Due September 23
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

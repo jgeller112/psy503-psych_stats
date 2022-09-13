@@ -81,6 +81,7 @@ control
 
 ```{r, echo=FALSE}
 library(tidyverse)
+library(kableExtra)
 df=tibble::tribble(
      ~names,  ~x, ~z, ~y0, ~y1,
      "Cody",  3L, 0L,  5L,  5L,
@@ -94,14 +95,15 @@ df=tibble::tribble(
   )
 
 df %>%
-  knitr::kable(full.width=F, table.attr="style = \"color:black;\"")
+  knitr::kable() %>% 
+   kable_styling(position = "center", full_width = FALSE)
 ```
 2. Inferring causality requires 3 things. What are they?
 
 3. What is the fundamental problem of causal inference? How can we solve it?
 
 ---
-# Notation: Recap  
+# Notation
 
 - _Indexing experimental individuals/units:_ the subscript $i$ refers to
 unit 1 to N  
@@ -136,11 +138,9 @@ unit 1 to N
 - Regardless of which treatment an individual receives, all individuals have a potential response in the event that treatment is or is not received  
 
 - Potential outcomes are written $Y_i(d)$, where the argument $d$ indexes the treatment 
+    - $Y_i(1)$ is the potential outcome if the ith individual was treated  
 
-  - $Y_i(1)$ is the potential outcome if the ith individual was treated  
-
-
-  - $Y_i(0)$ is the potential outcome if the ith individual was not treated  
+    - $Y_i(0)$ is the potential outcome if the ith individual was not treated  
 
 - Potential outcomes are fixed attributes of each individual and represent the outcome that would be observed hypothetically if that individual were treated or untreated  
 ---
@@ -148,17 +148,17 @@ unit 1 to N
 
 - Potential outcomes for a subset of subjects   
 
-- $Y_i(d) | X = x$ denotes potential outcomes when the condition $X = x$ holds for individual $i$  
+  - $Y_i(d) | X = x$ denotes potential outcomes when the condition $X = x$ holds for individual $i$  
 
-- $Y_i(0) | d_i = 0$: untreated potential outcome for individuals who do not receive the treatment  
+  - $Y_i(0) | d_i = 0$: untreated potential outcome for individuals who do not receive the treatment  
 
-- $Y_i(0) | d_i = 1$: untreated potential outcome for individuals who do receive the treatment  
+  - $Y_i(0) | d_i = 1$: untreated potential outcome for individuals who do receive the treatment  
 
-- $Y_i(1) | d_i = 0$: treated potential outcome for individuals who do not receive the treatment  
+  - $Y_i(1) | d_i = 0$: treated potential outcome for individuals who do not receive the treatment  
 
-- $Y_i(1) | d_i = 1$: treated potential outcome for individuals who do receive the treatment   
+  - $Y_i(1) | d_i = 1$: treated potential outcome for individuals who do receive the treatment   
 ---
-# Estimation of the ATE: Samples
+# Estimation of the ATE
 
 \begin{equation}
     \begin{split}
@@ -181,12 +181,36 @@ In experimental studies, researchers estimate $\mu_{Y_i(1)}$ using the mean $\wi
 
 in which $\widehat{\mathrm{ATE}}$ is the estimated ATE, $\widehat{\mu}_{Y(1)}$ is the estimated $\mu_{Y(1)}$, and $\widehat{\mu}_{Y(0)}$ is the estimated $\mu_{Y(0)}$.  
 ---
+---
+# Precision of Individual Experiment
+
+- Do experiments inevitably provide precise estimates of the ATE?   
+
+- An estimate from just one experiment is only a best guess about the true value of the ATE  
+
+- ATE is often too high or too low   
+
+- Our dataset is just one of many possible data sets that could have been created via random assignment. If we would redo the exact same random assignment procedure, different units would be allocated to treatment and control groups!  
+
+- So what is the point?  
+---
+# Bias 
+
+- What is bias?  
+
+ > Estimates are __unbiased__ if they yield the correct estimate of the ATE __in expectation__ (i.e., on average)  
+
+  - The average estimated ATE across all possible random assignments is equal to the true ATE 
+  
+- Assumptions: necessary conditions for experimental estimates of the ATE to be unbiased   
+---
 # ATT and ATU
 
 - Average treatment on the treated
 
   - Effect for those with treatment
 --
+
 - Average treatment on the untreated
 
   - Effect for those without treatment
@@ -228,28 +252,7 @@ $\text{CATE}_\text{Treated} = \frac{20 + 5 + 5 + 5}{4} = 8.75$
 $\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25$
 ]
 ---
-# Precision of Individual Experiment
-
-- Do experiments inevitably provide precise estimates of the ATE?   
-
-- An estimate from just one experiment is only a best guess about the true value of the ATE  
-
-- ATE is often too high or too low   
-
-- Our dataset is just one of many possible data sets that could have been created via random assignment. If we would redo the exact same random assignment procedure, different units would be allocated to treatment and control groups!  
-
-- So what is the point?  
----
-# Bias 
-
-- What is bias?  
-
- > Estimates are __unbiased__ if they yield the correct estimate of the ATE __in expectation__ (i.e., on average)  
-
-  - The average estimated ATE across all possible random assignments is equal to the true ATE 
-  
-- Assumptions: necessary conditions for experimental estimates of the ATE to be unbiased   
----
+class:middle center
 # Conditions, Assumptions, and Threats to Causal Identification 
 
 ---
@@ -274,11 +277,11 @@ This means that knowing whether an individual is treated provides no information
 - This demonstration is true for every possible characteristic of
 participants
 
-The only difference between treatment and control is the
-presence vs. absence of treatment (in expectation)
+**The only difference between treatment and control is the
+presence vs. absence of treatment (in expectation)**
 
 ---
-# Causal Inference Assumption 1: Excludability (A.K.A. exclusion restriction) 
+# Causal Inference Assumption 1: Excludability (A.K.A. Exclusion Restriction)
 
 - The _only_ relevant causal agent is receipt of the treatment   
 
@@ -289,25 +292,28 @@ presence vs. absence of treatment (in expectation)
   - Asymmetries in measurement between conditions  
   
   - Noncompliance to the treatment  
-
+---
 # Treatment Assignment Brings in Other Causes  
 
 - Study causal effect of writing fiction on students' creativity.  
 
 - Treatment group: invitation to "enroll in a writing program that will increase their creativity"  
+
 ---
 # Asymmetries in Measurement  
 
 - Experimenter in charge of measuring the outcome of interest knows treatment status  
 
-- Participants know their treatment status and hypotheses   
+- Participants know their treatment status and hypotheses
+
 ---
-# Noncompliance to the treatment    
+# Noncompliance to the Treatment    
 
 - Assumption that participants _comply_ (or _adhere_) to their randomly assigned experimental condition  
 
 - Why would participants not comply? 
 --
+
 - How can noncompliance introduce bias in estimates of the population ATE? 
 
   - Invalidates treatment assignment   
@@ -323,19 +329,17 @@ presence vs. absence of treatment (in expectation)
   
   - Stable Unit Treatment Value Assumption
   
-.pull-left[
-  
-1. Consistency: Well-defined treatment
---
-  - E.g., Exercise
-  ]
+- Consistency: Well-defined treatment
 
+  - E.g., Exercise
+
+<center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JB2di69FmhE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ---
-# Assumption 2: Non-interference 
 
-2. No-interference - $y_i$ treatment has no effect on outcome any other person $y_j$
---
+# Assumption 2: Non-interference
+
+- No interference - $Y_i$ treatment has no effect on outcome any other person $Y_j$
   - E.g., Tutoring and grades 
 --  
   - Realistic? 
@@ -343,10 +347,14 @@ presence vs. absence of treatment (in expectation)
 ---
 class:middle center
 
-# Threats to Experiments 
+# Threats to Validity
 
 ---
+
 # Internal Validity
+<br>
+<br>
+<br>
 
 >  Extent to which you can be confident that a cause-and-effect relationship established in a study cannot be explained by other factors.
 
@@ -372,8 +380,8 @@ Shadish, Cook, and Campbell (2001) list 8 threats:
 <br>
 
   > Participants are changing naturally over time between pre-test and post-test. Change is not due to the intervention/treatment.
-
 --
+
 - Rule out by using a control/comparison group.
 
 ---
@@ -386,6 +394,7 @@ Shadish, Cook, and Campbell (2001) list 8 threats:
   > An event intervenes between  pre-test and post-test to change participants. Changes are not due to the IV.
 
 --
+
 - Maybe something big happened in the news that was related to your study.
 
 - Rule out by using a control/comparison group.
@@ -400,8 +409,8 @@ Shadish, Cook, and Campbell (2001) list 8 threats:
 
 > Participants are selected for intervention based on their extreme scores. On re-measurement, their scores become more moderate, but changes are not due to the IV
 
-  - A group's average is extremely depressed at pretest, in part because some members volunteered for therapy when they were feeling worse
 
+- A group's average is extremely depressed at pretest, in part because some members volunteered for therapy when they were feeling worse
 
 - Rule out by using a control/comparison group.
 
@@ -433,11 +442,10 @@ Maybe they got:
 
 > Participants’ responses change over repeated testing. Changes are not due to the IV
 
-  - GRE verbal scores improve only because students take the same ersion of the test both times
+  - GRE verbal scores improve only because students take the same version of the test both time
+  --
   
---
-
-- Solve by using a between-subjects, post-test only design 
+  - Solve by using a between-subjects, post-test only design 
 
 ---
 # Instrumentation
@@ -450,11 +458,11 @@ Maybe they got:
 > The meaning of a measuring instrument changes over repeated use. Changes are not due to the treatment.
 
 --
+
 - Coders become bored or fatigued over time
 
-- Solve by using masked coders, randomly assigning coders to stimuli,, or training
+- Solve by using masked coders, randomly assigning coders to stimuli, or training
 ---
-
 # Statistical Conclusion Validity
 
 - Are the statistics correct?
@@ -566,7 +574,6 @@ boot_big %>%
 ]
 
 ---
-
 # Test assumptions
 
 .box-inv-1[Every statistical test has certain assumptions]
@@ -587,13 +594,10 @@ boot_big %>%
 
 # Fishing and p-hacking
 
-.box-inv-1[Wouldn't it be awesome to run thousands of models<br>with different combinations of variables<br>until you find coefficients that are statistically significant?]
-
+- Wouldn't it be awesome to run thousands of models with different combinations of variables<until you find coefficients that are statistically significant?
 --
 
-.box-1.large[Don't!]
-
---
+Don't!
 
 .center[
 <figure>
@@ -606,28 +610,17 @@ boot_big %>%
 <https://projects.fivethirtyeight.com/p-hacking/>
 
 ---
-
 # Spurious statistical significance
 
 .box-inv-1.sp-after[If *p* threshold is 0.05 and you measure 20 outcomes,<br>1 will likely
----
-# External validity  
 
-- A single study = one piece of evidence for the existence of an effect within constrains of:  
-
-  - Population  
-  
-  - Treatments  
-  
-  - Outcome measures 
-  
-  - Settings 
-  
-  - Period 
-  
-- Be cautious  
+.center[
+<figure>
+  <img src="xkcd.png" alt="spurious" title="spurious" width="60%">
+</figure>
+]
 ---
- # Observational Design
+# Observational Design
 
 - Relative to the experimental design, observational designs have weaker internal validity (less control) but stronger external validity (more naturalistic)
 
@@ -649,3 +642,4 @@ boot_big %>%
 
 - On all platforms
 
+- Due September 23
