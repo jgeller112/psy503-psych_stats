@@ -26,7 +26,7 @@ lessons:
     notes: ""
     reading: "01b-reading"
     hasclass: True
-    hasassignment:True
+    hasassignment: True
     
   - title: "Measurement" 
     date: "Week 3 [MW, 9/12-9/14]"
