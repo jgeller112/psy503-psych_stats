@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 505: Foundations of Statistical Methods in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D." />
+    <meta name="date" content="2022-09-13" />
+    <script src="Causality_Experiments_Assump_Threats_files/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# PSY 505: Foundations of Statistical Methods in Psychological Science
+]
+.subtitle[
+## More Causality: Assumptions and Threats
+]
+.author[
+### Jason Geller, Ph.D.
+]
+.institute[
+### Princeton University
+]
+.date[
+### 2022-09-13
+]
+
+---
+
+
+
+
+
+
+
+1 .  Give the average treatment effect in the population, and the estimated treatment effect based on a simple comparison of treatment and
+control
+
+
+|names   |  x|  z| y0| y1|
+|:-------|--:|--:|--:|--:|
+|Cody    |  3|  0|  5|  5|
+|Henna   |  5|  0|  8| 10|
+|Jamie   |  2|  1|  5|  3|
+|Branson |  8|  0| 12| 13|
+|Nicole  |  5|  0|  4|  2|
+|Sarah   | 10|  1|  8|  9|
+|Karen   |  2|  1|  4|  1|
+|Claire  | 11|  1|  9| 13|
+2. Inferring causality requires 3 things. What are they?
+
+3. What is the fundamental problem of causal inference? How can we solve it?
+
+---
+# Notation: Recap  
+
+- _Indexing experimental individuals/units:_ the subscript `\(i\)` refers to
+unit 1 to N  
+
+--
+
+- _Defining treatment assignment:_ The variable `\(z_i\)` indicates whether the ith individual is assigned to receive the treatment  
+
+--
+
+- _Defining treatment:_ The variable `\(d_i\)` indicates whether the ith subject is treated 
+
+--
+
+- `\(z_i = 1\)` means the ith subject was assigned to receive the treatment 
+
+--
+
+- `\(z_i = 0\)` means the ith subject was not assigned to receive the treatment 
+
+--
+
+- `\(d_i = 1\)` means the ith subject receives the treatment  
+
+--
+
+- `\(d_i = 0\)` means the ith subject does not receive the treatment  
+
+---
+# Potential Outcomes 
+
+- Regardless of which treatment an individual receives, all individuals have a potential response in the event that treatment is or is not received  
+
+- Potential outcomes are written `\(Y_i(d)\)`, where the argument `\(d\)` indexes the treatment 
+
+  - `\(Y_i(1)\)` is the potential outcome if the ith individual was treated  
+
+
+  - `\(Y_i(0)\)` is the potential outcome if the ith individual was not treated  
+
+- Potential outcomes are fixed attributes of each individual and represent the outcome that would be observed hypothetically if that individual were treated or untreated  
+---
+# Conditional Potential Outcomes  
+
+- Potential outcomes for a subset of subjects   
+
+- `\(Y_i(d) | X = x\)` denotes potential outcomes when the condition `\(X = x\)` holds for individual `\(i\)`  
+
+- `\(Y_i(0) | d_i = 0\)`: untreated potential outcome for individuals who do not receive the treatment  
+
+- `\(Y_i(0) | d_i = 1\)`: untreated potential outcome for individuals who do receive the treatment  
+
+- `\(Y_i(1) | d_i = 0\)`: treated potential outcome for individuals who do not receive the treatment  
+
+- `\(Y_i(1) | d_i = 1\)`: treated potential outcome for individuals who do receive the treatment   
+---
+# Estimation of the ATE: Samples
+
+`\begin{equation}
+    \begin{split}
+\mathrm{ATE} &amp;= \frac{1}{N} \sum_{i=1}^{n}{\tau_i} \\
+&amp;= \frac{1}{N} \sum_{i=1}^{n}{(Y_{i}(1) - Y_{i}(0))} \\
+&amp;= \frac{1}{N} \sum_{i=1}^{n}{Y_{i}(1)} - \frac{1}{N} \sum_{i=1}^{n}{Y_{i}(0)} \\
+&amp;= \mu_{Y(1)} - \mu_{Y(0)}
+    \end{split}
+\end{equation}`
+
+in which `\(\mu_{Y(1)}\)` is the average value of `\(Y_i(1)\)` for all individuals and `\(\mu_{Y(0)}\)` is the average value of `\(Y(0)\)` for all subjects.
+---
+# Estimation of the ATE in Experiments   
+
+In experimental studies, researchers estimate `\(\mu_{Y_i(1)}\)` using the mean `\(\widehat{\mu}_{Y(1)}\)` of all observed `\(Y_i(1)\)` and `\(Y_i(0)\)` using the mean `\(\widehat{\mu}_{Y(0)}\)` of observed `\(Y_i(0)\)`. We have:  
+
+`\begin{equation}
+\widehat{\mathrm{ATE}} = \widehat{\mu}_{Y(1)} - \widehat{\mu}_{Y(0)}
+\end{equation}`
+
+in which `\(\widehat{\mathrm{ATE}}\)` is the estimated ATE, `\(\widehat{\mu}_{Y(1)}\)` is the estimated `\(\mu_{Y(1)}\)`, and `\(\widehat{\mu}_{Y(0)}\)` is the estimated `\(\mu_{Y(0)}\)`.  
+---
+# ATT and ATU
+
+- Average treatment on the treated
+
+  - Effect for those with treatment
+--
+- Average treatment on the untreated
+
+  - Effect for those without treatment
+
+
+---
+
+.smaller.sp-after[
+
+| Person |  Age  | Treated | Outcome with program | Outcome without program | Effect  |
+|:------:|:-----:|:-------:|:--------------------:|:-----------------------:|:-------:|
+|   1    |  Old  |  TRUE   |        **80**        |           60            | **20**  |
+|   2    |  Old  |  TRUE   |        **75**        |           70            |  **5**  |
+|   3    |  Old  |  TRUE   |        **85**        |           80            |  **5**  |
+|   4    |  Old  |  FALSE  |          70          |         **60**          | **10**  |
+|   5    | Young |  TRUE   |        **75**        |           70            |  **5**  |
+|   6    | Young |  FALSE  |          80          |         **80**          |  **0**  |
+|   7    | Young |  FALSE  |          90          |         **100**         | **-10** |
+|   8    | Young |  FALSE  |          85          |         **80**          |  **5**  |
+]
+
+.pull-left.small[
+`\(\delta = (\bar{Y}_\text{T}\ |\ P = 1) - (\bar{Y}_\text{T}\ |\ P = 0)\)`
+
+`\(\delta = (\bar{Y}_\text{U}\ |\ P = 1) - (\bar{Y}_\text{U}\ |\ P = 0)\)`
+]
+
+.pull-right.small[
+`\(\text{CATE}_\text{Treated} = \frac{20 + 5 + 5 + 5}{4} = 8.75\)`
+
+`\(\text{CATE}_\text{Untreated} = \frac{10 + 0 - 10 + 5}{4} = 1.25\)`
+]
+---
+# Precision of Individual Experiment
+
+- Do experiments inevitably provide precise estimates of the ATE?   
+
+- An estimate from just one experiment is only a best guess about the true value of the ATE  
+
+- ATE is often too high or too low   
+
+- Our dataset is just one of many possible data sets that could have been created via random assignment. If we would redo the exact same random assignment procedure, different units would be allocated to treatment and control groups!  
+
+- So what is the point?  
+---
+# Bias 
+
+- What is bias?  
+
+ &gt; Estimates are __unbiased__ if they yield the correct estimate of the ATE __in expectation__ (i.e., on average)  
+
+  - The average estimated ATE across all possible random assignments is equal to the true ATE 
+  
+- Assumptions: necessary conditions for experimental estimates of the ATE to be unbiased   
+---
+# Conditions, Assumptions, and Threats to Causal Identification 
+
+---
+# Independence: A Necessary Condition    
+
+Treatment status is statistically independent of potential outcomes and background attributes `\((X)\)`:  
+
+$$ D_i \perp\!\!\!\perp Y_i(0), \: Y_i(1), \: X $$
+This means that knowing whether an individual is treated provides no information about the individual’s potential outcomes or background attributes.
+---
+# Random Assignment
+
+- __In expectation:__ proper randomization of participants into experimental conditions creates groups that are similar on every single dimension except for the treatment   
+
+- __In expectation:__ Random assignment of individuals to different environments `\(E_0\)` and `\(E_1\)` creates subpopulations that have the exact same characteristics at the moment they enter these environments. 
+  - Same heart rate, amount of sleep, age, income, or level of stress, etc.
+---
+# Lessons from R Simulations
+
+- Groups are comparable!
+
+- This demonstration is true for every possible characteristic of
+participants
+
+The only difference between treatment and control is the
+presence vs. absence of treatment (in expectation)
+
+---
+# Causal Inference Assumption 1: Excludability (A.K.A. exclusion restriction) 
+
+- The _only_ relevant causal agent is receipt of the treatment   
+
+- The exclusion restriction breaks down if: 
+
+  - Treatment assignment `\(z_i\)` sets in motion causes of `\(Y_i\)` other than the treatment `\(d_i\)`   
+  
+  - Asymmetries in measurement between conditions  
+  
+  - Noncompliance to the treatment  
+
+# Treatment Assignment Brings in Other Causes  
+
+- Study causal effect of writing fiction on students' creativity.  
+
+- Treatment group: invitation to "enroll in a writing program that will increase their creativity"  
+---
+# Asymmetries in Measurement  
+
+- Experimenter in charge of measuring the outcome of interest knows treatment status  
+
+- Participants know their treatment status and hypotheses   
+---
+# Noncompliance to the treatment    
+
+- Assumption that participants _comply_ (or _adhere_) to their randomly assigned experimental condition  
+
+- Why would participants not comply? 
+--
+- How can noncompliance introduce bias in estimates of the population ATE? 
+
+  - Invalidates treatment assignment   
+  
+  - Participants self-select into or select out from their assigned condition   
+  
+  - Participants who do not comply often have different potential outcomes schedules   
+  
+---
+# Assumption 2: Non-interference  
+
+- Often called SUTVA   
+  
+  - Stable Unit Treatment Value Assumption
+  
+.pull-left[
+  
+1. Consistency: Well-defined treatment
+--
+  - E.g., Exercise
+  ]
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/JB2di69FmhE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+---
+# Assumption 2: Non-interference 
+
+2. No-interference - `\(y_i\)` treatment has no effect on outcome any other person `\(y_j\)`
+--
+  - E.g., Tutoring and grades 
+--  
+  - Realistic? 
+
+---
+class:middle center
+
+# Threats to Experiments 
+
+---
+# Internal Validity
+
+&gt;  Extent to which you can be confident that a cause-and-effect relationship established in a study cannot be explained by other factors.
+
+---
+# Threats to Internal Validity
+
+Shadish, Cook, and Campbell (2001) list 8 threats: 
+
+- Ambiguous Temporal Precedence
+- Selection 
+- Maturation
+- History
+- Regression
+- Attrition
+- Testing
+- Instrumentation
+
+---
+# Maturation
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+  &gt; Participants are changing naturally over time between pre-test and post-test. Change is not due to the intervention/treatment.
+
+--
+- Rule out by using a control/comparison group.
+
+---
+# History
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+  &gt; An event intervenes between  pre-test and post-test to change participants. Changes are not due to the IV.
+
+--
+- Maybe something big happened in the news that was related to your study.
+
+- Rule out by using a control/comparison group.
+
+---
+# Regression to the mean
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&gt; Participants are selected for intervention based on their extreme scores. On re-measurement, their scores become more moderate, but changes are not due to the IV
+
+  - A group's average is extremely depressed at pretest, in part because some members volunteered for therapy when they were feeling worse
+
+
+- Rule out by using a control/comparison group.
+
+---
+
+# Attrition
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&gt; Participants drop out of thestudy at different rates from  treatment group and control group
+
+--
+Maybe they got: 
+
+- Illness
+- Died
+- Left the experiment
+
+---
+
+# Testing
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&gt; Participants’ responses change over repeated testing. Changes are not due to the IV
+
+  - GRE verbal scores improve only because students take the same ersion of the test both times
+  
+--
+
+- Solve by using a between-subjects, post-test only design 
+
+---
+# Instrumentation
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&gt; The meaning of a measuring instrument changes over repeated use. Changes are not due to the treatment.
+
+--
+- Coders become bored or fatigued over time
+
+- Solve by using masked coders, randomly assigning coders to stimuli,, or training
+---
+
+# Statistical Conclusion Validity
+
+- Are the statistics correct?
+
+---
+# Power
+
+
+
+
+.box-inv-1[A training program causes incomes to rise by $40]
+
+.center.small[
+
+|Person |Group     | Before | After  | Difference |
+|:------|:---------|:------:|:------:|:----------:|
+|295    |Control   | 122.09 | 229.04 |   106.95   |
+|126    |Treatment | 205.60 | 199.84 |   -5.76    |
+|400    |Control   | 133.25 | 130.40 |   -2.85    |
+|94     |Treatment | 270.11 | 206.56 |   -63.54   |
+|250    |Control   | 344.37 | 222.89 |  -121.49   |
+|59     |Treatment | 312.41 | 268.06 |   -44.35   |
+]
+
+---
+
+# Power
+
+.pull-left[
+.box-1.small[Survey 10 participants]
+
+&lt;img src="Causality_Experiments_Assump_Threats_files/figure-html/power-small-1.png" width="100%" /&gt;
+
+]
+
+--
+
+.pull-right[
+.box-1.small[Survey 200 participants]
+
+&lt;img src="Causality_Experiments_Assump_Threats_files/figure-html/power-big-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# What's the right sample size?
+
+.box-inv-1[Use a statistical power calculator to&lt;br&gt;make sure you can potentially detect an effect]
+
+.center[
+&lt;figure&gt;
+  &lt;img src="power-search.png" alt="Google power calculator" title="Google power calculator" width="50%"&gt;
+&lt;/figure&gt;
+]
+
+---
+
+# Test assumptions
+
+.box-inv-1[Every statistical test has certain assumptions]
+
+--
+
+.box-1.smaller[For instance, for OLS:]
+
+.center.float-left.smaller[
+.box-1[Linearity]&amp;ensp;.box-1[Homoscedasticity]&amp;ensp;.box-1[Independence]&amp;ensp;.box-1[Normality]
+]
+
+--
+
+.box-inv-1.medium.sp-before[Make sure you're doing the stats correctly]
+
+---
+
+# Fishing and p-hacking
+
+.box-inv-1[Wouldn't it be awesome to run thousands of models&lt;br&gt;with different combinations of variables&lt;br&gt;until you find coefficients that are statistically significant?]
+
+--
+
+.box-1.large[Don't!]
+
+--
+
+.center[
+&lt;figure&gt;
+  &lt;img src="phack.png" alt="p-hacking" title="p-hacking" width="60%"&gt;
+&lt;/figure&gt;
+]
+
+???
+
+&lt;https://projects.fivethirtyeight.com/p-hacking/&gt;
+
+---
+
+# Spurious statistical significance
+
+.box-inv-1.sp-after[If *p* threshold is 0.05 and you measure 20 outcomes,&lt;br&gt;1 will likely
+---
+# External validity  
+
+- A single study = one piece of evidence for the existence of an effect within constrains of:  
+
+  - Population  
+  
+  - Treatments  
+  
+  - Outcome measures 
+  
+  - Settings 
+  
+  - Period 
+  
+- Be cautious  
+---
+ # Observational Design
+
+- Relative to the experimental design, observational designs have weaker internal validity (less control) but stronger external validity (more naturalistic)
+
+  - Observational design usually requires longitudinal data that comprise both pretest and post-test time periods
+  - Key to a good observational design is high-quality comparison, so one must think really hard about the control group and document equivalence
+
+---
+# Observational Design
+
+ - __Natural experiment__: Naturally occurring event with pseudo-random variation in treatment status
+    - Unplanned intervention (“shock”): Mother Nature and government policy changes are frequently the source of natural experiments
+    - Assignment is outside the control of the investigator, but also of the participants
+
+- __Quasi-experiment__: Units “choose” whether they receive treatment, but that choice can sometimes be controlled via design and statistical adjustments
+      - Assignment is fully controlled by the participants
+      - Chief threat to internal validity is selection bias (i.e., endogenous treatment assignment)
+---
+# Problem Set
+
+- On all platforms
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
