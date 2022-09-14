@@ -76,7 +76,7 @@ style_solarized_dark(
 
 ```
 
-1 .  Give the average treatment effect in the population, and the estimated treatment effect based on a simple comparison of treatment and
+- Give the average treatment effect in the population, and the estimated treatment effect based on a simple comparison of treatment and
 control
 
 ```{r, echo=FALSE}
@@ -94,13 +94,13 @@ df=tibble::tribble(
    "Claire", 11L, 1L,  9L, 13L
   )
 
-df %>%
-  knitr::kable() %>% 
-   kable_styling(position = "center", full_width = FALSE)
+  df %>%
+    kable() %>%
+ kable_styling(full_width = FALSE)
 ```
-2. Inferring causality requires 3 things. What are they?
+- Inferring causality requires 3 things. What are they?
 
-3. What is the fundamental problem of causal inference? How can we solve it?
+- What is the fundamental problem of causal inference? How can we solve it?
 
 ---
 # Notation
@@ -132,6 +132,21 @@ unit 1 to N
 
 - $d_i = 0$ means the ith subject does not receive the treatment  
 
+---
+# Potential and Observed Outcomes : Switching Equation
+
+- Causal inference is a missing data problem! 
+
+- Observed outcome $Y_i$ -> Underlying potential outcomes
+
+\begin{equation} 
+  Y_i = Y_i(1)z_i + Y_i(0)(1-z_i)
+\end{equation} 
+
+- Treatment Applied: $$Y_i = 1 * Y^1_i  + 0 * Y^0_i$$
+  $$Y_i = Y^1_i$$
+- Treatment Not Applied: $$Y_i = 0 * Y^1_i + 1 * Y_i^0$$
+  $$Y_i = Y^0_i$$
 ---
 # Potential Outcomes 
 
@@ -181,8 +196,7 @@ In experimental studies, researchers estimate $\mu_{Y_i(1)}$ using the mean $\wi
 
 in which $\widehat{\mathrm{ATE}}$ is the estimated ATE, $\widehat{\mu}_{Y(1)}$ is the estimated $\mu_{Y(1)}$, and $\widehat{\mu}_{Y(0)}$ is the estimated $\mu_{Y(0)}$.  
 ---
----
-# Precision of Individual Experiment
+# Precision of Individual Experiments
 
 - Do experiments inevitably provide precise estimates of the ATE?   
 
@@ -306,6 +320,9 @@ presence vs. absence of treatment (in expectation)**
 
 - Participants know their treatment status and hypotheses
 
+--
+- **Double blind procedure**
+
 ---
 # Noncompliance to the Treatment    
 
@@ -323,145 +340,173 @@ presence vs. absence of treatment (in expectation)**
   - Participants who do not comply often have different potential outcomes schedules   
   
 ---
-# Assumption 2: Non-interference  
+# Assumption 2: SUTVA
 
-- Often called SUTVA   
+- Stable Unit Treatment Value Assumption
   
-  - Stable Unit Treatment Value Assumption
-  
-- Consistency: Well-defined treatment
+  - Consistency: Well-defined treatment
 
-  - E.g., Exercise
+    - E.g., Exercise
 
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/JB2di69FmhE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ---
 
-# Assumption 2: Non-interference
+# Assumption 2: SUTVA
 
 - No interference - $Y_i$ treatment has no effect on outcome any other person $Y_j$
-  - E.g., Tutoring and grades 
---  
-  - Realistic? 
+  
+  - E.g., Tutoring and grades
+  
+  - Is this realistic? 
 
 ---
 class:middle center
 
-# Threats to Validity
-
----
-
-# Internal Validity
-<br>
-<br>
-<br>
-
->  Extent to which you can be confident that a cause-and-effect relationship established in a study cannot be explained by other factors.
-
----
 # Threats to Internal Validity
 
-Shadish, Cook, and Campbell (2001) list 8 threats: 
+---
+# Internal Validity
 
-- Ambiguous Temporal Precedence
-- Selection 
-- Maturation
-- History
-- Regression
-- Attrition
-- Testing
-- Instrumentation
+<br>
+<br>
+<br>
 
+>  Extent to which you can be confident that a cause-and-effect relationship established in a study cannot be explained by other factors 
+---
+# Selection
+<br>
+<br>
+
+- If people can choose to enroll in a program, those who enroll will be different from those who do not
+
+--
+- How to fix
+
+  - Randomization into treatment and control groups
 ---
 # Maturation
 <br>
 <br>
-<br>
-<br>
 
-  > Participants are changing naturally over time between pre-test and post-test. Change is not due to the intervention/treatment.
+- Growth is expected naturally
+
+- E.g. programs targeted at childhood development contend with the fact that children develop on their own too 
+
 --
 
-- Rule out by using a control/comparison group.
+- How to fix
+
+  - Use a comparison group to remove the trend
+
+---
+# Attrition
+
+<br>
+<br>
+
+- If the people who leave a program or study are different than those who stay the effects will be biased 
+
+--
+
+- How to fix
+
+  - Check characteristics of those who stay and those who leave
 
 ---
 # History
-<br>
-<br>
+
 <br>
 <br>
 
-  > An event intervenes between  pre-test and post-test to change participants. Changes are not due to the IV.
+
+- An event intervenes to change participants 
 
 --
 
-- Maybe something big happened in the news that was related to your study.
+- How to fix
 
-- Rule out by using a control/comparison group.
-
----
-# Regression to the mean
-
-<br>
-<br>
-<br>
-<br>
-
-> Participants are selected for intervention based on their extreme scores. On re-measurement, their scores become more moderate, but changes are not due to the IV
-
-
-- A group's average is extremely depressed at pretest, in part because some members volunteered for therapy when they were feeling worse
-
-- Rule out by using a control/comparison group.
-
----
-
-# Attrition
-<br>
-<br>
-<br>
-<br>
-
-> Participants drop out of thestudy at different rates from  treatment group and control group
-
---
-Maybe they got: 
-
-- Illness
-- Died
-- Left the experiment
-
----
-
-# Testing
-
-<br>
-<br>
-<br>
-<br>
-
-> Participants’ responses change over repeated testing. Changes are not due to the IV
-
-  - GRE verbal scores improve only because students take the same version of the test both time
-  --
-  
-  - Solve by using a between-subjects, post-test only design 
+  - Rule out by using a control/comparison group.
 
 ---
 # Instrumentation
 
 <br>
 <br>
+
+- The meaning of a measuring instrument changes over repeated use. Changes are not due to the treatment.
+
+--
+- How to fix 
+
+  - Solve by using masked coders
+  - Randomly assigning coders to stimuli
+  - Training
+---
+# Testing
+
 <br>
 <br>
 
-> The meaning of a measuring instrument changes over repeated use. Changes are not due to the treatment.
+- Repeated exposure to questions or tasks will make people improve naturally
 
 --
 
-- Coders become bored or fatigued over time
+- How to fix
 
-- Solve by using masked coders, randomly assigning coders to stimuli, or training
+  - Change tests 
+  - Maybe don't offer pre-tests
+  - Use a control group that receives the test 
+
+---
+# Regression to the mean
+<br>
+<br>
+
+- People in the extreme have a tendency to become less extreme over time
+
+--
+
+- How to fix
+
+  - Don't select super high or super low performers
+
+???
+
+This isn’t because the universe trends toward some average; an extreme value is because of systematic and random extremes, which are rare. Luck goes away
+---
+# Hawthorne effect
+
+<br>
+<br>
+
+- Observing people makes them behave differently
+
+--
+
+- How to fix
+
+  - Hide? 
+  - Use completely unobserved control groups
+
+???
+
+Experiments in 1924-1932 at Hawthorne Works
+
+---
+
+# John Henry effect
+
+<br>
+<br>
+
+- Control group works hard to prove they're as good as the treatment group
+
+--
+
+How to fix
+
+  - Keep two groups separate
 ---
 # Statistical Conclusion Validity
 
@@ -576,11 +621,11 @@ boot_big %>%
 ---
 # Test assumptions
 
-.box-inv-1[Every statistical test has certain assumptions]
+- Every statistical test has certain assumptions
 
 --
 
-.box-1.smaller[For instance, for OLS:]
+- For instance, for OLS:
 
 .center.float-left.smaller[
 .box-1[Linearity]&ensp;.box-1[Homoscedasticity]&ensp;.box-1[Independence]&ensp;.box-1[Normality]
@@ -594,11 +639,8 @@ boot_big %>%
 
 # Fishing and p-hacking
 
-- Wouldn't it be awesome to run thousands of models with different combinations of variables<until you find coefficients that are statistically significant?
+- Wouldn't it be awesome to run thousands of models with different combinations of variables until you find coefficients that are statistically significant?
 --
-
-Don't!
-
 .center[
 <figure>
   <img src="phack.png" alt="p-hacking" title="p-hacking" width="60%">
@@ -612,7 +654,7 @@ Don't!
 ---
 # Spurious statistical significance
 
-.box-inv-1.sp-after[If *p* threshold is 0.05 and you measure 20 outcomes,<br>1 will likely
+- If *p* threshold is 0.05 and you measure 20 outcomes, 1 will likely be significant
 
 .center[
 <figure>
@@ -638,8 +680,10 @@ Don't!
       - Assignment is fully controlled by the participants
       - Chief threat to internal validity is selection bias (i.e., endogenous treatment assignment)
 ---
-# Problem Set
+# Problem Set 1 
 
 - On all platforms
 
 - Due September 23
+
+  - Turn in rmd and pdf  
