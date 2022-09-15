@@ -7,5 +7,6 @@ title: "03-Readings"
 - Reliability
 - Validity
 
-[Schneider 2022](/readings_pdf/measurement.pdf)
+[Schneider 2022](/readings_pdf/intro_measurement.pdf)
 
+[Strand et al. 2019](/readings_pdf/listening_effort_jingle_jangle.pdf)
