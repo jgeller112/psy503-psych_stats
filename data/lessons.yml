@@ -31,6 +31,7 @@ lessons:
   - title: "Measurement" 
     date: "Week 3 [MW, 9/12-9/14]"
     slides: ""
+    class: "03-Measurement/04-Measurement"
     notes: ""
     reading: "03a-reading"
     hasclass: True
