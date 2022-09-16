@@ -77,14 +77,6 @@ style_solarized_dark(
 ```
 
 # Knowledge Check
-
----
-
-```{r, echo=FALSE, fig.align='center'}
-
-knitr::include_graphics("confused-imconfused.gif")
-
-```
 ---
 # Today
 
@@ -92,7 +84,7 @@ knitr::include_graphics("confused-imconfused.gif")
 
 - Scales of measurement
 
-  - Visualizing data on different scales 
+  - Visualizing data on difference scales 
 
 - Reliability and validity
 
@@ -187,25 +179,19 @@ constructs are not variables. We use variables to get at the constructs. It is h
 
 - Nominal ≈ name ≈ categorical
 --
-<br>
+
 - Arbitrary numbers assigned to categories
 --
-<br>
+
 - No rank order
 --
-<br>
+
 - Presented as frequency counts
---
-<br>
-- gender/sex, eye color, department, class names
 ---
 # Ordinal
 --
 
-- Nominal plus:  
---
-
-  – Scores indicate rank
+– Scores indicate rank
 --
 
 - Increase/decrease is meaningful
@@ -216,9 +202,7 @@ constructs are not variables. We use variables to get at the constructs. It is h
 
 - No magnitude information (1 > 2 != 2 > 3)
 --
-
-- **Most statistical techniques inappropriate**
-
+– **Most statistical techniques inappropriate**
 ---
 # Likert Scales
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
@@ -232,13 +216,12 @@ knitr::include_graphics("pickel.jpeg")
 - Differences in adjacent intervals are equal $(2-2)=(4-3)=(21-22)$
 --
 
-- Numeric, but lacks true 0
+- Numeric but lacks true 0
 --
 
 - Lacks multiplicative properties
 ---
 # Ratio
---
 
 - All properties of Nominal, Ordinal, and Interval
 --
@@ -249,29 +232,38 @@ knitr::include_graphics("pickel.jpeg")
 – Ratios are meaningful
 --
 
-- Examples: 
-  - Height
-  - Weight
-  - pupil size
+Examples: 
+- Height
+- Weight
+- pupil size
 
 ---
-# Considerations for Scaling
---
+Considerations for Scaling
 
 - Information content
+
   - Nominal -> Ordinal -> Interval -> Ratio
-  
+--  
   - Can always go backwards but never forward
-  
+ -- 
   - Higher level = higher sensitivity = higher power
+--- 
+Knowledge Check
+
+<iframe src="https://app.sli.do/event/hvreh8tr" height="100%" width="100%" frameBorder="0" style="min-height: 560px;" title="Slido"></iframe>
 ---
-# Visualizations
+# Visualization
 
 - Bar charts
 
+  - Nominal Data
+---
+Visualization
+
+- Bar charts
   - Nominal and ordinal data
   
-```{r, out.width="90%", echo=FALSE}
+```{r, out.width="100%"}
 library(ggplot2)
 library(introdataviz)
 ldt_data$language<-as.factor(ldt_data$language)
@@ -285,16 +277,17 @@ ggplot(data = ldt_data, mapping = aes(x = language)) +
 - Histograms 
 
   - Continuous variables
-      - Distribution of data in terms of frequency count
-```{r, fig.align='center', out.width="100%", out.height="100%", echo=FALSE}
+  
+    - Distribution of data in terms of frequency count
+    
+```{r, fig.align='center', out.width="100%", out.height="100%"}
 
-library(tidyverse)
+library(ggplot2)
 ggplot(data = ldt_data, mapping = aes(x = age)) +
   geom_histogram()
 ```
 ---
 # Boxplot
-
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
 
@@ -302,8 +295,6 @@ knitr::include_graphics("boxplot-outliers.png")
 ```
 
 ---
-#Boxplot
-
 ```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%", echo=FALSE}
 library(palmerpenguins)
 flipper_box <- ggplot(data = penguins, aes(x = species, y = flipper_length_mm)) +
@@ -317,17 +308,13 @@ flipper_box
 #> Warning: Removed 2 rows containing non-finite values (stat_boxplot).
 #> Warning: Removed 2 rows containing missing values (geom_point)
 ```
----
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 
-knitr::include_graphics("friends.jpeg")
-```
 ---
 # Rain Cloud Plots
 
 - Plots a density plot, box plot, raw data point
 
-```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%", echo=FALSE}
+```{r, echo=FALSE, fig.align="center", out.width="50%", out.height="50%", echo=FALSE}
 library(tidyverse)
 
 # how to install the introdataviz package to get split and half violin plots
@@ -379,6 +366,7 @@ ggplot(ldt_long, aes(x = "", y = rt, fill = language)) +
   - Inter-rater  (between different researchers)
   
 ---
+
 # Reliability
 
 > Consistency of a measure: 
@@ -396,9 +384,9 @@ knitr::include_graphics("testretest.png")
 
   - Test-retest (across time)
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
-knitr::include_url("girlspring.com/quiz-which-stranger-things-character-are-you/?gclid=Cj0KCQjwvZCZBhCiARIsAPXbajuoCjcDMhRjGS1O7jeqAhOcx9fH3ysXdtVu_FnIM7eL-wcTeAC5Eg4aAkGEEALw_wcB")
+knitr::include_url("https://www.proprofs.com/quiz-school/story.php?title=mte2mdawoq2srl")
 ```
 ---
 # Reliability
@@ -411,65 +399,35 @@ knitr::include_url("girlspring.com/quiz-which-stranger-things-character-are-you/
   2. I feel happy when I decorate my house for Halloween. **Agree**
   3. I feel angry when the Halloween season is approaching. **Disagree**
   
-- Go here: https://forms.gle/x53hpZWhUwDmRW3M8
----
-# Cronbach Alpha
-
-$\alpha = \frac{N \bar{c}}{\bar{v} + (N-1) \bar{c}}$
-
-```{r, eval=FALSE}
-library(ltm)
-
-
-#enter survey responses as a data frame
-data <- data.frame(Q1=c(1, 2, 2, 3, 2, 2, 3, 3, 2, 3),
-                   Q2=c(1, 1, 1, 2, 3, 3, 2, 3, 3, 3),
-                    Q3=c(1, 1, 2, 1, 2, 3, 3, 3, 2, 3))
-
-#calculate Cronbach's Alpha
-cronbach.alpha(data)
-
-```
----
-# Cronbach Alpha
-```{r, echo=FALSE}
-library(flextable)
-df=tibble::tribble(
-  ~`Cronbach’s.Alpha`, ~Internal.consistency,
-            "0.9 ≤ α",           "Excellent",
-      "0.8 ≤ α < 0.9",                "Good",
-      "0.7 ≤ α < 0.8",          "Acceptable",
-      "0.6 ≤ α < 0.7",        "Questionable",
-      "0.5 ≤ α < 0.6",                "Poor",
-            "α < 0.5",        "Unacceptable"
-  )
-df %>%
-  flextable::flextable()
-
-```
+    - Cronbach's $\alpha$
+      - .8  
 ---
 # Reliability
 
 > Consistency of a measure:
   
-  - Inter-rater (across different researchers)
+  - Interrater (across different researchers)
 ---
 # Validity
 
-> Are you measuring what you want to measure?
+- # Contruct Validity
 
-- Construct Validity
-
-  - Do teaching evals measure actual quality of teacher?
+- A new program hopes to<br>improve student commitment to school]
 
 --
   - Participants score 200 points higher on the SAT and have a 0.3 higher GPA, on average
 
 .box-3.medium[Success!]&ensp;&ensp;.box-3.medium[Success?]
 
----
-# Validity
 
+---
+# Construct validity
+
+> Are you measuring what you want to measure?
+
+  - Do teaching evals measure actual quality of teacher?
+
+  
 - Face validity
   
 >  The extent to which a measurement method appears “on its face” to measure the construct of interest
@@ -478,7 +436,7 @@ df %>%
   
 > The extent to which people’s scores on a measure are correlated with other variables (known as criteria) that one would expect them to be correlated with.
 
-- Discriminate or divergent validity
+- Discriminate  or divergent validity
   
 > The extent to which scores on a measure of a construct are not correlated with measures of other, conceptually distinct, constructs and thus discriminate between them.
 
@@ -488,7 +446,7 @@ df %>%
 - Eyewitness memory plays an important role in helping police solve crimes. However, people’s abilities to accurately recall what they saw can substantially impact whether a criminal is convicted—and equally, if an innocent person is wrongfully convicted. So, it’s important to get it right. 
 
 - First, let’s find out how well you can remember what happens during a bank robbery
-<center>
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---

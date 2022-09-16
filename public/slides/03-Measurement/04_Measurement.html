@@ -6,8 +6,6 @@
     <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
     <meta name="date" content="2022-09-16" />
     <script src="04_Measurement_files/header-attrs/header-attrs.js"></script>
-    <link href="04_Measurement_files/tabwid/tabwid.css" rel="stylesheet" />
-    <link href="04_Measurement_files/tabwid/scrool.css" rel="stylesheet" />
     <link href="04_Measurement_files/countdown/countdown.css" rel="stylesheet" />
     <script src="04_Measurement_files/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -41,10 +39,6 @@ class: center, middle, inverse, title-slide
 
 
 # Knowledge Check
-
----
-
-&lt;img src="confused-imconfused.gif" width="36%" style="display: block; margin: auto;" /&gt;
 ---
 # Today
 
@@ -52,7 +46,7 @@ class: center, middle, inverse, title-slide
 
 - Scales of measurement
 
-  - Visualizing data on different scales 
+  - Visualizing data on difference scales 
 
 - Reliability and validity
 
@@ -126,10 +120,10 @@ constructs are not variables. We use variables to get at the constructs. It is h
 
 - Variables are defined and categorized four ways: 
 
-  1. Nominal -&gt; categorical data 
-  2. Ordinal
-  3. Interval
-  4. Ratio
+1. Nominal -&gt; categorical data 
+2. Ordinal
+3. Interval
+4. Ratio
 
 **NOIR**
 
@@ -138,88 +132,88 @@ constructs are not variables. We use variables to get at the constructs. It is h
 
 - Nominal ≈ name ≈ categorical
 --
-&lt;br&gt;
+
 - Arbitrary numbers assigned to categories
 --
-&lt;br&gt;
+
 - No rank order
 --
-&lt;br&gt;
+
 - Presented as frequency counts
---
-&lt;br&gt;
-- gender/sex, eye color, department, class names
 ---
 # Ordinal
---
 
-- Nominal plus:  
---
-
-  – Scores indicate rank
---
+– Scores indicate rank
 
 - Increase/decrease is meaningful
---
 
 - Comparative information (1 &gt; 2 &gt; 3)
---
 
 - No magnitude information (1 &gt; 2 != 2 &gt; 3)
---
 
-- **Most statistical techniques inappropriate**
-
+– **Most statistical techniques inappropriate**
 ---
 # Likert Scales
 &lt;img src="pickel.jpeg" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 # Interval 
---
 
 - Differences in adjacent intervals are equal `\((2-2)=(4-3)=(21-22)\)`
 --
-
-- Numeric, but lacks true 0
---
+- Numeric but lacks true 0
 
 - Lacks multiplicative properties
+
 ---
 # Ratio
---
 
 - All properties of Nominal, Ordinal, and Interval
 --
-
 – True zero
 --
-
 – Ratios are meaningful
 --
-
-- Examples: 
-  - Height
-  - Weight
-  - pupil size
+Examples: 
+- Height
+- Weight
+- pupil size
 
 ---
-# Considerations for Scaling
---
+Considerations for Scaling
 
 - Information content
+
   - Nominal -&gt; Ordinal -&gt; Interval -&gt; Ratio
-  
+--  
   - Can always go backwards but never forward
-  
+ -- 
   - Higher level = higher sensitivity = higher power
+--- 
+Knowledge Check
+
+&lt;iframe src="https://app.sli.do/event/hvreh8tr" height="100%" width="100%" frameBorder="0" style="min-height: 560px;" title="Slido"&gt;&lt;/iframe&gt;
 ---
-# Visualizations
+# Visualization
 
 - Bar charts
 
+  - Nominal Data
+---
+Visualization
+
+- Bar charts
   - Nominal and ordinal data
   
-&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-6-1.png" width="90%" /&gt;
+
+```r
+library(ggplot2)
+library(introdataviz)
+ldt_data$language&lt;-as.factor(ldt_data$language)
+ggplot(data = ldt_data, mapping = aes(x = language)) +
+  geom_bar()
+```
+
+&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-5-1.png" width="100%" /&gt;
 
 ---
 # Visualziation
@@ -227,26 +221,31 @@ constructs are not variables. We use variables to get at the constructs. It is h
 - Histograms 
 
   - Continuous variables
-      - Distribution of data in terms of frequency count
-&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-7-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+  
+    - Distribution of data in terms of frequency count
+    
+
+```r
+library(ggplot2)
+ggplot(data = ldt_data, mapping = aes(x = age)) +
+  geom_histogram()
+```
+
+&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-6-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Boxplot
-
 
 &lt;img src="boxplot-outliers.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
-#Boxplot
+&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-8-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-9-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
----
-&lt;img src="friends.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Rain Cloud Plots
 
 - Plots a density plot, box plot, raw data point
 
-&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-11-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="04_Measurement_files/figure-html/unnamed-chunk-9-1.png" width="50%" height="50%" style="display: block; margin: auto;" /&gt;
 ---
 # Reliability
 
@@ -259,6 +258,7 @@ constructs are not variables. We use variables to get at the constructs. It is h
   - Inter-rater  (between different researchers)
   
 ---
+
 # Reliability
 
 &gt; Consistency of a measure: 
@@ -273,7 +273,7 @@ constructs are not variables. We use variables to get at the constructs. It is h
 
   - Test-retest (across time)
 
-&lt;iframe src="girlspring.com/quiz-which-stranger-things-character-are-you/?gclid=Cj0KCQjwvZCZBhCiARIsAPXbajuoCjcDMhRjGS1O7jeqAhOcx9fH3ysXdtVu_FnIM7eL-wcTeAC5Eg4aAkGEEALw_wcB" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;iframe src="https://www.proprofs.com/quiz-school/story.php?title=mte2mdawoq2srl" width="50%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 ---
 # Reliability
 
@@ -285,104 +285,35 @@ constructs are not variables. We use variables to get at the constructs. It is h
   2. I feel happy when I decorate my house for Halloween. **Agree**
   3. I feel angry when the Halloween season is approaching. **Disagree**
   
-- Go here: https://forms.gle/x53hpZWhUwDmRW3M8
----
-# Cronbach Alpha
-
-`\(\alpha = \frac{N \bar{c}}{\bar{v} + (N-1) \bar{c}}\)`
-
-
-```r
-library(ltm)
-
-
-#enter survey responses as a data frame
-data &lt;- data.frame(Q1=c(1, 2, 2, 3, 2, 2, 3, 3, 2, 3),
-                   Q2=c(1, 1, 1, 2, 3, 3, 2, 3, 3, 3),
-                    Q3=c(1, 1, 2, 1, 2, 3, 3, 3, 2, 3))
-
-#calculate Cronbach's Alpha
-cronbach.alpha(data)
-```
----
-# Cronbach Alpha
-
-&lt;template id="cb13d9c3-907d-4ab8-9923-c76f9ad85b14"&gt;&lt;style&gt;
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  display: table;
-  margin-top: 1.275em;
-  margin-bottom: 1.275em;
-  border-color: transparent;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-798dcb36{}.cl-79895100{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-79895fd8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-79897f36{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-79897f40{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-79897f41{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-798dcb36'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f41"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Cronbach’s.Alpha&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f41"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Internal.consistency&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;0.9 ≤ α&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Excellent&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;0.8 ≤ α &amp;lt; 0.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Good&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;0.7 ≤ α &amp;lt; 0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Acceptable&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;0.6 ≤ α &amp;lt; 0.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Questionable&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;0.5 ≤ α &amp;lt; 0.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f36"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Poor&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-79897f40"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;α &amp;lt; 0.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-79897f40"&gt;&lt;p class="cl-79895fd8"&gt;&lt;span class="cl-79895100"&gt;Unacceptable&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
-&lt;div class="flextable-shadow-host" id="0c8c5ea6-746b-4f8f-88e9-9937e21c1261"&gt;&lt;/div&gt;
-&lt;script&gt;
-var dest = document.getElementById("0c8c5ea6-746b-4f8f-88e9-9937e21c1261");
-var template = document.getElementById("cb13d9c3-907d-4ab8-9923-c76f9ad85b14");
-var caption = template.content.querySelector("caption");
-if(caption) {
-  caption.style.cssText = "display:block;text-align:center;";
-  var newcapt = document.createElement("p");
-  newcapt.appendChild(caption)
-  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
-}
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-&lt;/script&gt;
+    - Cronbach's `\(\alpha\)`
+      - .8  
 ---
 # Reliability
 
 &gt; Consistency of a measure:
   
-  - Inter-rater (across different researchers)
+  - Interrater (across different researchers)
 ---
 # Validity
 
-&gt; Are you measuring what you want to measure?
+- # Contruct Validity
 
-- Construct Validity
-
-  - Do teaching evals measure actual quality of teacher?
+- A new program hopes to&lt;br&gt;improve student commitment to school]
 
 --
   - Participants score 200 points higher on the SAT and have a 0.3 higher GPA, on average
 
 .box-3.medium[Success!]&amp;ensp;&amp;ensp;.box-3.medium[Success?]
 
----
-# Validity
 
+---
+# Construct validity
+
+&gt; Are you measuring what you want to measure?
+
+  - Do teaching evals measure actual quality of teacher?
+
+  
 - Face validity
   
 &gt;  The extent to which a measurement method appears “on its face” to measure the construct of interest
@@ -391,7 +322,7 @@ fantome.appendChild(templateContent);
   
 &gt; The extent to which people’s scores on a measure are correlated with other variables (known as criteria) that one would expect them to be correlated with.
 
-- Discriminate or divergent validity
+- Discriminate  or divergent validity
   
 &gt; The extent to which scores on a measure of a construct are not correlated with measures of other, conceptually distinct, constructs and thus discriminate between them.
 
@@ -401,7 +332,7 @@ fantome.appendChild(templateContent);
 - Eyewitness memory plays an important role in helping police solve crimes. However, people’s abilities to accurately recall what they saw can substantially impact whether a criminal is convicted—and equally, if an innocent person is wrongfully convicted. So, it’s important to get it right. 
 
 - First, let’s find out how well you can remember what happens during a bank robbery
-&lt;center&gt;
+
 &lt;iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
 
 ---
@@ -424,7 +355,7 @@ For example: if there were 5 agreements and 3 disagreements…
 
 - What percentage agreement did you end up with? What do you think it says about the reliability of the instructions you were given?
 
-<div class="countdown" id="timer_7f25b6e1" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_77d70529" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -475,7 +406,7 @@ Take a few minutes to write down your description of the main offender
  [b] 5 + 3 = 8
  [c] 500/8 = 62.5% inter-observer agreement
  
-<div class="countdown" id="timer_95342a56" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_24ee2556" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -508,7 +439,7 @@ Now, using the same formula, calculate how well you agree within yourself (test-
 
 - Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
 
-<div class="countdown" id="timer_b58dcef9" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_c88986d0" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
