@@ -93,6 +93,9 @@ knitr::include_graphics("confused-imconfused.gif")
 - Scales of measurement
 
   - Visualizing data on different scales 
+    - bar graphs
+    - histograms
+    - rain cloud plots
 
 - Reliability and validity
 
@@ -108,7 +111,7 @@ class: inverse center middle
 Welcome back, gang. Today we are going to talk about measurement. Measurement is probably the most fundamental part of doing science. For instance, as a cognitive scientist I am interested in learning and memory. If I wanted to know how learning increased over time or how many items are stored in memory and for how long I would have measure it. Knowing how to measure them is critical knowing about the thing itself. 
 
 ---
-# Measurement
+# What is measurement?
 
 > The assignment of scores so that the scores represent some characteristic of the individuals
 
@@ -122,6 +125,8 @@ knitr::include_graphics("weightheight.jpeg")
 A formal definition from your book is: 
 ---
 # What things do we want to measure?
+
+--
 
 .pull-left[
 
@@ -171,50 +176,64 @@ To study them we need ways to operationalize them by turning them into numbers. 
 Important to know here. Super important
 constructs are not variables. We use variables to get at the constructs. It is hard to understand this bc the media talks about constructs all the time.   
 ---
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("Slide1.png")
+```
+---
 # Scales of Measurement
 
 - Variables are defined and categorized four ways: 
 
-  1. Nominal -> categorical data 
-  2. Ordinal
-  3. Interval
-  4. Ratio
-
-**NOIR**
+  1. *N*ominal
+  
+  2. *O*rdinal
+  
+  3. *I*nterval
+  
+  4. *R*atio
 
 ---
 # Nominal
 
 - Nominal ≈ name ≈ categorical
+
 --
-<br>
+
 - Arbitrary numbers assigned to categories
+
 --
-<br>
+
 - No rank order
+
 --
-<br>
+
 - Presented as frequency counts
+
 --
-<br>
+
 - gender/sex, eye color, department, class names
 ---
 # Ordinal
 --
 
-- Nominal plus:  
+- Nominal plus:
+
 --
 
   – Scores indicate rank
 --
 
 - Increase/decrease is meaningful
+
 --
 
 - Comparative information (1 > 2 > 3)
+
 --
 
 - No magnitude information (1 > 2 != 2 > 3)
+
 --
 
 - **Most statistical techniques inappropriate**
@@ -227,49 +246,65 @@ knitr::include_graphics("pickel.jpeg")
 ```
 ---
 # Interval 
+
 --
 
-- Differences in adjacent intervals are equal $(2-2)=(4-3)=(21-22)$
+- Differences in adjacent intervals are equal $(2-1)=(4-3)=(21-22)$
+
 --
 
 - Numeric, but lacks true 0
+
 --
 
 - Lacks multiplicative properties
+
+--
+
+- Examples: 
+  - Temperature
+  
+  - Time
 ---
 # Ratio
 --
 
-- All properties of Nominal, Ordinal, and Interval
+- All properties of interval plus: 
+
 --
 
-– True zero
+  – True zero
+
 --
 
-– Ratios are meaningful
+  – Ratios are meaningful
+  
 --
 
 - Examples: 
-  - Height
-  - Weight
-  - pupil size
+  - Reaction times
+  - Test Performance
+  - Other examples?
 
 ---
 # Considerations for Scaling
+
 --
 
 - Information content
+
   - Nominal -> Ordinal -> Interval -> Ratio
   
   - Can always go backwards but never forward
   
   - Higher level = higher sensitivity = higher power
 ---
-# Visualizations
+# Visualizing Scales of Measurement
+
+--
 
 - Bar charts
-
-  - Nominal and ordinal data
+  - Nominal
   
 ```{r, out.width="90%", echo=FALSE}
 library(ggplot2)
@@ -278,13 +313,32 @@ ldt_data$language<-as.factor(ldt_data$language)
 ggplot(data = ldt_data, mapping = aes(x = language)) +
   geom_bar()
 ```
+---
+# Visualizing Scales of Measurement
 
+--
+
+- Bar charts
+  - Ordinal
+  
+```{r, out.width="90%", echo=FALSE, fig.align='center'}
+library(dplyr)
+library(sjPlot)
+library(sjmisc)
+library(parameters)
+data(efc)
+# find all variables from COPE-Index, which all have a "cop" in their
+# variable name, and then plot that subset as likert-plot
+mydf <- find_var(efc, pattern = "cop", out = "df")
+plot_likert(mydf)
+```
 ---
 # Visualziation
 
 - Histograms 
 
   - Continuous variables
+  
       - Distribution of data in terms of frequency count
 ```{r, fig.align='center', out.width="100%", out.height="100%", echo=FALSE}
 
@@ -293,14 +347,29 @@ ggplot(data = ldt_data, mapping = aes(x = age)) +
   geom_histogram()
 ```
 ---
-# Boxplot
+# Visualization
 
+- Density plots
+
+--
+
+  - Alternative to histogram
+
+  - Helps visualize distribution of data
+  
+```{r, fig.align='center', out.width="100%", out.height="100%", echo=FALSE}
+
+library(tidyverse)
+ggplot(data = ldt_data, mapping = aes(x = age)) +
+  geom_density()
+```
+---
+# Boxplot
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
 
 knitr::include_graphics("boxplot-outliers.png")
 ```
-
 ---
 #Boxplot
 
@@ -318,15 +387,14 @@ flipper_box
 #> Warning: Removed 2 rows containing missing values (geom_point)
 ```
 ---
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
-knitr::include_graphics("friends.jpeg")
+knitr::include_graphics("rain.jpeg")
 ```
 ---
 # Rain Cloud Plots
 
-- Plots a density plot, box plot, raw data point
-
+- Plots a density plot, box plot, raw data point .ft1[https://wellcomeopenresearch.org/articles/4-63]
 ```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%", echo=FALSE}
 library(tidyverse)
 
@@ -374,7 +442,7 @@ ggplot(ldt_long, aes(x = "", y = rt, fill = language)) +
 
   - Test-Retest (over time)
   
-  - Internal (across time)
+  - Internal (across items)
   
   - Inter-rater  (between different researchers)
   
@@ -398,7 +466,7 @@ knitr::include_graphics("testretest.png")
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 
-knitr::include_url("girlspring.com/quiz-which-stranger-things-character-are-you/?gclid=Cj0KCQjwvZCZBhCiARIsAPXbajuoCjcDMhRjGS1O7jeqAhOcx9fH3ysXdtVu_FnIM7eL-wcTeAC5Eg4aAkGEEALw_wcB")
+knitr::include_url("https://www.buzzfeed.com/mcoppa25/stranger-things-characters-personality-quiz")
 ```
 ---
 # Reliability
@@ -414,8 +482,9 @@ knitr::include_url("girlspring.com/quiz-which-stranger-things-character-are-you/
 - Go here: https://forms.gle/x53hpZWhUwDmRW3M8
 ---
 # Cronbach Alpha
-
+<center>
 $\alpha = \frac{N \bar{c}}{\bar{v} + (N-1) \bar{c}}$
+<center>
 
 ```{r, eval=FALSE}
 library(ltm)
@@ -454,34 +523,6 @@ df %>%
   
   - Inter-rater (across different researchers)
 ---
-# Validity
-
-> Are you measuring what you want to measure?
-
-- Construct Validity
-
-  - Do teaching evals measure actual quality of teacher?
-
---
-  - Participants score 200 points higher on the SAT and have a 0.3 higher GPA, on average
-
-.box-3.medium[Success!]&ensp;&ensp;.box-3.medium[Success?]
-
----
-# Validity
-
-- Face validity
-  
->  The extent to which a measurement method appears “on its face” to measure the construct of interest
-
-- Criterion or convergent validity
-  
-> The extent to which people’s scores on a measure are correlated with other variables (known as criteria) that one would expect them to be correlated with.
-
-- Discriminate or divergent validity
-  
-> The extent to which scores on a measure of a construct are not correlated with measures of other, conceptually distinct, constructs and thus discriminate between them.
-
 ---
 # Bank Robbery
 
@@ -505,11 +546,10 @@ Take a few minutes to write down your description of the main offender
 
 - Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
 For example: if there were 5 agreements and 3 disagreements… 
-[a] 5 x 100 = 500
-[b] 5 + 3 = 8
-[c] 500/8 = 62.5% inter-observer agreement
 
-- What percentage agreement did you end up with? What do you think it says about the reliability of the instructions you were given?
+1. [a] 5 x 100 = 500
+2. [b] 5 + 3 = 8
+3. [c] 500/8 = 62.5% inter-observer agreement
 
 ```{r, echo=FALSE}
 library(countdown)
@@ -528,7 +568,9 @@ countdown(minutes = 5)
 - Then you will get new instructions for describing the offender. 
 - Then you will work with your partner to calculate inter-rater reliability again
 
+<center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<center>
 ---
 # Viewing #2
 
@@ -569,8 +611,9 @@ countdown(minutes = 5)
 
 ---
 # Viewing #3
-
+<center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1TkSy_e5WTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<center>
 ---
 Using the checklist below, describe the main offender
 - Were they male or female?
@@ -605,7 +648,31 @@ countdown(minutes = 5)
 
 How do these results compare with the results for the inter-rater reliability calculations, i.e., are they different? In what way? Any ideas why or why not?
 
+---
+# Validity
 
+- Construct Validity
+
+> Are you measuring what you want to measure?
+
+--
+
+  - Teaching evaluations
+
+---
+# Validity
+
+- Face validity
+  
+>  The extent to which a measurement method appears “on its face” to measure the construct of interest
+
+- Criterion or convergent validity
+  
+> The extent to which people’s scores on a measure are correlated with other variables (known as criteria) that one would expect them to be correlated with.
+
+- Discriminate or divergent validity
+  
+> The extent to which scores on a measure of a construct are not correlated with measures of other, conceptually distinct, constructs and thus discriminate between them.
 ---
 background-image: url(listeningeffort.png)
 background-position: center
@@ -753,19 +820,4 @@ knitr::include_graphics("corr2.png")
 
 knitr::include_graphics("timeline.jpeg")
 ```
----
-# Group Work
-
-- What are the two key constructs of interest (across the three studies)?
-- How were the constructs measured?
-- How did the authors select the measures and where do the measures come from?
-- How were the measurement decisions in these studies described and justified?
-
-
-<img align="left" width="200" height="200" src="study2.png">
-<img align="right" width="200" height="200" src="study5.png">
-<img align="center" width="200" height="200" src="study6.png">
-
-
-
 
