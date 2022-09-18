@@ -388,7 +388,7 @@ knitr::include_graphics("boxplot-outliers.png")
 ---
 # Boxplot
 
-```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%", echo=FALSE}
+```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%"}
 library(palmerpenguins)
 flipper_box <- ggplot(data = penguins, aes(x = species, y = flipper_length_mm)) +
   geom_boxplot(aes(color = species), width = 0.3, show.legend = FALSE) +
@@ -410,7 +410,7 @@ knitr::include_graphics("rain.jpeg")
 # Rain Cloud Plots
 
 - Plots a density plot, box plot, raw data point .ft1[https://wellcomeopenresearch.org/articles/4-63]
-```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%", echo=FALSE}
+```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%"}
 library(tidyverse)
 
 # how to install the introdataviz package to get split and half violin plots
