@@ -78,6 +78,8 @@ style_solarized_dark(
 
 # Knowledge Check
 
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/995a62ea234cc70ab56a19bb84d67b9c/b01330d9e101/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+
 ---
 
 ```{r, echo=FALSE, fig.align='center'}
@@ -93,9 +95,9 @@ knitr::include_graphics("confused-imconfused.gif")
 - Scales of measurement
 
   - Visualizing data on different scales 
-    - bar graphs
-    - histograms
-    - rain cloud plots
+      - bar graphs
+      - histograms
+      - rain cloud plots
 
 - Reliability and validity
 
@@ -212,7 +214,7 @@ knitr::include_graphics("Slide1.png")
 
 --
 
-- gender/sex, eye color, department, class names
+- Gender/sex, eye color, department, class names
 ---
 # Ordinal
 --
@@ -224,15 +226,15 @@ knitr::include_graphics("Slide1.png")
   – Scores indicate rank
 --
 
-- Increase/decrease is meaningful
+  - Increase/decrease is meaningful
 
 --
 
-- Comparative information (1 > 2 > 3)
+  - Comparative information (1 > 2 > 3)
 
 --
 
-- No magnitude information (1 > 2 != 2 > 3)
+  - No magnitude information (1 > 2 != 2 > 3)
 
 --
 
@@ -245,7 +247,13 @@ knitr::include_graphics("Slide1.png")
 knitr::include_graphics("pickel.jpeg")
 ```
 ---
-# Interval 
+# Olympic Example
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("gold.png")
+```
+---
+# Interval
 
 --
 
@@ -287,6 +295,12 @@ knitr::include_graphics("pickel.jpeg")
   - Other examples?
 
 ---
+# Olympic Example
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
+
+knitr::include_graphics("gold.png")
+```
+---
 # Considerations for Scaling
 
 --
@@ -304,6 +318,7 @@ knitr::include_graphics("pickel.jpeg")
 --
 
 - Bar charts
+
   - Nominal
   
 ```{r, out.width="90%", echo=FALSE}
@@ -371,7 +386,7 @@ ggplot(data = ldt_data, mapping = aes(x = age)) +
 knitr::include_graphics("boxplot-outliers.png")
 ```
 ---
-#Boxplot
+# Boxplot
 
 ```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%", echo=FALSE}
 library(palmerpenguins)
@@ -466,7 +481,7 @@ knitr::include_graphics("testretest.png")
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 
-knitr::include_url("https://www.buzzfeed.com/mcoppa25/stranger-things-characters-personality-quiz")
+knitr::include_url("https://www.buzzfeed.com/mccarricksean/which-disney-princes-are-you")
 ```
 ---
 # Reliability
@@ -481,14 +496,18 @@ knitr::include_url("https://www.buzzfeed.com/mcoppa25/stranger-things-characters
   
 - Go here: https://forms.gle/x53hpZWhUwDmRW3M8
 ---
-# Cronbach Alpha
+# Cronbach's Alpha
 <center>
 $\alpha = \frac{N \bar{c}}{\bar{v} + (N-1) \bar{c}}$
-<center>
+Where: 
+
+$N$ = the number of items.
+$c̄$ = average covariance between item-pairs.
+$v̄$ = average variance.
+<end>
 
 ```{r, eval=FALSE}
 library(ltm)
-
 
 #enter survey responses as a data frame
 data <- data.frame(Q1=c(1, 2, 2, 3, 2, 2, 3, 3, 2, 3),
