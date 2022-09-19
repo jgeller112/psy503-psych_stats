@@ -95,9 +95,9 @@ knitr::include_graphics("confused-imconfused.gif")
 - Scales of measurement
 
   - Visualizing data on different scales 
-      - bar graphs
-      - histograms
-      - rain cloud plots
+      - Bar graphs
+      - Histograms
+      - Raincloud plots
 
 - Reliability and validity
 
@@ -214,7 +214,7 @@ knitr::include_graphics("Slide1.png")
 
 --
 
-- Gender/sex, eye color, department, class names
+- Gender/sex, eye color
 ---
 # Ordinal
 --
@@ -304,7 +304,6 @@ knitr::include_graphics("gold.png")
 # Considerations for Scaling
 
 --
-
 - Information content
 
   - Nominal -> Ordinal -> Interval -> Ratio
@@ -329,11 +328,12 @@ ggplot(data = ldt_data, mapping = aes(x = language)) +
   geom_bar()
 ```
 ---
-# Visualizing Scales of Measurement
+# Visualizing Data
 
 --
 
 - Bar charts
+
   - Ordinal
   
 ```{r, out.width="90%", echo=FALSE, fig.align='center'}
@@ -348,7 +348,7 @@ mydf <- find_var(efc, pattern = "cop", out = "df")
 plot_likert(mydf)
 ```
 ---
-# Visualziation
+# Visualizing Data
 
 - Histograms 
 
@@ -362,7 +362,7 @@ ggplot(data = ldt_data, mapping = aes(x = age)) +
   geom_histogram()
 ```
 ---
-# Visualization
+# Visualizing Data
 
 - Density plots
 
@@ -379,7 +379,9 @@ ggplot(data = ldt_data, mapping = aes(x = age)) +
   geom_density()
 ```
 ---
-# Boxplot
+# Visualizing Data
+
+- Boxplot
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "70%"}
 
@@ -407,9 +409,12 @@ flipper_box
 knitr::include_graphics("rain.jpeg")
 ```
 ---
-# Rain Cloud Plots
+# Visualizing Data
 
-- Plots a density plot, box plot, raw data point .ft1[https://wellcomeopenresearch.org/articles/4-63]
+- Raincloud Plots
+
+  - Density plot, box plot, raw data points all in one
+  - https://wellcomeopenresearch.org/articles/4-63
 ```{r, echo=FALSE, fig.align="center", out.width="100%", out.height="100%"}
 library(tidyverse)
 
@@ -519,7 +524,7 @@ cronbach.alpha(data)
 
 ```
 ---
-# Cronbach Alpha
+# Cronbach's Alpha
 ```{r, echo=FALSE}
 library(flextable)
 df=tibble::tribble(
@@ -563,7 +568,7 @@ Take a few minutes to write down your description of the main offender
 
 Take a few minutes to write down your description of the main offender
 
-- Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
+- Inter-observer agreement = # agreements X 100 / # agreements + # disagreements
 For example: if there were 5 agreements and 3 disagreements… 
 
 1. [a] 5 x 100 = 500
@@ -614,7 +619,7 @@ Using the checklist below, describe the main offender:
 # Work with partner
 Take a few minutes to write down your description of the main offender
 
-- Inter-observer agreement = `# agreements X 100 / # agreements + # disagreements`
+- Inter-observer agreement = # agreements X 100 / # agreements + # disagreements
 
 - What percentage agreement did you end up with? What do you think it says about the reliability of the instructions you were given?
 
@@ -679,7 +684,7 @@ How do these results compare with the results for the inter-rater reliability ca
   - Teaching evaluations
 
 ---
-# Validity
+# Construct Validity
 
 - Face validity
   
@@ -788,11 +793,10 @@ knitr::include_graphics("dual.png")
 ---
 # Measuring Listening Effort (Strand et al., 2018)
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "60%"}
 
 knitr::include_graphics("corr1.png")
 ```
-
 --
 
 - *r* - .2 
