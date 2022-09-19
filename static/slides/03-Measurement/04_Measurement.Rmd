@@ -325,7 +325,7 @@ library(ggplot2)
 library(introdataviz)
 ldt_data$language<-as.factor(ldt_data$language)
 ggplot(data = ldt_data, mapping = aes(x = language)) +
-  geom_bar()
+  geom_bar(width=.25)
 ```
 ---
 # Visualizing Data
