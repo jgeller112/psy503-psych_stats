@@ -204,16 +204,18 @@ THEN
 - __Event:__ $A$, $B$, $C$, etc. 
 
   - A given outcome or set of outcomes  
-
----
 ---
 # Examples of Random Processes
 
 - Random assignment of $N$ individuals to an experimental condition    
 
+--
+
 <br>
 
 - Random draw of a sample of $n$ individuals from a population of $N$ individuals  
+
+--
 
 <br>
 
@@ -224,11 +226,11 @@ THEN
 
 - We randomly assigned an individual to a Treatment (T) vs. Control (C)  
 
-- Sample space?  
+  - Sample space?  
 
 --
 
-We could express $\Omega$ in the following ways:   
+  - We could express $\Omega$ in the following ways:   
 
   - $\Omega = \{\mathrm{Treatment, \: Control\}}$  
   
@@ -274,7 +276,7 @@ knitr::include_graphics('images/prob_notation.png')
 
   - Possible outcome: 
   
---  
+-- 
 
 $\omega =  \mathrm{TTTTCCTC}$
   
@@ -282,13 +284,13 @@ $\omega =  \mathrm{TTTTCCTC}$
   
 --  
 
-Set of all possible strings of length 8 of T's and C's  
+- Set of all possible strings of length 8 of T's and C's  
 ---
 # Practice with Events  
 
 - Let's __randomly__ generate a possible outcome $\omega_j$ in R \vspace{.40cm}
 
-```{r comment = NA}
+```{r eval=FALSE}
 sample(c("T", "C"), 
        size = 8, 
        replace = TRUE)
@@ -309,7 +311,7 @@ An __independent random sample__ requires that each individual has an equal chan
 
 __Random sampling__: A sampling process/technique where both the requirements of equal chance and constant probability are met.
 ---
-# More Practice with Events  
+# More Event Practice  
 
 - Let $C_1$ be the event that the first participant is assigned to the control condition  
 
@@ -385,14 +387,14 @@ background-image: url("weather.png")
 
 - Classic/Naive
 
+  - **All outcomes are equally likely**
+
 Let $A$ be an event with a finite sample space $\Omega$. The _naive probability_ of $A$ is 
 \begin{equation}
 P(A) = \frac{|A|}{|\Omega|} 
 \end{equation}
 
 in which |A| is the number of possible outcomes $\omega$ that satisfy A, and |$\Omega$| is the total number of possible outcomes $\omega$ within $\Omega$.  
-
-- **All outcomes are equally likely**
 
 ---
 # Dice Rolls
@@ -443,10 +445,11 @@ Is the assumption of equal probability of realistic?
   - Relative frequency -> Proportion of times an event occurred out of all occasions it could have occurred
   
   \begin{equation}
-P(A) = \frac{|A|}{|\Omega|} 
+P(A) = \frac{|$f$|}{*N*} 
 \end{equation}
-  
-  - Over the long-run (many repetitions) what is the probability of X event?
+
+- Where $f$ = frequency of outcome and $N$ = Total # 
+- Over the long-run (many repetitions) what is the probability of X event?
   
 ---
 # Different Ways of Thinking About Probability
