@@ -39,7 +39,7 @@ lessons:
   - title: "To Switch or not to Switch? Introduction to Probability"
     date: "Week 3 [MW, 9/19-9/21]"
     notes: ""
-    slides: ""
+    slides: "05-Probability/basics_of_probability_theory"
     reading: "04a-reading"
     hasclass: True
     

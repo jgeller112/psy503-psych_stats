@@ -1,8 +1,8 @@
 ---
-title: "PSY 503: Research Issues and Applications in Psychological Science"
+title: "PSY 503: Foundations of Statistics in Psych Science"
 subtitle: "Introduction to Probability"
 institute: "Princeton University"
-author: "Jason Geller, Ph.D."
+author: "Jason Geller, Ph.D. (he/him/his)"
 date:  '`r Sys.Date()`'
 output:
   xaringan::moon_reader:
@@ -77,7 +77,34 @@ style_solarized_dark(
 )
 
 ```
+# Last Class
 
+- Measurement is hard, but so important
+
+- Make sure you understand different types of reliability: 
+  - Test-retest
+  - Internal
+  - Inter-rater
+- Make sure you understand different types of validity:
+ - Construct
+  - Face
+  - Convergent
+  - Divergent
+---
+# Knowledge Check
+
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/a545260831446a899d989a08b7445b38/34954ecab6bd/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+
+---
+# Today
+
+- What is Probability?
+
+- Different ways of thinking about probability
+
+- Rules of probability
+
+---
 # Probability Warm-up
 
 1. What is probability of drawing the ace of spades from a fair deck of cards?
@@ -92,72 +119,21 @@ style_solarized_dark(
 
 6. Yesterday the whether forecaster said that there was a 30% chance of rain today, and it rained today. Was she right or wrong?
 ---
-class: center, inverse
-
-background-image: url("weather.png")
-
----
-# Different Ways of Thinking About Probability
-
-<br>
-<br>
-
-> Classical probability is based on information we have
-
- - Coin tosses
-  
-- Dice
----
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="10%", out.width = "50%"}
-
-knitr::include_graphics("bridge.png")
-```
-
-$$ P(death) = \frac{P(number of deaths)}{P(total)} $$
----
-# Different Ways of Thinking About Probability
-
--  Frequentist 
-
-  - Relative frequency -> Proportion of times an event occurs out of all occasions it could have occurred
-  
-  - Over the long-run (many repetitions) what is the probability of X event?
-
----
-# Coin Flips
-
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="100%", out.width = "100%"}
-
-knitr::include_url("https://seeing-theory.brown.edu/basic-probability/index.html")
-```
----
-# Frequentist and Bayesian Views of Probability
-
--  Bayesian (Personal belief)
-
-  - In what realistic setting would we actually perform the same experiment infinite times?
-  
-  - Many probability questions concern the outcome of a singular trial rather than hypothetical repeated trials, and decision makers with the same information may differ
-  
-      - What is the likelihood that Russia will use a nuclear weapon against Ukraine?
-
----
 # What is Probability Theory? 
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.height="20%", out.width = "80%"}
-
+library(flextable)
 knitr::include_graphics("prob.JPG")
 ```
 ---
-# What is Probability Theory
+# What is Probability Theory?
 
 <br>
 <br> 
 
 Probability theory is the study of __random processes__
 
-- Is used to characterize events that are uncertain in advance
-
+- Probability is used to characterize uncertainty
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
@@ -190,25 +166,26 @@ coinflips <- function(x) {
 ]
 --
 .pull-right[
+<br>
+<br>
 - If answer to first question is "NO" 
 
-
 AND
-
 - Answer to second question is "YES"   
-
 
 THEN  
 
 - You are dealing with a random process  
 ]
+
 ---
 # Definition
 
 <br>
 <br>
 
-> Random processes are __mechanisms__ that produce (probabilistic) outcomes...  from __a world of possible__ outcomes...  with some degree of __uncertainty__ but with __regularity__.  
+> Random processes are __mechanisms__ that produce outcomes...  from __a world/set of possible__ outcomes...  with some degree of __uncertainty__ but with __regularity__.  
+
 ---
 # Probability Terminlogy  
 
@@ -221,12 +198,14 @@ THEN
 
 - __Outcome:__ $\omega$  
 
-  - Possible realization of the random process  
+  - Possible realization of the random process
+    - heads
 
 - __Event:__ $A$, $B$, $C$, etc. 
 
   - A given outcome or set of outcomes  
 
+---
 ---
 # Examples of Random Processes
 
@@ -245,25 +224,30 @@ THEN
 
 - We randomly assigned an individual to a Treatment (T) vs. Control (C)  
 
-- Sample space?   We could express $\Omega$ in the following ways:   
+- Sample space?  
+
+--
+
+We could express $\Omega$ in the following ways:   
 
   - $\Omega = \{\mathrm{Treatment, \: Control\}}$  
   
   - $\Omega = \{\mathrm{T, \: C\}}$  
+  
+--
 
-- What if we assigned two individuals to Treatment (T) vs. Control (C)   
+- What if we assigned two individuals to Treatment (T) vs. Control (C)
+
+--
 
   - $\Omega = \{\mathrm{TT, \:TC, \:CT, \:CC}\}$   
 ---
 # Events  
 
-An _event_ is a subset of the sample space $\Omega$ and corresponds to the realization of one or more than one outcomes $\omega$   
-
-# Example  
-
-
-- Let $\Omega = \{\mathrm{TT, \:TC, \:CT, \:CC}\}$   
-
+- An _event_ is a subset of the sample space $\Omega$ and corresponds to the realization of one or more than one outcomes $\omega$   
+ 
+ 
+  - Let $\Omega = \{\mathrm{TT, \:TC, \:CT, \:CC}\}$   
 
 - We could let $A$ be __event__ that both individuals are assigned to the same experimental condition  
 
@@ -284,11 +268,21 @@ knitr::include_graphics('images/prob_notation.png')
 ---
 # Practice with Events  
 
-- We randomly assign 8 participants to T vs. C  
+- We randomly assign 8 participants to T vs. C
 
-  - Possible outcome:  $\omega =  \mathrm{TTTTCCTC}$
+--
+
+  - Possible outcome: 
   
-  - Sample space: Set of all possible strings of length 8 of T's and C's  
+--  
+
+$\omega =  \mathrm{TTTTCCTC}$
+  
+  - Sample space: 
+  
+--  
+
+Set of all possible strings of length 8 of T's and C's  
 ---
 # Practice with Events  
 
@@ -300,7 +294,9 @@ sample(c("T", "C"),
        replace = TRUE)
 ```
 
-- In the background, does R draw from this sample space?     
+- In the background, does R draw from this sample space? 
+
+--
 
 - NO: Keep in mind that R draws an outcome $\omega_j$ from $\Omega = \{T, C\}$ 8 times in a row with replacement  
 
@@ -313,16 +309,12 @@ An __independent random sample__ requires that each individual has an equal chan
 
 __Random sampling__: A sampling process/technique where both the requirements of equal chance and constant probability are met.
 ---
-# More practice with events  
+# More Practice with Events  
 
 - Let $C_1$ be the event that the first participant is assigned to the control condition  
 
   - e.g., $\{\mathrm{CTCTCTTT}\}$, $\{\mathrm{CTTTTTTC}\}$, or $\{\mathrm{CCCCCTTC}\}$   
-  
 
-- We could express this more generally:  
-
-  - $C_1 = \{(C, \: \omega_2, \: ..., \: \omega_8) : \omega_j \in \{\mathrm{T, C\}} \: \mathrm{for} \: 2 \leq j \leq 8\}$  
 ---
 # More practice with events   
 
@@ -342,24 +334,78 @@ i.e., Participant 1 or participant 2 or ... or participant 8 was assigned to con
 A = \bigcup^8_{i = 1} C_i  
 \end{equation}
 ---
-# More practice with events    
+# Probability Warm-up
 
-\begin{equation}
-B = \bigcap^8_{i = 1} C_i
-\end{equation}
+1. What is probability of drawing the ace of spades from a fair deck of cards?
 
-In plain English?  
+```{r}
 
+ace=1/52
+
+ace
+
+```
+
+
+2. What is the probability of drawing an ace of any suit?
+
+```{r}
+
+ace=4/52
+
+ace
+
+```
 ---
-# Naive probability of an event  
+3. You are going to roll some dice twice. What is the chance you roll double 1s?
+
+```{r}
+dice1s <- 1/6*1/6
+dice1s
+
+```
+---
+4. What is the chance that a live specimen of New Jersey Devil will be found?
+- 0%
+
+5. Who is more likely to be a victim of a street robbery, a young man or an old lady?
+
+- old lady
+
+6. Yesterday the whether forecaster said that there was a 30% chance of rain today, and it rained today. Was she right or wrong?
+
+- Depends
+---
+
+class: center, inverse
+
+background-image: url("weather.png")
+---
+# Different Ways of Thinking About Probability
+
+- Classic/Naive
 
 Let $A$ be an event with a finite sample space $\Omega$. The _naive probability_ of $A$ is 
 \begin{equation}
 P(A) = \frac{|A|}{|\Omega|} 
 \end{equation}
 
-in which |A| is the number of possible outcomes $\omega$ that satisfy A, and |$\Omega$| is the total number of possible outcomes $\omega$ within $\Omega$.   
+in which |A| is the number of possible outcomes $\omega$ that satisfy A, and |$\Omega$| is the total number of possible outcomes $\omega$ within $\Omega$.  
 
+- **All outcomes are equally likely**
+
+---
+# Dice Rolls
+```{r, fig.align='center', out.width="100%", out.height="100%", echo=FALSE}
+
+i <- 1:6
+j <- sample(i, 1e6, replace = TRUE)
+dice_roll <- tibble("Roll" = j, "Outcome" = j) %>%
+  ggplot() +
+  geom_bar(aes(x = Outcome), color = "blue", fill = "white") + labs(title = "Dice Rolls")
+dice_roll
+```
+---
 # Wait, why is this naive?  
 
 - Requires $\Omega$ to be finite   
@@ -368,42 +414,71 @@ in which |A| is the number of possible outcomes $\omega$ that satisfy A, and |$\
 
   - This can be misleading!  
 
-  - e.g., polls, attrition
 ---
-# Probability model: Definition  
+# Wait, why is this naive?
 
-- The __probability model__ of a random phenomenon is the mathematical representation of this phenomenon. It includes:      
+Is the assumption of equal probability of realistic? 
 
-  - All of the possible outcomes included in the sample space  
+--
+
+- $d_1$: Watching a horror movie
+
+- $d_0$: Watching a neutral movie
+
+- $Y$: Fear response measured 
+
+  - Is their an equal probability of attrition in this study?
   
-  - The probability of each possible probabilistic outcome $\omega$ included in the sample space  
+--
 
-- This is all that there is to know about a random phenomenon  
-
-- Very powerful: Contain enough information to predict with certainty the percentage of times that an outcome $\omega$ will happen if we repeat the random generative process many (many, many, many) times   
+- Online data collection
 ---
-# Probability model: Intuition  
 
-Overall, the probability of an outcome $\omega$ is the percentage of times that this outcome will happen if we repeat the random generative process: 
+# Different Ways of Thinking About Probability
 
-- Over and over again  
+-  Frequentist view
 
-- Independently  
-
-- Under the exact same conditions  
----
-# Probability Model: Example  
-
-- The probability model of rolling a fair die includes:   
-
-  - Its sample space: $\Omega = \{1,\:2,\:3,\:4,\:5,\:6\}$  
+  -  **Past Performance**
   
-  - The probability of each possible outcome $\omega_j$ is: $\mathrm{P}(w_j) = \frac{1}{6}$   
+  - Relative frequency -> Proportion of times an event occurred out of all occasions it could have occurred
+  
+  \begin{equation}
+P(A) = \frac{|A|}{|\Omega|} 
+\end{equation}
+  
+  - Over the long-run (many repetitions) what is the probability of X event?
+  
+---
+# Different Ways of Thinking About Probability
 
+- Empirical probability
 
-If we wonder what are the possible outcomes of rolling a fair die, we simply need to look at the probability model to realize that there are 6 possible outcomes. 
+  - Should we cross the bridge?
 
-If we wonder how likely it is that we will get a 6 after rolling a fair die, again, we can look at its probability model and learn that the probability of getting a 6 is $\frac{1}{6}$   
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="10%", out.width = "50%"}
+
+knitr::include_graphics("bridge.png")
+```
+
+$$ P(death) = \frac{P(number of deaths)}{P(total)} $$
+---
+# Coin Flips
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="100%", out.width = "100%"}
+
+knitr::include_url("https://seeing-theory.brown.edu/basic-probability/index.html")
+```
+---
+# Globe Tosses
+
+---
+# Different Ways of Thinking About Probability
+
+-  Bayesian (Personal belief)
+
+  - In what realistic setting would we actually perform the same experiment infinite times?
+  
+  - Many probability questions concern the outcome of a singular trial rather than hypothetical repeated trials, and decision makers with the same information may differ
 ---
 class: center, inverse
 
@@ -412,7 +487,7 @@ background-image: url("fightclub.jpeg")
 # Rules of Probability
 
 ---
-# Probability Rule # 1  
+# Probability Rules 
 
 - Probabilities take values between 0 and 1 (inclusive)   
 
@@ -422,36 +497,30 @@ background-image: url("fightclub.jpeg")
 
 - Probability cannot be greater than 1
 ---
-# Probability Rule# 2  
+# Probability Rule # 2  
 
 - Since $\Omega$ is the entire sample space, $$P(\Omega) = 1$$  
 
-- e.g., What is the probability of getting an even or an odd number after rolling a fair die?  
+- e.g.,If you belong to one of three political parties then the sum of P(R), P(D) and P(I) = 1
 
 ---
-# Probability Rule #3  
+# Probability Rule #3 
 
-## Complement
+- Complement
 
-- The complement of event $A$ is referred to as $A^c$  
+  - By definition $$ P(A) + P(A^c) = 1$$  
 
-- By definition $$ P(A) + P(A^c) = 1$$  
-
-- This implies $$ P(A^c) = 1 - P(A)$$
+  - This implies $$ P(A^c) = 1 - P(A)$$
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
-knitr::include_graphics("union-venndiagram.svg")
+knitr::include_graphics("complement-venndiagram.svg")
 ```
 
 ---
-#Probability Rule # 4
+# Probability Rule # 4
 
- Probability Rule #4
-
-- Addition Rule
-
-  > If there are two events, A and B, the addition rule states that the probability of event A or B occurring is the sum of the probability of each event minus the probability of the intersection:
+- Addition Rule: If A and B are two events in a probability experiment, then the probability that either one of the events will occur is:
 
 .pull-left[
 
@@ -460,163 +529,91 @@ knitr::include_graphics("union-venndiagram.svg")
 P(A or B) = P(A) + P(B)
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
-knitr::include_graphics("union-venndiagram.svg")
+knitr::include_graphics("mutually-exclusive-venndiagram.svg")
 ```
-
+]
 .pull-right[
-## Non-mutually Exclusive
+- Non-Mutually Exclusive
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
 knitr::include_graphics("addition-rule-independent-venndiagram.webp")
 ```
 ]
+---
+# Practice
 
+```{r, echo=FALSE}
+m<-data.frame(
+  stringsAsFactors = FALSE,
+             Color = c("Brown", "Red", "Yellow", "Green", "Orange", "Blue"),
+             Count = c(13L, 13L, 14L, 16L, 20L, 24L)
+)
+
+m %>%
+  flextable()
+```
+
+*p*(blue or green)
+
+--
+```{r, echo=FALSE}
+m<-data.frame(
+  stringsAsFactors = FALSE,
+             Color = c("Brown", "Red", "Yellow", "Green", "Orange", "Blue"),
+             Count = c(13L, 13L, 14L, 16L, 20L, 24L)
+)
+
+m %>%
+  flextable()
+```
+
+*p*(blue or green)
+```{r}
+
+24/100 + 16/100
+
+```
 ---
 # Union
 
 > The union of two sets encompasses any element that exists in either one or both of them. We can represent this visually as a venn diagram as shown.
->
+
 > ![](union-venndiagram.svg)
 
 ---
 # Intersection
 
-> The intersection between two sets encompasses any element that exists in BOTH sets and is often written out as:
+> The intersection between two sets encompasses any element that exists in BOTH sets and is often written out as
+
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
-
 knitr::include_graphics("intersection-venndiagram.svg")
 ```
+ - Joint probability
 
 ---
 # Multiplication Rule
 
-# The multiplication rule is used to find the probability of two events, *A* and *B*, happening simultaneously. 
+- The multiplication rule is used to find the probability of two events, *A* and *B*, happening simultaneously. 
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+Dependent: 
+\begin{equation}
+P(A and B) = P(A)P(B|A)
+\end{equation}
 
-knitr::include_graphics("coin-tree-diagram.svg")
-```
+Independent: 
+
+\begin{equation}
+P(A and B) = P(A)*P(B)
+\end{equation}
 
 ---
 # Independent Events
 
-> Two events are *independent* if the occurrence of one event does not affect the probability of the other one occurring.
-
-.pull-left[
-
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "60%"}
-
-knitr::include_graphics("marble-diagram-2-IE.svg")
-```
-]
-
-.pull-right[
-
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "60%"}
-
-knitr::include_graphics("marble-diagram-1-dep.svg")
-```
-]
----
-class: middle center
-
-# Probability Rules 
-
----
-# Probability Rule # 1  
-
-- Probabilities take values between 0 and 1 (inclusive)   
-
-  - For some event $A$: $$0 \leq P(A) \leq 1$$
-
-- Probability cannot be negative    
-
-- Probability cannot be greater than 1
----
-# Probability Rule# 2  
-
-- Since $\Omega$ is the entire sample space, $$P(\Omega) = 1$$  
-
-- e.g., What is the probability of getting an even or an odd number after rolling a fair die?  
-
-
-# Probability Rule #4
-
-- Addition Rule
-
-  - Probability that either one or both events occur
----
-# Mutually Exclusive Events  
-
-- Two events $A_i$ and $A_j$ are __mutually exclusive__ (or __disjoint__) if they cannot happen at the same time 
-    
-```{r echo=FALSE,out.width="55%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('images/disjoint.png')
-
-``` 
-
-\neq j$, we have: $$A_i \: \cap \: A_j = \emptyset$$  
----
-# Mutually Exclusive Events  
-
-- Given any number of _mutually exclusive_ events $A_1, \: A_2, \: ..., \: A_n$, the probability that one of these events will occur is the sum of their individual probabilities: 
-
-  - $P(A_1 \: \cup \: A_2 \: \cup \: ... \: \cup \:A_n) = P(A_1) \: + P(A_2) \: + ... + \: P(A_n)$  
----
-# Non-Mutually Exclusive Events  
-
-```{r echo=FALSE,out.width="70%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('images/disjointwhole.png')
-
-```
-- Under the addition rule: $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$  
-
-- But what is $P(A \cap B)$?  $P(A \cap B) = 0$  
-
-- Therefore, $$P(A \cup B) = P(A) + P(B)$$  
----
-
-# Probablity #5
-
-- Multiplication Rule
-
-  - Probability both events occur
-
-- Dependent
-
-P(A ∩ B) = P(B) P(A|B)
-
-- Independent
-
-P(A and B) = P(A)*P(B)
-
----
-# Conditional Probablity
-
-$$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
-
-
-Three probabilities 𝑝(𝐴├|𝐵┤) is a conditional probability, while 𝑝(𝐴∩𝐵) is a joint probability and 𝑝(𝐵) is a marginal probability
-
-- Marginal probability: Likelihood that a randomly sampled outcome has 𝐴
-
-- Joint probability;  intersection, or the likelihood that a randomly sampled outcome has both 𝐴 and 𝐵 together (e.g., it is where 𝐴 and 𝐵 overlap in a Venn diagram)
-
-- Conditional probability
-
-  - Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
-  
-  - We would say “𝐴 given 𝐵” or “𝐴 conditional on 𝐵” 
-
----
-# Independence
-
-$A$ and $B$ are independent if the occurrence of $A$ does not influence the occurrence of $B$, and if the occurrence of $B$ does not influence the occurrence of $A$. 
+- $A$ and $B$ are independent if the occurrence of $A$ does not influence the occurrence of $B$, and if the occurrence of $B$ does not influence the occurrence of $A$. 
 
 If two events $A$ and $B$ are independent, knowing that $A$ occurred does not inform the chances that $B$ occurred. We have:  
+
 
 \begin{equation}
 P(A|B) = P(A)
@@ -626,36 +623,46 @@ P(A|B) = P(A)
 P(B|A) = P(B)
 \end{equation}
 ---
-# Conditional probability is everywhere 
+# Practice
 
-- Examples?   
+```{r, echo=FALSE}
+m<-data.frame(
+  stringsAsFactors = FALSE,
+             Color = c("Brown", "Red", "Yellow", "Green", "Orange", "Blue"),
+             Count = c(13L, 13L, 14L, 16L, 20L, 24L)
+)
 
-- Causal effects   
+m %>%
+  flextable()
+```
+What is the *p*(blue, blue?
 
-    - If a treatment $d_i$ has an effect on $Y_i$, knowing that $d_i$ occurred tells us something about the probability that $Y_i$ occurs.   
-  <br>
-    - If a training improves performance at a test, knowing that an individual took that drug before the test provides information about the probability that this individual passed vs. failed.  
+```{r}
+
+24/100*24/100
+
+```
 ---
+# Conditional Probablity
 
-#  Conditional Probability 
-
-- The likelihood of an event or outcome __based__ on the occurrence of a previous event or outcome
-
-If $A$ and $B$ are events with $P(B) > 0$, the _conditional probability_ of A given B is 
-
-\begin{equation}
-P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}
-\end{equation}
----
-# Illustration  
+- The likelihood of an event or outcome occurring, based on the occurrence of a previous event or outcome
 
 $$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
 
-```{r, fig.show='hold', out.width="30%", echo = FALSE, fig.cap = ''}
+Three probabilities 𝑝(A|B) is a conditional probability, while 𝑝(𝐴∩𝐵) is a joint probability and 𝑝(𝐵) is a marginal probability
+---
+# Conditional Probability
 
-knitr::include_graphics('images/cond_prob.png')
+- Marginal probability: Likelihood that a randomly sampled outcome has 𝐴
 
-```
+- Conditional probability
+
+  - Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
+  
+  - We would say “𝐴 given 𝐵” or “𝐴 conditional on 𝐵” 
+  
+---
+# Conditional Probablity
 
 - Conditional probabilities allow us to update the probability of an event $A$ based on the occurrence of another event  
 
@@ -668,15 +675,10 @@ knitr::include_graphics('images/cond_prob.png')
 \begin{equation}
 P(A|B)P(B) = P(A\: \cap \: B)
 \end{equation}
-
-
-The multiplication rule follows directly from Equation (3).  
-
 ---
 # Implication  
 
 If $A$ and $B$ are independent events, we have: 
-
 \begin{equation}
 P(A\: \cap \: B) = P(A)P(B)
 \end{equation}  
@@ -701,27 +703,6 @@ P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &= P(C_1) \times P(C_2) \tim
     \end{split}
 $$
 ---
-# Law of Total Probability (LTP)
-
-Let $\{A_1, \: A_2, \: ..., \: A_n\}$ be a partition of $\Omega$. This means that the $A_i$ events are mutually exclusive and their union is $\Omega$. If $P(A_i) > 0$ for all $i$, then  
-
-\begin{equation}
-P(B) = \sum_{i = 1}^n P(B \cap A_i) 
-\end{equation}  
-
-```{r ltp, fig.show='hold', out.width="40%", echo = FALSE, fig.cap = ''}
-
-knitr::include_graphics('images/ltp.png')
-
-```
----
-# LTP: Two events
-
-In the special case of two events, we have:  
-
-$$P(B) = P(B \: \cap \: A) +  P(B \: \cap \: A^C)$$  
-
----
 # Bayes' Rule  
 
 - Reversing a conditional probability allows us to find $P(A|B)$ if we know $P(B|A)$: 
@@ -729,12 +710,18 @@ $$P(B) = P(B \: \cap \: A) +  P(B \: \cap \: A^C)$$
 - Bayes' rule: 
 \begin{equation}
 P(A|B) = \frac{P(B|A)P(A)}{P(B)}
-\end{equation}  
+\end{equation} 
+
+```{r ltp, fig.show='hold', out.width="40%", echo = FALSE, fig.cap = ''}
+
+knitr::include_graphics('images/Thomas_Bayes.gif')
+
+```
 
 ---
 # Monty Hall Problem
 
-- On the 1980s gameshow, Let’s Make a Deal, a contestant chooses 1 of 3 doors to win a prize (1 door conceals a car, the other 2 doors conceal goats), and after the contestant makes their choice, the host (who knows what is behind the doors) opens 1 of the remaining 2 doors they did not choose but that has a goat, and then offers the contestant the opportunity to change their choice to the only remaining door
+- On the 1980s game show, Let’s Make a Deal, a contestant chooses 1 of 3 doors to win a prize (1 door conceals a car, the other 2 doors conceal goats), and after the contestant makes their choice, the host (who knows what is behind the doors) opens 1 of the remaining 2 doors they did not choose but that has a goat, and then offers the contestant the opportunity to change their choice to the only remaining door
 
 - If you were the contestant, what would you do? Would you stick with your original choice? Or would you switch?
 
@@ -763,9 +750,6 @@ monty <- function() {
     monty <- sample(x = c(1:3)[-c(choice, prize)], size = 1, replace = TRUE)
     return(ifelse(prize != choice, yes = "Switch", no = "Stick"))
 }
-
-monty()
-
 monty()
 
 ```
@@ -846,7 +830,7 @@ $$
 
 We can now derive $P(Covid|Pos)$ using Bayes' rule:   
 
-$$P(Covid|Pos) = \frac{.85 * \frac{1}{130}}{.0462} = .142$$
+$$P(Covid|Pos) = \frac{.85 * \frac{1}{30}}{.0462} = .142$$
 
 # Lessons from Bayes' rule 
 
@@ -931,49 +915,8 @@ times?
   - Suppose that you flip a coin four times and observe HHTT  
   
      - What is your best guess for the probability of observing heads when flipping that coin? How confident are you in your guess?
-
----
-# Typical Probability Theory Question 
-
-- In the 2012 US presidential elections, 51.1% of voters voted in favor of Barack Obama     
-
-- If you were to randomly select 1,000 people that voted in this election, what is the probability that at least 500 of them voted in favor of Barack Obama?  
-
-- In other words, if you were to take many many random samples of 1000 people from the population of voters, in which fraction of these samples would you have at least 500 people that voted in favor of Barack Obama?  
-
-# Typical Statistical Inference Question
-
-- Before the ellection, FiveThirtyEight listed the [results](http://projects.fivethirtyeight.com/2016-election-forecast/national-polls/) for multiple election polls:  
   
-- Using the information from Ipsos, what is your best guess on the total fraction of voters that would vote for Clinton if the elections were to happen now? How confident are you in your guess?  
-  
-- Would your guess be different if you were to use information from the ABC News/Washington Post poll? What if you were to combine information from both?  
-
-- Example relevant to psychology research?  
 ---
-# Law of Small Numbers 
-
-## Example
-
----
-# Law of Small Numbers
-
-- The typical probability theory and statistical inference questions are very hard to answer intuitively    
-
-- Kahneman and Tversky showed that humans tend to make a cognitive error that they called the _Law of Small Numbers_  
-- This cognitive error has a probability theory manifestation:  
-
-  - People underestimate the probability of sequential streaks occurring by chance
-
-- and a statistical inference manifestation:  
-
-  - People overestimate the information about underlying probabilities contained in short sequences of outcomes from a random phenomenon. Even worse, they suggest theories to explain these regularities!    
----
-# Law of Small Numbers: Illustration  
-
-In the 2010 NBA finals between the Boston Celtics and the LA Lakers, Celtic guard Ray Allen made seven three-point shots in a row. This is an example of what journalists call "hot streak". Observers usually tend to theorize about the reasons underlying hot streaks and cold streaks.
----
-
 class: middle center
 
 #In-Class Analysis
@@ -1074,8 +1017,6 @@ joint
 ```
 
 # Data: Independance
-
-
 ```{r}
 
 marg.race <- voter %>%
