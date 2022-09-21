@@ -340,15 +340,15 @@ dice1s
 ```
 ---
 - What is the chance that a live specimen of New Jersey Devil will be found?
-- 0%
+  - 0%
 
-5. Who is more likely to be a victim of a street robbery, a young man or an old lady?
+-  Who is more likely to be a victim of a street robbery, a young man or an old lady?
 
-- old lady
+  - old lady
+- 
+Yesterday the whether forecaster said that there was a 30% chance of rain today, and it rained today. Was she right or wrong?
 
-6. Yesterday the whether forecaster said that there was a 30% chance of rain today, and it rained today. Was she right or wrong?
-
-- Depends
+  - Depends
 ---
 
 class: center, inverse
@@ -430,7 +430,7 @@ P(A) = \frac{|$f$|}{*N*}
 
   - Should we cross the bridge?
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="5%", out.width = "50%"}
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="5%", out.width = "25%"}
 
 knitr::include_graphics("bridge.png")
 ```
