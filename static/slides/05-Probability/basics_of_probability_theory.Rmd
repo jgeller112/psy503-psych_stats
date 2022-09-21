@@ -77,6 +77,12 @@ style_solarized_dark(
 )
 
 ```
+# Knowledge Check
+
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/a545260831446a899d989a08b7445b38/34954ecab6bd/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+
+---
+
 # Last Class
 
 - Measurement is hard, but so important
@@ -85,16 +91,12 @@ style_solarized_dark(
   - Test-retest
   - Internal
   - Inter-rater
+  
 - Make sure you understand different types of validity:
  - Construct
-  - Face
-  - Convergent
-  - Divergent
----
-# Knowledge Check
-
-<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/a545260831446a899d989a08b7445b38/34954ecab6bd/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
-
+    - Face
+    - Convergent
+   - Divergent
 ---
 # Today
 
@@ -133,7 +135,7 @@ knitr::include_graphics("prob.JPG")
 
 Probability theory is the study of __random processes__
 
-- Probability is used to characterize uncertainty
+- Probability is used to characterize uncertainty/randomness
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
@@ -203,7 +205,9 @@ THEN
 
 - __Event:__ $A$, $B$, $C$, etc. 
 
-  - A given outcome or set of outcomes  
+  - A given outcome or set of outcomes
+  
+- __Probability__: Proportion of outcomes favoring an event  
 ---
 # Examples of Random Processes
 
@@ -271,20 +275,21 @@ knitr::include_graphics('images/prob_notation.png')
 # Practice with Events  
 
 - We randomly assign 8 participants to T vs. C
+  
+  - Possible outcome:
 
 --
 
-  - Possible outcome: 
-  
--- 
+- $\omega =  \mathrm{TTTTCCTC}$
 
-$\omega =  \mathrm{TTTTCCTC}$
-  
-  - Sample space: 
-  
---  
+--
 
-- Set of all possible strings of length 8 of T's and C's  
+- Sample space: 
+
+--
+
+  - Set of all possible strings of length 8 of T's and C's  
+
 ---
 # Practice with Events  
 
@@ -303,42 +308,9 @@ sample(c("T", "C"),
 - NO: Keep in mind that R draws an outcome $\omega_j$ from $\Omega = \{T, C\}$ 8 times in a row with replacement  
 
 ---
-# Random Sampling With and Without Replacement
-
-A __simple random sample__ requires that each individual in the population has an equal chance of being selected.
-
-An __independent random sample__ requires that each individual has an equal chance of being selected and that the probability of being selected stays constant from one selection to the next if more than one individual is selected.
-
-__Random sampling__: A sampling process/technique where both the requirements of equal chance and constant probability are met.
----
-# More Event Practice  
-
-- Let $C_1$ be the event that the first participant is assigned to the control condition  
-
-  - e.g., $\{\mathrm{CTCTCTTT}\}$, $\{\mathrm{CTTTTTTC}\}$, or $\{\mathrm{CCCCCTTC}\}$   
-
----
-# More practice with events   
-
-- Let $C_i$ be the event that the $i$th participant is assigned to the control condition, for $i = 1, \:2,\: 3,\: ...,\: 8$, and use $C_i$ to define other events.   
-
-- Let $A$ be the event, that at least one participant was assigned to control condition. We can write:   
-
-\begin{equation}
-A = C_1 \cup C_2 \cup ... \cup C_8
-\end{equation}
-
-i.e., Participant 1 or participant 2 or ... or participant 8 was assigned to control   
-
-- We could have written:  
-
-\begin{equation}
-A = \bigcup^8_{i = 1} C_i  
-\end{equation}
----
 # Probability Warm-up
 
-1. What is probability of drawing the ace of spades from a fair deck of cards?
+- What is probability of drawing the ace of spades from a fair deck of cards?
 
 ```{r}
 
@@ -349,7 +321,7 @@ ace
 ```
 
 
-2. What is the probability of drawing an ace of any suit?
+- What is the probability of drawing an ace of any suit?
 
 ```{r}
 
@@ -359,7 +331,7 @@ ace
 
 ```
 ---
-3. You are going to roll some dice twice. What is the chance you roll double 1s?
+-  You are going to roll some dice twice. What is the chance you roll double 1s?
 
 ```{r}
 dice1s <- 1/6*1/6
@@ -367,7 +339,7 @@ dice1s
 
 ```
 ---
-4. What is the chance that a live specimen of New Jersey Devil will be found?
+- What is the chance that a live specimen of New Jersey Devil will be found?
 - 0%
 
 5. Who is more likely to be a victim of a street robbery, a young man or an old lady?
@@ -419,7 +391,7 @@ dice_roll
 ---
 # Wait, why is this naive?
 
-Is the assumption of equal probability of realistic? 
+Is the assumption of equal probability realistic? 
 
 --
 
@@ -458,7 +430,7 @@ P(A) = \frac{|$f$|}{*N*}
 
   - Should we cross the bridge?
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="10%", out.width = "50%"}
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.heigh="5%", out.width = "50%"}
 
 knitr::include_graphics("bridge.png")
 ```
@@ -472,7 +444,7 @@ $$ P(death) = \frac{P(number of deaths)}{P(total)} $$
 knitr::include_url("https://seeing-theory.brown.edu/basic-probability/index.html")
 ```
 ---
-# Globe Tosses
+# Globe Toss 
 
 ---
 # Different Ways of Thinking About Probability
@@ -617,7 +589,6 @@ P(A and B) = P(A)*P(B)
 
 If two events $A$ and $B$ are independent, knowing that $A$ occurred does not inform the chances that $B$ occurred. We have:  
 
-
 \begin{equation}
 P(A|B) = P(A)
 \end{equation}
@@ -626,7 +597,7 @@ P(A|B) = P(A)
 P(B|A) = P(B)
 \end{equation}
 ---
-# Practice
+# M&Ms
 
 ```{r, echo=FALSE}
 m<-data.frame(
@@ -638,7 +609,7 @@ m<-data.frame(
 m %>%
   flextable()
 ```
-What is the *p*(blue, blue?
+What is the *p*(blue and blue)?
 
 ```{r}
 
@@ -724,9 +695,9 @@ knitr::include_graphics('images/Thomas_Bayes.gif')
 ---
 # Monty Hall Problem
 
-- On the 1980s game show, Let’s Make a Deal, a contestant chooses 1 of 3 doors to win a prize (1 door conceals a car, the other 2 doors conceal goats), and after the contestant makes their choice, the host (who knows what is behind the doors) opens 1 of the remaining 2 doors they did not choose but that has a goat, and then offers the contestant the opportunity to change their choice to the only remaining door
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AD6eJlbFa2I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-- If you were the contestant, what would you do? Would you stick with your original choice? Or would you switch?
 
 ---
 # Monty Hall
@@ -742,7 +713,7 @@ knitr::include_graphics('images/monty.png')
   - In reality, our chance of winning the car remains 1∕3 if we stick with our original choice, but increases to 2∕3 if we switch
 
 ---
-#Monty Hall Simulations
+# Monty Hall Simulations
 
 ```{r}
 set.seed(973)
@@ -778,11 +749,11 @@ prop.table(table(run))
 
 If you tested positive for Covid-19, what is the chance you actually have it?
 
-  1.  85% of the people who have Covid-19 test positive (sensitivity) 
+  1.  68% of the people who have Covid-19 test positive (sensitivity) 
   
-  2.  96% of the people who do not have Covid-19 test negative  (specificity)
+  2.  99% of the people who do not have Covid-19 test negative  (specificity)
   
-  3.  3%  of the population has Covid
+  3.  16%  of the population has Covid
 
 ---
 # Illustration: Covid-19
@@ -793,23 +764,22 @@ If you tested positive for Covid-19, what is the chance you actually have it?
   
   - $Pos$ be the event of testing positive 
   
-  
   - $Neg$ be the event of testing negative  
 
 
 - We know that:  
 
-  - $P(Covid) = \frac{1}{30}$    
+  - $P(Covid) = .16$    
   
-  - $P(Pos|Covid) = .85$  
+  - $P(Pos|Covid) = .68$  
   
-  - $P(Neg|Covid^C) = .96$   
+  - $P(Neg|Covid^C) = .99$   
 
 
 - We need to calculate: 
 
   - $P(Covid|Pos)$     
-
+---
 # Illustration: Covid-19
 
 - Bayes' Rule: 
@@ -817,8 +787,6 @@ If you tested positive for Covid-19, what is the chance you actually have it?
 \small
 $$ P(Covid|Pos) = \frac{P(Pos|Covid)P(Covid)}{P(Pos)} $$
 
-- $P(Pos)$?   
-  - Use Law of Total Probability  
 ---
 # Illustration: Covid-19  
 
@@ -834,7 +802,7 @@ $$
 We can now derive $P(Covid|Pos)$ using Bayes' rule:   
 
 $$P(Covid|Pos) = \frac{.85 * \frac{1}{30}}{.0462} = .142$$
-
+---
 # Lessons from Bayes' rule 
 
 - Based on the results of this test, the probability that your friend actually has covid-19 is .142   
@@ -958,7 +926,9 @@ head(voter) %>%
 ---
 # Marginal Probabilties
 
-What are these again?
+- What are these again?
+
+- The probability of an event irrespective of the outcomes 
 
 --
 
