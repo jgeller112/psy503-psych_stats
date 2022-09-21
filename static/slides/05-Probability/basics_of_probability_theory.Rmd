@@ -1,6 +1,6 @@
 ---
 title: "PSY 503: Foundations of Statistics in Psych Science"
-subtitle: "Introduction to Probability"
+subtitle: "Basics of Probability"
 institute: "Princeton University"
 author: "Jason Geller, Ph.D. (he/him/his)"
 date:  '`r Sys.Date()`'
@@ -133,7 +133,7 @@ knitr::include_graphics("prob.JPG")
 <br>
 <br> 
 
-Probability theory is the study of __random processes__
+Probability is the study of __random processes__
 
 - Probability is used to characterize uncertainty/randomness
 
@@ -201,7 +201,7 @@ THEN
 - __Outcome:__ $\omega$  
 
   - Possible realization of the random process
-    - heads
+      - heads
 
 - __Event:__ $A$, $B$, $C$, etc. 
 
