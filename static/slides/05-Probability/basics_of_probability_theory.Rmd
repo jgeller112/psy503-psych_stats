@@ -11,7 +11,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 18:10
+      ratio: 20:12
       countIncrementalSlides: true
       background-image: url("lover.png")
       background-size: cover
@@ -416,11 +416,12 @@ Is the assumption of equal probability realistic?
   
   - Relative frequency -> Proportion of times an event occurred out of all occasions it could have occurred
   
-  \begin{equation}
-P(A) = \frac{|$f$|}{*N*} 
-\end{equation}
+<center>
+$P(A) = \frac{|f|}{*N*}$
+<center>
 
 - Where $f$ = frequency of outcome and $N$ = Total # 
+
 - Over the long-run (many repetitions) what is the probability of X event?
   
 ---
@@ -479,21 +480,25 @@ background-image: url("fightclub.jpeg")
 - e.g.,If you belong to one of three political parties then the sum of P(R), P(D) and P(I) = 1
 
 ---
-# Probability Rule #3 
+# Probability Rule #3 (Subtraction) 
 
+.pull-left[
 - Complement
 
   - By definition $$ P(A) + P(A^c) = 1$$  
 
   - This implies $$ P(A^c) = 1 - P(A)$$
+]
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+.pull-right[
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 
 knitr::include_graphics("complement-venndiagram.svg")
 ```
+]
 
 ---
-# Probability Rule # 4
+# Probability Rule # 4 (Addition)
 
 - Addition Rule: If A and B are two events in a probability experiment, then the probability that either one of the events will occur is:
 
@@ -502,13 +507,17 @@ knitr::include_graphics("complement-venndiagram.svg")
 - Mutually Exclusive
 
 P(A or B) = P(A) + P(B)
+
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
 knitr::include_graphics("mutually-exclusive-venndiagram.svg")
 ```
 ]
 .pull-right[
+
 - Non-Mutually Exclusive
+
+P(A or B) = P(A) + P(B)-(A and B)
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
 
 knitr::include_graphics("addition-rule-independent-venndiagram.webp")
@@ -529,8 +538,7 @@ m %>%
 ```
 
 *p*(blue or green)
-
---
+---
 ```{r, echo=FALSE}
 m<-data.frame(
   stringsAsFactors = FALSE,
@@ -543,7 +551,7 @@ m %>%
 ```
 
 *p*(blue or green)
-```{r}
+```{r, echo=FALSE}
 
 24/100 + 16/100
 
@@ -553,8 +561,9 @@ m %>%
 
 > The union of two sets encompasses any element that exists in either one or both of them. We can represent this visually as a venn diagram as shown.
 
-> ![](union-venndiagram.svg)
-
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+knitr::include_graphics("union-venndiagram.svg")
+```
 ---
 # Intersection
 
@@ -617,21 +626,40 @@ What is the *p*(blue and blue)?
 
 ```
 ---
+---
+# Practice with grant proposal
+
+You are about to send a grant proposal to an organization. While you read about the grant, you realize that your grant proposal will be sent to 5 different referees, who can be either social or cognitive psychologists. Imagine that for each grant proposal, the committee flips a coin five times and assigns the proposal to a social psychologist every time the flip returns heads, and to a cognitive psychologist every time the flip returns tails.  
+
+Assume an infinite pool of social and cognitive psychologists. What are the chances that your grant proposal is assigned to 5 cognitive psychologists?   
+---
+# Practice with grant proposal
+
+Let $C_i$ be the event that your grant proposal is assigned to a cognitive psychologist. Since the events are independent from each other, we have:
+
+$$
+    \begin{split}
+P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &= P(C_1) \times P(C_2) \times P(C_3) \times P(C_4) \times P(C_5) \\
+&= (\frac{1}{2})^5 \\
+&= \frac{1}{32} \\
+    \end{split}
+$$
+---
 # Conditional Probablity
 
 - The likelihood of an event or outcome occurring, based on the occurrence of a previous event or outcome
 
 $$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
 
-Three probabilities 𝑝(A|B) is a conditional probability, while 𝑝(𝐴∩𝐵) is a joint probability and 𝑝(𝐵) is a marginal probability
+- 𝑝(A|B) ->  Conditional probability
+- 𝑝(𝐴∩𝐵)-> Joint probability
+- 𝑝(𝐵) ->  Marginal probability
 ---
 # Conditional Probability
 
-- Marginal probability: Likelihood that a randomly sampled outcome has 𝐴
+- Marginal probability: Probability of single event occurring independent of other events
 
-- Conditional probability
-
-  - Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
+- Conditional probability: Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
   
   - We would say “𝐴 given 𝐵” or “𝐴 conditional on 𝐵” 
   
@@ -644,53 +672,19 @@ Three probabilities 𝑝(A|B) is a conditional probability, while 𝑝(𝐴∩�
 
 - $P(A|B)$ is called the _posterior probability_  
 ---
-# Multiplication rule  
-
-\begin{equation}
-P(A|B)P(B) = P(A\: \cap \: B)
-\end{equation}
----
-# Implication  
-
-If $A$ and $B$ are independent events, we have: 
-\begin{equation}
-P(A\: \cap \: B) = P(A)P(B)
-\end{equation}  
-
----
-# Practice with grant proposal
-
-You are about to send a grant proposal to an organization. While you read about the grant, you realize that your grant proposal will be sent to 5 different referees, who can be either social or cognitive psychologists. Imagine that for each grant proposal, the committee flips a coin five times and assigns the proposal to a social psychologist every time the flip returns heads, and to a cognitive psychologist every time the flip returns tails.  
-
-Assume an infinite pool of social and cognitive psychologists. What are the chances that your grant proposal is assigned to 5 cognitive psychologists?   
----
-# Practice with grant proposal
-
-Let $C_i$ be the event that your grant proposal is assigned to a cognitive psychologist. Since the events are independent from each other, we have:
-
-\small
-$$
-    \begin{split}
-P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &= P(C_1) \times P(C_2) \times P(C_3) \times P(C_4) \times P(C_5) \\
-&= (\frac{1}{2})^5 \\
-&= \frac{1}{32} \\
-    \end{split}
-$$
----
 # Bayes' Rule  
 
 - Reversing a conditional probability allows us to find $P(A|B)$ if we know $P(B|A)$: 
 
 - Bayes' rule: 
+
 \begin{equation}
 P(A|B) = \frac{P(B|A)P(A)}{P(B)}
-\end{equation} 
+\end{equation}
 
-```{r ltp, fig.show='hold', out.width="40%", echo = FALSE, fig.cap = ''}
-
-knitr::include_graphics('images/Thomas_Bayes.gif')
-
-```
+\begin{equation}
+P(B|A) = \frac{P(A|B)*P(B)}{P(A|B)*P(B) + P(A|\neg B)*P(\neg B)}
+\end{equation}
 
 ---
 # Monty Hall Problem
@@ -716,7 +710,6 @@ knitr::include_graphics('images/monty.png')
 # Monty Hall Simulations
 
 ```{r}
-set.seed(973)
 
 monty <- function() {
     prize <- sample(x = 1:3, size = 1, replace = TRUE)
@@ -724,10 +717,8 @@ monty <- function() {
     monty <- sample(x = c(1:3)[-c(choice, prize)], size = 1, replace = TRUE)
     return(ifelse(prize != choice, yes = "Switch", no = "Stick"))
 }
-monty()
 
 ```
-
 ---
 
 ```{r}
@@ -745,74 +736,77 @@ prop.table(table(run))
 ```
 
 ---
-# Illustration: Covid-19  
+# Illustration: Bayes' Rule 
 
-If you tested positive for Covid-19, what is the chance you actually have it?
+- Doctors recommend getting a PSA test after 50 to screen for prostate cancer 
 
-  1.  68% of the people who have Covid-19 test positive (sensitivity) 
+If you tested positive for prostate cancer, what is the chance you actually have it?
+
+  1.  80% of the people who test positive have prostate cancer $(\text{sensitivity} = P(\text{positive test| disease}))$
   
-  2.  99% of the people who do not have Covid-19 test negative  (specificity)
+  2.  70% of the people who have a negative test do not have cancer $(\text{specificity} = P(\text{negative test|no disease}))$
   
-  3.  16%  of the population has Covid
+  3.  5%  of individuals over 60 have prostate cancer
 
 ---
-# Illustration: Covid-19
+# Illustration: Prostate Cancer
 
-- Let:   
-
-  - $Covid$ be the event of having Covid-19   
-  
-  - $Pos$ be the event of testing positive 
-  
-  - $Neg$ be the event of testing negative  
-
-
-- We know that:  
-
-  - $P(Covid) = .16$    
-  
-  - $P(Pos|Covid) = .68$  
-  
-  - $P(Neg|Covid^C) = .99$   
-
-
-- We need to calculate: 
-
-  - $P(Covid|Pos)$     
+$P(\text{cancer|test}) = \frac{P(\text{test|cancer})*P(\text{cancer})}{P(\text{test|cancer})*P(\text{cancer}) + P(\text{test|}\neg\text{cancer})*P(\neg\text{cancer})}$
+<br>
+<br>
+--
+= $\frac{0.8*0.058}{0.8*0.058 +0.3*0.942 } = 0.14$
 ---
-# Illustration: Covid-19
+# Class Activity
+```{r, echo=FALSE}
+library(countdown)
 
-- Bayes' Rule: 
+countdown(minutes = 3)
+```
 
-\small
-$$ P(Covid|Pos) = \frac{P(Pos|Covid)P(Covid)}{P(Pos)} $$
+- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. 
+
+
+  1.  99% of the people who test positive have Zombie Virus  $(\text{sensitivity} = P(\text{positive test| zombie})) $
+  
+  2.  85% of the people who have a negative test do not have Zombie virus $(\text{specificity} = P(\text{negative test|not zombie}))$
+  
+  3.  15% of individuals are zombies
+
 
 ---
-# Illustration: Covid-19  
+# Bayes Rules: Zombie Outbreak
 
-$$
-    \begin{split}
-P(Pos) &= P(Pos \: \cap \: Covid) + P(Pos \: \cap \: Covid^C) \\
-&= P(Pos|Covid)P(Covid) + P(Pos|Covid^C)P(Covid^C) \\ 
-&= 0.85\times \frac{1}{130} + (1-0.96)\times (1-\frac{1}{130}) \\
-&= 0.0462
-    \end{split}
-$$
 
-We can now derive $P(Covid|Pos)$ using Bayes' rule:   
+$P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{test|zombie})*P(\text{zombie}) + P(\text{test|}\neg\text{zombie})*P(\neg\text{zombie})}$
 
-$$P(Covid|Pos) = \frac{.85 * \frac{1}{30}}{.0462} = .142$$
+--
+
+<br>
+<br>
+<br>
+= $\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.54$
 ---
 # Lessons from Bayes' rule 
 
-- Based on the results of this test, the probability that your friend actually has covid-19 is .142   
+- Based on the results of this test, the probability that your friend actually is a zombie is .54   
 
-  - That's a 14.2% chance of actually having covid-19.   
+  - That's a 54% chance of being zombie
   
-- Bayes' rule often yields counter-intuitive results!  
+    - Sorry. Your friend might be a zombie
+
+- Bayes' rule often yields counter-intuitive results!
 
 - Importance of base rates  
 ---
+# Base-rate neglect
+
+```{r echo=FALSE,out.width="70%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('images/base.png')
+
+```
+
 class: center middle
 
 # Probability Theory vs. Statistical Inference 
@@ -823,7 +817,8 @@ class: center middle
 - We know the probability model of the random generative process    
 
 - We ask: given the data generative process, what data is likely?  
----  
+
+---
 # Probability Theory  
 
 - For any given random phenomenon, probability theory is a set of tools that
@@ -840,7 +835,7 @@ assume prior knowledge of:
 
 - We usually don't know the probability model  
 
-- OK, we can find the probability of every outcome in the sample space by observing many many repetitions   
+- OK, we can find the probability of every outcome in the sample space by observing many many repetitions 
 
   - BUT most random phenomena cannot be repeated again, again, and again   
 
@@ -860,6 +855,54 @@ assume prior knowledge of:
 knitr::include_graphics("unnamed.png")
 ```
 ---
+# Probability Distributions
+
+.pull-left[
+- A random variable, usually denoted as X, is a variable whose values are numerical outcomes of some random process
+
+- Probability density function (PDF)
+
+ - In Statistics, it is used to calculate the probabilities associated with the random variables
+  
+  - $X = x$ *Exact*
+]
+
+.pull-right[
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
+
+knitr::include_graphics("images/pdf.png")
+```
+]
+---
+# Probability Distributions
+
+- Cumulative density function (CDF)
+
+  - $X <= x$ (less than or equal)
+
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+
+knitr::include_graphics("images/Normal_Distribution_CDF.svg")
+```
+---
+# R
+
+- PDF 
+```{r, eval=FALSE}
+dnorm(x,           # X-axis values (grid)
+      mean = 0,    # Integer or vector representing the mean/s
+      sd = 1,      # Integer or vector representing the standard deviation/s
+      log = FALSE) # If TRUE, probabilities are given as log
+
+```
+
+- CDF
+
+```{r, eval=FALSE}
+
+pnorm()
+```
+---
 # Statisical Inference
 
 - For any given random phenomenon, statistical inference is a set of tools that
@@ -867,26 +910,11 @@ uses knowledge of:
 
   - A finite number of realizations of a random phenomenon   
   
-- ... to tell you how to make educated guesses about:  
-
+-  To tell you how to make educated guesses about:  
   - The sample space  
   
   - The probability of events defined on that sample space   
----
-# Probability Theory vs. Statistical Inference 
 
-- Probability theory asks:  
-
-  - Assuming that the probability of observing heads in a coin flip is 0.5  
-    - What is the probability of observing HHTT if we flip a coin four
-times?  
-
-- Statistical inference asks:   
-
-  - Suppose that you flip a coin four times and observe HHTT  
-  
-     - What is your best guess for the probability of observing heads when flipping that coin? How confident are you in your guess?
-  
 ---
 class: middle center
 
@@ -901,26 +929,20 @@ class: middle center
 library(here)
 
 voter=read.csv(here::here("static","slides","05-Probability","data", "florida-voters.csv"))
-
-voter %>% 
-  glimpse()
-
 voter <- na.omit(voter) 
-
 voter %>% 
   glimpse()
-
-dim(voter)
 ```
 
 ---
 # Data: Setup
 
 ```{r}
+library(kableExtra)
 
 head(voter) %>%
-  flextable::flextable()
-
+kable(align = "cccccc")%>%
+   kable_material_dark()
 
 ```
 ---
@@ -928,52 +950,56 @@ head(voter) %>%
 
 - What are these again?
 
-- The probability of an event irrespective of the outcomes 
+  - The probability of an event irrespective of the outcomes 
 
 --
 
+
 ```{r}
-library(knitr)
 marg.race <- voter %>%
   count(race)%>%
-  mutate(prop=prop.table(n)) %>%
-  kable()
+  mutate(prop=prop.table(n))
 
-marg.race
 
+```
+---
+```{r}
+marg.race %>%
+  kable(align = "cccccc")%>%
+   kable_material_dark()
 ```
 
 ---
 # Gender
 
-
 ```{r}
 marg.gender <- voter %>%
   group_by(gender) %>%
   summarise(n=n())%>%
-  mutate(freq=n/sum(n)) %>%
-  kable()
+  mutate(freq=n/sum(n))
 
-marg.gender
+marg.gender %>%
+  kable(align = "cccccc")%>%
+   kable_material_dark()
 
 ```
 ---
 # Conditional Probability
 
-
 $$ P(black|male) =  $$
+
 ```{r}
 library(janitor)
 cond_racegender <- voter %>%
   filter(gender=="m") %>%
   tabyl(race)%>%
-  kable()
+  kable(align = "cccccc")%>%
+   kable_material_dark()
 
 cond_racegender
-
 ```
 ---
-# 
+# Conditional Probability
 
 $$ P(black \cap male) $$
 ```{r}
@@ -985,12 +1011,20 @@ joint <- voter %>%
   count(race, gender) %>%
   ungroup() %>% 
   mutate(total=sum(n), prop=n/total)
-
-joint
 ```
+---
 
-# Data: Independance
 ```{r}
+joint %>% 
+    kable(align = "cccccc") %>%
+  kable_material_dark()
+```
+---
+# Data: Independance
+
+$$ P(black \cap male) $$
+```{r}
+#Are race and gender independent? Recall that two #events are independent if and only if, for example:
 
 marg.race <- voter %>%
  group_by(race)%>%
@@ -999,33 +1033,36 @@ marg.race <- voter %>%
 marg.gender <- voter %>%
    group_by(gender)%>%
   tabyl(gender)
-
-marg.race
-
-marg.gender
 ```
 
+---
+```{r}
+marg.race %>% 
+kable() %>%
+  kable_material_dark()
+
+```
+---
+```{r}
+marg.gender %>% 
+kable() %>%
+ kable_material_dark()
+```
 
 ```{r}
-
 0.13*0.464 
 
-
 ```
-
+---
 ```{r}
-library(kableExtra)
-
-joint <- voter %>%
+ voter %>%
   select(race, gender) %>%
   group_by(race, gender) %>%
   count(race, gender) %>%
   ungroup() %>% 
   mutate(total=sum(n), prop=n/total) %>%
-  kable() %>%
-  kable_styling() %>%
-  row_spec(4, bold = T, background = "black")
+  kable(align = "cccccc") %>%
+  kable_material_dark()
 
-joint
 ```
 

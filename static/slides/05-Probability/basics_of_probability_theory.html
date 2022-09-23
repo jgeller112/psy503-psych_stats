@@ -4,10 +4,12 @@
     <title>PSY 503: Foundations of Statistics in Psych Science</title>
     <meta charset="utf-8" />
     <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
-    <meta name="date" content="2022-09-21" />
+    <meta name="date" content="2022-09-22" />
     <script src="basics_of_probability_theory_files/header-attrs/header-attrs.js"></script>
     <link href="basics_of_probability_theory_files/tabwid/tabwid.css" rel="stylesheet" />
     <link href="basics_of_probability_theory_files/tabwid/scrool.css" rel="stylesheet" />
+    <link href="basics_of_probability_theory_files/countdown/countdown.css" rel="stylesheet" />
+    <script src="basics_of_probability_theory_files/countdown/countdown.js"></script>
     <script src="basics_of_probability_theory_files/kePrint/kePrint.js"></script>
     <link href="basics_of_probability_theory_files/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -29,7 +31,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### 2022-09-21
+### 2022-09-22
 ]
 
 ---
@@ -322,9 +324,9 @@ background-image: url("weather.png")
   - **All outcomes are equally likely**
 
 Let `\(A\)` be an event with a finite sample space `\(\Omega\)`. The _naive probability_ of `\(A\)` is 
-\begin{equation}
+`\begin{equation}
 P(A) = \frac{|A|}{|\Omega|} 
-\end{equation}
+\end{equation}`
 
 in which |A| is the number of possible outcomes `\(\omega\)` that satisfy A, and |$\Omega$| is the total number of possible outcomes `\(\omega\)` within `\(\Omega\)`.  
 
@@ -368,11 +370,12 @@ Is the assumption of equal probability realistic?
   
   - Relative frequency -&gt; Proportion of times an event occurred out of all occasions it could have occurred
   
-  \begin{equation}
-P(A) = \frac{|$f$|}{*N*} 
-\end{equation}
+&lt;center&gt;
+`\(P(A) = \frac{|f|}{*N*}\)`
+&lt;center&gt;
 
 - Where `\(f\)` = frequency of outcome and `\(N\)` = Total # 
+
 - Over the long-run (many repetitions) what is the probability of X event?
   
 ---
@@ -425,18 +428,22 @@ background-image: url("fightclub.jpeg")
 - e.g.,If you belong to one of three political parties then the sum of P(R), P(D) and P(I) = 1
 
 ---
-# Probability Rule #3 
+# Probability Rule #3 (Subtraction) 
 
+.pull-left[
 - Complement
 
   - By definition $$ P(A) + P(A^c) = 1$$  
 
   - This implies $$ P(A^c) = 1 - P(A)$$
+]
 
-&lt;img src="complement-venndiagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
+.pull-right[
+&lt;img src="complement-venndiagram.svg" width="100%" style="display: block; margin: auto;" /&gt;
+]
 
 ---
-# Probability Rule # 4
+# Probability Rule # 4 (Addition)
 
 - Addition Rule: If A and B are two events in a probability experiment, then the probability that either one of the events will occur is:
 
@@ -445,17 +452,21 @@ background-image: url("fightclub.jpeg")
 - Mutually Exclusive
 
 P(A or B) = P(A) + P(B)
+
 &lt;img src="mutually-exclusive-venndiagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
+
 - Non-Mutually Exclusive
+
+P(A or B) = P(A) + P(B)-(A and B)
 &lt;img src="addition-rule-independent-venndiagram.webp" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # Practice
 
 
-&lt;template id="19e8f566-b173-4a1a-8d2e-42ff0cf33daa"&gt;&lt;style&gt;
+&lt;template id="c04d4078-8e89-48ef-aa58-b9745d9c25ef"&gt;&lt;style&gt;
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -492,11 +503,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-02170e34{}.cl-0212de68{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0212ed72{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0212ed7c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0213113a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0213113b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0213113c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-02131144{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-02131145{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-02131146{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-02170e34'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-02131145"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Color&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-02131146"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;Count&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0213113a"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Brown&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0213113b"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0213113a"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Red&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0213113b"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0213113a"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Yellow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0213113b"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0213113a"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Green&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0213113b"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0213113a"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Orange&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0213113b"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0213113c"&gt;&lt;p class="cl-0212ed72"&gt;&lt;span class="cl-0212de68"&gt;Blue&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-02131144"&gt;&lt;p class="cl-0212ed7c"&gt;&lt;span class="cl-0212de68"&gt;24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
-&lt;div class="flextable-shadow-host" id="7fe634ed-4185-4df3-8164-564b5a65e1fc"&gt;&lt;/div&gt;
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-86b8b9de{}.cl-86b5e9a2{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-86b5f4b0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-86b5f4b1{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-86b60c7a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86b60c84{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86b60c85{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86b60c8e{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86b60c8f{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86b60c90{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-86b8b9de'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c8f"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Color&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c90"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;Count&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c7a"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Brown&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c84"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c7a"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Red&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c84"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c7a"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Yellow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c84"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c7a"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Green&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c84"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c7a"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Orange&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c84"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86b60c85"&gt;&lt;p class="cl-86b5f4b0"&gt;&lt;span class="cl-86b5e9a2"&gt;Blue&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86b60c8e"&gt;&lt;p class="cl-86b5f4b1"&gt;&lt;span class="cl-86b5e9a2"&gt;24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="7ced63e2-22a6-4e2a-83a8-60ffcffe1d58"&gt;&lt;/div&gt;
 &lt;script&gt;
-var dest = document.getElementById("7fe634ed-4185-4df3-8164-564b5a65e1fc");
-var template = document.getElementById("19e8f566-b173-4a1a-8d2e-42ff0cf33daa");
+var dest = document.getElementById("7ced63e2-22a6-4e2a-83a8-60ffcffe1d58");
+var template = document.getElementById("c04d4078-8e89-48ef-aa58-b9745d9c25ef");
 var caption = template.content.querySelector("caption");
 if(caption) {
   caption.style.cssText = "display:block;text-align:center;";
@@ -510,10 +521,9 @@ fantome.appendChild(templateContent);
 &lt;/script&gt;
 
 *p*(blue or green)
+---
 
---
-
-&lt;template id="34aa1c1d-268c-49e3-92c1-759129096037"&gt;&lt;style&gt;
+&lt;template id="14ad2254-583b-4fe7-bfb5-82c53bc94b3a"&gt;&lt;style&gt;
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -550,11 +560,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-02221b26{}.cl-021eb0bc{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-021eba26{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-021eba30{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-021ed86c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-021ed86d{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-021ed876{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-021ed877{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-021ed880{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-021ed881{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-02221b26'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed880"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Color&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed881"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;Count&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed86c"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Brown&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed86d"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed86c"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Red&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed86d"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed86c"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Yellow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed86d"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed86c"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Green&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed86d"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed86c"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Orange&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed86d"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-021ed876"&gt;&lt;p class="cl-021eba26"&gt;&lt;span class="cl-021eb0bc"&gt;Blue&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-021ed877"&gt;&lt;p class="cl-021eba30"&gt;&lt;span class="cl-021eb0bc"&gt;24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
-&lt;div class="flextable-shadow-host" id="7059529d-3397-446c-b4c2-877125025cad"&gt;&lt;/div&gt;
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-86bfb5ea{}.cl-86bdb8b2{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-86bdbe70{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-86bdbe71{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-86bdd1b2{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86bdd1bc{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86bdd1bd{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86bdd1c6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86bdd1c7{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86bdd1c8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-86bfb5ea'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1c7"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Color&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1c8"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;Count&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1b2"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Brown&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1bc"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1b2"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Red&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1bc"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1b2"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Yellow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1bc"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1b2"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Green&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1bc"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1b2"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Orange&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1bc"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86bdd1bd"&gt;&lt;p class="cl-86bdbe70"&gt;&lt;span class="cl-86bdb8b2"&gt;Blue&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86bdd1c6"&gt;&lt;p class="cl-86bdbe71"&gt;&lt;span class="cl-86bdb8b2"&gt;24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="d8c40960-eea3-4298-ba2b-02190efadfc1"&gt;&lt;/div&gt;
 &lt;script&gt;
-var dest = document.getElementById("7059529d-3397-446c-b4c2-877125025cad");
-var template = document.getElementById("34aa1c1d-268c-49e3-92c1-759129096037");
+var dest = document.getElementById("d8c40960-eea3-4298-ba2b-02190efadfc1");
+var template = document.getElementById("14ad2254-583b-4fe7-bfb5-82c53bc94b3a");
 var caption = template.content.querySelector("caption");
 if(caption) {
   caption.style.cssText = "display:block;text-align:center;";
@@ -568,10 +578,6 @@ fantome.appendChild(templateContent);
 &lt;/script&gt;
 
 *p*(blue or green)
-
-```r
-24/100 + 16/100
-```
 
 ```
 ## [1] 0.4
@@ -581,8 +587,7 @@ fantome.appendChild(templateContent);
 
 &gt; The union of two sets encompasses any element that exists in either one or both of them. We can represent this visually as a venn diagram as shown.
 
-&gt; ![](union-venndiagram.svg)
-
+&lt;img src="union-venndiagram.svg" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 # Intersection
 
@@ -598,15 +603,15 @@ fantome.appendChild(templateContent);
 - The multiplication rule is used to find the probability of two events, *A* and *B*, happening simultaneously. 
 
 Dependent: 
-\begin{equation}
+`\begin{equation}
 P(A and B) = P(A)P(B|A)
-\end{equation}
+\end{equation}`
 
 Independent: 
 
-\begin{equation}
+`\begin{equation}
 P(A and B) = P(A)*P(B)
-\end{equation}
+\end{equation}`
 
 ---
 # Independent Events
@@ -615,18 +620,18 @@ P(A and B) = P(A)*P(B)
 
 If two events `\(A\)` and `\(B\)` are independent, knowing that `\(A\)` occurred does not inform the chances that `\(B\)` occurred. We have:  
 
-\begin{equation}
+`\begin{equation}
 P(A|B) = P(A)
-\end{equation}
+\end{equation}`
 
-\begin{equation}
+`\begin{equation}
 P(B|A) = P(B)
-\end{equation}
+\end{equation}`
 ---
 # M&amp;Ms
 
 
-&lt;template id="1e80db27-d3f8-4098-9860-c8f1fabf822b"&gt;&lt;style&gt;
+&lt;template id="d5e0881e-6894-4e80-9a74-9fe05c29be02"&gt;&lt;style&gt;
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -663,11 +668,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-022d0306{}.cl-0229ac1a{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0229b5c0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0229b5ca{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0229d3fc{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0229d406{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0229d407{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0229d410{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0229d411{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0229d41a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-022d0306'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d411"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Color&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d41a"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;Count&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d3fc"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Brown&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d406"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d3fc"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Red&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d406"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d3fc"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Yellow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d406"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d3fc"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Green&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d406"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d3fc"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Orange&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d406"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0229d407"&gt;&lt;p class="cl-0229b5c0"&gt;&lt;span class="cl-0229ac1a"&gt;Blue&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0229d410"&gt;&lt;p class="cl-0229b5ca"&gt;&lt;span class="cl-0229ac1a"&gt;24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
-&lt;div class="flextable-shadow-host" id="0d0d8c2c-67ff-4fab-91c4-95d4f38317f6"&gt;&lt;/div&gt;
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-86c6f5b2{}.cl-86c4cb48{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-86c4d1d8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-86c4d1d9{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-86c4e4b6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86c4e4de{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86c4e4df{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86c4e4e8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86c4e4e9{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-86c4e4ea{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-86c6f5b2'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4e9"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Color&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4ea"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;Count&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4b6"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Brown&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4de"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4b6"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Red&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4de"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4b6"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Yellow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4de"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4b6"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Green&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4de"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4b6"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Orange&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4de"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-86c4e4df"&gt;&lt;p class="cl-86c4d1d8"&gt;&lt;span class="cl-86c4cb48"&gt;Blue&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-86c4e4e8"&gt;&lt;p class="cl-86c4d1d9"&gt;&lt;span class="cl-86c4cb48"&gt;24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="71b1f8cc-8c26-4bb5-b1b5-f74efaa5267f"&gt;&lt;/div&gt;
 &lt;script&gt;
-var dest = document.getElementById("0d0d8c2c-67ff-4fab-91c4-95d4f38317f6");
-var template = document.getElementById("1e80db27-d3f8-4098-9860-c8f1fabf822b");
+var dest = document.getElementById("71b1f8cc-8c26-4bb5-b1b5-f74efaa5267f");
+var template = document.getElementById("d5e0881e-6894-4e80-9a74-9fe05c29be02");
 var caption = template.content.querySelector("caption");
 if(caption) {
   caption.style.cssText = "display:block;text-align:center;";
@@ -690,21 +695,40 @@ What is the *p*(blue and blue)?
 ## [1] 0.0576
 ```
 ---
+---
+# Practice with grant proposal
+
+You are about to send a grant proposal to an organization. While you read about the grant, you realize that your grant proposal will be sent to 5 different referees, who can be either social or cognitive psychologists. Imagine that for each grant proposal, the committee flips a coin five times and assigns the proposal to a social psychologist every time the flip returns heads, and to a cognitive psychologist every time the flip returns tails.  
+
+Assume an infinite pool of social and cognitive psychologists. What are the chances that your grant proposal is assigned to 5 cognitive psychologists?   
+---
+# Practice with grant proposal
+
+Let `\(C_i\)` be the event that your grant proposal is assigned to a cognitive psychologist. Since the events are independent from each other, we have:
+
+$$
+    \begin{split}
+P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &amp;= P(C_1) \times P(C_2) \times P(C_3) \times P(C_4) \times P(C_5) \\
+&amp;= (\frac{1}{2})^5 \\
+&amp;= \frac{1}{32} \\
+    \end{split}
+$$
+---
 # Conditional Probablity
 
 - The likelihood of an event or outcome occurring, based on the occurrence of a previous event or outcome
 
 $$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
 
-Three probabilities 𝑝(A|B) is a conditional probability, while 𝑝(𝐴∩𝐵) is a joint probability and 𝑝(𝐵) is a marginal probability
+- 𝑝(A|B) -&gt;  Conditional probability
+- 𝑝(𝐴∩𝐵)-&gt; Joint probability
+- 𝑝(𝐵) -&gt;  Marginal probability
 ---
 # Conditional Probability
 
-- Marginal probability: Likelihood that a randomly sampled outcome has 𝐴
+- Marginal probability: Probability of single event occurring independent of other events
 
-- Conditional probability
-
-  - Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
+- Conditional probability: Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
   
   - We would say “𝐴 given 𝐵” or “𝐴 conditional on 𝐵” 
   
@@ -717,49 +741,19 @@ Three probabilities 𝑝(A|B) is a conditional probability, while 𝑝(𝐴∩�
 
 - `\(P(A|B)\)` is called the _posterior probability_  
 ---
-# Multiplication rule  
-
-\begin{equation}
-P(A|B)P(B) = P(A\: \cap \: B)
-\end{equation}
----
-# Implication  
-
-If `\(A\)` and `\(B\)` are independent events, we have: 
-\begin{equation}
-P(A\: \cap \: B) = P(A)P(B)
-\end{equation}  
-
----
-# Practice with grant proposal
-
-You are about to send a grant proposal to an organization. While you read about the grant, you realize that your grant proposal will be sent to 5 different referees, who can be either social or cognitive psychologists. Imagine that for each grant proposal, the committee flips a coin five times and assigns the proposal to a social psychologist every time the flip returns heads, and to a cognitive psychologist every time the flip returns tails.  
-
-Assume an infinite pool of social and cognitive psychologists. What are the chances that your grant proposal is assigned to 5 cognitive psychologists?   
----
-# Practice with grant proposal
-
-Let `\(C_i\)` be the event that your grant proposal is assigned to a cognitive psychologist. Since the events are independent from each other, we have:
-
-\small
-$$
-    \begin{split}
-P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &amp;= P(C_1) \times P(C_2) \times P(C_3) \times P(C_4) \times P(C_5) \\
-&amp;= (\frac{1}{2})^5 \\
-&amp;= \frac{1}{32} \\
-    \end{split}
-$$
----
 # Bayes' Rule  
 
 - Reversing a conditional probability allows us to find `\(P(A|B)\)` if we know `\(P(B|A)\)`: 
 
 - Bayes' rule: 
-\begin{equation}
-P(A|B) = \frac{P(B|A)P(A)}{P(B)}
-\end{equation} 
 
-&lt;img src="images/Thomas_Bayes.gif" width="40%" /&gt;
+`\begin{equation}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{equation}`
+
+`\begin{equation}
+P(B|A) = \frac{P(A|B)*P(B)}{P(A|B)*P(B) + P(A|\neg B)*P(\neg B)}
+\end{equation}`
 
 ---
 # Monty Hall Problem
@@ -782,21 +776,13 @@ P(A|B) = \frac{P(B|A)P(A)}{P(B)}
 
 
 ```r
-set.seed(973)
-
 monty &lt;- function() {
     prize &lt;- sample(x = 1:3, size = 1, replace = TRUE)
     choice &lt;- sample(x = 1:3, size = 1, replace = TRUE)
     monty &lt;- sample(x = c(1:3)[-c(choice, prize)], size = 1, replace = TRUE)
     return(ifelse(prize != choice, yes = "Switch", no = "Stick"))
 }
-monty()
 ```
-
-```
-## [1] "Stick"
-```
-
 ---
 
 
@@ -813,7 +799,7 @@ prop.table(table(run))
 ```
 ## run
 ##   Stick  Switch 
-## 0.33147 0.66853
+## 0.33393 0.66607
 ```
 
 ```r
@@ -823,74 +809,72 @@ prop.table(table(run))
 ```
 
 ---
-# Illustration: Covid-19  
+# Illustration: Bayes' Rule 
 
-If you tested positive for Covid-19, what is the chance you actually have it?
+- Doctors recommend getting a PSA test after 50 to screen for prostate cancer 
 
-  1.  68% of the people who have Covid-19 test positive (sensitivity) 
+If you tested positive for prostate cancer, what is the chance you actually have it?
+
+  1.  80% of the people who test positive have prostate cancer `\((\text{sensitivity} = P(\text{positive test| disease}))\)`
   
-  2.  99% of the people who do not have Covid-19 test negative  (specificity)
+  2.  70% of the people who have a negative test do not have cancer `\((\text{specificity} = P(\text{negative test|no disease}))\)`
   
-  3.  16%  of the population has Covid
+  3.  5%  of individuals over 60 have prostate cancer
 
 ---
-# Illustration: Covid-19
+# Illustration: Prostate Cancer
 
-- Let:   
-
-  - `\(Covid\)` be the event of having Covid-19   
-  
-  - `\(Pos\)` be the event of testing positive 
-  
-  - `\(Neg\)` be the event of testing negative  
-
-
-- We know that:  
-
-  - `\(P(Covid) = .16\)`    
-  
-  - `\(P(Pos|Covid) = .68\)`  
-  
-  - `\(P(Neg|Covid^C) = .99\)`   
-
-
-- We need to calculate: 
-
-  - `\(P(Covid|Pos)\)`     
+`\(P(\text{cancer|test}) = \frac{P(\text{test|cancer})*P(\text{cancer})}{P(\text{test|cancer})*P(\text{cancer}) + P(\text{test|}\neg\text{cancer})*P(\neg\text{cancer})}\)`
+&lt;br&gt;
+&lt;br&gt;
+--
+= `\(\frac{0.8*0.058}{0.8*0.058 +0.3*0.942 } = 0.14\)`
 ---
-# Illustration: Covid-19
+# Class Activity
+<div class="countdown" id="timer_7f97baf2" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
-- Bayes' Rule: 
+- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. 
 
-\small
-$$ P(Covid|Pos) = \frac{P(Pos|Covid)P(Covid)}{P(Pos)} $$
+
+  1.  99% of the people who test positive have Zombie Virus  $(\text{sensitivity} = P(\text{positive test| zombie})) $
+  
+  2.  85% of the people who have a negative test do not have Zombie virus `\((\text{specificity} = P(\text{negative test|not zombie}))\)`
+  
+  3.  15% of individuals are zombies
+
 
 ---
-# Illustration: Covid-19  
+# Bayes Rules: Zombie Outbreak
 
-$$
-    \begin{split}
-P(Pos) &amp;= P(Pos \: \cap \: Covid) + P(Pos \: \cap \: Covid^C) \\
-&amp;= P(Pos|Covid)P(Covid) + P(Pos|Covid^C)P(Covid^C) \\ 
-&amp;= 0.85\times \frac{1}{130} + (1-0.96)\times (1-\frac{1}{130}) \\
-&amp;= 0.0462
-    \end{split}
-$$
 
-We can now derive `\(P(Covid|Pos)\)` using Bayes' rule:   
+`\(P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{test|zombie})*P(\text{zombie}) + P(\text{test|}\neg\text{zombie})*P(\neg\text{zombie})}\)`
 
-`$$P(Covid|Pos) = \frac{.85 * \frac{1}{30}}{.0462} = .142$$`
+--
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+= `\(\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.54\)`
 ---
 # Lessons from Bayes' rule 
 
-- Based on the results of this test, the probability that your friend actually has covid-19 is .142   
+- Based on the results of this test, the probability that your friend actually is a zombie is .54   
 
-  - That's a 14.2% chance of actually having covid-19.   
+  - That's a 54% chance of being zombie
   
-- Bayes' rule often yields counter-intuitive results!  
+    - Sorry. Your friend might be a zombie
+
+- Bayes' rule often yields counter-intuitive results!
 
 - Importance of base rates  
 ---
+# Base-rate neglect
+
+&lt;img src="images/base.png" width="70%" style="display: block; margin: auto;" /&gt;
+
 class: center middle
 
 # Probability Theory vs. Statistical Inference 
@@ -901,7 +885,8 @@ class: center middle
 - We know the probability model of the random generative process    
 
 - We ask: given the data generative process, what data is likely?  
----  
+
+---
 # Probability Theory  
 
 - For any given random phenomenon, probability theory is a set of tools that
@@ -918,7 +903,7 @@ assume prior knowledge of:
 
 - We usually don't know the probability model  
 
-- OK, we can find the probability of every outcome in the sample space by observing many many repetitions   
+- OK, we can find the probability of every outcome in the sample space by observing many many repetitions 
 
   - BUT most random phenomena cannot be repeated again, again, and again   
 
@@ -935,6 +920,48 @@ assume prior knowledge of:
 
 &lt;img src="unnamed.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
+# Probability Distributions
+
+.pull-left[
+- A random variable, usually denoted as X, is a variable whose values are numerical outcomes of some random process
+
+- Probability density function (PDF)
+
+ - In Statistics, it is used to calculate the probabilities associated with the random variables
+  
+  - `\(X = x\)` *Exact*
+]
+
+.pull-right[
+&lt;img src="images/pdf.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Probability Distributions
+
+- Cumulative density function (CDF)
+
+  - `\(X &lt;= x\)` (less than or equal)
+
+&lt;img src="images/Normal_Distribution_CDF.svg" width="50%" style="display: block; margin: auto;" /&gt;
+---
+# R
+
+- PDF 
+
+```r
+dnorm(x,           # X-axis values (grid)
+      mean = 0,    # Integer or vector representing the mean/s
+      sd = 1,      # Integer or vector representing the standard deviation/s
+      log = FALSE) # If TRUE, probabilities are given as log
+```
+
+- CDF
+
+
+```r
+pnorm()
+```
+---
 # Statisical Inference
 
 - For any given random phenomenon, statistical inference is a set of tools that
@@ -942,26 +969,11 @@ uses knowledge of:
 
   - A finite number of realizations of a random phenomenon   
   
-- ... to tell you how to make educated guesses about:  
-
+-  To tell you how to make educated guesses about:  
   - The sample space  
   
   - The probability of events defined on that sample space   
----
-# Probability Theory vs. Statistical Inference 
 
-- Probability theory asks:  
-
-  - Assuming that the probability of observing heads in a coin flip is 0.5  
-    - What is the probability of observing HHTT if we flip a coin four
-times?  
-
-- Statistical inference asks:   
-
-  - Suppose that you flip a coin four times and observe HHTT  
-  
-     - What is your best guess for the probability of observing heads when flipping that coin? How confident are you in your guess?
-  
 ---
 class: middle center
 
@@ -977,25 +989,7 @@ class: middle center
 library(here)
 
 voter=read.csv(here::here("static","slides","05-Probability","data", "florida-voters.csv"))
-
-voter %&gt;% 
-  glimpse()
-```
-
-```
-## Rows: 10,000
-## Columns: 6
-## $ surname &lt;chr&gt; "PIEDRA", "LYNCH", "CHESTER", "LATHROP", "HUMMEL", "CHRISTISON…
-## $ county  &lt;int&gt; 115, 115, 115, 115, 115, 115, 115, 115, 1, 1, 115, 115, 115, 1…
-## $ VTD     &lt;int&gt; 66, 13, 103, 80, 8, 55, 84, 48, 41, 39, 26, 45, 11, 48, 22, 88…
-## $ age     &lt;int&gt; 58, 51, 63, 54, 77, 49, 77, 34, 56, 60, 44, 45, 80, 83, 88, 55…
-## $ gender  &lt;chr&gt; "f", "m", "m", "m", "f", "m", "f", "f", "f", "m", "m", "f", "m…
-## $ race    &lt;chr&gt; "white", "white", NA, "white", "white", "white", "white", "whi…
-```
-
-```r
 voter &lt;- na.omit(voter) 
-
 voter %&gt;% 
   glimpse()
 ```
@@ -1011,157 +1005,249 @@ voter %&gt;%
 ## $ race    &lt;chr&gt; "white", "white", "white", "white", "white", "white", "white",…
 ```
 
-```r
-dim(voter)
-```
-
-```
-## [1] 9113    6
-```
-
 ---
 # Data: Setup
 
 
 ```r
+library(kableExtra)
+
 head(voter) %&gt;%
-  flextable::flextable()
+kable(align = "cccccc")%&gt;%
+   kable_material_dark()
 ```
 
-
-&lt;template id="418a09e3-0155-4efb-9c5d-c060fd024646"&gt;&lt;style&gt;
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  display: table;
-  margin-top: 1.275em;
-  margin-bottom: 1.275em;
-  border-color: transparent;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-03556cdc{}.cl-034fab3a{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-034fb65c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-034fb65d{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-034fe460{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-034fe46a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-034fe46b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-034fe474{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-034fe475{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-034fe476{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-03556cdc'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe476"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;surname&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe475"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;county&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe475"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;VTD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe475"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;age&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe476"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;gender&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe476"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;race&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;PIEDRA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;58&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;LYNCH&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;13&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;51&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;LATHROP&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;80&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;54&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;HUMMEL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;CHRISTISON&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;55&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46a"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;49&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe460"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-034fe46b"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;HOMAN&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe474"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;115&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe474"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;84&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe474"&gt;&lt;p class="cl-034fb65d"&gt;&lt;span class="cl-034fab3a"&gt;77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46b"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-034fe46b"&gt;&lt;p class="cl-034fb65c"&gt;&lt;span class="cl-034fab3a"&gt;white&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
-&lt;div class="flextable-shadow-host" id="caeed80d-df66-496d-aca1-bf5277c20720"&gt;&lt;/div&gt;
-&lt;script&gt;
-var dest = document.getElementById("caeed80d-df66-496d-aca1-bf5277c20720");
-var template = document.getElementById("418a09e3-0155-4efb-9c5d-c060fd024646");
-var caption = template.content.querySelector("caption");
-if(caption) {
-  caption.style.cssText = "display:block;text-align:center;";
-  var newcapt = document.createElement("p");
-  newcapt.appendChild(caption)
-  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
-}
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-&lt;/script&gt;
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; surname &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; county &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; VTD &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; race &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; PIEDRA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 66 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 58 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; LYNCH &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 51 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; LATHROP &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 80 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 54 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HUMMEL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 77 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; CHRISTISON &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 55 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 49 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HOMAN &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 84 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 77 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ---
 # Marginal Probabilties
 
 - What are these again?
 
-- The probability of an event irrespective of the outcomes 
+  - The probability of an event irrespective of the outcomes 
 
 --
 
 
+
 ```r
-library(knitr)
 marg.race &lt;- voter %&gt;%
   count(race)%&gt;%
-  mutate(prop=prop.table(n)) %&gt;%
-  kable()
+  mutate(prop=prop.table(n))
+```
+---
 
-marg.race
+```r
+marg.race %&gt;%
+  kable(align = "cccccc")%&gt;%
+   kable_material_dark()
 ```
 
-
-
-|race     |    n|      prop|
-|:--------|----:|---------:|
-|asian    |  175| 0.0192033|
-|black    | 1194| 0.1310216|
-|hispanic | 1192| 0.1308022|
-|native   |   29| 0.0031823|
-|other    |  310| 0.0340173|
-|white    | 6213| 0.6817733|
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; race &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; prop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 175 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0192033 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1194 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.1310216 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1192 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.1308022 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 29 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0031823 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 310 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0340173 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 6213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.6817733 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 ---
 # Gender
-
 
 
 ```r
 marg.gender &lt;- voter %&gt;%
   group_by(gender) %&gt;%
   summarise(n=n())%&gt;%
-  mutate(freq=n/sum(n)) %&gt;%
-  kable()
+  mutate(freq=n/sum(n))
 
-marg.gender
+marg.gender %&gt;%
+  kable(align = "cccccc")%&gt;%
+   kable_material_dark()
 ```
 
-
-
-|gender |    n|      freq|
-|:------|----:|---------:|
-|f      | 4883| 0.5358279|
-|m      | 4230| 0.4641721|
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; freq &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4883 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.5358279 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 4230 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.4641721 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ---
 # Conditional Probability
 
-
 $$ P(black|male) =  $$
+
 
 ```r
 library(janitor)
 cond_racegender &lt;- voter %&gt;%
   filter(gender=="m") %&gt;%
   tabyl(race)%&gt;%
-  kable()
+  kable(align = "cccccc")%&gt;%
+   kable_material_dark()
 
 cond_racegender
 ```
 
-
-
-|race     |    n|   percent|
-|:--------|----:|---------:|
-|asian    |   92| 0.0217494|
-|black    |  516| 0.1219858|
-|hispanic |  526| 0.1243499|
-|native   |   12| 0.0028369|
-|other    |  152| 0.0359338|
-|white    | 2932| 0.6931442|
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; race &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; percent &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 92 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0217494 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 516 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.1219858 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 526 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.1243499 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0028369 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 152 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0359338 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2932 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.6931442 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ---
-# 
+# Conditional Probability
 
 $$ P(black \cap male) $$
 
@@ -1174,31 +1260,121 @@ joint &lt;- voter %&gt;%
   count(race, gender) %&gt;%
   ungroup() %&gt;% 
   mutate(total=sum(n), prop=n/total)
-
-joint
 ```
+---
 
-```
-## # A tibble: 12 × 5
-##    race     gender     n total    prop
-##    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;
-##  1 asian    f         83  9113 0.00911
-##  2 asian    m         92  9113 0.0101 
-##  3 black    f        678  9113 0.0744 
-##  4 black    m        516  9113 0.0566 
-##  5 hispanic f        666  9113 0.0731 
-##  6 hispanic m        526  9113 0.0577 
-##  7 native   f         17  9113 0.00187
-##  8 native   m         12  9113 0.00132
-##  9 other    f        158  9113 0.0173 
-## 10 other    m        152  9113 0.0167 
-## 11 white    f       3281  9113 0.360  
-## 12 white    m       2932  9113 0.322
-```
-
-# Data: Independance
 
 ```r
+joint %&gt;% 
+    kable(align = "cccccc") %&gt;%
+  kable_material_dark()
+```
+
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; race &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; total &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; prop &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 83 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0091079 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 92 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0100955 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 678 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0743992 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 516 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0566224 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 666 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0730824 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 526 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0577197 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0018655 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0013168 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 158 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0173379 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 152 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0166795 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3281 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.3600351 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2932 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.3217382 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+---
+# Data: Independance
+
+$$ P(black \cap male) $$
+
+```r
+#Are race and gender independent? Recall that two #events are independent if and only if, for example:
+
 marg.race &lt;- voter %&gt;%
  group_by(race)%&gt;%
   tabyl(race)
@@ -1206,30 +1382,86 @@ marg.race &lt;- voter %&gt;%
 marg.gender &lt;- voter %&gt;%
    group_by(gender)%&gt;%
   tabyl(gender)
-
-marg.race
 ```
 
-```
-##      race    n     percent
-##     asian  175 0.019203336
-##     black 1194 0.131021617
-##  hispanic 1192 0.130802151
-##    native   29 0.003182267
-##     other  310 0.034017338
-##     white 6213 0.681773291
-```
+---
 
 ```r
-marg.gender
+marg.race %&gt;% 
+kable() %&gt;%
+  kable_material_dark()
 ```
 
-```
-##  gender    n   percent
-##       f 4883 0.5358279
-##       m 4230 0.4641721
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; race &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; percent &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 175 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0192033 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1310216 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1192 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1308022 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0031823 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 310 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0340173 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6213 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6817733 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+---
+
+```r
+marg.gender %&gt;% 
+kable() %&gt;%
+ kable_material_dark()
 ```
 
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; percent &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4883 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5358279 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4230 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4641721 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 
 ```r
@@ -1239,118 +1471,113 @@ marg.gender
 ```
 ## [1] 0.06032
 ```
-
+---
 
 ```r
-library(kableExtra)
-
-joint &lt;- voter %&gt;%
+ voter %&gt;%
   select(race, gender) %&gt;%
   group_by(race, gender) %&gt;%
   count(race, gender) %&gt;%
   ungroup() %&gt;% 
   mutate(total=sum(n), prop=n/total) %&gt;%
-  kable() %&gt;%
-  kable_styling() %&gt;%
-  row_spec(4, bold = T, background = "black")
-
-joint
+  kable(align = "cccccc") %&gt;%
+  kable_material_dark()
 ```
 
-&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; race &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; gender &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; total &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; prop &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; race &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; total &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; prop &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; asian &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 83 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0091079 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 83 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0091079 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; asian &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 92 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0100955 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; asian &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 92 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0100955 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; black &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 678 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0743992 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 678 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0743992 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;font-weight: bold;background-color: black !important;"&gt; black &lt;/td&gt;
-   &lt;td style="text-align:left;font-weight: bold;background-color: black !important;"&gt; m &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;background-color: black !important;"&gt; 516 &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;background-color: black !important;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;background-color: black !important;"&gt; 0.0566224 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; black &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 516 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0566224 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; hispanic &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 666 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0730824 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 666 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0730824 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; hispanic &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 526 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0577197 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; hispanic &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 526 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0577197 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; native &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 17 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0018655 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0018655 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; native &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0013168 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; native &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0013168 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; other &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 158 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0173379 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 158 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0173379 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; other &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 152 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0166795 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; other &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 152 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0166795 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; white &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; f &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3281 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.3600351 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; f &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3281 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.3600351 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; white &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; m &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2932 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9113 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.3217382 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; white &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; m &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2932 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 9113 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.3217382 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1362,7 +1589,7 @@ joint
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "18:10",
+"ratio": "20:12",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"
