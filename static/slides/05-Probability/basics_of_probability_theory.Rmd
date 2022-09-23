@@ -690,7 +690,7 @@ P(B|A) = \frac{P(A|B)*P(B)}{P(A|B)*P(B) + P(A|\neg B)*P(\neg B)}
 # Monty Hall Problem
 
 <center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AD6eJlbFa2I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="700" src="https://www.youtube.com/embed/AD6eJlbFa2I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ---
@@ -806,7 +806,7 @@ $P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{t
 knitr::include_graphics('images/base.png')
 
 ```
-
+---
 class: center middle
 
 # Probability Theory vs. Statistical Inference 
@@ -892,33 +892,20 @@ knitr::include_graphics("images/Normal_Distribution_CDF.svg")
 dnorm(x,           # X-axis values (grid)
       mean = 0,    # Integer or vector representing the mean/s
       sd = 1,      # Integer or vector representing the standard deviation/s
-      log = FALSE) # If TRUE, probabilities are given as log
+)
 
 ```
 
 - CDF
 
 ```{r, eval=FALSE}
-
 pnorm()
 ```
----
-# Statisical Inference
-
-- For any given random phenomenon, statistical inference is a set of tools that
-uses knowledge of:  
-
-  - A finite number of realizations of a random phenomenon   
-  
--  To tell you how to make educated guesses about:  
-  - The sample space  
-  
-  - The probability of events defined on that sample space   
 
 ---
 class: middle center
 
-#In-Class Analysis
+# In-Class Analysis
 
 ---
 # Data
