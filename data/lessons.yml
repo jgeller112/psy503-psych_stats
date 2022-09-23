@@ -44,6 +44,14 @@ lessons:
     reading: "04a-reading"
     hasclass: True
     
+  - title: "Conditional Probability"
+    date: "Week 4 [MW, 9/26-9/28]"
+    notes: ""
+    slides: ""
+    class: "05-Probability/basics_of_probability_theory"
+    reading: "04a-reading"
+    hasclass: True
+    
   - title: "Models and Monsters"
     date: "Week 4 [MW, 9/26-9/28]"
     slides: ""
