@@ -857,14 +857,16 @@ knitr::include_graphics("unnamed.png")
 ---
 # Probability Distributions
 
-.pull-left[
-- A random variable, usually denoted as X, is a variable whose values are numerical outcomes of some random process
-
 - Probability density function (PDF)
 
- - In Statistics, it is used to calculate the probabilities associated with the random variables
+.pull-left[
+    - Probabilities associated with random variables
+
+    - Describes the shape in terms of likelihood or probability
+ 
+    - If shaped like a normal distribution (most common), we can use the PDF to find out probability of scores
   
-  - $X = x$ *Exact*
+  - $x<X<x$
 ]
 
 .pull-right[
