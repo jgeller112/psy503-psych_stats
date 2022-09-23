@@ -76,7 +76,11 @@ style_solarized_dark(
   ),
 )
 
+
+
+
 ```
+
 # Knowledge Check
 
 <div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/a545260831446a899d989a08b7445b38/34954ecab6bd/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
@@ -631,11 +635,15 @@ What is the *p*(blue and blue)?
 - More fun with probability
 
   - Conditional probability
-  - Bayes' Theorem
-
+  
+  
+  - Bayes' Rule
+  
 - Probability and Statistics
 
   - Probability density function (PDF) 
+  
+- Computing conditional probabilities from data
 
 ---
 # Practice with grant proposal
@@ -648,19 +656,18 @@ Assume an infinite pool of social and cognitive psychologists. What are the chan
 
 Let $C_i$ be the event that your grant proposal is assigned to a cognitive psychologist. Since the events are independent from each other, we have:
 
-$$
-    \begin{split}
+$$\begin{split}
 P(C_1 \: \cap C_2\: \cap C_3\: \cap C_4\: \cap C_5) &= P(C_1) \times P(C_2) \times P(C_3) \times P(C_4) \times P(C_5) \\
 &= (\frac{1}{2})^5 \\
 &= \frac{1}{32} \\
-    \end{split}
-$$
+    \end{split}$$
+
 ---
 # Conditional Probablity
 
 - The likelihood of an event or outcome occurring, based on the occurrence of a previous event or outcome
 
-$$ P(B|A) = \frac{P(A\: \cap \: B)}{P(A)}  $$
+$$P(B|A) = \frac{P(A\: \cap \: B)}{P(A)}  $$
 
 - 𝑝(B|A) ->  Conditional probability
 - 𝑝(A ∩ B)-> Joint probability
@@ -668,36 +675,39 @@ $$ P(B|A) = \frac{P(A\: \cap \: B)}{P(A)}  $$
 ---
 # Conditional Probability
 
-- Marginal probability: Probability of single event occurring independent of other events
+- __Marginal probability__: Probability of single event occurring independent of other events
 
-- Conditional probability: Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
+- __Conditional probability__: Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
   
   - We would say “B given A” or B conditional on A” 
   
 ---
-# Conditional Practice
+# Conditional Probability Practice
 
  A math teacher gave her class two tests. 25% of the class passed both tests and 42% of the class passed the first test. What percent of those who passed the first test also passed the second test?
-
+<center>
 $p(second ∣ first)$
 
 --
-- 𝑝(A ∩ B): .25
-- 𝑝(A): .42
+
+𝑝(A ∩ B): .25
+𝑝(A): .42
 
 $p(second ∣ first)$ = .6
+<center>
 ---
-# Conditional Practice
+# Conditional Probability Practice
 
 I just got accepted to graduate school. The acceptance rate is 30%. Not everyone gets funding if they have been accepted (only 13% do). What is the probability I receive funding given that I was accepted?
 
 --
+<center>
+- 𝑝(A ∩ B): .43
 
-𝑝(A ∩ B): .43
-𝑝(A): .3
+- 𝑝(A): .3
 
 $p(funding ∣ accepted)$ = .43
-
+<center>
 
 ---
 # Bayes' Rule  
@@ -707,7 +717,7 @@ $p(funding ∣ accepted)$ = .43
 - Bayes' rule: 
 
 \begin{equation}
-P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+P(B|A) = \frac{P(A|B)P(A)}{P(B)}
 \end{equation}
 
 \begin{equation}
@@ -784,12 +794,18 @@ If you tested positive for prostate cancer, what is the chance you actually have
 
 ---
 # Illustration: Prostate Cancer
-
+<br>
+<br>
+<br>
 $P(\text{cancer|test}) = \frac{P(\text{test|cancer})*P(\text{cancer})}{P(\text{test|cancer})*P(\text{cancer}) + P(\text{test|}\neg\text{cancer})*P(\neg\text{cancer})}$
 <br>
 <br>
 --
-= $\frac{0.8*0.058}{0.8*0.058 +0.3*0.942 } = 0.14$
+= $\frac{0.8*0.058}{0.8*0.058 +0.3*0.942 }=$
+
+--
+
+0.14
 ---
 # Class Activity
 ```{r, echo=FALSE}
@@ -798,7 +814,9 @@ library(countdown)
 countdown(minutes = 3)
 ```
 
-- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. Your friend tested positive. How likely is it they are a zombie?
+- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. 
+
+Your friend tested positive. How likely is it that  they are a zombie?
 
   1.  99% of the people who test positive have Zombie Virus  $(\text{sensitivity} = P(\text{positive test| zombie}))$
   
@@ -847,13 +865,6 @@ class: center middle
 ---
 # Probability Theory  
 
-- We know the probability model of the random generative process    
-
-- We ask: given the data generative process, what data is likely?  
-
----
-# Probability Theory  
-
 - For any given random phenomenon, probability theory is a set of tools that
 assume prior knowledge of:  
 
@@ -892,15 +903,16 @@ knitr::include_graphics("unnamed.png")
 
 - Probability density function (PDF)
 
+- A function that characterizes any continuous probability distribution
+
 .pull-left[
     - Probabilities associated with random variables
 
-    - Describes the shape in terms of likelihood or probability
- 
-    - If shaped like a normal distribution (most common), we can use the PDF to find out probability of scores
+    - Describes the shape in terms of probability
+    
+    - The integral of the probability density function in the interval [a,b] yields the probability that a given random variable with the given density is contained in the interval provided
   
-  - $x<X<x$
-]
+- $\Pr(a < X \leq b) = \int_a^b f(x)\;dx = \bigl[ F(x) \bigr]_a^b$
 
 .pull-right[
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
@@ -908,6 +920,10 @@ knitr::include_graphics("unnamed.png")
 knitr::include_graphics("images/pdf.png")
 ```
 ]
+
+???
+discreate= fin
+cont=infin
 ---
 # Probability Distributions
 
