@@ -626,6 +626,17 @@ What is the *p*(blue and blue)?
 
 ```
 ---
+# Today
+
+- More fun with probability
+
+  - Conditional probability
+  - Bayes' Theorem
+
+- Probability and Statistics
+
+  - Probability density function (PDF) 
+
 ---
 # Practice with grant proposal
 
@@ -649,11 +660,11 @@ $$
 
 - The likelihood of an event or outcome occurring, based on the occurrence of a previous event or outcome
 
-$$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
+$$ P(B|A) = \frac{P(A\: \cap \: B)}{P(A)}  $$
 
-- 𝑝(A|B) ->  Conditional probability
-- 𝑝(𝐴∩𝐵)-> Joint probability
-- 𝑝(𝐵) ->  Marginal probability
+- 𝑝(B|A) ->  Conditional probability
+- 𝑝(A ∩ B)-> Joint probability
+- 𝑝(A) ->  Marginal probability
 ---
 # Conditional Probability
 
@@ -661,16 +672,33 @@ $$ P(A|B) = \frac{P(A\: \cap \: B)}{P(B)}  $$
 
 - Conditional probability: Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
   
-  - We would say “𝐴 given 𝐵” or “𝐴 conditional on 𝐵” 
+  - We would say “B given A” or B conditional on A” 
   
 ---
-# Conditional Probablity
+# Conditional Practice
 
-- Conditional probabilities allow us to update the probability of an event $A$ based on the occurrence of another event  
+ A math teacher gave her class two tests. 25% of the class passed both tests and 42% of the class passed the first test. What percent of those who passed the first test also passed the second test?
 
-- $P(A)$ is called the _prior probability_  
+$p(second ∣ first)$
 
-- $P(A|B)$ is called the _posterior probability_  
+--
+- 𝑝(A ∩ B): .25
+- 𝑝(A): .42
+
+$p(second ∣ first)$ = .6
+---
+# Conditional Practice
+
+I just got accepted to graduate school. The acceptance rate is 30%. Not everyone gets funding if they have been accepted (only 13% do). What is the probability I receive funding given that I was accepted?
+
+--
+
+𝑝(A ∩ B): .43
+𝑝(A): .3
+
+$p(funding ∣ accepted)$ = .43
+
+
 ---
 # Bayes' Rule  
 
@@ -687,12 +715,18 @@ P(B|A) = \frac{P(A|B)*P(B)}{P(A|B)*P(B) + P(A|\neg B)*P(\neg B)}
 \end{equation}
 
 ---
+# Conditional Probablity
+
+- Conditional probabilities allow us to update the probability of an event $A$ based on the occurrence of another event  
+
+- $P(A)$ is called the _prior probability_  
+
+- $P(A|B)$ is called the _posterior probability_ 
+---
 # Monty Hall Problem
 
 <center>
 <iframe width="560" height="700" src="https://www.youtube.com/embed/AD6eJlbFa2I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
 ---
 # Monty Hall
 
@@ -764,10 +798,9 @@ library(countdown)
 countdown(minutes = 3)
 ```
 
-- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. 
+- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. Your friend tested positive. How likely is it they are a zombie?
 
-
-  1.  99% of the people who test positive have Zombie Virus  $(\text{sensitivity} = P(\text{positive test| zombie})) $
+  1.  99% of the people who test positive have Zombie Virus  $(\text{sensitivity} = P(\text{positive test| zombie}))$
   
   2.  85% of the people who have a negative test do not have Zombie virus $(\text{specificity} = P(\text{negative test|not zombie}))$
   
@@ -775,7 +808,7 @@ countdown(minutes = 3)
 
 
 ---
-# Bayes Rules: Zombie Outbreak
+# Bayes' Rule: Zombie Outbreak
 
 
 $P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{test|zombie})*P(\text{zombie}) + P(\text{test|}\neg\text{zombie})*P(\neg\text{zombie})}$
@@ -850,7 +883,7 @@ assume prior knowledge of:
 
 - Inferential statistics rely on this connection when they use sample data as the basis for making conclusions about populations.	
 
-```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "50%"}
+```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 
 knitr::include_graphics("unnamed.png")
 ```

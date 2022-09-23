@@ -56,7 +56,7 @@ lessons:
     date: "Week 4 [MW, 9/26-9/28]"
     slides: ""
     notes: ''
-    reading: ""
+    reading: "06a-reading"
     hasclass: True
     
   - title: "Estimation and Uncertainty: Statistical Inference, Estimation, NHST"
