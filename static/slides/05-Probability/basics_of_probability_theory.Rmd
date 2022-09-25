@@ -733,7 +733,7 @@ P(A|B) = \frac{P(B|A)P(A)}{P(B)}
 \end{equation}
 
 \begin{equation}
-P(A|B) = \frac{P(B|A)*P(A)}{P(A|B)*P(A) + P(B|\neg A)*P(\neg A)}
+P(A|B) = \frac{P(B|A)*P(A)}{P(B|A)*P(A) + P(B|\neg A)*P(\neg A)}
 \end{equation}
 
 ---
