@@ -677,6 +677,8 @@ $$P(B|A) = \frac{P(A\: \cap \: B)}{P(A)}  $$
 
 - __Marginal probability__: Probability of single event occurring independent of other events
 
+- __Joint probability__: Intersection (overlap) of A and B
+
 - __Conditional probability__: Likelihood that an outcome randomly sampled from the subset with 𝐵 has 𝐴 (i.e., conditional is opposed to marginal)
   
   - We would say “B given A” or B conditional on A” 
@@ -690,44 +692,52 @@ $p(second ∣ first)$
 
 --
 
-𝑝(A ∩ B): .25
-𝑝(A): .42
+- 𝑝(A ∩ B): .25
+- 𝑝(A): .42
 
 $p(second ∣ first)$ = .6
-<center>
+
 ---
 # Conditional Probability Practice
 
 I just got accepted to graduate school. The acceptance rate is 30%. Not everyone gets funding if they have been accepted (only 13% do). What is the probability I receive funding given that I was accepted?
 
---
 <center>
-- 𝑝(A ∩ B): .43
+
+$p(funding|accepted)$
+
+--
+
+
+
+- 𝑝(A ∩ B): .13
 
 - 𝑝(A): .3
 
-$p(funding ∣ accepted)$ = .43
-<center>
+--
 
+$p(funding ∣ accepted)$ = .43
+
+<center>
 ---
 # Bayes' Rule  
 
 - Reversing a conditional probability allows us to find $P(A|B)$ if we know $P(B|A)$: 
 
-- Bayes' rule: 
+  - Bayes' rule: 
 
 \begin{equation}
-P(B|A) = \frac{P(A|B)P(A)}{P(B)}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
 \end{equation}
 
 \begin{equation}
-P(B|A) = \frac{P(A|B)*P(B)}{P(A|B)*P(B) + P(A|\neg B)*P(\neg B)}
+P(A|B) = \frac{P(B|A)*P(A)}{P(A|B)*P(A) + P(B|\neg A)*P(\neg A)}
 \end{equation}
 
 ---
-# Conditional Probablity
+# Bayes' Rule
 
-- Conditional probabilities allow us to update the probability of an event $A$ based on the occurrence of another event  
+- Allows us to update the probability of an event $A$ based on the occurrence of another event  
 
 - $P(A)$ is called the _prior probability_  
 
@@ -736,7 +746,7 @@ P(B|A) = \frac{P(A|B)*P(B)}{P(A|B)*P(B) + P(A|\neg B)*P(\neg B)}
 # Monty Hall Problem
 
 <center>
-<iframe width="560" height="700" src="https://www.youtube.com/embed/AD6eJlbFa2I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="600" height="400" src="https://www.youtube.com/embed/AD6eJlbFa2I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ---
 # Monty Hall
 
@@ -747,7 +757,9 @@ knitr::include_graphics('images/monty.png')
 ```
 
 - The winning strategy is to switch, but how is this possible?
+
   - Our intuition tells us our chance of winning the car increases from 1∕3 to 1∕2 when there are only two doors to choose from
+  
   - In reality, our chance of winning the car remains 1∕3 if we stick with our original choice, but increases to 2∕3 if we switch
 
 ---
@@ -762,6 +774,7 @@ monty <- function() {
     return(ifelse(prize != choice, yes = "Switch", no = "Stick"))
 }
 
+monty
 ```
 ---
 
@@ -782,9 +795,9 @@ prop.table(table(run))
 ---
 # Illustration: Bayes' Rule 
 
-- Doctors recommend getting a PSA test after 50 to screen for prostate cancer 
+Doctors recommend getting a PSA test after 50 to screen for prostate cancer 
 
-If you tested positive for prostate cancer, what is the chance you actually have it?
+- If you tested positive for prostate cancer, what is the chance you actually have it?
 
   1.  80% of the people who test positive have prostate cancer $(\text{sensitivity} = P(\text{positive test| disease}))$
   
@@ -797,6 +810,7 @@ If you tested positive for prostate cancer, what is the chance you actually have
 <br>
 <br>
 <br>
+<center>
 $P(\text{cancer|test}) = \frac{P(\text{test|cancer})*P(\text{cancer})}{P(\text{test|cancer})*P(\text{cancer}) + P(\text{test|}\neg\text{cancer})*P(\neg\text{cancer})}$
 <br>
 <br>
@@ -806,6 +820,8 @@ $P(\text{cancer|test}) = \frac{P(\text{test|cancer})*P(\text{cancer})}{P(\text{t
 --
 
 0.14
+
+<center>
 ---
 # Class Activity
 ```{r, echo=FALSE}
@@ -814,9 +830,9 @@ library(countdown)
 countdown(minutes = 3)
 ```
 
-- Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. 
+Suppose there is a disease outbreak in an enclosed population. It is turning folks into zombies. 
 
-Your friend tested positive. How likely is it that  they are a zombie?
+- Your friend tested positive. How likely is it that  they are a zombie?
 
   1.  99% of the people who test positive have Zombie Virus  $(\text{sensitivity} = P(\text{positive test| zombie}))$
   
@@ -827,16 +843,19 @@ Your friend tested positive. How likely is it that  they are a zombie?
 
 ---
 # Bayes' Rule: Zombie Outbreak
-
-
+<br>
+<br>
+<br>
+<center>
 $P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{test|zombie})*P(\text{zombie}) + P(\text{test|}\neg\text{zombie})*P(\neg\text{zombie})}$
 
 --
 
 <br>
 <br>
-<br>
 = $\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.54$
+
+<center>
 ---
 # Lessons from Bayes' rule 
 
@@ -844,7 +863,7 @@ $P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{t
 
   - That's a 54% chance of being zombie
   
-    - Sorry. Your friend might be a zombie
+    - What would you do?
 
 - Bayes' rule often yields counter-intuitive results!
 
@@ -865,8 +884,7 @@ class: center middle
 ---
 # Probability Theory  
 
-- For any given random phenomenon, probability theory is a set of tools that
-assume prior knowledge of:  
+- For any given random phenomenon, probability theory is a set of tools that assume prior knowledge of:  
 
   - The sample space   
   
@@ -903,17 +921,14 @@ knitr::include_graphics("unnamed.png")
 
 - Probability density function (PDF)
 
-- A function that characterizes any continuous probability distribution
+  - A function that characterizes any continuous probability distribution
 
 .pull-left[
     - Probabilities associated with random variables
 
     - Describes the shape in terms of probability
-    
-    - The integral of the probability density function in the interval [a,b] yields the probability that a given random variable with the given density is contained in the interval provided
-  
-- $\Pr(a < X \leq b) = \int_a^b f(x)\;dx = \bigl[ F(x) \bigr]_a^b$
-
+   - $\Pr(a < X \leq b) = \int_a^b f(x)\;dx = \bigl[ F(x) \bigr]_a^b$
+]
 .pull-right[
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 
@@ -927,7 +942,7 @@ cont=infin
 ---
 # Probability Distributions
 
-- Cumulative density function (CDF)
+- Cumulative distribution function (CDF)
 
   - $X <= x$ (less than or equal)
 
@@ -1001,7 +1016,7 @@ marg.race <- voter %>%
 
 ```
 ---
-```{r}
+```{r, echo=FALSE}
 marg.race %>%
   kable(align = "cccccc")%>%
    kable_material_dark()
@@ -1052,7 +1067,7 @@ joint <- voter %>%
 ```
 ---
 
-```{r}
+```{r, echo=FALSE}
 joint %>% 
     kable(align = "cccccc") %>%
   kable_material_dark()
@@ -1074,7 +1089,7 @@ marg.gender <- voter %>%
 ```
 
 ---
-```{r}
+```{r, echo=FALSE}
 marg.race %>% 
 kable() %>%
   kable_material_dark()
