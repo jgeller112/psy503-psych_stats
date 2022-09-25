@@ -1050,21 +1050,21 @@ $$ P(black|male) =  $$
 
 ```{r}
 library(janitor)
-cond_racegender <- voter %>%
-  filter(gender=="m") %>%
-  tabyl(race)%>%
+cond_racegender <- voter  %>%
+  dplyr::filter(gender=="m")%>%
+  dplyr::count(race, gender) %>% 
+  dplyr::mutate(prop=n / sum(n))%>%
   kable(align = "cccccc")%>%
    kable_material_dark()
 
 cond_racegender
 ```
 ---
-# Conditional Probability
+# Joint Probability
 
 $$ P(black \cap male) $$
 ```{r}
 library(janitor)
-
 joint <- voter %>%
   select(race, gender) %>%
   group_by(race, gender) %>%
@@ -1083,6 +1083,8 @@ joint %>%
 # Data: Independance
 
 $$ P(black \cap male) $$
+$p(black∩male)=p(black)×p(male)$ 
+
 ```{r}
 #Are race and gender independent? Recall that two #events are independent if and only if, for example:
 
@@ -1126,3 +1128,29 @@ kable() %>%
 
 ```
 
+---
+# Your Turn
+
+1. What is the conditional probability: $(P(black|female))
+
+```{r, eval=FALSE}
+library(tidyverse)
+data <- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/05-Probability/data/florida-voters.csv")
+
+
+
+
+
+```
+
+--
+```{r}
+cond_racegender <- voter  %>%
+  dplyr::filter(gender=="f")%>%
+  dplyr::count(race, gender) %>% 
+  dplyr::mutate(prop=n / sum(n))%>%
+  kable(align = "cccccc")%>%
+   kable_material_dark()
+
+cond_racegender
+```
