@@ -930,6 +930,8 @@ knitr::include_graphics("unnamed.png")
   - e.g., What is likelihood that person has an IQ of 140?
 ]
 .pull-right[
+<br>
+<br>
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "100%"}
 sample.range <- 50:150
 iq.mean <- 100
@@ -1047,8 +1049,8 @@ marg.gender %>%
 # Conditional Probability
 
 $$ P(black|male) =  $$
-
-```{r}
+---
+```{r, echo=FALSE}
 library(janitor)
 cond_racegender <- voter  %>%
   dplyr::filter(gender=="m")%>%
