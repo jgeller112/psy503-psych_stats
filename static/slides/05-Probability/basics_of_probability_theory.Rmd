@@ -855,17 +855,18 @@ $P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{t
 
 <br>
 <br>
-= $\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.54$
+= $\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.46$
+
 
 <center>
 ---
 # Lessons from Bayes' rule 
 
-- Based on the results of this test, the probability that your friend actually is a zombie is .54   
+- Based on the results of this test, the probability that your friend actually is a zombie is .46   
 
-  - That's a 54% chance of being zombie
+  - That's a 46% chance of being zombie
   
-    - What would you do?
+      - What would you do?
 
 - Bayes' rule often yields counter-intuitive results!
 
@@ -952,7 +953,7 @@ cont=infin
 - Cumulative distribution function (CDF)
 
   - $X <= x$ (less than or equal)
-  - E.g., IQ less than or equal given value
+  - E.g., Is IQ less than or equal given value
 
 ```{r, fig.align='center', echo=FALSE, warning=FALSE,  out.width = "80%"}
 cdf <- pnorm(sample.range, iq.mean, iq.sd)
