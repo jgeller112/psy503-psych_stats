@@ -1,0 +1,47 @@
+---
+title: "Problem Set 2"
+author: "Jason Geller, Ph.D."
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+# Problem Set 2
+
+## Measurement
+
+1. The lab you are working in has painstakingly created a 1,000 item test of your construct of interest, “halloweenophilia,” defined “an overwhelming love of all things Halloween.” One of your colleagues suspects that the test could be shorter without losing any predictive power. They construct an alternate form (13 questions) and ask you to evaluate how the new test compares to the original, long version. What do you do? What are you assessing?
+
+a. Please read in the survey data we collected(https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/assignment/data/spooky_data.csv)
+b. How might you assess the scale’s convergent validity? (.5)
+c. How might you assess the scale’s discriminant validity? (.5)
+d. How would you assess test-retest reliability? (.5)
+e. How would you assess whether the items are consistent?  Please perform that test. (.5)
+f. How do convergent and discriminant validity relate to the jingle and jangle fallacies? (.5)
+g. Plot the survey data (.5) (use the function from this package https://jakec007.github.io/2021-06-23-R-likert/)
+
+## Probability
+
+2. Find the probabilities below
+
+  a. The probability of graduating is 80%. What is the probability of not graduating? (.5)
+
+  b. A jar contains 12 red marbles and 8 black marbles. Two marbles are drawn without
+replacement from the jar (i.e., the first marble was not put back in before the second draw).
+What is the probability that both of the marbles are black? (.5)
+
+  c. The probability of finishing a 5km race is 90%. The probability of finishing a race and
+running under a 20 minute 5km race is 15%. What is the probability that a person will run a 5km race in 20 min given they finished the race? (.5)
+
+# Bayes'
+
+A taxi is involved in a hit-and-run accident at night. In the city, there are two taxi firms, the Green Cab Company and the Blue Cab Company. Of the taxis in the city 85% are Green and the rest are Blue.A witness identifies the offending cab as Blue. In tests under similar conditions to those on the night of the accident, this witness correctly identified each of the two colours 80% of the time, and was wrong 20% of the time. What is the probability that the taxi involved in the accident was in fact Blue? Please show your work. (.5)
+
+```{r, include=FALSE, eval=FALSE}
+
+p(blue|witnessblur) = .8 (.15)/ .8(.15) + .2 (.85)
+
+
+```
+
+

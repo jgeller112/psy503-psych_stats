@@ -48,6 +48,7 @@ lessons:
     date: "Week 4 [MW, 9/26-9/28]"
     notes: ""
     slides: ""
+    assignment: "02"
     class: "05-Probability/basics_of_probability_theory"
     reading: "04a-reading"
     hasclass: True
