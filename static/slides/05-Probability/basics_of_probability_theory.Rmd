@@ -855,16 +855,16 @@ $P(\text{zombie|test}) = \frac{P(\text{test|zombie})*P(\text{zombie})}{P(\text{t
 
 <br>
 <br>
-= $\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.46$
+= $\frac{0.99*0.15}{0.99*0.15 +0.15*0.85 } = 0.53$
 
 
 <center>
 ---
 # Lessons from Bayes' rule 
 
-- Based on the results of this test, the probability that your friend actually is a zombie is .46   
+- Based on the results of this test, the probability that your friend actually is a zombie is .54   
 
-  - That's a 46% chance of being zombie
+  - That's a 54% chance of being zombie
   
       - What would you do?
 
@@ -923,12 +923,13 @@ knitr::include_graphics("unnamed.png")
 # Probability Distributions
 
 .pull-left[
+
 - Probability density function (PDF)
 
   - Indicates the probability of observing a measurement with specific value 
   
-    $$\Pr(a < X \leq b) = \int_a^b f(x)\;dx = \bigl[ F(x) \bigr]_a^b$$
-  - e.g., What is likelihood that person has an IQ of 140?
+   $$f(x|\mu,\sigma) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+  - e.g., Where does an IQ of 140 lie?
 ]
 .pull-right[
 <br>
