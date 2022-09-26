@@ -1085,7 +1085,7 @@ joint %>%
 # Data: Independance
 
 $$ P(black \cap male) $$
-$p(black∩male)=p(black)×p(male)$ 
+$$p(black∩male)=p(black)×p(male)$$ 
 
 ```{r}
 #Are race and gender independent? Recall that two #events are independent if and only if, for example:
@@ -1133,19 +1133,14 @@ kable() %>%
 ---
 # Your Turn
 
-1. What is the conditional probability: $(P(black|female))
+1. What is the conditional probability: $(P(black|female))$
 
 ```{r, eval=FALSE}
 library(tidyverse)
 data <- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/05-Probability/data/florida-voters.csv")
-
-
-
-
-
 ```
 
---
+---
 ```{r}
 cond_racegender <- voter  %>%
   dplyr::filter(gender=="f")%>%
