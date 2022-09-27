@@ -407,7 +407,7 @@ knitr::include_graphics('mew.png')
 ---
 # Building a Model - Normal Distribution
 
-- Sometimes called a Gaussian model 
+- Called a Gaussian model 
 
 - Many of the DVs we use are normally distributed
 
@@ -449,7 +449,7 @@ knitr::include_graphics('ghost.JPG')
 ---
 # Building a Model - Normal Distribution
 
-```{r echo=FALSE,out.height="5%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="5%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('skew2.png')
 
@@ -519,6 +519,18 @@ knitr::include_graphics('sd2.png')
     - σ		Standard deviation
 
 - Mean is the center of the distribution
+
+]
+
+.pull-right[
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('diffnorm.png')
+
+```
+
+
 
 ]
 
@@ -800,6 +812,7 @@ z
 ```{r}
 
 pnorm(1, lower.tail = FALSE)
+
 ```
 
 ---
