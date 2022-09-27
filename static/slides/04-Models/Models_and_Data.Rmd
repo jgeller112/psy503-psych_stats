@@ -1,6 +1,6 @@
 ---
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
-subtitle: "Models and Monsters: Thinking with Data"
+subtitle: "Models, The Standard Normal, and Z-Scores"
 institute: "Princeton University"
 author: "Jason Geller, Ph.D. (he/him/his)"
 date:  '`r Sys.Date()`'
@@ -75,6 +75,41 @@ style_solarized_dark(
 
 ```
 
+---
+# Knowledge Check
+
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/1aa5ba7e7422ef7e4312cb8f04cedf25/53357b8b34cf/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+
+```{r, echo=FALSE}
+library(countdown)
+
+countdown(minutes = 5)
+```
+
+---
+
+```{r echo=FALSE,out.height="10%", out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics("table.svg")
+
+```
+---
+# Outline
+
+- Thinking about models 
+
+- The standard normal distribution
+
+- *Z*-scores
+
+  - How to compute *Z*-scores
+  
+  - *Z*-score practice
+---
+class:middle center
+> __statistical modeling__ = "making __models__ of **distributions**"
+
+---
 # What is a Model?
 
  > Models are simplifications of things in the real world 
@@ -85,9 +120,11 @@ knitr::include_graphics('titanic.jpeg')
 
 ```
 ---
-class:middle center
-> __statistical modeling__ = "making models of **distributions**"
+```{r echo=FALSE,out.height="15%", out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
 
+knitr::include_graphics('map.jpg')
+
+```
 ---
 # Distributions
 
@@ -103,17 +140,19 @@ knitr::include_graphics('distribs.png')
 <br>
 <br>
 
-data = model + error
+$$data = model + error$$
 
 1. Model 
+
 2. Error (predicted - observed)
 
  - $\widehat{data_i}$ = model_i
 
- - error_i = data_i - \widehat{data_i}
+ - $error_i = data_i - \widehat{data_i}$
 
 
 ???
+statistical model, which expresses the values that we expect the data to take given our knowledge
 
 The “hat” over the data denotes that it’s our prediction rather than the actual value of the data.This means that the predicted value of the data for observation is equal to the value of the model for that observation. Once we have a prediction from the model, we can then compute the error:
 
@@ -122,28 +161,27 @@ That is, the error for any observation is the difference between the observed va
 ---
 # The Golem of Prague
 
-.pull-left[
 
 - The golem was a powerful clay robot
+
 --
+
 - Brought to life by writing emet (“truth”) on its forehead
+
 --
+
 - Obeyed commands literally
 --
+
 - Powerful, but no wisdom
 --
+
 - In some versions, Rabbi Judah Loew ben Bezalel built a golem to protect
+
 --
+
 - But he lost control, causing innocent deaths
-]
 
-.pull-right[
-```{r echo=FALSE,out.height="50%",out.width="70%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('golem.jpg')
-
-```
-]
 ---
 # Statitsical Golems
 
@@ -160,7 +198,7 @@ knitr::include_graphics('golem.jpg')
 
 .pull-left[
 - Experiment
-    - Take (*N* = 200)  7-year-olds
+    - Take 200 7-year-olds
     
     - Randomly assign to 2 groups
     
@@ -260,11 +298,15 @@ knitr::include_graphics('test_selection.png')
 # The GLM
 <br>
 <br>
-- Model comparison approach
+-  General mathematical framework
 
-- Think in terms of models, not tests
+    - Essentially linear regression all the way down 
+    - Highly flexible
+      - Can fit qualtitive (categorical) and quanittive predictors
+    - Easy to interpret
+    - Helps understand interrealtdenss to other models
+    - Easy to build to more complex models
 
-- Your model is determined by your question, not by the data
 --
 <br>
 <br>
@@ -285,8 +327,6 @@ df <- tibble(treatment=treat_group, control=control_group)
 
 df <- df %>%
   pivot_longer(treatment:control, names_to = "cond", values_to = "values")
-
-
 ```
 
 ---
@@ -318,6 +358,7 @@ Small Roman letter
   - $y_i$
   
           - The score for the “ith” person
+
 ]
 
 .pull-right[
@@ -362,7 +403,109 @@ knitr::include_graphics('mew.png')
 
 ```
 ]
+---
+# Building a Model - Normal Distribution
 
+- Many of the DVs we use are normally distributed
+
+- If we assume a variable is at least normally distributed can make many inferences! 
+
+- Most of the statitical models we will fit depend on this assumption
+
+---
+# Building a Model - Normal Distribution
+
+- Properties of a normal distribution
+
+  - Shape
+  
+     - Unimodal
+    
+--
+
+    - Symmetric
+    
+--
+
+    - Asymptotic
+
+```{r echo=FALSE,out.height="10%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+
+p1 <- ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
+  scale_y_continuous(breaks = NULL)
+p1
+
+```
+
+---
+```{r echo=FALSE,out.height="5%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('ghost.JPG')
+
+```
+
+---
+# Building a Model - Normal Distribution
+
+
+
+```{r echo=FALSE,out.height="5%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('skew2.png')
+
+```
+
+---
+# Building a Model - Normal Distribution
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('kur2.png')
+
+```
+
+---
+# Testing for Skewness and Kurtosis
+
+```{r, eval=FALSE}
+library(moments)
+
+#calculate skewness
+skewness(data)
+
+#calculate kurtosis
+kurtosis(data)
+```
+- How can we tell if bad?
+
+  -  -2 and +2 are considered acceptable in order to prove normal 
+
+  - Others suggest Skewness between ‐2 to +2 and kurtosis is between ‐7 to +7
+---
+# Building a Model - Normal Distribution
+
+- Properties of a normal distribution
+ - Empirical Rule
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('interpsd11.png')
+
+```
+
+---
+# Building a Model - Normal Distribution
+
+- Properties of a normal distribution
+
+  - Empirical Rule
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('sd2.png')
+
+```
 
 ---
 # Building a Model - Normal Distribution
@@ -377,9 +520,16 @@ knitr::include_graphics('mew.png')
 
 - Mean is the center of the distribution
 
-    - Technically, the point with smallest squared distance from all the data points
 ]
 
+---
+# Sample Mean
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('meanasmodel.png')
+
+```
 ---
 # Building a Model - Normal Distribution
 
@@ -407,67 +557,9 @@ knitr::include_graphics('normaldist.svg')
 
 ]
 ---
-# Building a Model - Normal Distribution
-
-- Properties of a normal distribution
-
-  - Shape
-
-```{r echo=FALSE,out.height="30%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('properties_of_nd.png')
-
-```
-
----
-# Building a Model - Normal Distribution
-
-
-```{r echo=FALSE,out.height="100%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('skew2.png')
-
-```
-
----
-# Building a Model - Normal Distribution
-
-
-```{r echo=FALSE,out.height="100%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('kur2.png')
-
-```
-
----
-
-# Building a Model - Normal Distribution
- - Empirical Rule
-
-```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('interpsd11.png')
-
-```
-
----
-# Building a Model - Normal Distribution
-
-- Properties of a normal distribution
-
-  - Empirical Rule
-
-```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('sd2.png')
-
-```
-
-
----
 # A Simple Model
 
-.pull-right[
+.pull-left[
 - $Y_1$ ∼ Normal(100, 15)
 
 - $Y_2$ ∼ Normal(100, 15)
@@ -494,7 +586,6 @@ knitr::include_graphics('sd2.png')
 ]
 ---
 # A Good Model?
-
 
 ```{r, echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
   df %>%
@@ -552,40 +643,26 @@ knitr::include_graphics('complex.svg')
 
 - Denote estimates with a hat: 
 
-    - μ̂t  → our estimate of μt
-
+    - $\mu_t$ our estimate of μt
 ]
 --
 .pull-right[
 
 It turns out that, for a normal distribution, the best estimate of the population mean is sample mean
 
-    - μ̂t = (∑_𝑖▒𝑦_𝑖 )/𝑁
-
-- This is both the “least squares” and “maximum likelihood” estimator
-
+    - μ̂t = $$\frac{1}{n} \sum_{i=i}^{n} x_{i}$$
+    
 ]
 
 ---
 # Treatment Group Sample Mean
 
-
 ```{r}
-library(flextable)
 
 mean(treat_group)
 
 
 ```
----
-# Inference
-
-- What is the evidence that Smarties make children smarter?
-
-- What do we mean by evidence?
-- What can we generalize? 
-
-- What are some alternative explanations for our results?
 ---
 # Let's Streamline Our Notation
 
@@ -617,14 +694,13 @@ lm(df$values~1)  %>%
 ```
 
 ]
-
 ---
 # More Complex Model
 
 $Y_i$ ∼ Normal($μ_i$, σ)
-$μ_i$ = $β_0$ + $β_1$ $X_i$
+$μ_i$ = $β_0$ + $β_1$$X_i$
   
-  - $μ_i$ = $μ_control$ + diff× $group_i$
+  - $μ_i$ = $μ_control$ + $diff× $group_i$
   - Control group mean $β_0$
   - Group mean difference $β_1$
   - One common SD σ
@@ -645,19 +721,246 @@ lm(df$values~df$cond)
 knitr::include_graphics('GLM.svg')
 
 ```
+---
+# Probability and Standard Normal Distribution: Z Scores
 
-# Z scores
+$$z=\frac{value-mean}{standard deviation}$$
 
+$$Z(x) = \frac{x - \mu}{\sigma}$$
+- Z-score /standard score tells us how far away any data point is from the mean, in units of standard deviation
 
-- Having characterized a distribution in terms of its central tendency and variability, it is often useful to express the individual scores in terms of where they sit with respect to the overall distribution.
+- Converts a distribution with any $\mu$ and $\sigma$ to a $\mu$ = 0 and $\sigma$ = 1. 
+---
+# Conversions
 
+- Solve for X 
 
-$Z(x) = \frac{x - \mu}{\sigma}$
-
-- Z-score tells us how far away any data point is from the mean, in units of standard deviation.
+<center>
+ $X = z*\sigma -  \mu$
+<center>
 
 ---
-Example
+class:center middle
+# __Scaling does not change the distribution! It is just a linear transformation__
+
+---
+# Z-Scores: Example
+
+- $\mu$ =  50 and $\sigma$ = 10
+
+- x = 43
+
+$Z(x) = \frac{43 - 50}{10}$
+
+---
+# Z tables
+
+- No more tables!
+
+```{r echo=FALSE,out.height="50%", out.width="80%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('Z-Score-Table-1.png')
+
+```
+---
+# Using R
+
+<br>
+<br>
+<br>
+
+- dnorm(): zscore to density (height)
+- pnorm(): *Z*-scores to area
+- qnorm(): area to *Z*-scores
+
+---
+# Using R 
+
+- `pnorm(): *z*-scores to area`
+
+  - CDF 
+  
+    - $P(X >= x) or P(X <= x)$
+
+> If you cacluated a Z-score you can find the probability of a Z-score less than(lower.tail=TRUE) or greater than (lower.tail=FALSE) by using pnorm(Z).
+---
+# Using R: `pnorm`
+
+1. What is the z-score?
+
+2. What percentage is above this z-score?
+
+```{r}
+mu <- 70
+sigma <- 10
+X <- 80
+```
+
+--
+
+```{r}
+z <- (X-mu)/sigma
+z
+```
+- Above
+```{r}
+
+pnorm(1, lower.tail = FALSE)
+```
+
+---
+# Using R: `pnorm` 
+
+- Percentage Below a IQ score of 55?
+
+```{r}
+
+mu <- 100
+sigma <- 15
+X <- 55
+z <- (X-mu)/sigma
+pnorm(z, lower.tail = TRUE)
 
 
+```
 
+- Percentage above a IQ score of 55?
+
+```{r}
+
+mu <- 100
+sigma <- 15
+X <- 55
+z <- (X-mu)/sigma
+pnorm(z, lower.tail = FALSE)
+
+```
+
+---
+# Using R: `pnorm`
+
+- Percentage between IQ score of 120 and 159?
+
+
+```{r}
+mu <- 100
+sigma <- 15
+X1 <- 120
+X2<-159
+
+
+pnorm(X1, mu, sigma)-pnorm(X2, mu, sigma)
+
+
+```
+---
+# Package `PnormGC`
+
+Suppose that you have a normal random variable X with mean μ=70 and standard deviation σ=3, and you would like to find the chance that X will turn out to be less than 66. In other words, you are looking for:
+
+```{r, out.width="100%", out.height="10%", fig.align='center'}
+require(tigerstats)
+
+pnormGC(bound=66,region="below",mean=70,sd=3, graph=TRUE)
+
+```
+
+---
+# PnormGC
+
+What about $P(X>69)$
+
+```{r, out.width="100%", out.height="10%", fig.align='center'}
+
+pnormGC(bound=69,region="above",
+        mean=70,sd=3,graph=TRUE)
+
+```
+
+---
+# PnormGC
+
+ - The probability that X is between 68 and 72, i.e.: $P(68<X<72)$
+ 
+```{r. out.width="100%", out.height="10%", fig.align='center'}
+ pnormGC(bound=c(68,72),region="between",
+        mean=70,sd=3,graph=TRUE)
+``` 
+ 
+---
+# Using R: `qnorm`
+
+- `qnorm(): area to *z*-scores`
+
+- With a mean 70 and standard deviation 10, what is the score for which 5% lies above?
+
+```{r}
+
+qnorm(.05, lower.tail = FALSE)
+
+```
+---
+# Practice Problems: `pnorm`
+
+Suppose that BMI measures for men age 60 in a Heart Study population is normally distributed with a mean (μ) = 29 and standard deviation (σ) = 6. You are asked to compute the probability that a 60 year old man in this population will have a BMI less than 30.
+
+- What is the z-score?
+
+- What is probability of a Z-score less than Z? Greater than?
+
+- What is the probability a 60 year old man in this population will have a BMI between 30 and 40.
+
+---
+```{r}
+
+mu <- 29
+sigma <- 6
+X <- 30
+X1 <- 40
+z <- (X-mu)/sigma
+z2 <- (X1-mu)/sigma
+
+pnorm(z)
+
+pnorm(z, lower.tail = FALSE)
+
+pnormGC(bound=c(30,40),region="between", mean=29,sd=6,graph=TRUE)
+```
+
+---
+# Practice: `qnorm`
+
+Suppose that SAT scores are normally distributed, and that the mean SAT score is 1000, and the standard deviation of all SAT scores is 100. How high must you score so that only 10% of the population scores higher than you?
+
+--
+```{r}
+qnorm(.10, 1000, 100, lower.tail = FALSE)
+```
+---
+# Z-scores In Practice
+
+- Scaling your measures so they are are comparable 
+
+```{r}
+library(datawizard)
+x=c(5, 6, 7, 8, 9, 10, 15, 16)
+datawizard::standardize(x)
+
+```
+
+---
+# Measures Related to Z
+
+- IQ
+
+  - $\mu = 100$ $\sigma = 15$
+  
+- SAT
+
+  - $\mu =500$ $\sigma = 100$
+  
+  - New score =  New SD(*z*) + New mean
+  
+- T-score
+
+  - $\mu = 50$ $\sigma = 10$

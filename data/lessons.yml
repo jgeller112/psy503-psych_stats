@@ -56,6 +56,7 @@ lessons:
   - title: "Models and Monsters"
     date: "Week 4 [MW, 9/26-9/28]"
     slides: ""
+    class: "04-Models/Models_and_Data"
     notes: ''
     reading: "06a-reading"
     hasclass: True
