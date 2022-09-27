@@ -42,7 +42,7 @@ class: center, middle, inverse, title-slide
 
 &lt;div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'&gt;&lt;iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/1aa5ba7e7422ef7e4312cb8f04cedf25/53357b8b34cf/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'&gt;&lt;/iframe&gt;&lt;/div&gt;
 
-<div class="countdown" id="timer_e83d453f" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_9d749bbf" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -90,9 +90,11 @@ class:middle center
 
 2. Error (predicted - observed)
 
- - `\(\widehat{data_i}\)` = model_i
+  - Use our model to predict the value of the data for any given observation: 
 
- - `\(error_i = data_i - \widehat{data_i}\)`
+ `$$\widehat{data_i} = model_i$$`
+
+  `$$error_i = data_i - \widehat{data_i}$$`
 
 
 ???
@@ -164,7 +166,6 @@ That is, the error for any observation is the difference between the observed va
 
 ]
 ---
-
 # Choosing a Statitsical Model
 
 
@@ -268,7 +269,7 @@ df &lt;- df %&gt;%
 
 .pull-left[
 
-Small Roman letter
+Small Roman Letters
 
 - Individual observed data points
 
@@ -318,16 +319,18 @@ Greek letters
 .pull-right[
 
 
-&lt;img src="mew.png" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="mew.png" width="100%" height="30%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # Building a Model - Normal Distribution
+
+- Sometimes called a Gaussian model 
 
 - Many of the DVs we use are normally distributed
 
 - If we assume a variable is at least normally distributed can make many inferences! 
 
-- Most of the statitical models we will fit depend on this assumption
+- Most of the statistical models we will fit depend on this assumption
 
 ---
 # Building a Model - Normal Distribution
@@ -353,7 +356,6 @@ Greek letters
 
 ---
 # Building a Model - Normal Distribution
-
 
 
 &lt;img src="skew2.png" width="100%" height="5%" style="display: block; margin: auto;" /&gt;
@@ -764,7 +766,7 @@ pnorm(X1, mu, sigma)-pnorm(X2, mu, sigma)
 ---
 # Package `PnormGC`
 
-Suppose that you have a normal random variable X with mean μ=70 and standard deviation σ=3, and you would like to find the chance that X will turn out to be less than 66. In other words, you are looking for:
+Suppose that you have a normal random variable X μ=70 and σ=3. Probablity X will turn out to be less than 66.
 
 
 ```r
@@ -799,17 +801,23 @@ pnormGC(bound=69,region="above",
 ---
 # PnormGC
 
- - The probability that X is between 68 and 72, i.e.: `\(P(68&lt;X&lt;72)\)`
- 
-```{r. out.width="100%", out.height="10%", fig.align='center'}
+ - The probability that X is between 68 and 72: `\(P(68&lt;X&lt;72)\)`
+
+
+```r
  pnormGC(bound=c(68,72),region="between",
         mean=70,sd=3,graph=TRUE)
-``` 
- 
+```
+
+&lt;img src="Models_and_Data_files/figure-html/unnamed-chunk-37-1.png" width="100%" height="10%" style="display: block; margin: auto;" /&gt;
+
+```
+## [1] 0.4950149
+```
 ---
 # Using R: `qnorm`
 
-- `qnorm(): area to *z*-scores`
+- qnorm(): area to *z*-scores
 
 - With a mean 70 and standard deviation 10, what is the score for which 5% lies above?
 
@@ -823,7 +831,7 @@ qnorm(.05, lower.tail = FALSE)
 ```
 
 ---
-# Practice Problems: `pnorm`
+# Practice `pnorm`
 
 Suppose that BMI measures for men age 60 in a Heart Study population is normally distributed with a mean (μ) = 29 and standard deviation (σ) = 6. You are asked to compute the probability that a 60 year old man in this population will have a BMI less than 30.
 
@@ -862,7 +870,7 @@ pnorm(z, lower.tail = FALSE)
 pnormGC(bound=c(30,40),region="between", mean=29,sd=6,graph=TRUE)
 ```
 
-&lt;img src="Models_and_Data_files/figure-html/unnamed-chunk-38-1.png" width="36%" /&gt;
+&lt;img src="Models_and_Data_files/figure-html/unnamed-chunk-39-1.png" width="36%" /&gt;
 
 ```
 ## [1] 0.4004397
@@ -874,6 +882,7 @@ pnormGC(bound=c(30,40),region="between", mean=29,sd=6,graph=TRUE)
 Suppose that SAT scores are normally distributed, and that the mean SAT score is 1000, and the standard deviation of all SAT scores is 100. How high must you score so that only 10% of the population scores higher than you?
 
 --
+
 
 ```r
 qnorm(.10, 1000, 100, lower.tail = FALSE)

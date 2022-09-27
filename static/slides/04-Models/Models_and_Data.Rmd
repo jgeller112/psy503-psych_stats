@@ -146,9 +146,11 @@ $$data = model + error$$
 
 2. Error (predicted - observed)
 
- - $\widehat{data_i}$ = model_i
+  - Use our model to predict the value of the data for any given observation: 
 
- - $error_i = data_i - \widehat{data_i}$
+ $$\widehat{data_i} = model_i$$
+
+  $$error_i = data_i - \widehat{data_i}$$
 
 
 ???
@@ -224,7 +226,6 @@ knitr::include_graphics('candy.jpg')
 
 ]
 ---
-
 # Choosing a Statitsical Model
 
 
@@ -347,7 +348,7 @@ library(ggdist)
 
 .pull-left[
 
-Small Roman letter
+Small Roman Letters
 
 - Individual observed data points
 
@@ -397,7 +398,7 @@ Greek letters
 .pull-right[
 
 
-```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="30%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('mew.png')
 
@@ -406,11 +407,13 @@ knitr::include_graphics('mew.png')
 ---
 # Building a Model - Normal Distribution
 
+- Sometimes called a Gaussian model 
+
 - Many of the DVs we use are normally distributed
 
 - If we assume a variable is at least normally distributed can make many inferences! 
 
-- Most of the statitical models we will fit depend on this assumption
+- Most of the statistical models we will fit depend on this assumption
 
 ---
 # Building a Model - Normal Distribution
@@ -447,7 +450,6 @@ knitr::include_graphics('ghost.JPG')
 
 ---
 # Building a Model - Normal Distribution
-
 
 
 ```{r echo=FALSE,out.height="5%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
@@ -856,7 +858,7 @@ pnorm(X1, mu, sigma)-pnorm(X2, mu, sigma)
 ---
 # Package `PnormGC`
 
-Suppose that you have a normal random variable X with mean μ=70 and standard deviation σ=3, and you would like to find the chance that X will turn out to be less than 66. In other words, you are looking for:
+Suppose that you have a normal random variable X μ=70 and σ=3. Probablity X will turn out to be less than 66.
 
 ```{r, out.width="100%", out.height="10%", fig.align='center'}
 require(tigerstats)
@@ -880,28 +882,26 @@ pnormGC(bound=69,region="above",
 ---
 # PnormGC
 
- - The probability that X is between 68 and 72, i.e.: $P(68<X<72)$
- 
-```{r. out.width="100%", out.height="10%", fig.align='center'}
+ - The probability that X is between 68 and 72: $P(68<X<72)$
+
+```{r, out.width="100%", out.height="10%", fig.align="center"}
+
  pnormGC(bound=c(68,72),region="between",
         mean=70,sd=3,graph=TRUE)
-``` 
- 
+```
 ---
 # Using R: `qnorm`
 
-- `qnorm(): area to *z*-scores`
+- qnorm(): area to *z*-scores
 
 - With a mean 70 and standard deviation 10, what is the score for which 5% lies above?
 
 ```{r}
-
 qnorm(.05, lower.tail = FALSE)
-
 ```
 
 ---
-# Practice Problems: `pnorm`
+# Practice `pnorm`
 
 Suppose that BMI measures for men age 60 in a Heart Study population is normally distributed with a mean (μ) = 29 and standard deviation (σ) = 6. You are asked to compute the probability that a 60 year old man in this population will have a BMI less than 30.
 
@@ -934,6 +934,7 @@ pnormGC(bound=c(30,40),region="between", mean=29,sd=6,graph=TRUE)
 Suppose that SAT scores are normally distributed, and that the mean SAT score is 1000, and the standard deviation of all SAT scores is 100. How high must you score so that only 10% of the population scores higher than you?
 
 --
+
 ```{r}
 qnorm(.10, 1000, 100, lower.tail = FALSE)
 ```
