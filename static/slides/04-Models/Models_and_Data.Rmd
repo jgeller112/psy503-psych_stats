@@ -899,6 +899,7 @@ pnormGC(bound=69,region="above",
 qnorm(.05, lower.tail = FALSE)
 
 ```
+
 ---
 # Practice Problems: `pnorm`
 
