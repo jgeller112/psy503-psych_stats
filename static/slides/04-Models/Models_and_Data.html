@@ -42,7 +42,7 @@ class: center, middle, inverse, title-slide
 
 &lt;div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'&gt;&lt;iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/1aa5ba7e7422ef7e4312cb8f04cedf25/53357b8b34cf/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'&gt;&lt;/iframe&gt;&lt;/div&gt;
 
-<div class="countdown" id="timer_9d749bbf" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_0dd7dd83" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -67,7 +67,7 @@ class:middle center
 &gt; __statistical modeling__ = "making __models__ of **distributions**"
 
 ---
-# What is a Model?
+# What is a model?
 
  &gt; Models are simplifications of things in the real world 
 
@@ -229,11 +229,11 @@ That is, the error for any observation is the difference between the observed va
 &lt;br&gt;
 -  General mathematical framework
 
-    - Essentially linear regression all the way down 
+    - Regression all the way down 
     - Highly flexible
-      - Can fit qualtitive (categorical) and quanittive predictors
+      - Can fit qualitative (categorical) and quantitative predictors
     - Easy to interpret
-    - Helps understand interrealtdenss to other models
+    - Helps understand interrealtedness to other models
     - Easy to build to more complex models
 
 --
@@ -330,40 +330,37 @@ Greek letters
 
 - If we assume a variable is at least normally distributed can make many inferences! 
 
-- Most of the statistical models we will fit depend on this assumption
+- Most of the statistical models assume normal distribution
 
 ---
 # Building a Model - Normal Distribution
 
 - Properties of a normal distribution
 
+.pull-left[
+
   - Shape
   
-     - Unimodal
-    
---
+      - Unimodal
+      - Symmetric
+      - Asymptotic
+]
 
-    - Symmetric
-    
---
-
-    - Asymptotic
-
-&lt;img src="Models_and_Data_files/figure-html/unnamed-chunk-13-1.png" width="50%" height="10%" style="display: block; margin: auto;" /&gt;
-
+.pull-right[
+&lt;img src="Models_and_Data_files/figure-html/unnamed-chunk-13-1.png" width="50%" height="50%" style="display: block; margin: auto;" /&gt;
+]
 ---
 &lt;img src="ghost.JPG" width="50%" height="5%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Building a Model - Normal Distribution
 
-
 &lt;img src="skew2.png" width="100%" height="5%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Building a Model - Normal Distribution
 
-&lt;img src="kur2.png" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="kur2.png" width="100%" height="20%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Testing for Skewness and Kurtosis
@@ -382,11 +379,12 @@ kurtosis(data)
 
   -  -2 and +2 are considered acceptable in order to prove normal 
 
-  - Others suggest Skewness between ‐2 to +2 and kurtosis is between ‐7 to +7
+  - Others suggest skewness between ‐2 to +2 and kurtosis is between ‐7 to +7
 ---
 # Building a Model - Normal Distribution
 
 - Properties of a normal distribution
+
  - Empirical Rule
 
 &lt;img src="interpsd11.png" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
@@ -523,7 +521,7 @@ Standard deviation
 
 It turns out that, for a normal distribution, the best estimate of the population mean is sample mean
 
-    - μ̂t = `$$\frac{1}{n} \sum_{i=i}^{n} x_{i}$$`
+μ̂t = `$$\frac{1}{n} \sum_{i=i}^{n} x_{i}$$`
     
 ]
 
@@ -562,25 +560,28 @@ mean(treat_group)
 library(knitr)
 library(broom)
 #intercept only
-lm(df$values~1)  %&gt;%
-  tidy() %&gt;%
-  kable()
+lm(df$values~1)
 ```
 
-
-
-|term        | estimate| std.error| statistic| p.value|
-|:-----------|--------:|---------:|---------:|-------:|
-|(Intercept) |  104.925|  1.027803|  102.0867|       0|
+```
+## 
+## Call:
+## lm(formula = df$values ~ 1)
+## 
+## Coefficients:
+## (Intercept)  
+##       104.9
+```
 
 ]
 ---
 # More Complex Model
 
-`\(Y_i\)` ∼ Normal($μ_i$, σ)
-`\(μ_i\)` = `\(β_0\)` + $β_1$$X_i$
+`$$Y_i ∼ Normal(μ_i, σ)$$`
+`$$μ_i = β_0 + β_1X_i$$`
   
-  - `\(μ_i\)` = `\(μ_control\)` + $diff× `\(group_i\)`
+`$$μ_i = μcontrol + diff*group_i$$`
+  
   - Control group mean `\(β_0\)`
   - Group mean difference `\(β_1\)`
   - One common SD σ
@@ -601,35 +602,21 @@ lm(df$values~df$cond)
 ##           101.42              7.01
 ```
 
-```r
- tidy() %&gt;%
-  kable()
-```
-
-
-
-||
-||
-||
-||
-
 ---
 # General Linear Model
 
 &lt;img src="GLM.svg" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
 ---
-# Probability and Standard Normal Distribution: Z Scores
+# Probability and Standard Normal Distribution: *Z*-Scores
 
 `$$z=\frac{value-mean}{standard deviation}$$`
 
 `$$Z(x) = \frac{x - \mu}{\sigma}$$`
 - Z-score /standard score tells us how far away any data point is from the mean, in units of standard deviation
 
-- Converts a distribution with any `\(\mu\)` and `\(\sigma\)` to a `\(\mu\)` = 0 and `\(\sigma\)` = 1. 
----
-# Conversions
+-  Conversions
 
-- Solve for X 
+  - Solve for X 
 
 &lt;center&gt;
  `\(X = z*\sigma -  \mu\)`
@@ -651,9 +638,11 @@ class:center middle
 ---
 # Z tables
 
-- No more tables!
+&lt;img src="Z-Score-Table-1.png" width="80%" height="20%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="Z-Score-Table-1.png" width="80%" height="50%" style="display: block; margin: auto;" /&gt;
+--
+
+- NO MORE TABLES
 ---
 # Using R
 
@@ -661,9 +650,9 @@ class:center middle
 &lt;br&gt;
 &lt;br&gt;
 
-- dnorm(): zscore to density (height)
-- pnorm(): *Z*-scores to area
-- qnorm(): area to *Z*-scores
+- dnorm(): *Z*-score to density (height)
+- pnorm(): *Z*-score to area
+- qnorm(): area to *Z*-score
 
 ---
 # Using R 
@@ -713,7 +702,7 @@ pnorm(1, lower.tail = FALSE)
 ---
 # Using R: `pnorm` 
 
-- Percentage Below a IQ score of 55?
+- Percentage below IQ score of 55?
 
 
 ```r
@@ -728,7 +717,7 @@ pnorm(z, lower.tail = TRUE)
 ## [1] 0.001349898
 ```
 
-- Percentage above a IQ score of 55?
+- Percentage above IQ score of 55?
 
 
 ```r
@@ -753,15 +742,15 @@ pnorm(z, lower.tail = FALSE)
 ```r
 mu &lt;- 100
 sigma &lt;- 15
-X1 &lt;- 120
-X2&lt;-159
+X1 &lt;- 159
+X2&lt;-120
 
 
 pnorm(X1, mu, sigma)-pnorm(X2, mu, sigma)
 ```
 
 ```
-## [1] -0.09116933
+## [1] 0.09116933
 ```
 ---
 # Package `PnormGC`
@@ -782,7 +771,7 @@ pnormGC(bound=66,region="below",mean=70,sd=3, graph=TRUE)
 ```
 
 ---
-# PnormGC
+# Package `PnormGC`
 
 What about `\(P(X&gt;69)\)`
 
@@ -799,7 +788,7 @@ pnormGC(bound=69,region="above",
 ```
 
 ---
-# PnormGC
+# Package `PnormGC`
 
  - The probability that X is between 68 and 72: `\(P(68&lt;X&lt;72)\)`
 

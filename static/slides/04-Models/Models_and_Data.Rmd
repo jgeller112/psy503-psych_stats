@@ -110,7 +110,7 @@ class:middle center
 > __statistical modeling__ = "making __models__ of **distributions**"
 
 ---
-# What is a Model?
+# What is a model?
 
  > Models are simplifications of things in the real world 
 
@@ -301,11 +301,11 @@ knitr::include_graphics('test_selection.png')
 <br>
 -  General mathematical framework
 
-    - Essentially linear regression all the way down 
+    - Regression all the way down 
     - Highly flexible
-      - Can fit qualtitive (categorical) and quanittive predictors
+      - Can fit qualitative (categorical) and quantitative predictors
     - Easy to interpret
-    - Helps understand interrealtdenss to other models
+    - Helps understand interrealtedness to other models
     - Easy to build to more complex models
 
 --
@@ -413,26 +413,24 @@ knitr::include_graphics('mew.png')
 
 - If we assume a variable is at least normally distributed can make many inferences! 
 
-- Most of the statistical models we will fit depend on this assumption
+- Most of the statistical models assume normal distribution
 
 ---
 # Building a Model - Normal Distribution
 
 - Properties of a normal distribution
 
+.pull-left[
+
   - Shape
   
-     - Unimodal
-    
---
+      - Unimodal
+      - Symmetric
+      - Asymptotic
+]
 
-    - Symmetric
-    
---
-
-    - Asymptotic
-
-```{r echo=FALSE,out.height="10%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+.pull-right[
+```{r echo=FALSE,out.height="50%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
 p1 <- ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
   stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
@@ -440,7 +438,7 @@ p1 <- ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
 p1
 
 ```
-
+]
 ---
 ```{r echo=FALSE,out.height="5%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
@@ -451,7 +449,6 @@ knitr::include_graphics('ghost.JPG')
 ---
 # Building a Model - Normal Distribution
 
-
 ```{r echo=FALSE,out.height="5%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('skew2.png')
@@ -461,7 +458,7 @@ knitr::include_graphics('skew2.png')
 ---
 # Building a Model - Normal Distribution
 
-```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="20%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('kur2.png')
 
@@ -483,11 +480,12 @@ kurtosis(data)
 
   -  -2 and +2 are considered acceptable in order to prove normal 
 
-  - Others suggest Skewness between ‐2 to +2 and kurtosis is between ‐7 to +7
+  - Others suggest skewness between ‐2 to +2 and kurtosis is between ‐7 to +7
 ---
 # Building a Model - Normal Distribution
 
 - Properties of a normal distribution
+
  - Empirical Rule
 
 ```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
@@ -652,7 +650,7 @@ knitr::include_graphics('complex.svg')
 
 It turns out that, for a normal distribution, the best estimate of the population mean is sample mean
 
-    - μ̂t = $$\frac{1}{n} \sum_{i=i}^{n} x_{i}$$
+μ̂t = $$\frac{1}{n} \sum_{i=i}^{n} x_{i}$$
     
 ]
 
@@ -688,21 +686,18 @@ mean(treat_group)
 library(knitr)
 library(broom)
 #intercept only
-lm(df$values~1)  %>%
-  tidy() %>%
-  kable()
-
-
+lm(df$values~1)
 ```
 
 ]
 ---
 # More Complex Model
 
-$Y_i$ ∼ Normal($μ_i$, σ)
-$μ_i$ = $β_0$ + $β_1$$X_i$
+$$Y_i ∼ Normal(μ_i, σ)$$
+$$μ_i = β_0 + β_1X_i$$
   
-  - $μ_i$ = $μ_control$ + $diff× $group_i$
+$$μ_i = μcontrol + diff*group_i$$
+  
   - Control group mean $β_0$
   - Group mean difference $β_1$
   - One common SD σ
@@ -710,9 +705,6 @@ $μ_i$ = $β_0$ + $β_1$$X_i$
 ```{r}
 #cond in model
 lm(df$values~df$cond)
- tidy() %>%
-  kable()
-
 ```
 
 ---
@@ -724,18 +716,16 @@ knitr::include_graphics('GLM.svg')
 
 ```
 ---
-# Probability and Standard Normal Distribution: Z Scores
+# Probability and Standard Normal Distribution: *Z*-Scores
 
 $$z=\frac{value-mean}{standard deviation}$$
 
 $$Z(x) = \frac{x - \mu}{\sigma}$$
 - Z-score /standard score tells us how far away any data point is from the mean, in units of standard deviation
 
-- Converts a distribution with any $\mu$ and $\sigma$ to a $\mu$ = 0 and $\sigma$ = 1. 
----
-# Conversions
+-  Conversions
 
-- Solve for X 
+  - Solve for X 
 
 <center>
  $X = z*\sigma -  \mu$
@@ -757,13 +747,15 @@ $Z(x) = \frac{43 - 50}{10}$
 ---
 # Z tables
 
-- No more tables!
-
-```{r echo=FALSE,out.height="50%", out.width="80%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="20%", out.width="80%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('Z-Score-Table-1.png')
 
 ```
+
+--
+
+- NO MORE TABLES
 ---
 # Using R
 
@@ -771,9 +763,9 @@ knitr::include_graphics('Z-Score-Table-1.png')
 <br>
 <br>
 
-- dnorm(): zscore to density (height)
-- pnorm(): *Z*-scores to area
-- qnorm(): area to *Z*-scores
+- dnorm(): *Z*-score to density (height)
+- pnorm(): *Z*-score to area
+- qnorm(): area to *Z*-score
 
 ---
 # Using R 
@@ -813,7 +805,7 @@ pnorm(1, lower.tail = FALSE)
 ---
 # Using R: `pnorm` 
 
-- Percentage Below a IQ score of 55?
+- Percentage below IQ score of 55?
 
 ```{r}
 
@@ -826,7 +818,7 @@ pnorm(z, lower.tail = TRUE)
 
 ```
 
-- Percentage above a IQ score of 55?
+- Percentage above IQ score of 55?
 
 ```{r}
 
@@ -847,8 +839,8 @@ pnorm(z, lower.tail = FALSE)
 ```{r}
 mu <- 100
 sigma <- 15
-X1 <- 120
-X2<-159
+X1 <- 159
+X2<-120
 
 
 pnorm(X1, mu, sigma)-pnorm(X2, mu, sigma)
@@ -868,7 +860,7 @@ pnormGC(bound=66,region="below",mean=70,sd=3, graph=TRUE)
 ```
 
 ---
-# PnormGC
+# Package `PnormGC`
 
 What about $P(X>69)$
 
@@ -880,7 +872,7 @@ pnormGC(bound=69,region="above",
 ```
 
 ---
-# PnormGC
+# Package `PnormGC`
 
  - The probability that X is between 68 and 72: $P(68<X<72)$
 
