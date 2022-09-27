@@ -75,7 +75,6 @@ style_solarized_dark(
 
 ```
 
----
 # Knowledge Check
 
 <div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/1aa5ba7e7422ef7e4312cb8f04cedf25/53357b8b34cf/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
@@ -430,7 +429,7 @@ knitr::include_graphics('mew.png')
 ]
 
 .pull-right[
-```{r echo=FALSE,out.height="50%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="100%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
 
 p1 <- ggplot(data = data.frame(x = c(-3, 3)), aes(x)) +
   stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) + ylab("") +
@@ -449,7 +448,7 @@ knitr::include_graphics('ghost.JPG')
 ---
 # Building a Model - Normal Distribution
 
-```{r echo=FALSE,out.height="5%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="100%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('skew2.png')
 
@@ -458,7 +457,7 @@ knitr::include_graphics('skew2.png')
 ---
 # Building a Model - Normal Distribution
 
-```{r echo=FALSE,out.height="20%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="100%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('kur2.png')
 
@@ -569,6 +568,14 @@ knitr::include_graphics('normaldist.svg')
 
 ]
 ---
+# Building a Model - Normal Distribution
+
+- If we say $Y_1$ ∼ Normal(100, 15)
+
+```{r echo=FALSE,out.height="50%", out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+knitr::include_graphics('normaldist.svg')
+```
+---
 # A Simple Model
 
 .pull-left[
@@ -673,6 +680,14 @@ It turns out that, for a normal distribution, the best estimate of the populatio
 
 mean(treat_group)
 
+
+```
+---
+# Better Model?
+
+```{r echo=FALSE,out.height="50%", out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('01_models-and-monsters.png')
 
 ```
 ---
