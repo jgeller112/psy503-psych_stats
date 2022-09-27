@@ -759,15 +759,15 @@ $Z(x) = \frac{43 - 50}{10}$
 ---
 # Z tables
 
+- NO MORE TABLES
+
+
 ```{r echo=FALSE,out.height="20%", out.width="80%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('Z-Score-Table-1.png')
 
 ```
 
---
-
-- NO MORE TABLES
 ---
 # Using R
 
@@ -966,8 +966,9 @@ datawizard::standardize(x)
 
   - $\mu =500$ $\sigma = 100$
   
-  - New score =  New SD(*z*) + New mean
   
 - T-score
 
   - $\mu = 50$ $\sigma = 10$
+  
+- New score =  New SD(*z*) + New mean
