@@ -764,16 +764,6 @@ $$Z(x) = \frac{x - \mu}{\sigma}$$
 ---
 class:center middle
 # __Scaling does not change the distribution! It is just a linear transformation__
-
----
-# Z-Scores: Example
-
-- $\mu$ =  50 and $\sigma$ = 10
-
-- x = 43
-
-$Z(x) = \frac{43 - 50}{10}$
-
 ---
 # Z tables
 
