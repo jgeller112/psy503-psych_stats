@@ -301,10 +301,15 @@ knitr::include_graphics('test_selection.png')
 -  General mathematical framework
 
     - Regression all the way down 
+    
     - Highly flexible
+    
       - Can fit qualitative (categorical) and quantitative predictors
+      
     - Easy to interpret
+    
     - Helps understand interrealtedness to other models
+    
     - Easy to build to more complex models
 
 --
@@ -420,12 +425,10 @@ knitr::include_graphics('mew.png')
 - Properties of a normal distribution
 
 .pull-left[
-
   - Shape
-  
-      - Unimodal
-      - Symmetric
-      - Asymptotic
+    - Unimodal
+    - Symmetric
+    - Asymptotic
 ]
 
 .pull-right[
