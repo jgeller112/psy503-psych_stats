@@ -61,6 +61,13 @@ lessons:
     reading: "06a-reading"
     hasclass: True
     
+  - title: "Sampling Distributions"
+    date: "Week 5 [MW, 10/03-10/05]"
+    slides: ""
+    notes: ""
+    reading: "07a-reading"
+    hasclass: True
+    
   - title: "Estimation and Uncertainty: Statistical Inference, Estimation, NHST"
     date: "Week 5 [MW, 10/03-10/05]"
     slides: ""
