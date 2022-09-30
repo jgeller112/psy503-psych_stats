@@ -1,5 +1,5 @@
 ---
-title: "07b-Readings"
+title: "07a-Readings"
 ---
 #  Sampling Distributions
 
