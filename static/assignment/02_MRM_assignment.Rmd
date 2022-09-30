@@ -18,7 +18,8 @@ c. How might you assess the scale’s discriminant validity? (.5)
 d. How would you assess test-retest reliability? (.5)
 e. How would you assess whether the items are consistent?  Please perform that test. (.5)
 f. How do convergent and discriminant validity relate to the jingle and jangle fallacies? (.5)
-g. Plot the survey data (.5) (use the code from my RMD on measurement or plot it another way)
+g. Plot the survey data (.5) (use the code from my RMD on measurement (hint: SjPlot::plot_likert) or https://jakec007.github.io/2021-06-23-R-likert/).
+
 
 ## Probability
 
