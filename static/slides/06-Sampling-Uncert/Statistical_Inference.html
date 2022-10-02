@@ -67,14 +67,15 @@ pre[class] {
 # Where are we going? 
 
 Today: 
+
   - Statistical Inference
     - Sampling distributions and uncertainty (confidence intervals, margin of error)
 
-- Wednesday
+Wednesday:
 
   - Null hypothesis significance testing (p-values, null hypotheses)
 ---
-# Populations
+# Population
 
 .pull-left[
 
@@ -89,7 +90,7 @@ Today:
 ]
 
 ---
-# Samples
+# Sample
 
 .pull-left[
 &gt; Smaller subsets of population
@@ -105,23 +106,20 @@ Today:
 
 ???
 The process of statistical inference involves using information from a sample to draw conclusions about a wider population.
-Different random samples yield different statistics. We need to be able to describe the sampling distribution of possible statistic values in order to perform statistical inference.
-We can think of a statistic as a random variable because it takes numerical values that describe the outcomes of the random sampling process. 
+Different random samples yield different statistics. We need to be able to describe the sampling distribution of possible statistic values in order to perform statistical inference. We can think of a statistic as a random variable because it takes numerical values that describe the outcomes of the random sampling process. 
 
 ---
-# Estimation  
+# Estimation
 
-- __Parameter__  
+- Parameters and Statistics
 
-  - Quantity of interest (e.g., `\(\mu\)`) 
+  - __Parameter__  
 
-- __Estimate__  
-  - Specific value obtained from a given set of observations (e.g., `\(\widehat{ATE}\)`) 
-  - Best guess of parameter
-
-- __Estimator__ 
-  - Procedure or formula used to make guesses about a parameter (e.g., difference in means between control and treatment groups) 
-
+      - Characteristics of the population
+  
+  - __Statistics__: Estimates of population parameters 
+      - Computed from sample data
+       - `\(\bar{x}\)`
 ---
 
 &lt;img src="images/infer.png" width="65%" style="display: block; margin: auto;" /&gt;
@@ -133,12 +131,10 @@ class: middle center
   -  What is estimator?
   -  What is the estimate?
   -  What is the parameter?
-
----
 ---
 # Activity
 
-There is a large bowl of balls that contains red and white balls. Importantly, we know that 37.5% of the balls are red (someone counted this!).
+There is a large bowl of balls that contains red and white balls. Importantly, we know that 37.5% of the balls are red
 
 What proportion of this bowl’s balls are red?
 
@@ -190,7 +186,6 @@ ggplot(virtual_prop_red, aes(x = prop_red)) +
 ```
 
 &lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /&gt;
-
 ---
 # Sampling Distribution
 
@@ -254,7 +249,7 @@ By dividing by the square root of N, you are paying a “penalty” for using a 
       1. The distribution of the sample mean approaches the normal distribution as the sample size increases 
       `$$\overline x=\mu$$`
 
-     2. The standard deviation of the sampling distribution will be equal to the SD of the population divided by the sample size s=$\sigma/n$
+     2. The standard deviation of the sampling distribution will be equal to the SD of the population divided by the sample size s= `\(\sigma/n\)`
 
 Important:**about the shape of distribution**
 ---
@@ -284,6 +279,18 @@ distribution is skewed, the sample size is large (&gt; 30)
 class: middle, center
 
 **Sampling distributions are theoretical, and the researcher does not select an infinite number of samples. Instead, they conduct repeated sampling from a larger population., and use the central limit theorem to build the sampling distribution**
+
+---
+# R Simulations
+
+- Let's go to Shiny (http://shiny.calpoly.sh/Sampling_Distribution/)
+
+
+```r
+knitr::include_url('http://shiny.calpoly.sh/Sampling_Distribution/')
+```
+
+&lt;iframe src="http://shiny.calpoly.sh/Sampling_Distribution/" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 ---
 # Real Data: 
 
@@ -301,7 +308,7 @@ ggplot(gapminder_2015) +
 ]
 
 .pull-right[
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 ---
@@ -332,9 +339,9 @@ all_samples &lt;- bind_rows(sample_5, sample_30, sample_100)
 ---
 # Larger N Equates Better Normal Approximation
 
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-18-1.png" width="70%" height="10%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-19-1.png" width="70%" height="10%" style="display: block; margin: auto;" /&gt;
 ---
-# LLN
+# Law of Large Numbers
 
 - __Law of large numbers (LLN)__
 
@@ -353,18 +360,6 @@ __IMPORTANT__:**about the mean**
   - Repeat simulation trials many many times and take the mean of these trials 
   
 ---
-# R Simulations
-
-- Let's go to Shiny (http://shiny.calpoly.sh/Sampling_Distribution/)
-
-
-```r
-knitr::include_url('http://shiny.calpoly.sh/Sampling_Distribution/')
-```
-
-&lt;iframe src="http://shiny.calpoly.sh/Sampling_Distribution/" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
-
----
 class: middle center
 
 # Measuring Uncertainity
@@ -376,7 +371,7 @@ class: middle center
 &lt;br&gt;
 - How good is an estimate?  
 
-- `$$M-\mu$$`
+`$$M-\mu$$`
 
 ---
 # Estimation Error and MOE
@@ -400,9 +395,7 @@ class: middle center
 
   - Range of values that are likely to include the true value of the parameter 
 
-  - Allows us to provide estimate with precision (SE)
-
-&gt; General Interpretation: They tell us if I collected a 100 samples in an identical way, and for each of them calculated the mean and CI, then we would expect 95% of these samples to contain true mean
+  - Allows us to provide point estimate with precision (SE)
 
 ---
 # CIs
@@ -437,7 +430,7 @@ class: middle center
 
 .pull-right[
 
-&lt;img src="images/cisize.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/catseye.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 ---
@@ -458,6 +451,8 @@ class: middle center
 
 ---
 # Dance of the CIs
+
+&gt; General Interpretation: They tell us if I collected a 100 samples in an identical way, and for each of them calculated the mean and CI, then we would expect 95% of these samples to contain true mean
 
 &lt;iframe src="https://logarithmic.net/2017/dance/" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
 
@@ -483,10 +478,24 @@ class: middle center
 
 - Heights of NFL fans
 
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-25-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 ---
 
 ```r
+football_fans &lt;- data.frame(home_fan = rbinom(40000, 1, 0.91),
+                            age = rnorm(40000, 30, 8)) %&gt;%
+  mutate(age = case_when(age &lt; 0 ~ 0,
+                         age &gt;=0 ~ age))
+ samples_football_fans &lt;- football_fans %&gt;% 
+  rep_sample_n(size =  100, reps = 10000)
+
+samp_means_football_fans &lt;- samples_football_fans %&gt;% 
+  group_by(replicate) %&gt;% 
+  summarise(xbar = mean(age),
+            sigma = sd(football_fans$age),
+            n = n(),
+            SE_xbar = sigma / sqrt(n))
+
 CI &lt;- samp_means_football_fans %&gt;% 
   filter(replicate == 77) %&gt;% 
   summarize(lower = xbar - 1.96*SE_xbar,
@@ -498,79 +507,18 @@ CI
 ## # A tibble: 1 × 2
 ##   lower upper
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  30.0  33.1
-```
----
-
-.pull-left [
-
-
-```r
-xbar &lt;- samp_means_football_fans %&gt;% 
-  filter(replicate == 77) %&gt;% 
-  select(xbar) %&gt;% 
-  as.numeric()
-```
-]
-
-.pull-right [
-
-```r
-samp_dist_plot +
-  shade_ci(CI) +
-  geom_vline(xintercept = xbar, color = "red")
-```
-
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-28-1.png" width="65%" style="display: block; margin: auto;" /&gt;
-]
----
-
-
-```r
-CI &lt;- samp_means_football_fans %&gt;% 
-  filter(replicate == 545) %&gt;% 
-  summarize(lower = xbar - 1.96*SE_xbar,
-            upper = xbar + 1.96*SE_xbar)
-CI
-```
-
-```
-## # A tibble: 1 × 2
-##   lower upper
-##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  29.1  32.3
+## 1  28.0  31.1
 ```
 ---
 
 
-```r
-xbar &lt;- samp_means_football_fans %&gt;% 
-  filter(replicate == 545) %&gt;% 
-  select(xbar) %&gt;% 
-  as.numeric()
-
-samp_dist_plot +
-  shade_ci(CI) +
-  geom_vline(xintercept = xbar, color = "red")
-```
-
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-30-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-28-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
+# Dance of the CIs
 
 
-```
-## # A tibble: 5 × 8
-##   replicate  xbar sigma     n SE_xbar lower upper captured_95
-##       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;      
-## 1         1  31.0  8.00   100   0.800  29.4  32.5 TRUE       
-## 2         2  29.7  8.00   100   0.800  28.1  31.2 TRUE       
-## 3         3  32.3  8.00   100   0.800  30.7  33.9 FALSE      
-## 4         4  29.1  8.00   100   0.800  27.5  30.6 TRUE       
-## 5         5  28.3  8.00   100   0.800  26.8  29.9 FALSE
-```
-
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-31-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-30-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -597,7 +545,7 @@ samp_dist_plot +
 
 - Coverage is more conservative 
 
-&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-33-1.png" width="50%" height="10%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-32-1.png" width="50%" height="10%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Degrees of Freedom
