@@ -64,6 +64,7 @@ lessons:
   - title: "Sampling Distributions and Quantifying Uncertainty"
     date: "Week 5 [MW, 10/03-10/05]"
     slides: ""
+    class:  "06-Sampling-Uncert/Statistical_Inference"
     notes: ""
     reading: "07a-reading"
     hasclass: True

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 503: Foundations of Statistics in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
+    <meta name="date" content="2022-10-02" />
+    <script src="Statistical_Inference_files/header-attrs/header-attrs.js"></script>
+    <link href="Statistical_Inference_files/panelset/panelset.css" rel="stylesheet" />
+    <script src="Statistical_Inference_files/panelset/panelset.js"></script>
+    <script src="Statistical_Inference_files/freezeframe/freezeframe.min.js"></script>
+    <script src="Statistical_Inference_files/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# PSY 503: Foundations of Statistics in Psychological Science
+]
+.subtitle[
+## Statistical Inference: Populations, Sampling Distributions, and Uncertainty
+]
+.author[
+### Jason Geller, Ph.D. (he/him/his)
+]
+.institute[
+### Princeton University
+]
+.date[
+### 2022-10-02
+]
+
+---
+
+
+
+
+
+<style>.panelset{--panel-tab-foreground: honeydew;--panel-tab-background: seagreen;}</style>
+&lt;style type="text/css"&gt;
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+pre[class] {
+  max-height: 100px;
+}
+&lt;/style&gt;
+
+
+&lt;style type="text/css"&gt;
+.scroll-100 {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+&lt;/style&gt;
+# Knowledge Check
+
+&lt;div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'&gt;&lt;iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/64b94a88aadf84135b8a875d16159d43/c4e8ed0e8bc2/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'&gt;&lt;/iframe&gt;&lt;/div&gt;
+
+---
+# Where are we going? 
+
+Today: 
+  - Statistical Inference
+    - Sampling distributions and uncertainty (confidence intervals, margin of error)
+
+- Wednesday
+
+  - Null hypothesis significance testing (p-values, null hypotheses)
+---
+# Populations
+
+.pull-left[
+
+&gt; Entire collection of **units** interested in studying
+
+  - Clearly defined
+  - Typically large
+  ]
+  
+.pull-right[
+&lt;img src="images/legopop.jpeg" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Samples
+
+.pull-left[
+&gt; Smaller subsets of population
+]
+
+.pull-right[
+&lt;img src="images/legobat.jpeg" width="65%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Statistical Inference 
+
+&lt;img src="images/prob_inference.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+???
+The process of statistical inference involves using information from a sample to draw conclusions about a wider population.
+Different random samples yield different statistics. We need to be able to describe the sampling distribution of possible statistic values in order to perform statistical inference.
+We can think of a statistic as a random variable because it takes numerical values that describe the outcomes of the random sampling process. 
+
+---
+# Estimation  
+
+- __Parameter__  
+
+  - Quantity of interest (e.g., `\(\mu\)`) 
+
+- __Estimate__  
+  - Specific value obtained from a given set of observations (e.g., `\(\widehat{ATE}\)`) 
+  - Best guess of parameter
+
+- __Estimator__ 
+  - Procedure or formula used to make guesses about a parameter (e.g., difference in means between control and treatment groups) 
+
+---
+
+&lt;img src="images/infer.png" width="65%" style="display: block; margin: auto;" /&gt;
+---
+class: middle center
+
+ # Let's say you wanted to know the average height of children in a certain school with a population of 1000 students. You take a sample of 30 children, measure them and find that the mean height is 56 inches. 
+ 
+  -  What is estimator?
+  -  What is the estimate?
+  -  What is the parameter?
+
+---
+---
+# Activity
+
+There is a large bowl of balls that contains red and white balls. Importantly, we know that 37.5% of the balls are red (someone counted this!).
+
+What proportion of this bowl’s balls are red?
+
+1. Pull a random sample of 50
+
+2. Tell me how many % of reds you pulled
+
+
+```r
+bowl &lt;- read.csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/assignment/data/bowl.csv")
+
+virtual_shovel &lt;- bowl %&gt;% 
+  sample_n(size = 50)
+```
+---
+# Activity
+
+
+```r
+ggplot(prop_red, aes(x = prop_red)) +
+  geom_histogram(binwidth = 0.05, boundary = 0.4, color = "white") +
+  labs(x = "Proportion of 50 balls that were red", 
+       title = "Distribution of proportions red") 
+```
+---
+# 10,000 times
+
+```r
+library(moderndive) #get rep_sample_n fucntion
+virtual_samples &lt;- bowl %&gt;% 
+  rep_sample_n(size = 50, reps = 10000)
+
+virtual_prop_red &lt;- virtual_samples %&gt;% 
+  group_by(replicate) %&gt;% 
+  summarize(red = sum(color == "red")) %&gt;% 
+  mutate(prop_red = red / 50)
+```
+
+---
+# 10,000 Times
+
+
+```r
+ggplot(virtual_prop_red, aes(x = prop_red)) +
+  geom_histogram(binwidth = 0.05, boundary = 0.4, color = "white") +
+  geom_vline(xintercept =.37, colour="green", linetype = "longdash")+
+  labs(x = "Proportion of 50 balls that were red", 
+       title = "Distribution of 10,000 proportions red") 
+```
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Sampling Distribution
+
+**We can never test the whole population of interest**
+
+- The probability distribution of a given statistic (e.g., mean) taken from a random sample
+  
+  - Distribution of statistics (e.g., mean) that would be produced in an infinite repeated random sampling (with replacement) (**in theory**)
+
+ - Determines the probability of an event based on data from a small group within a large population
+
+- __IMPORTANT__: Can be any statistic (proportion, mean, standard deviation)
+  
+---
+# Constructing Sampling Distribution
+
+  1.  Randomly draw n sample points from a finite population with size N
+  
+  2.  Compute statistic of interest
+  
+  3.  List different observed values of the statistic with their corresponding frequencies
+---
+# Example: Sampling Distribution of the Mean
+
+- Scores on a statistics test 
+
+&lt;img src="images/sampling.jpg" width="30%" style="display: block; margin: auto;" /&gt;
+---
+# Sampling Error (Standard Error)
+
+&lt;img src="images/sampling_error.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+---
+# Sampling Error (Standard Error)
+
+.pull-left[
+- Say it with me: The standard deviation of the sampling distribution is the standard error
+- It tells us how much variability there is between sample estimate and population parameter
+
+`$$SEM = \sigma/\sqrt(N)$$`
+]
+.pull-right[
+
+&lt;img src="images/srKkzR.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+???
+
+By dividing by the square root of N, you are paying a “penalty” for using a sample instead of the entire population (sampling allows us to make guesses, or inferences, about a population. The smaller the sample, the less confidence you might have in those inferences; that's the origin of the “penalty”).
+---
+# SEM 
+
+- Larger SEM means more variability around true mean (low precision)
+
+&lt;img src="images/sampuncert.png" width="65%" style="display: block; margin: auto;" /&gt;
+---
+# A Theorem and a Law
+
+- Central Limit Theorem  
+
+  - Properties:
+
+      1. The distribution of the sample mean approaches the normal distribution as the sample size increases 
+      `$$\overline x=\mu$$`
+
+     2. The standard deviation of the sampling distribution will be equal to the SD of the population divided by the sample size s=$\sigma/n$
+
+Important:**about the shape of distribution**
+---
+# Central Limit Theorem 
+
+- Why is the Central Limit Theorem so important to the study of sampling distribution?
+
+  - Kicks in regardless of the distribution of the random variable   
+  
+  - We can use this distribution to tell us how far off our own sample mean is from all other possible means, and use this to inform decisions and estimates in null hypothesis statistical testing.
+
+---
+# Central Limit Theorem
+
+Certain conditions must be met for the CLT to apply:
+
+- Independence: Sampled observations must be independent. This is difficult to verify, but is more likely if
+
+  - Random sampling / assignment is used
+  
+- Sample size / skew: Either the population distribution is normal, or if the population
+distribution is skewed, the sample size is large (&gt; 30)
+
+  - The more skewed the population distribution, the larger sample size we need for the CLT to apply
+
+---
+class: middle, center
+
+**Sampling distributions are theoretical, and the researcher does not select an infinite number of samples. Instead, they conduct repeated sampling from a larger population., and use the central limit theorem to build the sampling distribution**
+---
+# Real Data: 
+
+.pull-left[
+
+```r
+data("gapminder", package = "dslabs") 
+gapminder_2015 &lt;- gapminder %&gt;% 
+  filter(year == 2015, !is.na(infant_mortality))
+ggplot(gapminder_2015) +
+  geom_histogram(aes(x = infant_mortality), color = "black")  +
+  xlab("Infant mortality per 1,000 live births") +
+  ylab("Number of countries")
+```
+]
+
+.pull-right[
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+---
+# Simulation
+
+
+```r
+library(infer)
+library(cowplot)
+
+sample_5 &lt;- rep_sample_n(gapminder_2015, size = 5, reps = 10000) %&gt;% 
+  group_by(replicate) %&gt;% 
+  summarise(mean_infant_mortality = mean(infant_mortality)) %&gt;% 
+  mutate(n = 5)
+
+sample_30 &lt;- rep_sample_n(gapminder_2015, size = 30, reps = 10000) %&gt;% 
+  group_by(replicate) %&gt;% 
+  summarise(mean_infant_mortality = mean(infant_mortality)) %&gt;% 
+  mutate(n = 30)
+
+sample_100 &lt;- rep_sample_n(gapminder_2015, size = 100, reps = 10000) %&gt;% 
+  group_by(replicate) %&gt;% 
+  summarise(mean_infant_mortality = mean(infant_mortality)) %&gt;% 
+  mutate(n = 100)
+
+all_samples &lt;- bind_rows(sample_5, sample_30, sample_100)
+```
+---
+# Larger N Equates Better Normal Approximation
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-18-1.png" width="70%" height="10%" style="display: block; margin: auto;" /&gt;
+---
+# LLN
+
+- __Law of large numbers (LLN)__
+
+  - Implies that sample average `\(\bar{X_n}\)` will better approximate `\(\mathbb{E}[X]\)` as sample size increases  
+
+- Super powerful: can be applied in most settings without knowledge of the underlying probability distribution  
+
+__IMPORTANT__:**about the mean**
+
+
+---
+# Law of Large Numbers and Monte Carlo Simulation
+
+- The Law of Large number justifies the use of _Monte Carlo_ simulations 
+
+  - Repeat simulation trials many many times and take the mean of these trials 
+  
+---
+# R Simulations
+
+- Let's go to Shiny (http://shiny.calpoly.sh/Sampling_Distribution/)
+
+
+```r
+knitr::include_url('http://shiny.calpoly.sh/Sampling_Distribution/')
+```
+
+&lt;iframe src="http://shiny.calpoly.sh/Sampling_Distribution/" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+class: middle center
+
+# Measuring Uncertainity
+
+---
+# Estimation Error and MOE
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+- How good is an estimate?  
+
+- `$$M-\mu$$`
+
+---
+# Estimation Error and MOE
+
+- MOE (margin of error)
+
+  - Largest likely estimation error 
+
+`$$MoE = 1.96 X SE$$`
+---
+- Where did 1.96 come from?
+
+&lt;img src="images/N-CIs-1.png" width="75%" style="display: block; margin: auto;" /&gt;
+---
+# Combining Estimates Precision
+
+&lt;br&gt;
+&lt;br&gt;
+
+- CIs
+
+  - Range of values that are likely to include the true value of the parameter 
+
+  - Allows us to provide estimate with precision (SE)
+
+&gt; General Interpretation: They tell us if I collected a 100 samples in an identical way, and for each of them calculated the mean and CI, then we would expect 95% of these samples to contain true mean
+
+---
+# CIs
+
+&lt;img src="images/net.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+
+# Anatomy of a Confidence Interval
+
+&gt; **Public support for Proposition A is 53%**
+
+  - 53% support, 95% CI [51, 55]
+
+&lt;img src="images/conf.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+- Most often calculate 95 % CIs 
+
+---
+# Level of Confidence
+
+.pull-left[
+
+- 95 is referred to as confidence level
+
+  - i.e., How confident CI includes `\(\mu\)`.
+  
+- Does not only have to be 95!
+
+  - Greater C = longer CI
+]
+
+
+.pull-right[
+
+&lt;img src="images/cisize.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+---
+# How to Calculate CIs
+
+1. Calculate the estimate from your sample
+
+2. Calculate the standard error of your estimate
+
+3. Determine the appropriate sampling distribution for your standardized estimate (e.g., normal)  
+
+4. Determine your desired level of confidence (e.g. 90%, 95%, 99%)
+
+
+- Lower boundary  = estimate - MoE (1.96 X **SE**)
+
+- Higher boundary = estimate + MoE  (1.96 X **SE**)
+
+---
+# Dance of the CIs
+
+&lt;iframe src="https://logarithmic.net/2017/dance/" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+# CI Interpretations
+
+1. CI dance: One from the dance (most likely captures the parameter we are estimating, **but it could not**)
+
+2. Precision: MoE gives us a sense of precision
+
+3. Prediction: CIs give useful information about replication
+
+  - E.g., If a replication is done, 83% chance (5 in 6 chance) 95% CI will capture the next mean
+  
+.footnote[
+
+[1] Cumming &amp; Calin-Jageman: Introduction to the New Statistics
+
+]
+  
+---
+# CI Example
+
+- Heights of NFL fans
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+
+```r
+CI &lt;- samp_means_football_fans %&gt;% 
+  filter(replicate == 77) %&gt;% 
+  summarize(lower = xbar - 1.96*SE_xbar,
+            upper = xbar + 1.96*SE_xbar)
+CI
+```
+
+```
+## # A tibble: 1 × 2
+##   lower upper
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  30.0  33.1
+```
+---
+
+.pull-left [
+
+
+```r
+xbar &lt;- samp_means_football_fans %&gt;% 
+  filter(replicate == 77) %&gt;% 
+  select(xbar) %&gt;% 
+  as.numeric()
+```
+]
+
+.pull-right [
+
+```r
+samp_dist_plot +
+  shade_ci(CI) +
+  geom_vline(xintercept = xbar, color = "red")
+```
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-28-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+
+```r
+CI &lt;- samp_means_football_fans %&gt;% 
+  filter(replicate == 545) %&gt;% 
+  summarize(lower = xbar - 1.96*SE_xbar,
+            upper = xbar + 1.96*SE_xbar)
+CI
+```
+
+```
+## # A tibble: 1 × 2
+##   lower upper
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  29.1  32.3
+```
+---
+
+
+```r
+xbar &lt;- samp_means_football_fans %&gt;% 
+  filter(replicate == 545) %&gt;% 
+  select(xbar) %&gt;% 
+  as.numeric()
+
+samp_dist_plot +
+  shade_ci(CI) +
+  geom_vline(xintercept = xbar, color = "red")
+```
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-30-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```
+## # A tibble: 5 × 8
+##   replicate  xbar sigma     n SE_xbar lower upper captured_95
+##       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;      
+## 1         1  31.0  8.00   100   0.800  29.4  32.5 TRUE       
+## 2         2  29.7  8.00   100   0.800  28.1  31.2 TRUE       
+## 3         3  32.3  8.00   100   0.800  30.7  33.9 FALSE      
+## 4         4  29.1  8.00   100   0.800  27.5  30.6 TRUE       
+## 5         5  28.3  8.00   100   0.800  26.8  29.9 FALSE
+```
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-31-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# The link between Normal, Standard Errors, and CIs
+
+&lt;img src="images/CIsstandard.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# What do we do when `\(\sigma\)` unknown?
+
+- USE `\(s\)` -  SD of the sample
+
+`$$Z(x) = \frac{x - \mu}{\sigma}$$`
+  
+`$$t(x) = \frac{M - \mu}{s/\sqrt(n)}$$`
+  
+`$$s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}$$`
+---
+# The *t* Distribution
+
+- Small samples: more conservative test
+
+- *t*-distribution has fatter tails 
+
+- Coverage is more conservative 
+
+&lt;img src="Statistical_Inference_files/figure-html/unnamed-chunk-33-1.png" width="50%" height="10%" style="display: block; margin: auto;" /&gt;
+
+---
+# Degrees of Freedom
+
+- `\(df = (N-1)\)`
+
+  - *N* = sample size 
+
+- What is DF you ask?
+
+   - Number of separate independent pieces that can vary
+---
+# Degrees of Freedom
+
+&lt;img src="https://user-images.githubusercontent.com/18429968/193103949-421a3f0a-56b3-4fe2-b812-b7cea4c9bc19.gif" width="36%" /&gt;
+---
+#Calculating CIs for *t*
+
+`$$MoE = t_.95(df) \times s/\sqrt(N)$$`
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
