@@ -719,6 +719,8 @@ $$s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}$$
 
 - Coverage is more conservative 
 
+
+
 ```{r, echo=FALSE, fig.align='center', out.width="50%", out.height="10%"}
 
 # Generate a vector of 100 values between -6 and 6
@@ -741,6 +743,10 @@ for (i in 1:4){
 legend("topright", c("df = 1", "df = 4", "df = 10", "df = 30", "normal"), 
        col = colour, title = "t-distributions", lty = c(1,1,1,1,2))
 ```
+
+???
+
+N-1 is non-biased (not going to concern ourselves with the proof). We are taking sample SD instead of pop SD. It is going to be biased if we dont. 
 
 ---
 # Degrees of Freedom
@@ -775,4 +781,4 @@ $$MoE = t_.95(df) \times s/\sqrt(N)$$
 
 > People who completed the statistics test as  scored *M* = 75.00,
 95% CI [70, 80], which was higher than those who completed it as themselves,
-M= 50.00, 95% CI [35, 65].
+*M*= 50.00, 95% CI [35, 65].
