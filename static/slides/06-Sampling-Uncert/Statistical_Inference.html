@@ -74,6 +74,8 @@ Today:
 Wednesday:
 
   - Null hypothesis significance testing (p-values, null hypotheses)
+  
+  - **Daniel Lakens is giving talk abut p-values tomorrow (12:00 P.M.)**
 ---
 # Population
 
@@ -119,7 +121,7 @@ Different random samples yield different statistics. We need to be able to descr
   
   - __Statistics__: Estimates of population parameters 
       - Computed from sample data
-       - `\(\bar{x}\)`
+        - `\(\bar{x}\)`
 ---
 
 &lt;img src="images/infer.png" width="65%" style="display: block; margin: auto;" /&gt;
@@ -128,7 +130,6 @@ class: middle center
 
  # Let's say you wanted to know the average height of children in a certain school with a population of 1000 students. You take a sample of 30 children, measure them and find that the mean height is 56 inches. 
  
-  -  What is estimator?
   -  What is the estimate?
   -  What is the parameter?
 ---
@@ -189,13 +190,10 @@ ggplot(virtual_prop_red, aes(x = prop_red)) +
 ---
 # Sampling Distribution
 
-**We can never test the whole population of interest**
-
 - The probability distribution of a given statistic (e.g., mean) taken from a random sample
   
   - Distribution of statistics (e.g., mean) that would be produced in an infinite repeated random sampling (with replacement) (**in theory**)
 
- - Determines the probability of an event based on data from a small group within a large population
 
 - __IMPORTANT__: Can be any statistic (proportion, mean, standard deviation)
   
@@ -240,7 +238,7 @@ By dividing by the square root of N, you are paying a “penalty” for using a 
 
 &lt;img src="images/sampuncert.png" width="65%" style="display: block; margin: auto;" /&gt;
 ---
-# A Theorem and a Law
+# A Tale of a Theorem and a Law: Magic
 
 - Central Limit Theorem  
 
@@ -249,7 +247,7 @@ By dividing by the square root of N, you are paying a “penalty” for using a 
       1. The distribution of the sample mean approaches the normal distribution as the sample size increases 
       `$$\overline x=\mu$$`
 
-     2. The standard deviation of the sampling distribution will be equal to the SD of the population divided by the sample size s= `\(\sigma/n\)`
+     2. The standard deviation of the sampling distribution will be equal to the SD of the population divided by the square root of the sample size. s= `\(\sigma/\sqrt(n)\)`
 
 Important:**about the shape of distribution**
 ---
@@ -259,7 +257,7 @@ Important:**about the shape of distribution**
 
   - Kicks in regardless of the distribution of the random variable   
   
-  - We can use this distribution to tell us how far off our own sample mean is from all other possible means, and use this to inform decisions and estimates in null hypothesis statistical testing.
+  - We can use the normal distribution to tell us how far off our own sample mean is from all other possible means, and use this to inform decisions and estimates in null hypothesis statistical testing
 
 ---
 # Central Limit Theorem
@@ -312,7 +310,7 @@ ggplot(gapminder_2015) +
 
 ]
 ---
-# Simulation
+# R Simulations
 
 
 ```r
@@ -507,7 +505,7 @@ CI
 ## # A tibble: 1 × 2
 ##   lower upper
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  28.0  31.1
+## 1  30.3  33.4
 ```
 ---
 
