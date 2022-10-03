@@ -765,3 +765,14 @@ knitr::include_graphics('https://user-images.githubusercontent.com/18429968/1931
 #Calculating CIs for *t*
 
 $$MoE = t_.95(df) \times s/\sqrt(N)$$
+---
+# Write-up
+
+- Mean
+
+- 95% CI [lower, upper]
+
+
+> People who completed the statistics test as  scored *M* = 75.00,
+95% CI [70, 80], which was higher than those who completed it as themselves,
+M= 50.00, 95% CI [35, 65].
