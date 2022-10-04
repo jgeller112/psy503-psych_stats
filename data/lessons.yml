@@ -72,6 +72,7 @@ lessons:
   - title: "Estimation and Uncertainty: Statistical Inference, Estimation, NHST"
     date: "Week 5 [MW, 10/03-10/05]"
     slides: ""
+    class: "07-NHST/NHST"
     notes: ""
     reading: "05a-reading"
     hasclass: True
