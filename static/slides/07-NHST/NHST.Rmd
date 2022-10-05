@@ -418,6 +418,7 @@ knitr::include_graphics ('images/pfun.png')
 ]
 ---
 # Type 1 and Type 2 Error Rates
+
 .pull-left[
 - You think the manipulation worked, but it really doesn’t
   - Type 1 error
