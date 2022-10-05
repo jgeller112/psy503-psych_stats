@@ -76,7 +76,7 @@ background-image:url("images/pworship.gif")
   
   - Type 1 and Type 2 error
 
-  - *p* value misconceptions
+  - *p*-value misconceptions
   
 ---
 Next Week
@@ -186,9 +186,9 @@ Toftness, Carpenter, Geller, Lauber, Johnson, and  Armstrong (2017)
 
 - Two-tailed: H0 : `\(\mu_f\)` = `\(\mu_d\)` ; HA = `\(\mu_f\)` `\(\not=\)` `\(\mu_d\)`
 
-- One-tailed: H0 = `\(\mu_f\)`  ≤ `\(\mu_d\)` ; HA = `\(\mu_f\)` &gt; `\(\mu_d\)`
+- One-tailed: H0 = `\(\mu_f\)` = `\(\mu_d\)` ; HA = `\(\mu_f\)` &gt; `\(\mu_d\)`
 
-- One-tailed: H0 = `\(\mu_f\)`  ≥ `\(\mu_d\)` ; HA = `\(\mu_f\)` &lt; `\(\mu_d\)`
+- One-tailed: H0 = `\(\mu_f\)`  = `\(\mu_d\)` ; HA = `\(\mu_f\)` &lt; `\(\mu_d\)`
 
 - Only use a one-tailed / directional hypothesis if you have a strong theoretical prediction (for example, from a model) or you preregister it
 
@@ -199,18 +199,18 @@ Toftness, Carpenter, Geller, Lauber, Johnson, and  Armstrong (2017)
 - We can accommodate both two-tailed and one-tailed tests statistically
 ---
 ---
-# 2-Tailed Test
+# Two Tailed Test
 
 &lt;img src="images/2tail.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 - The sum of the tails sums to α (0.025 in each tail for a two-tailed when α = 0.05)
 
-- See where the statistic lies relative to ‘critical score’ that depends on defined alpha (same procedure  used to calculate confidence intervals)
+- See where the statistic lies relative to a ‘critical score’ that depends on defined alpha (same procedure used to calculate confidence intervals)
 
 - For the right and left tail, if the test statistic  &gt;  1.96  or less than -1.96 (critical value) reject null &amp; accept alternative
 
 ---
-# 1-Taled Test
+# One Tailed Test
 
 &lt;img src="images/1-tail.png" width="100%" style="display: block; margin: auto;" /&gt;
 - 0.05 in each tail
@@ -219,20 +219,33 @@ Toftness, Carpenter, Geller, Lauber, Johnson, and  Armstrong (2017)
 
 - Do you see why you get power with a one-sided / directional hypothesis?
 ---
-# Null and Alternative Example
+# Should I use a one-tailed or two-tailed test?
 
-- Research Hypothesis: I hypothesize that fluent lecturers help increase learning
+- Always use two-tailed when there is no directional expectation
 
-  - Null Hypothesis: H0 : `\(\mu_f\)` = `\(\mu_d\)`
+  - There are two competing predictions
+
+- Can use one-tailed when
+strong justification for directional prediction
+
+- Never follow up with one-tailed if two-tailed is not statistically significant
+---
+# Define your level of significance (α)
+
+- Level of significance (α): Probability of rejecting the NULL hypothesis due simply to chance
+
+  - α = 0.05
   
-  - Alternative Hypothesis: HA: `\(\mu_f\)` `\(\not=\)` `\(\mu_d\)`
+  - Some use others (e.g. 0.01, 0.0000003 particle discovery in high energy physics)
+  
+ - How do we determine what the probability of rejecting the null hypothesis given our data?
 
 ---
 class:middle center
 
 # What is a *p*-value?
 
-&gt; The p-value can be understood as the probability that **under the null hypothesis**, we observe a value of the test statistic at least as extreme as the one we actually observed. 
+&gt; The probability of observing the sample data, or more extreme data, assuming the null hypothesis is true
 
 **How surprising something is**
 
@@ -240,9 +253,8 @@ class:middle center
 # *p*-value
 
 &lt;img src="images/plike.png" width="100%" style="display: block; margin: auto;" /&gt;
-
 ---
-# *p*-value: Schools of Though
+# *p*-value: Schools of Thought
 
 - Ronald Fisher: 
 
@@ -256,7 +268,7 @@ class:middle center
 
     - *p*-value is only used to check if it is smaller than the chosen `\(\alpha\)` level, but it does not matter how much smaller it is
 ---
-# *p*-value: Schools of Though
+# *p*-value: Schools of Thought
 
 &lt;img src="images/fisherneyman.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
@@ -264,11 +276,9 @@ class:middle center
 
 1. State null hypothesis and alternative hypothesis
 
-2. Decide on test statistic and critical value
+2. Calculate the corresponding test statistic and compare the result against the “critical value”
 
-3. Calculate the corresponding test statistic and compare the result against the “critical value”
-
-4. State your conclusion
+3. State your conclusion
 
 ---
 # Steps for Hypothesis Testing
@@ -280,7 +290,7 @@ class:middle center
         - The null hypothesis ($H_0$) is a claim of “no difference in the population” 
          - No difference between a population parameter and         hypothesized value: `\(H_0\)` : 𝛍 = 7.56 
          - No difference between one population parameter and another: `\(H_0\)` : `\(\mu_f\)` = `\(\mu_d\)`
-          - We usually want to reject this hypothesis
+          - *We usually want to reject this hypothesis*
   
 - The alternative hypothesis ($H_1$) claims `\(H_0\)` is false: There is some difference
 
@@ -299,7 +309,7 @@ class:middle center
 
   - Calculate the corresponding test statistic and compare the result against the “critical value”
 
-  - *t*, *z*, *F*
+    - *t*, *z*, *F*
 
       - Is the test statistic  &gt; or &lt; than critical value?
 
@@ -310,14 +320,6 @@ class:middle center
 - Step 2 
 
     - Define your level of significance (α)
-
-      - Level of significance (α):
-
-      - Reject `\(H_0\)` | `\(H_0\)`
-  
-      - α = 0.05
-
-      - Some use others (call for p &lt;.005)
 
 - α Interpretation: If we were do this experiment many many times, we would only expect 5% (or another level of significance) to be Type 1 Error
 ---
@@ -332,18 +334,17 @@ class:middle center
 
 **Never say we found no difference. Instead say you found no statistically significant difference. Can never affirm the null**
 ---
-# *p* value Conventions
+# *p*-value Conventions
 
 .pull-left[
 - Conventions:
   - *p* &gt; 0.10: non-significant evidence against H0
   - 0.05 &lt; *p* &lt; 0.10: marginally significant evidence
-  - *p* 0.05: significant evidence against H0 
+  - *p* &lt; 0.05: significant evidence against H0 
 ]
+
 .pull-right [
-
-&lt;img src="images/pfun.png" width="40%" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="images/pfun.png" width="30%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # Type 1 and Type 2 Error Rates
@@ -374,6 +375,7 @@ class:middle center
 - Report `\(\alpha\)`
 
 - Do not use *p*-values as a measure of evidence
+
 ---
 # *p*-value Misconceptions
 
@@ -555,13 +557,13 @@ res1
 ## 	One Sample t-test
 ## 
 ## data:  data1
-## t = 1.5022, df = 156, p-value = 0.06753
+## t = 4.561, df = 156, p-value = 5.121e-06
 ## alternative hypothesis: true mean is greater than 140
 ## 95 percent confidence interval:
-##  139.6422      Inf
+##  146.3918      Inf
 ## sample estimates:
 ## mean of x 
-##  143.5244
+##  150.0308
 ```
 ---
 # 1 Sample *t* (Example 3)

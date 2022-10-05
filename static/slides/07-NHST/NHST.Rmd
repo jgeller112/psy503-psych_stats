@@ -122,7 +122,7 @@ background-image:url("images/pworship.gif")
   
   - Type 1 and Type 2 error
 
-  - *p* value misconceptions
+  - *p*-value misconceptions
   
 ---
 Next Week
@@ -236,9 +236,9 @@ Toftness, Carpenter, Geller, Lauber, Johnson, and  Armstrong (2017)
 
 - Two-tailed: H0 : $\mu_f$ = $\mu_d$ ; HA = $\mu_f$ $\not=$ $\mu_d$
 
-- One-tailed: H0 = $\mu_f$  ≤ $\mu_d$ ; HA = $\mu_f$ > $\mu_d$
+- One-tailed: H0 = $\mu_f$ = $\mu_d$ ; HA = $\mu_f$ > $\mu_d$
 
-- One-tailed: H0 = $\mu_f$  ≥ $\mu_d$ ; HA = $\mu_f$ < $\mu_d$
+- One-tailed: H0 = $\mu_f$  = $\mu_d$ ; HA = $\mu_f$ < $\mu_d$
 
 - Only use a one-tailed / directional hypothesis if you have a strong theoretical prediction (for example, from a model) or you preregister it
 
@@ -249,7 +249,7 @@ Toftness, Carpenter, Geller, Lauber, Johnson, and  Armstrong (2017)
 - We can accommodate both two-tailed and one-tailed tests statistically
 ---
 ---
-# 2-Tailed Test
+# Two Tailed Test
 
 ```{r echo=FALSE,out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
@@ -259,12 +259,12 @@ knitr::include_graphics ('images/2tail.png')
 
 - The sum of the tails sums to α (0.025 in each tail for a two-tailed when α = 0.05)
 
-- See where the statistic lies relative to ‘critical score’ that depends on defined alpha (same procedure  used to calculate confidence intervals)
+- See where the statistic lies relative to a ‘critical score’ that depends on defined alpha (same procedure used to calculate confidence intervals)
 
 - For the right and left tail, if the test statistic  >  1.96  or less than -1.96 (critical value) reject null & accept alternative
 
 ---
-# 1-Taled Test
+# One Tailed Test
 
 ```{r echo=FALSE,out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
 
@@ -277,20 +277,33 @@ knitr::include_graphics ('images/1-tail.png')
 
 - Do you see why you get power with a one-sided / directional hypothesis?
 ---
-# Null and Alternative Example
+# Should I use a one-tailed or two-tailed test?
 
-- Research Hypothesis: I hypothesize that fluent lecturers help increase learning
+- Always use two-tailed when there is no directional expectation
 
-  - Null Hypothesis: H0 : $\mu_f$ = $\mu_d$
+  - There are two competing predictions
+
+- Can use one-tailed when
+strong justification for directional prediction
+
+- Never follow up with one-tailed if two-tailed is not statistically significant
+---
+# Define your level of significance (α)
+
+- Level of significance (α): Probability of rejecting the NULL hypothesis due simply to chance
+
+  - α = 0.05
   
-  - Alternative Hypothesis: HA: $\mu_f$ $\not=$ $\mu_d$
+  - Some use others (e.g. 0.01, 0.0000003 particle discovery in high energy physics)
+  
+ - How do we determine what the probability of rejecting the null hypothesis given our data?
 
 ---
 class:middle center
 
 # What is a *p*-value?
 
-> The p-value can be understood as the probability that **under the null hypothesis**, we observe a value of the test statistic at least as extreme as the one we actually observed. 
+> The probability of observing the sample data, or more extreme data, assuming the null hypothesis is true
 
 **How surprising something is**
 
@@ -302,9 +315,8 @@ class:middle center
 knitr::include_graphics ('images/plike.png')
 
 ``` 
-
 ---
-# *p*-value: Schools of Though
+# *p*-value: Schools of Thought
 
 - Ronald Fisher: 
 
@@ -318,7 +330,7 @@ knitr::include_graphics ('images/plike.png')
 
     - *p*-value is only used to check if it is smaller than the chosen $\alpha$ level, but it does not matter how much smaller it is
 ---
-# *p*-value: Schools of Though
+# *p*-value: Schools of Thought
 
 ```{r echo=FALSE,out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
 
@@ -330,11 +342,9 @@ knitr::include_graphics ('images/fisherneyman.png')
 
 1. State null hypothesis and alternative hypothesis
 
-2. Decide on test statistic and critical value
+2. Calculate the corresponding test statistic and compare the result against the “critical value”
 
-3. Calculate the corresponding test statistic and compare the result against the “critical value”
-
-4. State your conclusion
+3. State your conclusion
 
 ---
 # Steps for Hypothesis Testing
@@ -346,7 +356,7 @@ knitr::include_graphics ('images/fisherneyman.png')
         - The null hypothesis ($H_0$) is a claim of “no difference in the population” 
          - No difference between a population parameter and         hypothesized value: $H_0$ : 𝛍 = 7.56 
          - No difference between one population parameter and another: $H_0$ : $\mu_f$ = $\mu_d$
-          - We usually want to reject this hypothesis
+          - *We usually want to reject this hypothesis*
   
 - The alternative hypothesis ($H_1$) claims $H_0$ is false: There is some difference
 
@@ -365,7 +375,7 @@ knitr::include_graphics ('images/fisherneyman.png')
 
   - Calculate the corresponding test statistic and compare the result against the “critical value”
 
-  - *t*, *z*, *F*
+    - *t*, *z*, *F*
 
       - Is the test statistic  > or < than critical value?
 
@@ -376,14 +386,6 @@ knitr::include_graphics ('images/fisherneyman.png')
 - Step 2 
 
     - Define your level of significance (α)
-
-      - Level of significance (α):
-
-      - Reject $H_0$ | $H_0$
-  
-      - α = 0.05
-
-      - Some use others (call for p <.005)
 
 - α Interpretation: If we were do this experiment many many times, we would only expect 5% (or another level of significance) to be Type 1 Error
 ---
@@ -398,22 +400,21 @@ knitr::include_graphics ('images/fisherneyman.png')
 
 **Never say we found no difference. Instead say you found no statistically significant difference. Can never affirm the null**
 ---
-# *p* value Conventions
+# *p*-value Conventions
 
 .pull-left[
 - Conventions:
   - *p* > 0.10: non-significant evidence against H0
   - 0.05 < *p* < 0.10: marginally significant evidence
-  - *p* 0.05: significant evidence against H0 
+  - *p* < 0.05: significant evidence against H0 
 ]
-.pull-right [
 
-```{r echo=FALSE,out.width="40%",fig.cap="",fig.show='hold',fig.align='center'}
+.pull-right [
+```{r echo=FALSE,out.width="30%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics ('images/pfun.png')
 
 ```
-
 ]
 ---
 # Type 1 and Type 2 Error Rates
@@ -452,6 +453,7 @@ knitr::include_graphics ('images/outcomes.png')
 - Report $\alpha$
 
 - Do not use *p*-values as a measure of evidence
+
 ---
 # *p*-value Misconceptions
 
