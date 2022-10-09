@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 503: Foundations of Statistics in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
+    <script src="ttests_files/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# PSY 503: Foundations of Statistics in Psychological Science
+]
+.subtitle[
+## Comparing Two Means
+]
+.author[
+### Jason Geller, Ph.D. (he/him/his)
+]
+.institute[
+### Princeton University
+]
+.date[
+### Last Updated: 2022-10-08
+]
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.scroll-100 {
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: inherit;
+}
+&lt;/style&gt;
+# Knowledge Check
+
+&lt;div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'&gt;&lt;iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/albq5t8sdsywzksffdf41bbsdokvznw3/1sft3c41192c/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'&gt;&lt;/iframe&gt;&lt;/div&gt;
+---
+# Last Class
+
+- NHST
+
+  - We can only falsify a theory
+  
+     - *p*-value = likelihood of the observed data given the null is true
+     
+  - One- and two-sided hypotheses
+  
+  - One sample tests
+---
+# Today
+
+- Two sample *t*-tests
+
+  - Independent
+  
+  - Dependent (paired)
+  
+- Non-parametric (tests)
+
+- Multiple Comparisons
+
+---
+# Experiments
+
+- **Simple experiments:**
+
+    - One IV that's binary with two options
+    - One DV that's interval/ratio/continuous
+
+- **For example:** manipulation of the independent variable involves having an experimental condition and a control.
+
+    - This situation can be analyzed with a *t*-test
+    
+    - We can also use *t*-tests to analyze any binary independent variable
+    
+    - The *t*-test is a simple regression model with one categorical predictor
+---
+# Experiments
+
+- Don't make a continuous variable categorical just so you can do a *t*-test
+
+- People used to split variables into high versus low or simply split down the middle
+      
+    - You separate the people who are close together and lump them with people who are not really like them
+    
+    - Effect sizes get smaller
+    
+    - You will also decrease power and see Type II errors
+---
+# Experiments
+
+- **Reminder:**
+
+    - When you manipulate the levels of the IV, you are working with experimental research 
+    
+    - If you just are examining two naturally occurring categories, then quasi-experimental/correlational
+---
+# Experiments
+
+- Between subjects / Independent designs
+
+    - Expose different groups to different experimental manipulations
+
+- Repeated measures / within subjects / dependent designs
+
+    -  Take a single group of people and expose them to different experimental manipulations at different points in time
+---
+# The *t*-test 
+
+- **Independent *t*-test:**
+
+    - Compares two means based on independent data
+    
+    - Used when different participants were assigned to each condition of the study
+    
+- **Dependent *t*-test:**
+
+    - Compares two means based on related data
+    
+    - Used when the same participants took part in both conditions of the study
+---
+# Independent: Example
+
+- Are invisible people mischievous?
+
+- Manipulation
+
+    - Placed participants in an enclosed community riddled with hidden cameras
+    
+    - 12 participants were given an invisibility cloak
+    
+    - 12 participants were not given an invisibility cloak
+
+- Outcome measured how many mischievous acts participants performed in a week
+    
+
+```r
+library(rio)
+longdata &lt;- read_csv("https://raw.githubusercontent.com/doomlab/statsofdoom-files/master/graduate/R%20Flip/11_ttests/data/invisible.csv")
+```
+
+---
+
+```r
+library(rio)
+library(tidyverse)
+library(easystats)
+library(kableExtra)
+
+longdata &lt;- read_csv("https://raw.githubusercontent.com/doomlab/statsofdoom-files/master/graduate/R%20Flip/11_ttests/data/invisible.csv")
+
+head(longdata)
+```
+
+```
+## # A tibble: 6 × 2
+##   Cloak    Mischief
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 No Cloak        3
+## 2 No Cloak        1
+## 3 No Cloak        5
+## 4 No Cloak        4
+## 5 No Cloak        6
+## 6 No Cloak        4
+```
+---
+# Independent: Understanding the NHST
+
+- `\(H_0\)`: The no cloak and cloak groups would have the same mean 
+
+- `\(H_1\)`: The no cloak and cloak groups would have different means
+
+
+```r
+M &lt;- tapply(longdata$Mischief, longdata$Cloak, mean)
+STDEV &lt;- tapply(longdata$Mischief, longdata$Cloak, sd)
+N &lt;- tapply(longdata$Mischief, longdata$Cloak, length)
+M;STDEV;N
+```
+
+```
+##    Cloak No Cloak 
+##     5.00     3.75
+```
+
+```
+##    Cloak No Cloak 
+## 1.651446 1.912875
+```
+
+```
+##    Cloak No Cloak 
+##       12       12
+```
+
+---
+# Independent: Understanding the NHST
+
+- Our means appear slightly different. What might have caused those differences? 
+    
+    - Variance created by our manipulation: The cloak **(systematic variance)**
+    
+    - Variance created by unknown factors **(unsystematic variance)**
+---
+
+# Independent: Understanding the NHST
+
+- If the samples come from the same population, then we expect their means to be roughly equal
+
+- Although it is possible for their means to differ by chance alone, here, we would expect large differences between sample means to occur very infrequently
+
+- We compare the difference between the sample means that we collected to the difference between the sample means that we would expect to obtain if there were no effect **(i.e. if the null hypothesis were true)**
+
+---
+# Independent: Understanding the NHST
+
+- We use the standard error as a gauge of the variability between sample means
+
+- If the difference between the samples we have collected is larger than what we would expect based on the standard error then we can assume one of two interpretations: 
+     
+    - There is no effect and sample means in our population fluctuate a lot and we have, by chance, collected two samples that are atypical of the population from which they came *(Type 1 error)*
+    
+    - The two samples come from different populations but are typical of their respective parent population. In this scenario, the difference between samples represents a genuine difference between the samples *(and so the null hypothesis is incorrect)*
+    
+---
+# Independent: Understanding the NHST
+
+- As the observed difference between the sample means gets larger, the more confident we become that the second explanation is correct (i.e., that the null hypothesis should be rejected)
+
+- If the null hypothesis is incorrect, then we gain confidence that the two sample means differ because of the different experimental manipulation imposed on each sample
+---
+# Independent: Formulas
+
+- Embedded in the formula are all the things we've discussed for model fit: the means, degrees of freedom, standard deviation, standard error
+
+$$ t = \frac {\bar{X}_1 - \bar{X}_2}{\sqrt {\frac {s^2_p}{n_1} + \frac {s^2_p}{n_2}}}$$
+
+$$ s^2_p = \frac {(n_1-1)s^2_1 + (n_2-1)s^2_2} {n_1+n_2-2}$$
+---
+# Independent: Data Screening
+
+- Assumptions:
+
+    - Missing - just exclude them!
+
+    - Outliers.
+
+    - Independence
+    
+    - Normality (each group should be approximately normal distributed)
+    
+    - Homogeneity: Equal variances between groups
+---
+# Independent: Data Screening
+
+- Missingness
+
+
+```r
+longdata %&gt;%
+  drop_na()
+```
+
+```
+## # A tibble: 24 × 2
+##    Cloak    Mischief
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 No Cloak        3
+##  2 No Cloak        1
+##  3 No Cloak        5
+##  4 No Cloak        4
+##  5 No Cloak        6
+##  6 No Cloak        4
+##  7 No Cloak        6
+##  8 No Cloak        2
+##  9 No Cloak        0
+## 10 No Cloak        5
+## # … with 14 more rows
+## # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+# Independent: Data Screening
+
+- Outliers
+
+
+```r
+library(rstatix)
+
+longdata %&gt;%
+  group_by(Cloak) %&gt;%
+  identify_outliers(Mischief)
+```
+
+```
+## [1] Cloak      Mischief   is.outlier is.extreme
+## &lt;0 rows&gt; (or 0-length row.names)
+```
+---
+# Independent: Data Screening
+
+- Normality
+
+
+```r
+longdata %&gt;%
+  group_by(Cloak) %&gt;%
+  shapiro_test(Mischief)
+```
+
+```
+## # A tibble: 2 × 4
+##   Cloak    variable statistic     p
+##   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+## 1 Cloak    Mischief     0.973 0.936
+## 2 No Cloak Mischief     0.913 0.231
+```
+
+---
+# Independent: Data Screening
+
+- Normality
+
+  - qqplot
+
+.pull-left[
+
+```r
+library(ggpubr)
+# Draw a qq plot by group
+
+g=ggqqplot(longdata, x = "Mischief", facet.by = "Cloak")
+```
+]
+.pull-right[
+&lt;img src="ttests_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+# Independent: No Homogeneity
+
+
+.pull-left[
+- The most common problem is homogeneity 
+
+  - where the group variance is not equal between groups.
+
+
+
+```r
+longdata %&gt;%
+  levene_test(Mischief~Cloak)
+```
+
+```
+## # A tibble: 1 × 4
+##     df1   df2 statistic     p
+##   &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;
+## 1     1    22     0.270 0.609
+```
+
+]
+
+.pull-right[
+
+- if the *p*-value of the Levene’s test is not-significant,   we can use that as satisfying our variance assumption
+
+&lt;img src="images/var.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+# 2 Sample Welch’s *t*-test
+
+- Welch’s *t*-test gives gives equivalent answer to traditional *t*-test when there is an  equal sample size or variances, BUT can also handle unequal sample size and  variance
+
+  - http://daniellakens.blogspot.com/2015/01/always-use-welchs-*t*-test-instead-of.html
+  
+- Same t-statistic calculation and t-distribution, just have to apply correction for  degrees of freedom (df)
+---
+# 2 Sample Welch’s *t*-test
+
+`$$\text{df}=\frac{\left(\dfrac{\sigma_1^2}{n_1}+\dfrac{\sigma_2^2}{n_2}\right)^2}{\dfrac{\left(\dfrac{\sigma_1^2}{n_1}\right)^2}{n_1-1}+\dfrac{\left(\dfrac{\sigma_2^2}{n_2}\right)^2}{n_2-1}}$$`
+---
+# Independent: Analysis 
+
+- No differences between groups was found: `\(t(22) = 1.71, p = .101\)`
+
+
+```r
+library(report)
+d_ind &lt;- t.test(Mischief ~ Cloak, 
+       data = longdata, 
+       var.equal = TRUE, #assume equal variances
+       paired = FALSE) #independent
+
+d_ind &lt;- t.test(Mischief ~ Cloak, 
+       data = longdata, 
+       var.equal = FALSE, #assume equal variances
+       paired = FALSE) #independen
+```
+---
+Independent:Reporting
+
+- No differences between groups was found: `\(t(22) = 1.71, p = .101\)`
+
+- `Easystats` package in R can help write this up for you :) 
+- Effect sizes were labelled following Cohen's (1988) recommendations.
+
+The Welch Two Sample t-test testing the difference of Mischief by Cloak (mean in group Cloak = 5.00, mean in group No Cloak = 3.75) suggests that the effect is positive, statistically not significant, and medium (difference = 1.25, 95% CI [-0.26, 2.76], t(21.54) = 1.71, p = 0.101; Cohen's d = 0.74, 95% CI [-0.14, 1.60])
+---
+# The *t*-test as linear model
+
+- Can be viewed through regression framework: 
+
+`$$\operatorname{Mischief} = \alpha + \beta_{1}(\operatorname{Cloak}_{\operatorname{No\ }}) + \epsilon$$`
+
+- Categorical variables are *dummy coded* or *treatment coded*
+
+  - In R, levels of categorical variable transformed to 0 and 1
+  
+  - By default, 0 is attached to whatever variable comes first in alphabet
+  
+- `\(\beta_1\)` = difference between the two groups
+---
+# The *t*-test as linear model
+
+
+```r
+library(tidyverse)
+library(broom)
+
+d=lm(Mischief ~ Cloak,data = longdata)
+
+broom::tidy(d)
+```
+
+```
+## # A tibble: 2 × 5
+##   term          estimate std.error statistic       p.value
+##   &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1 (Intercept)       5        0.516      9.69 0.00000000212
+## 2 CloakNo Cloak    -1.25     0.730     -1.71 0.101
+```
+---
+# *t*-test: Visualization
+
+- Bar charts in ggplot2 with only one x variable (the different levels of your IV) and one y variable.
+   
+.pull-left[ 
+
+```r
+library(ggplot2)
+library(ggpubr)
+df.summary &lt;- longdata %&gt;%
+  group_by(Cloak) %&gt;%
+  summarise(
+    sd = sd(Mischief, na.rm = TRUE),
+    Mischief = mean(Mischief)
+  )
+
+d=ggplot(longdata, aes(Cloak, Mischief)) +
+  geom_bar(stat = "identity", data = df.summary,
+           fill = NA, color = "black") +
+  geom_jitter( position = position_jitter(0.2),
+               color = "black") + 
+  geom_errorbar(
+    aes(ymin = Mischief-sd, ymax = Mischief+sd),
+    data = df.summary, width = 0.2)  +
+  xlab("Invisible Cloak Group") +
+  ylab("Average Mischief Acts")
+```
+]
+
+.pull-right[
+
+&lt;img src="ttests_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# *t*-test: Visualization
+
+
+```r
+ggstatsplot::ggbetweenstats(
+  data = longdata,
+  x = Cloak,
+  y = Mischief)
+```
+
+&lt;img src="ttests_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+# 2 Sample *t*-test Independant (Example 1)
+
+An educator believes that new directed reading activities in the classroom will help elementary school students improve some aspects of their reading ability. She arranges for a third grade class of 21 students to take part in these activities for an 8-week period. A control classroom of 23 third graders follows the same curriculum without the activities. At the end of 8 weeks, all students are given a Degree of Reading Power (DRP) test, which measures the aspects of reading ability that the treatment is designed to improve.
+
+
+```r
+treatment=c(24,43,58,71,43,49,61,44,67,49,53,56,59,52,62,54,57,33,46,43,57)
+
+control=c(42,43,55,26,62,37,33,41,19,54,20,85,46,10,17,60,53,42,37,42,55,28,48)
+```
+---
+# NHST Steps
+
+1. State hypotheses
+
+2. Check assumptions
+
+3. Run `t.test`
+
+4. Decision/conclusion
+
+---
+# 2 Sample Welch’s *t*-test (Example 2)
+
+A math test was given to 300 17 year old students in 1978 and again to another 17  year old students in 1992.
+
+Group 1: X1 = 300.4, S1 = 34.9, n = 300
+Group 2: X2 = 306.7, S2 = 30.1, n = 350
+
+- Use α = 0.01 
+
+---
+# NHST Steps
+
+1. State hypotheses
+
+2. Check assumptions
+
+3. Calculate t and t critical
+
+3. Simulate and Run `t.test`
+
+4. Decision/conclusion
+
+---
+# Calculating Scores
+
+
+```r
+t4 =((306.7	- 300.4)-(0-0))/(34.9^2 / 300 + 30.1^2 / 350)^(1/2)
+
+v4 =(34.9 ^2 / 300 + 30.1^2 / 350)^2 / (34.9^4 / (300^2 * (300 - 1)) + 30)
+
+alpha4 =0.01
+
+tcrit4 = qt(alpha4/2, v4)
+
+pval4 =2 *pt(-abs(t4),v4) 
+
+abs(t4)
+```
+
+```
+## [1] 2.443286
+```
+---
+# In R: Welch's *t*-test
+
+```r
+group1 &lt;- rnorm(300,mean =300.4,sd=34.9)
+group2 &lt;- rnorm(350,mean =306.7,sd=30.1)
+
+c=t.test(group1, group2,alternative ="two.sided")
+```
+
+Effect sizes were labelled following Cohen's (1988) recommendations.
+
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 296.84, mean of y = 308.25) suggests that the effect is negative, statistically significant, and small (difference = -11.41, 95% CI [-16.44, -6.38], t(604.97) = -4.45, p &lt; .001; Cohen's d = -0.35, 95% CI [-0.51, -0.20])
+---
+class: middle 
+# Dependent (paired *t*-test)
+
+---
+# Dependent: Example
+
+- Are invisible people mischievous?
+
+- Manipulation
+
+    - Placed participants in an enclosed community riddled with hidden cameras 
+    - For first week participants normal behavior was observed 
+    - For the second week, participants were given an invisibility cloak
+
+- Outcome: We measured how many mischievous acts participants performed in week 1 and week 2
+    
+- **Note:** Same data, but instead the study is dependent. Let's see what happens to our *t*-test
+
+---
+# Dependent: Understanding the NHST
+
+`$$t = \frac {\bar{D} - \mu_D}{S_D/\sqrt N}$$`
+
+`$${S_D}\ =\ \sqrt{\cfrac{(d_1\ -\ \overline{d})^2\ +\ (d_2\ -\ \overline{d})^2\ +\ \cdots\ +\ (d_n\ -\ \overline{d})^2}{n\ -\ 1}}$$`
+- We are going to use the standard error of the differences rather than standard error
+
+- The standard error of the differences is calculated by subtracting the two sets of scores and calculating standard deviation on that difference score
+---
+# Dependent: Data Screening
+
+- The data screening can be treated in the same fashion
+
+  - Normality
+  - Missingness
+  - Outliers
+  
+- However, homogeneity between groups is not examined, because you do not have separate groups!
+
+- The variance is calculated on **one difference** score, so there is not a homogeneity concern 
+
+---
+# Dependent: Analysis
+
+- The cloak and no cloak conditions were different: `\(t(11) = 3.80, p = .003\)`
+
+- Why is this result different than independent t? 
+
+
+```r
+d_pair &lt;-t.test(Mischief ~ Cloak, 
+       data = longdata, 
+       var.equal = TRUE, #ignored in dependent t
+       paired = TRUE) #dependent t
+```
+
+---
+# Dependent: Reporting
+
+- Effect sizes were labelled following Cohen's (1988) recommendations.
+
+The Paired t-test testing the difference of Mischief by Cloak (mean difference = 1.25) suggests that the effect is positive, statistically significant, and large (difference = 1.25, 95% CI [0.53, 1.97], t(11) = 3.80, p = 0.003; Cohen's d = 1.15, 95% CI [0.37, 1.89])
+---
+class: center, inverse
+
+# Dependent GLM
+
+- Use the lm to test for significance
+
+- Why is this incorrect?
+
+--
+
+
+```r
+library(lme4)
+library(sjPlot)
+
+longdata$id&lt;-rep(1:12, length(longdata))
+
+d_reg&lt;-lme4::lmer(Mischief~Cloak + (1|id),  data=longdata)
+```
+
+---
+&lt;table style="border-collapse:collapse; border:none;"&gt;
+&lt;tr&gt;
+&lt;th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; font-weight: bold; "&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th colspan="4" style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black;"&gt;Dependent variable&lt;/th&gt;
+&lt;th colspan="4" style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black;"&gt;Dependent variable&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; font-weight: bold; "&gt;Predictors&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; "&gt;Estimates&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; "&gt;CI&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; "&gt;p&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; "&gt;df&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; "&gt;Estimates&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; col7"&gt;CI&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; col8"&gt;p&lt;/td&gt;
+&lt;td style=" color: white; border-bottom:1px solid black; col9"&gt;df&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; "&gt;(Intercept)&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;5.00&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;3.89&amp;nbsp;&amp;ndash;&amp;nbsp;6.11&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;13.45&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col7"&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col8"&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col9"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; "&gt;Cloak [No Cloak]&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&amp;#45;1.25&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&amp;#45;1.97&amp;nbsp;&amp;ndash;&amp;nbsp;-0.53&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;strong&gt;0.003&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;11.00&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col7"&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col8"&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col9"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; font-weight: bold; "&gt;Mischief&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  "&gt;1.25&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col7"&gt;0.53&amp;nbsp;&amp;ndash;&amp;nbsp;1.97&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col8"&gt;&lt;strong&gt;0.003&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  col9"&gt;11.00&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan="9" style="font-weight:bold; text-align:left; padding-top:.8em;"&gt;Random Effects&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: black;"&gt;&amp;sigma;&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;0.65&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: black;"&gt;&amp;tau;&lt;sub&gt;00&lt;/sub&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;2.55 &lt;sub&gt;id&lt;/sub&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;&amp;nbsp;&lt;/td&gt;
+
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: black;"&gt;ICC&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;0.80&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;&amp;nbsp;&lt;/td&gt;
+
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: black;"&gt;N&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;12 &lt;sub&gt;id&lt;/sub&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;&amp;nbsp;&lt;/td&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: black; border-top:1px solid;"&gt;Observations&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center; border-top:1px solid;" colspan="4"&gt;24&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center; border-top:1px solid;" colspan="4"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; color: black;"&gt;Marginal R&lt;sup&gt;2&lt;/sup&gt; / Conditional R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;0.113 / 0.820&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; color: black; text-align:center;" colspan="4"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;/table&gt;
+
+---
+# *t*-test: Visualization
+
+&lt;img src="ttests_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+# Paired Example 1
+
+A manufacturer claims it has developed an additive that increases gas mileage. But  you are not sure whether the additive will increase or decrease performance. They  recruit 10 drivers. Each driver drives a car on a well-conditioned track. They record  the gas mileage without any additive, then with additive
+
+
+```r
+data5a = c(22,25,17,24,16,29,20,23,19,20)  
+data5b = c(18,21,16,22,19,24,17,21,23,18)
+```
+---
+# NHST Steps
+
+1. State hypotheses
+
+2. Check assumptions
+
+3. run `t.test`
+
+5. Decision/conclusion
+
+6. Plot the data
+---
+# Calculate 
+
+```r
+data5diff=data5a-data5b
+t5 =( mean(data5diff) - 0) / (sd(data5diff) / (length(data5diff))^(1/2.))  
+
+tcrit5 = qt(0.05/2, length(data5diff)-1)
+pval5 =2 *pt(-abs(t5),length(data5diff)-1)  
+abs(t5)
+```
+
+```
+## [1] 1.714286
+```
+---
+# Paired *t* in R
+
+```r
+t.test(data5a, data5b,paired =TRUE,alternative ="two.sided")
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  data5a and data5b
+## t = 1.7143, df = 9, p-value = 0.1206
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  -0.5113467  3.7113467
+## sample estimates:
+## mean difference 
+##             1.6
+```
+---
+# Paired Example 2
+
+We know the weight of 10 mice before and after a treatment
+
+```r
+before &lt;-c(200.1, 190.9, 192.7, 213, 241.4, 196.9, 172.2, 185.5, 205.2, 193.7)
+# Weight of the mice after treatment
+after &lt;-c(392.9, 393.2, 345.1, 393, 434, 427.9, 422, 383.9, 392.3, 352.2)
+```
+
+We want to know, if there is any significant difference in the mean weights after treatment?
+
+---
+# NHST Steps
+
+1. State hypotheses
+
+2. Check assumptions
+
+3. run `t.test`
+
+5. Decision/conclusion
+
+6. Plot the data
+
+
+---
+# Non-parametric
+
+- Sometimes data is non-normal (skewed, bimodal, etc.), or ordinal, so what do we  do?
+
+  - Use Shapiro-Wilk normality test
+
+  - Can transform data (e.g., log, sqrt, etc.), but these also make assumptions
+
+- Mann-Witney U test (2 sample)
+
+- Wilcoxon (paired)
+
+  - Rank method based on calculating all possibilities to form distribution
+
+---
+# Mann-Witney U Example
+
+
+.pull-left[
+
+
+&lt;img src="images/difftman.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+.pull-right[
+`$$U_1 = n_1n_2 + \frac{n_1(n_1+1)}{2}- R_1$$`
+`$$U_2 = n_1n_2 + \frac{n_2(n_2+1)}{2}- R_2$$`
+`$$U = min(U_1, U_2)$$`
+]
+- If U &lt; Ucrit we reject the null (opposite from *t*-test; always reject if t &gt; tcrit )
+---
+
+.pull-left[
+&lt;img src="images/Calculate_mann_whitney.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="images/uequa.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+```r
+alpha =0.05
+G1 = c(4,7,8,9,13,13,17,11)
+G2 = c(23,6,3,24,17,14,24,29,13,33)
+wilcox.test(G1, G2,alternative ="two.sided")
+```
+
+```
+## 
+## 	Wilcoxon rank sum test with continuity correction
+## 
+## data:  G1 and G2
+## W = 18.5, p-value = 0.06125
+## alternative hypothesis: true location shift is not equal to 0
+```
+---
+# Wilcoxon Signed-Rank (Paired)
+
+`$$W=\sum_{i=1}^{N_r}sgn(x_2-x_1, i) R_i$$`
+
+- Where sgn is an indicator variable with if  is negative and if  is positive
+
+-  W is then the sum of the positive signed ranks
+
+- Exclude pairs where difference equals zero, Nr is the reduced sample size
+
+- R: rank
+
+- If W &lt; Wcrit we reject the null (opposite from *t*-test; always reject if t &gt; tcrit)
+
+---
+# Wilcoxon Signed-Rank (Paired)
+
+
+```r
+G1 = c(125,115,130,140,140,115,140,125,140,135)
+G2 = c(110,122,125,120,140,124,123,137,135,145)
+```
+
+&lt;img src="images/signedwil.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+# Paired, Wilcoxon signed-rank: R 
+
+- V = the sum of (W+) ranks 
+
+
+```r
+G1 = c(125,115,130,140,140,115,140,125,140,135)
+G2 = c(110,122,125,120,140,124,123,137,135,145)
+wilcox.test(G1, G2,paired =TRUE,alternative ="two.sided")
+```
+
+```
+## 
+## 	Wilcoxon signed rank test with continuity correction
+## 
+## data:  G1 and G2
+## V = 27, p-value = 0.6353
+## alternative hypothesis: true location shift is not equal to 0
+```
+---
+class: middle 
+
+# Multiple Comparisons
+
+---
+# Multiple Comparisons
+
+- We want our tests to find true positives and true negatives
+
+- Multiple comparisons
+
+  - Type I error (false positive)
+  
+    - `\(\alpha\)`-inflation 
+
+  - Testing each new pairwise comparison is costly
+---
+# Bonferroni
+
+- simplest
+
+`$$\alpha / m$$`
+ - *m* = number of comparisons
+ 
+- Controls for false positives (Type I errors)
+
+- Overly conservative
+
+  - Leads to false negatives (Type II errors)
+  
+
+```r
+pvals = c(0.01,0.02,0.04)
+
+p.adjust(pvals,method ="bonferroni", n = length(pvals))
+```
+
+```
+## [1] 0.03 0.06 0.12
+```
+
+---
+# Holm-Bonferroni
+
+- Strikes a balance between Type I and Type II errors
+
+1. Sort p-values from smallest to largest
+
+2. Test whether  *p* &lt; `\(\frac {\alpha} {m+ 1-k}\)`
+
+  - *n* = number of comparisons
+  - *k* = rank
+
+- If so reject and move to the next 
+- Otherwise stop
+
+- Typically you report the adjusted p-value. Just multiply your p-value by the  adjusted alpha’s denominator
+
+
+```r
+pvals = c(0.01,0.02,0.04)
+
+p.adjust(pvals,method ="holm",n = length(pvals))
+```
+
+```
+## [1] 0.03 0.04 0.04
+```
+         
+---
+# Many Multiple Comparison Corrections
+
+- Tukey - all possible comparisons: TukeyHSD()
+- Scheffe
+- Dunnett
+- Fisher’s LSD (least significant difference)
+- Newman-Keuls
+- Find what your field does and, more importantly, justify your decisions
+
+---
+# Summary
+
+- In this lecture, you've learned:
+
+    - All things *t*-tests
+    - The logic of *t*-tests
+    - Independent and dependent *t*-tests
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

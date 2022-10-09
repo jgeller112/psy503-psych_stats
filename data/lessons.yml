@@ -61,7 +61,7 @@ lessons:
     reading: "06a-reading"
     hasclass: True
     
-  - title: "Sampling Distributions and Quantifying Uncertainty"
+  - title: "Estimation and Uncertainty: Sampling Distributions and Quantifying Uncertainty"
     date: "Week 5 [MW, 10/03-10/05]"
     slides: ""
     class:  "06-Sampling-Uncert/Statistical_Inference"
@@ -69,7 +69,7 @@ lessons:
     reading: "07a-reading"
     hasclass: True
     
-  - title: "Estimation and Uncertainty: Statistical Inference, Estimation, NHST"
+  - title: "Estimation and Uncertainty: NHST and p-values"
     date: "Week 5 [MW, 10/03-10/05]"
     slides: ""
     class: "07-NHST/NHST"
@@ -77,7 +77,15 @@ lessons:
     reading: "05a-reading"
     hasclass: True
     
-  - title: "Estimation and Uncertainty: Power and Effect Size"
+  - title: "Comparing Two Means"
+    date: "Week 6 [MW, 10/10-10/12]"
+    slides: ""
+    class: "08-ttests/ttests"
+    notes: ""
+    reading: "05b-reading"
+    hasclass: True
+    
+  - title: "Comparing Two Means: Effect Size and Power"
     date: "Week 6 [MW, 10/10-10/12]"
     slides: ""
     notes: ""
