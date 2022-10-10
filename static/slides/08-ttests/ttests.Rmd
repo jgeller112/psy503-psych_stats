@@ -433,7 +433,7 @@ knitr::include_graphics("images/var.jpg")
 
 - Welch’s *t*-test gives gives equivalent answer to traditional *t*-test when there is an  equal sample size or variances, BUT can also handle unequal sample size and  variance
 
-  - http://daniellakens.blogspot.com/2015/01/always-use-welchs-*t*-test-instead-of.html
+  - http://daniellakens.blogspot.com/2015/01/always-use-welchs-t-test-instead-of.html
   
 - Same t-statistic calculation and t-distribution, just have to apply correction for  degrees of freedom (df)
 ---
@@ -593,7 +593,7 @@ Group 2: X2 = 306.7, S2 = 30.1, n = 350
 
 1. State hypotheses
 
-2. Simulate Data (`rnorm`)
+2. Simulate data (`rnorm`)
 
 2. Check assumptions
 
@@ -857,10 +857,6 @@ raincloud_2
 
 
 ```
-
-
-
-
 ]
 
 # Paired *t* (Practice Problem 1)
