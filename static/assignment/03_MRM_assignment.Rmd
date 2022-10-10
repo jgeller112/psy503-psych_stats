@@ -49,7 +49,7 @@ normal distribution.
 
 5. What is the difference between $\alpha$ and *p*-value?
 
-# One Sample
+## One Sample Tests
 
 1. A study by Thienprasiddhi et al. examined a sample of 16 subjects with open-angle glaucoma
 and unilateral hemifield defects. The ages (years) of the subjects were: [62, 62, 68, 48, 51, 60,
@@ -72,7 +72,7 @@ g. Find the p-value with a built-in function [t.test()] in R
 
 h. Write the results in APA format
 
-# Two-Sample Tests
+## Two-Sample Tests
 
 Title: Estimation of physical activity levels using cell phone questionnaires: A comparison with accelerometry for evaluation of between-subject and within-subject variations
 
@@ -88,7 +88,7 @@ PAL_cell: average physical activity values for the cell phone accelerometer (ran
 
 PAL_acc: average physical activity values for the hand held accelerometer (range 0-100).
 
-## Independent t-Test
+### Independent t-Test
 
 Our hypothesis is that there are are differences in gender for the cell phone measurement of physical activity level.
 
@@ -153,7 +153,7 @@ Last, we should figure out how many participants we might need if we replicated 
 **Write up results using APA style**
 
 
-## Dependent t-Test
+### Dependent t-Test
 
 Let’s try those same steps again to examine the hypothesis that there are differences in the cell phone and hand held accelerometer results.
 
@@ -193,9 +193,9 @@ When we see a significant result, but a small effect, we know our sample size he
 
 ```
 
-Write up results using APA style
+**Write up results using APA style**
 
-# Multiple Comparisons
+## Multiple Comparisons
 
 1. You conduct multiple mean
 comparisons using a Welch’s t-test and find the following p-values: [G1 vs G2 = 0.06, G1 vs G3
