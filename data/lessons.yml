@@ -81,7 +81,8 @@ lessons:
     date: "Week 6 [MW, 10/10-10/12]"
     slides: ""
     class: "08-ttests/ttests"
-    notes: ""
+    assignment: "03" 
+    notes: "Problem Set 3 Assigned. Due on October 24th"
     reading: "05b-reading"
     hasclass: True
     

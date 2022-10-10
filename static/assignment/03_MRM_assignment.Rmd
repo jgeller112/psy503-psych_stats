@@ -1,0 +1,206 @@
+---
+title: "Problem Set 3"
+author: "Jason Geller, Ph.D."
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+# Problem Set 3
+
+## Z scores
+
+Mile Run Times
+- Mean = 10 minutes
+- Median = 12.5 minutes
+- Mode = 6 minutes
+- Standard Deviation = 0.5 minutes
+
+Movies Last Year
+- Mean = 25
+- Median = 31
+- Mode = 21
+- Standard Deviation = 5
+
+1. For each of these variables above, explain: Is it normally distributed? Is it positively skewed? Is
+it negatively skewed? How can we tell?
+
+2. Calculate the percentiles for each of the following raw
+scores on the Movies Last Year measure:
+
+-  31
+-  30
+-  21
+-  17
+
+## NHST and p values
+
+Please answer the following questions in your own words:
+
+1. Explain the Central Limit Theorem and its relevance for psychological research
+
+2. What is a standard error? What is the difference between a standard error and a standard deviation?
+
+3. When we collect data from a sample, how do we estimate the standard error of the sample mean?
+Why?
+
+4. What is the t-distribution and what is it used for? Explain the difference between t-distribution and
+normal distribution.
+
+5. What is the difference between $\alpha$ and *p*-value?
+
+# One Sample
+
+1. A study by Thienprasiddhi et al. examined a sample of 16 subjects with open-angle glaucoma
+and unilateral hemifield defects. The ages (years) of the subjects were: [62, 62, 68, 48, 51, 60,
+51, 57, 57, 41, 62, 50, 53, 34, 62, 61]. Can we conclude that the mean age of the population from
+which the sample may be presumed to have been drawn is less than 60 years? Let $\alpha$ = 0.05.
+
+a. State the hypotheses (in words and as an equation)
+
+b. Explain why you selected either a 1-sided or 2-sided test 
+
+c. Compute the *t*-statistic 
+
+d. Find the critical value [use qt()] 
+
+e. Calculate the p-value [use pt()] 
+
+f. State the statistical decision (“Reject H0” or “Do Not Reject H0”) and the conclusion
+
+g. Find the p-value with a built-in function [t.test()] in R
+
+h. Write the results in APA format
+
+# Two-Sample Tests
+
+Title: Estimation of physical activity levels using cell phone questionnaires: A comparison with accelerometry for evaluation of between-subject and within-subject variations
+
+Abstract: Physical activity promotes health and longevity. From a business perspective, healthier employees are more likely to report to work, miss less days, and cost less for health insurance. Your business wants to encourage healthy lifestyles in a cheap and affordable way through health care incentive programs. The use of telecommunication technologies such as cell phones is highly interesting in this respect. In an earlier report, we showed that physical activity level (PAL) assessed using a cell phone procedure agreed well with corresponding estimates obtained using the doubly labeled water method. However, our earlier study indicated high within-subject variation in relation to between-subject variations in PAL using cell phones, but we could not assess if this was a true variation of PAL or an artifact of the cell phone technique. Objective: Our objective was to compare within- and between-subject variations in PAL by means of cell phones with corresponding estimates using an accelerometer. In addition, we compared the agreement of daily PAL values obtained using the cell phone questionnaire with corresponding data obtained using an accelerometer.
+
+Data: 
+
+"https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/08-ttests/data/ttest_data.csv"
+
+Gender: male and female subjects were examined in this experiment.
+
+PAL_cell: average physical activity values for the cell phone accelerometer (range 0-100).
+
+PAL_acc: average physical activity values for the hand held accelerometer (range 0-100).
+
+## Independent t-Test
+
+Our hypothesis is that there are are differences in gender for the cell phone measurement of physical activity level.
+
+
+```{r}
+# read in data
+
+```
+
+
+Calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as M, STDEV, and N.
+
+```{r}
+
+
+
+
+```
+
+
+Next, check assumptions (provide output and graphs). 
+
+
+```{r}
+
+
+
+```
+
+Based on assumptions what type of test should you run?
+
+Is there a significant p < .05 difference in the means?
+
+```{r}
+
+
+
+```
+
+
+Next, let’s get the effect size for this difference in means using MOTE or effectsize
+
+```{r}
+library(MOTE)
+library(effectsize)#part of easystats ecosystem
+
+
+```
+
+What size is the difference in means?
+
+
+Last, we should figure out how many participants we might need if we replicated this study and expected the same effect size (although, it is quite large, so we may not get something that big again)
+
+```{r}
+
+
+
+```
+
+
+**Write up results using APA style**
+
+
+## Dependent t-Test
+
+Let’s try those same steps again to examine the hypothesis that there are differences in the cell phone and hand held accelerometer results.
+
+First, let’s calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as M2, STDEV2, and N2. Don’t forget! Repeated measures data should be restructured (hint look up `pivot_wider` function)
+
+```{r}
+# data
+
+
+```
+
+Check assumptions
+
+```{r}
+
+
+
+```
+
+
+Based on assumptions what type of test should you run?
+
+
+Is there a significant p < .05 difference in the means?
+
+There are several different effect sizes for dependent t. Choose one and state which one you chose. 
+
+```{r}
+library(MOTE)
+library(effectsize)
+
+```
+
+When we see a significant result, but a small effect, we know our sample size helped us have the power to find that small difference. How many participants did I actually need to find this small result?
+
+```{r}
+
+```
+
+Write up results using APA style
+
+# Multiple Comparisons
+
+1. You conduct multiple mean
+comparisons using a Welch’s t-test and find the following p-values: [G1 vs G2 = 0.06, G1 vs G3
+= 0.01, G2 vs G3 = 0.024]. But you are concerned about Type I error
+
+a. Perform and Bonferroni correction 
+b. Perform and Bonferroni-Holm correction
+c. Interpret the findings, while considering Type 1 and Type 2 error 

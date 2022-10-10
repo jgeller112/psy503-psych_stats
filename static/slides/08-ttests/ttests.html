@@ -265,7 +265,7 @@ M;STDEV;N
 # Independent: Formulas
 
 `$$\begin{align*}
-t&amp;=\frac{(\overline{X}_1-\overline{X}_2)-(\mu_2-\mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
+t&amp;=\frac{(\overline{X}_1-\overline{X}_2)-(\mu_1-\mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
 t&amp;=\frac{\overline{X}_1-\overline{X}_2}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
 \end{align*}$$`
 
@@ -592,8 +592,8 @@ Group 2: X2 = 306.7, S2 = 30.1, n = 350
 
 --
 
-Group 1: X1 = 300.4, S1 = 34.9, n = 300
-Group 2: X2 = 306.7, S2 = 30.1, n = 350
+- Group 1: X1 = 300.4, S1 = 34.9, n = 300
+- Group 2: X2 = 306.7, S2 = 30.1, n = 350
 
 
 ```r
@@ -650,7 +650,7 @@ c=t.test(group1, group2,alternative ="two.sided")
 
 Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 302.53, mean of y = 306.31) suggests that the effect is negative, statistically not significant, and very small (difference = -3.78, 95% CI [-8.93, 1.37], t(574.43) = -1.44, p = 0.150; Cohen's d = -0.11, 95% CI [-0.27, 0.04])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 303.72, mean of y = 304.89) suggests that the effect is negative, statistically not significant, and very small (difference = -1.17, 95% CI [-6.48, 4.14], t(566.72) = -0.43, p = 0.665; Cohen's d = -0.03, 95% CI [-0.19, 0.12])
 ---
 class: middle 
 # Dependent (paired *t*-test)

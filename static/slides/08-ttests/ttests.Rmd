@@ -302,7 +302,7 @@ M;STDEV;N
 # Independent: Formulas
 
 $$\begin{align*}
-t&=\frac{(\overline{X}_1-\overline{X}_2)-(\mu_2-\mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
+t&=\frac{(\overline{X}_1-\overline{X}_2)-(\mu_1-\mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
 t&=\frac{\overline{X}_1-\overline{X}_2}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
 \end{align*}$$
 
@@ -608,8 +608,8 @@ Group 2: X2 = 306.7, S2 = 30.1, n = 350
 
 --
 
-Group 1: X1 = 300.4, S1 = 34.9, n = 300
-Group 2: X2 = 306.7, S2 = 30.1, n = 350
+- Group 1: X1 = 300.4, S1 = 34.9, n = 300
+- Group 2: X2 = 306.7, S2 = 30.1, n = 350
 
 ```{r}
 n1=300
