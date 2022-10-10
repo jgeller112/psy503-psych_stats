@@ -555,7 +555,7 @@ ggstatsplot::ggbetweenstats(
 
 ```
 ---
-# 2 Sample *t*-test Independant (Example 1)
+# 2 Sample *t*-test Independant (Practice Example 1)
 
 An educator believes that new directed reading activities in the classroom will help elementary school students improve some aspects of their reading ability. She arranges for a third grade class of 21 students to take part in these activities for an 8-week period. A control classroom of 23 third graders follows the same curriculum without the activities. At the end of 8 weeks, all students are given a Degree of Reading Power (DRP) test, which measures the aspects of reading ability that the treatment is designed to improve.
 
@@ -579,7 +579,7 @@ control=c(42,43,55,26,62,37,33,41,19,54,20,85,46,10,17,60,53,42,37,42,55,28,48)
 5. Visualize
 
 ---
-# 2 Sample Welch’s *t*-test (Example 2)
+# 2 Sample Welch’s *t*-test (Practice Example 2)
 
 A math test was given to 300 17 year old students in 1978 and again to another 17  year old students in 1992.
 
@@ -794,6 +794,75 @@ p1
 ]
 
 ---
+# *t*-test: Visualization
+
+
+.pull-left[
+
+```{r, echo=TRUE, fig.align='center', out.width="100%"}
+library(raincloudplots)
+
+wide <- longdata %>% 
+    pivot_wider(names_from = "Cloak", values_from ="Mischief")
+
+df_1x1 <- data_1x1(
+  array_1 = wide$Cloak,
+  array_2 = wide$`No Cloak`)
+
+raincloud_2 <- raincloud_1x1_repmes(
+  data = df_1x1,
+  colors = (c('dodgerblue', 'darkorange')),
+  fills = (c('dodgerblue', 'darkorange')),
+  line_color = 'gray',
+  line_alpha = .3,
+  size = 1,
+  alpha = .6,
+  align_clouds = FALSE) +
+ 
+scale_x_continuous(breaks=c(1,2), labels=c("Cloak", "No Cloak"), limits=c(0, 3)) +
+  xlab("Invisibility") + 
+  ylab("Mischief") +
+  theme_classic()
+
+raincloud_2
+
+```
+]
+
+.pull-right[
+
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+df_1x1 <- data_1x1(
+  array_1 = wide$Cloak,
+  array_2 = wide$`No Cloak`)
+
+raincloud_2 <- raincloud_1x1_repmes(
+  data = df_1x1,
+  colors = (c('dodgerblue', 'darkorange')),
+  fills = (c('dodgerblue', 'darkorange')),
+  line_color = 'gray',
+  line_alpha = .3,
+  size = 1,
+  alpha = .6,
+  align_clouds = FALSE) +
+ 
+scale_x_continuous(breaks=c(1,2), labels=c("Cloak", "No Cloak"), limits=c(0, 3)) +
+  xlab("Invisibility") + 
+  ylab("Mischief") +
+  theme_classic()
+
+raincloud_2
+
+
+
+
+```
+
+
+
+
+]
+
 # Paired *t* (Practice Problem 1)
 
 A manufacturer claims it has developed an additive that increases gas mileage. But  you are not sure whether the additive will increase or decrease performance. They  recruit 10 drivers. Each driver drives a car on a well-conditioned track. They record  the gas mileage without any additive, then with additive. Assume $\alpha$ = .05

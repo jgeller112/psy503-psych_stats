@@ -539,7 +539,7 @@ ggstatsplot::ggbetweenstats(
 
 &lt;img src="ttests_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
-# 2 Sample *t*-test Independant (Example 1)
+# 2 Sample *t*-test Independant (Practice Example 1)
 
 An educator believes that new directed reading activities in the classroom will help elementary school students improve some aspects of their reading ability. She arranges for a third grade class of 21 students to take part in these activities for an 8-week period. A control classroom of 23 third graders follows the same curriculum without the activities. At the end of 8 weeks, all students are given a Degree of Reading Power (DRP) test, which measures the aspects of reading ability that the treatment is designed to improve.
 
@@ -563,7 +563,7 @@ control=c(42,43,55,26,62,37,33,41,19,54,20,85,46,10,17,60,53,42,37,42,55,28,48)
 5. Visualize
 
 ---
-# 2 Sample Welch’s *t*-test (Example 2)
+# 2 Sample Welch’s *t*-test (Practice Example 2)
 
 A math test was given to 300 17 year old students in 1978 and again to another 17  year old students in 1992.
 
@@ -650,7 +650,7 @@ c=t.test(group1, group2,alternative ="two.sided")
 
 Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 301.62, mean of y = 305.79) suggests that the effect is negative, statistically not significant, and very small (difference = -4.17, 95% CI [-9.30, 0.97], t(619.56) = -1.59, p = 0.112; Cohen's d = -0.13, 95% CI [-0.28, 0.03])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 300.45, mean of y = 306.24) suggests that the effect is negative, statistically significant, and very small (difference = -5.80, 95% CI [-10.92, -0.67], t(603.83) = -2.22, p = 0.027; Cohen's d = -0.18, 95% CI [-0.33, -0.02])
 ---
 class: middle 
 # Dependent (paired *t*-test)
@@ -854,6 +854,52 @@ p1 &lt;- ggwithinstats(
 ]
 
 ---
+# *t*-test: Visualization
+
+
+.pull-left[
+
+
+```r
+library(raincloudplots)
+
+wide &lt;- longdata %&gt;% 
+    pivot_wider(names_from = "Cloak", values_from ="Mischief")
+
+df_1x1 &lt;- data_1x1(
+  array_1 = wide$Cloak,
+  array_2 = wide$`No Cloak`)
+
+raincloud_2 &lt;- raincloud_1x1_repmes(
+  data = df_1x1,
+  colors = (c('dodgerblue', 'darkorange')),
+  fills = (c('dodgerblue', 'darkorange')),
+  line_color = 'gray',
+  line_alpha = .3,
+  size = 1,
+  alpha = .6,
+  align_clouds = FALSE) +
+ 
+scale_x_continuous(breaks=c(1,2), labels=c("Cloak", "No Cloak"), limits=c(0, 3)) +
+  xlab("Invisibility") + 
+  ylab("Mischief") +
+  theme_classic()
+
+raincloud_2
+```
+
+&lt;img src="ttests_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+&lt;img src="ttests_files/figure-html/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+]
+
 # Paired *t* (Practice Problem 1)
 
 A manufacturer claims it has developed an additive that increases gas mileage. But  you are not sure whether the additive will increase or decrease performance. They  recruit 10 drivers. Each driver drives a car on a well-conditioned track. They record  the gas mileage without any additive, then with additive. Assume `\(\alpha\)` = .05
