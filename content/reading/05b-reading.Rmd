@@ -11,7 +11,7 @@ title: "05b-Readings"
 
 [Bartlett & Charles](/readings_pdf/power_jamovi.pdf)
 
-[Lakens & Caldwell 2021](/readings_pdf/power_jamovi.pdf)
+[Lakens & Caldwell 2021](/readings_pdf/lakens_power.pdf)
 
 
 
