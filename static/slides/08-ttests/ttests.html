@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Last Updated: 2022-10-08
+### Last Updated: 2022-10-09
 ]
 
 ---
@@ -41,6 +41,15 @@ class: center, middle, inverse, title-slide
   background-color: inherit;
 }
 &lt;/style&gt;
+# Housekeeping
+
+- Problem Set 2 grades posted
+
+- Problem Set 3 will be posted later today
+
+- Data for the final project needs to be approved by October 31st
+
+---
 # Knowledge Check
 
 &lt;div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'&gt;&lt;iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/albq5t8sdsywzksffdf41bbsdokvznw3/1sft3c41192c/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'&gt;&lt;/iframe&gt;&lt;/div&gt;
@@ -65,7 +74,7 @@ class: center, middle, inverse, title-slide
   
   - Dependent (paired)
   
-- Non-parametric (tests)
+- Non-parametric
 
 - Multiple Comparisons
 
@@ -77,7 +86,7 @@ class: center, middle, inverse, title-slide
     - One IV that's binary with two options
     - One DV that's interval/ratio/continuous
 
-- **For example:** manipulation of the independent variable involves having an experimental condition and a control.
+- **For example:** manipulation of the independent variable involves having an experimental condition and a control
 
     - This situation can be analyzed with a *t*-test
     
@@ -96,14 +105,6 @@ class: center, middle, inverse, title-slide
     - Effect sizes get smaller
     
     - You will also decrease power and see Type II errors
----
-# Experiments
-
-- **Reminder:**
-
-    - When you manipulate the levels of the IV, you are working with experimental research 
-    
-    - If you just are examining two naturally occurring categories, then quasi-experimental/correlational
 ---
 # Experiments
 
@@ -129,6 +130,28 @@ class: center, middle, inverse, title-slide
     
     - Used when the same participants took part in both conditions of the study
 ---
+# *t* distribution
+
+.pull-left[
+
+- William Gosset discovered it while working for Guinness
+
+  - Often called student's *t* distribution
+  
+- Small samples: more conservative test
+
+- *t*-distribution has fatter tails 
+]
+
+.pull-right[
+&lt;img src="ttests_files/figure-html/unnamed-chunk-2-1.png" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+
+N-1 is non-biased (not going to concern ourselves with the proof). We are taking sample SD instead of pop SD. It is going to be biased if we dont. 
+
+---
 # Independent: Example
 
 - Are invisible people mischievous?
@@ -142,12 +165,6 @@ class: center, middle, inverse, title-slide
     - 12 participants were not given an invisibility cloak
 
 - Outcome measured how many mischievous acts participants performed in a week
-    
-
-```r
-library(rio)
-longdata &lt;- read_csv("https://raw.githubusercontent.com/doomlab/statsofdoom-files/master/graduate/R%20Flip/11_ttests/data/invisible.csv")
-```
 
 ---
 
@@ -180,6 +197,9 @@ head(longdata)
 
 - `\(H_1\)`: The no cloak and cloak groups would have different means
 
+--
+
+
 
 ```r
 M &lt;- tapply(longdata$Mischief, longdata$Cloak, mean)
@@ -207,12 +227,15 @@ M;STDEV;N
 # Independent: Understanding the NHST
 
 - Our means appear slightly different. What might have caused those differences? 
-    
-    - Variance created by our manipulation: The cloak **(systematic variance)**
-    
-    - Variance created by unknown factors **(unsystematic variance)**
----
 
+--
+
+  - Variance created by our manipulation: The cloak **(systematic variance)**
+    
+--
+
+  - Variance created by unknown factors **(unsystematic variance)**
+---
 # Independent: Understanding the NHST
 
 - If the samples come from the same population, then we expect their means to be roughly equal
@@ -241,9 +264,10 @@ M;STDEV;N
 ---
 # Independent: Formulas
 
-- Embedded in the formula are all the things we've discussed for model fit: the means, degrees of freedom, standard deviation, standard error
-
-$$ t = \frac {\bar{X}_1 - \bar{X}_2}{\sqrt {\frac {s^2_p}{n_1} + \frac {s^2_p}{n_2}}}$$
+`$$\begin{align*}
+t&amp;=\frac{(\overline{X}_1-\overline{X}_2)-(\mu_2-\mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
+t&amp;=\frac{\overline{X}_1-\overline{X}_2}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}}\\
+\end{align*}$$`
 
 $$ s^2_p = \frac {(n_1-1)s^2_1 + (n_2-1)s^2_2} {n_1+n_2-2}$$
 ---
@@ -251,15 +275,11 @@ $$ s^2_p = \frac {(n_1-1)s^2_1 + (n_2-1)s^2_2} {n_1+n_2-2}$$
 
 - Assumptions:
 
-    - Missing - just exclude them!
-
-    - Outliers.
-
-    - Independence
-    
-    - Normality (each group should be approximately normal distributed)
-    
-    - Homogeneity: Equal variances between groups
+  - No missingness (NAs)
+  - No outliers
+  - Independence
+  - Normality (each group should be approximately normally distributed)
+  - Homogeneity: equal variances between groups
 ---
 # Independent: Data Screening
 
@@ -294,6 +314,7 @@ longdata %&gt;%
 
 - Outliers
 
+.pull-left[
 
 ```r
 library(rstatix)
@@ -307,6 +328,13 @@ longdata %&gt;%
 ## [1] Cloak      Mischief   is.outlier is.extreme
 ## &lt;0 rows&gt; (or 0-length row.names)
 ```
+]
+
+.pull-right[
+&lt;img src="images/iqr.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
 ---
 # Independent: Data Screening
 
@@ -336,6 +364,9 @@ longdata %&gt;%
 
 .pull-left[
 
+&lt;br&gt;
+&lt;br&gt;
+
 ```r
 library(ggpubr)
 # Draw a qq plot by group
@@ -344,18 +375,18 @@ g=ggqqplot(longdata, x = "Mischief", facet.by = "Cloak")
 ```
 ]
 .pull-right[
-&lt;img src="ttests_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ttests_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
-# Independent: No Homogeneity
+# Independent: Homogeneity
 
 
 .pull-left[
-- The most common problem is homogeneity 
+- The most common problem is lack of homogeneity 
 
-  - where the group variance is not equal between groups.
+  - where the group variance is not equal between groups
 
 
 
@@ -377,7 +408,7 @@ longdata %&gt;%
 
 - if the *p*-value of the Levene’s test is not-significant,   we can use that as satisfying our variance assumption
 
-&lt;img src="images/var.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/var.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -392,12 +423,11 @@ longdata %&gt;%
 - Same t-statistic calculation and t-distribution, just have to apply correction for  degrees of freedom (df)
 ---
 # 2 Sample Welch’s *t*-test
-
 `$$\text{df}=\frac{\left(\dfrac{\sigma_1^2}{n_1}+\dfrac{\sigma_2^2}{n_2}\right)^2}{\dfrac{\left(\dfrac{\sigma_1^2}{n_1}\right)^2}{n_1-1}+\dfrac{\left(\dfrac{\sigma_2^2}{n_2}\right)^2}{n_2-1}}$$`
+`$$A=\frac{s_1^2}{n1}\qquad\text{and}\qquad B=\frac{s_2^2}{n_2}$$`
+`$$\text{df}=\frac{(A+B)^2}{\dfrac{A^2}{n_1-1}+\dfrac{B^2}{n_2-1}}$$`
 ---
 # Independent: Analysis 
-
-- No differences between groups was found: `\(t(22) = 1.71, p = .101\)`
 
 
 ```r
@@ -409,8 +439,8 @@ d_ind &lt;- t.test(Mischief ~ Cloak,
 
 d_ind &lt;- t.test(Mischief ~ Cloak, 
        data = longdata, 
-       var.equal = FALSE, #assume equal variances
-       paired = FALSE) #independen
+       var.equal = FALSE, #assume unequal variances
+       paired = FALSE) #independent
 ```
 ---
 Independent:Reporting
@@ -421,12 +451,19 @@ Independent:Reporting
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
 The Welch Two Sample t-test testing the difference of Mischief by Cloak (mean in group Cloak = 5.00, mean in group No Cloak = 3.75) suggests that the effect is positive, statistically not significant, and medium (difference = 1.25, 95% CI [-0.26, 2.76], t(21.54) = 1.71, p = 0.101; Cohen's d = 0.74, 95% CI [-0.14, 1.60])
+
+
+```r
+report(d_ind)
+```
+
+
 ---
 # The *t*-test as linear model
 
 - Can be viewed through regression framework: 
 
-`$$\operatorname{Mischief} = \alpha + \beta_{1}(\operatorname{Cloak}_{\operatorname{No\ }}) + \epsilon$$`
+`$$\operatorname{Mischief} = \beta_0 + \beta_{1}(\operatorname{Cloak}_{\operatorname{No\ }}) + \epsilon$$`
 
 - Categorical variables are *dummy coded* or *treatment coded*
 
@@ -487,7 +524,7 @@ d=ggplot(longdata, aes(Cloak, Mischief)) +
 
 .pull-right[
 
-&lt;img src="ttests_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ttests_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # *t*-test: Visualization
@@ -500,7 +537,7 @@ ggstatsplot::ggbetweenstats(
   y = Mischief)
 ```
 
-&lt;img src="ttests_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="ttests_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 # 2 Sample *t*-test Independant (Example 1)
 
@@ -523,6 +560,8 @@ control=c(42,43,55,26,62,37,33,41,19,54,20,85,46,10,17,60,53,42,37,42,55,28,48)
 
 4. Decision/conclusion
 
+5. Visualize
+
 ---
 # 2 Sample Welch’s *t*-test (Example 2)
 
@@ -538,17 +577,49 @@ Group 2: X2 = 306.7, S2 = 30.1, n = 350
 
 1. State hypotheses
 
+2. Simulate Data (`rnorm`)
+
 2. Check assumptions
 
-3. Calculate t and t critical
+3. Calculate t and DF correction
 
-3. Simulate and Run `t.test`
+3. Run `t.test`
 
 4. Decision/conclusion
 
 ---
 # Calculating Scores
 
+--
+
+Group 1: X1 = 300.4, S1 = 34.9, n = 300
+Group 2: X2 = 306.7, S2 = 30.1, n = 350
+
+
+```r
+n1=300
+n2=350
+
+t.stat=(300.4-306.7)/sqrt(34.9^2/300+30.1^2/350)
+
+#df correction Welsch
+
+#A=s1^2/n1
+#B=s2^2/n2
+
+A=34.9^2/300
+B=30.1^2/350
+
+df=(A+B)^2/(A^2/(n1-1)+B^2/(n2-1))
+
+df
+```
+
+```
+## [1] 594.7025
+```
+---
+# R Calculation
 
 ```r
 t4 =((306.7	- 300.4)-(0-0))/(34.9^2 / 300 + 30.1^2 / 350)^(1/2)
@@ -579,7 +650,7 @@ c=t.test(group1, group2,alternative ="two.sided")
 
 Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 296.84, mean of y = 308.25) suggests that the effect is negative, statistically significant, and small (difference = -11.41, 95% CI [-16.44, -6.38], t(604.97) = -4.45, p &lt; .001; Cohen's d = -0.35, 95% CI [-0.51, -0.20])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 301.62, mean of y = 305.79) suggests that the effect is negative, statistically not significant, and very small (difference = -4.17, 95% CI [-9.30, 0.97], t(619.56) = -1.59, p = 0.112; Cohen's d = -0.13, 95% CI [-0.28, 0.03])
 ---
 class: middle 
 # Dependent (paired *t*-test)
@@ -643,13 +714,15 @@ d_pair &lt;-t.test(Mischief ~ Cloak,
 
 The Paired t-test testing the difference of Mischief by Cloak (mean difference = 1.25) suggests that the effect is positive, statistically significant, and large (difference = 1.25, 95% CI [0.53, 1.97], t(11) = 3.80, p = 0.003; Cohen's d = 1.15, 95% CI [0.37, 1.89])
 ---
-class: center, inverse
-
 # Dependent GLM
 
 - Use the lm to test for significance
 
-- Why is this incorrect?
+- Calculate the t value
+
+--
+
+  - Why is there a discrepancy?
 
 --
 
@@ -754,11 +827,36 @@ d_reg&lt;-lme4::lmer(Mischief~Cloak + (1|id),  data=longdata)
 ---
 # *t*-test: Visualization
 
-&lt;img src="ttests_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
----
-# Paired Example 1
+.pull-left[
 
-A manufacturer claims it has developed an additive that increases gas mileage. But  you are not sure whether the additive will increase or decrease performance. They  recruit 10 drivers. Each driver drives a car on a well-conditioned track. They record  the gas mileage without any additive, then with additive
+
+```r
+library(ggstatsplot)
+## parametric t-test
+p1 &lt;- ggwithinstats(
+  data = longdata,
+  x = Cloak,
+  y = Mischief,
+  type = "p",
+  effsize.type = "d",
+  conf.level = 0.95,
+  title = "Cloaks vs. No Cloaks",
+  package = "ggsci",
+  palette = "nrc_npg"
+)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="ttests_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Paired *t* (Practice Problem 1)
+
+A manufacturer claims it has developed an additive that increases gas mileage. But  you are not sure whether the additive will increase or decrease performance. They  recruit 10 drivers. Each driver drives a car on a well-conditioned track. They record  the gas mileage without any additive, then with additive. Assume `\(\alpha\)` = .05
 
 
 ```r
@@ -776,14 +874,14 @@ data5b = c(18,21,16,22,19,24,17,21,23,18)
 
 5. Decision/conclusion
 
-6. Plot the data
+6. Visualize the data
 ---
-# Calculate 
+# Paired *t* in R
+
 
 ```r
 data5diff=data5a-data5b
 t5 =( mean(data5diff) - 0) / (sd(data5diff) / (length(data5diff))^(1/2.))  
-
 tcrit5 = qt(0.05/2, length(data5diff)-1)
 pval5 =2 *pt(-abs(t5),length(data5diff)-1)  
 abs(t5)
@@ -792,6 +890,7 @@ abs(t5)
 ```
 ## [1] 1.714286
 ```
+
 ---
 # Paired *t* in R
 
@@ -813,9 +912,10 @@ t.test(data5a, data5b,paired =TRUE,alternative ="two.sided")
 ##             1.6
 ```
 ---
-# Paired Example 2
+# Paired *t*(Practice Problem 2)
 
 We know the weight of 10 mice before and after a treatment
+
 
 ```r
 before &lt;-c(200.1, 190.9, 192.7, 213, 241.4, 196.9, 172.2, 185.5, 205.2, 193.7)
@@ -823,7 +923,7 @@ before &lt;-c(200.1, 190.9, 192.7, 213, 241.4, 196.9, 172.2, 185.5, 205.2, 193.7
 after &lt;-c(392.9, 393.2, 345.1, 393, 434, 427.9, 422, 383.9, 392.3, 352.2)
 ```
 
-We want to know, if there is any significant difference in the mean weights after treatment?
+We want to know, if there is any significant difference in the mean weights after treatment? Assume `\(\alpha\)` .05
 
 ---
 # NHST Steps
@@ -836,7 +936,7 @@ We want to know, if there is any significant difference in the mean weights afte
 
 5. Decision/conclusion
 
-6. Plot the data
+6. Visualize the data
 
 
 ---
@@ -847,8 +947,10 @@ We want to know, if there is any significant difference in the mean weights afte
   - Use Shapiro-Wilk normality test
 
   - Can transform data (e.g., log, sqrt, etc.), but these also make assumptions
+  
+  - Robust methods
 
-- Mann-Witney U test (2 sample)
+- Mann-Witney U test (indep)
 
 - Wilcoxon (paired)
 
@@ -873,29 +975,32 @@ We want to know, if there is any significant difference in the mean weights afte
 ]
 - If U &lt; Ucrit we reject the null (opposite from *t*-test; always reject if t &gt; tcrit )
 ---
-
 .pull-left[
+&lt;br&gt;
+&lt;br&gt;
 &lt;img src="images/Calculate_mann_whitney.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
+&lt;br&gt;
+&lt;br&gt;
 &lt;img src="images/uequa.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 
 ```r
-alpha =0.05
-G1 = c(4,7,8,9,13,13,17,11)
-G2 = c(23,6,3,24,17,14,24,29,13,33)
-wilcox.test(G1, G2,alternative ="two.sided")
+female = c(34,36, 41, 43, 44, 37)
+male = c(45, 33, 35, 39, 42)
+
+wilcox.test(male, female, paired = FALSE)
 ```
 
 ```
 ## 
-## 	Wilcoxon rank sum test with continuity correction
+## 	Wilcoxon rank sum exact test
 ## 
-## data:  G1 and G2
-## W = 18.5, p-value = 0.06125
+## data:  male and female
+## W = 14, p-value = 0.9307
 ## alternative hypothesis: true location shift is not equal to 0
 ```
 ---
@@ -905,11 +1010,11 @@ wilcox.test(G1, G2,alternative ="two.sided")
 
 - Where sgn is an indicator variable with if  is negative and if  is positive
 
--  W is then the sum of the positive signed ranks
+- R = Rank
+
+- W is then the sum of the positive signed ranks
 
 - Exclude pairs where difference equals zero, Nr is the reduced sample size
-
-- R: rank
 
 - If W &lt; Wcrit we reject the null (opposite from *t*-test; always reject if t &gt; tcrit)
 
@@ -995,14 +1100,19 @@ p.adjust(pvals,method ="bonferroni", n = length(pvals))
 
 2. Test whether  *p* &lt; `\(\frac {\alpha} {m+ 1-k}\)`
 
-  - *n* = number of comparisons
+  - *m* = number of comparisons
   - *k* = rank
 
-- If so reject and move to the next 
-- Otherwise stop
+- If so, reject and move to the next
 
-- Typically you report the adjusted p-value. Just multiply your p-value by the  adjusted alpha’s denominator
+- Typically you report the adjusted p-value. Just multiply your p-value by the adjusted alpha’s denominator
 
+
+```r
+pvals = c(0.01,0.02,0.04)
+```
+
+---
 
 ```r
 pvals = c(0.01,0.02,0.04)
@@ -1013,7 +1123,6 @@ p.adjust(pvals,method ="holm",n = length(pvals))
 ```
 ## [1] 0.03 0.04 0.04
 ```
-         
 ---
 # Many Multiple Comparison Corrections
 
@@ -1032,7 +1141,12 @@ p.adjust(pvals,method ="holm",n = length(pvals))
     - All things *t*-tests
     - The logic of *t*-tests
     - Independent and dependent *t*-tests
+---
+Coming Up
 
+- Effect size and power
+
+- Regression 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -1040,7 +1154,7 @@ p.adjust(pvals,method ="holm",n = length(pvals))
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "16:9",
+"ratio": "17:9",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"
