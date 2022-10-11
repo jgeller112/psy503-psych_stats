@@ -128,7 +128,7 @@ Males completed a math test under their own name and a fake name.
 - Run the test. What can we conclude?
 ---
 
-# Answer
+# Knowledge Check Answer 
 
 ```{r}
 
@@ -142,7 +142,7 @@ report(t_test)
 ```
 
 ---
-# Answer
+# Knowledge Check Answer
 ```{r}
 t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
 ```
@@ -219,7 +219,7 @@ knitr::include_graphics("rpsychologist-cohend (2).svg")
 
 ```
 ---
-# Independent: Effect Size
+# Effect Size
 
 - Effect size options:
 
@@ -628,20 +628,23 @@ power to detect the effect we’re interested in? If not, what is it going to ta
 ---
 # Determining Power
 
-R Packages: Power
+## R Packages: Power
 
 - `pwr` package
 
 ```{r, echo=FALSE, fig.align='center', out.width="50%"}
 #install.packages("pwr")
 library(pwr)
-knitr::include_graphics("type1dis.jpg")
+knitr::include_graphics("pwr_package.jpg")
 
 ```
 
 - Enter three of the four parameter options above (sample size, effect size, statistical significance, and power) and the package will calculate the fourth parameter.
 ---
-R Packages Power Simulation
+# Determining Power
+
+## R Packages: Power
+
 - `Superpower`
   - https://aaroncaldwell.us/SuperpowerBook/
 
@@ -671,18 +674,15 @@ From last lecture: A math test was given to 17 year old students in 1978 and aga
 We want to conduct a similar experiment and estimate how many people we should collect to achieve a desired power of 80%
 
 - What is the effect size?
-- Calculate power
 
+- Calculate power
 ---
 
-```{r}
+```{r, eval=FALSE}
 
 library(pwr)
-
 d2abs = .2
-pwr.t.test(n= NULL, d = d2abs, power = 0.80, sig.level = 0.05,
-type = "two.sample", alternative = "two.sided")$n
-
+pwr.t.test()
 ```
 ---
 # Power Curves
@@ -690,6 +690,10 @@ type = "two.sample", alternative = "two.sided")$n
 - Visualization showing power as a function sample size
 
 ```{r,fig.align="center", out.width="100%"}
+
+
+d2abs=.2
+
 p.out <- pwr.t.test(d = d2abs, power = 0.80, sig.level = 0.05,
 type = "two.sample", alternative = "two.sided")
 
@@ -744,12 +748,6 @@ pwr.t.test(n =NULL, d =, #effect size
            type = "one.sample", #independent
            alternative = "two.sided") #two tailed test
 ```
----
-# Superpower
-
-- Simulation based power (t.tests, ANOVA)
-
-- https://cran.r-project.org/web/packages/Superpower/vignettes/intro_to_superpower.html#power-in-a-two-group-one-way-anova
 ---
 # Simulation
 
@@ -814,11 +812,11 @@ power_result_vig_2 <- ANOVA_power(design_result,
 knitr::kable(confint(power_result_vig_2, level = .98))
 
 ```
-
+---
+# Power Curve
 ```{r}
 
 plot_power(design_result, min_n = 10, max_n = 250)
-
 
 ```
 ---
@@ -835,7 +833,7 @@ pwr.t.test(n = 12,
            alternative = "two.sided")
 ```
 
-
+---
 ```{r, eval=FALSE}
 # if (!require("devtools")) {
  #   install.packages("devtools", dependencies = TRUE)}

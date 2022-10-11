@@ -81,7 +81,7 @@ Males completed a math test under their own name and a fake name.
 - Run the test. What can we conclude?
 ---
 
-# Answer
+# Knowledge Check Answer 
 
 
 ```r
@@ -124,7 +124,7 @@ report(t_test)
 ```
 
 ---
-# Answer
+# Knowledge Check Answer
 
 ```r
 t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
@@ -192,7 +192,7 @@ class:middle center
 - Large
 &lt;img src="rpsychologist-cohend (2).svg" width="80%" style="display: block; margin: auto;" /&gt;
 ---
-# Independent: Effect Size
+# Effect Size
 
 - Effect size options:
 
@@ -308,7 +308,7 @@ effectsize::cohens_d(r, data = data1, pooled_sd = TRUE)#nonwelch
 ```
 ## Cohen's d |        95% CI
 ## -------------------------
-## -0.09     | [-0.24, 0.07]
+## -0.14     | [-0.30, 0.01]
 ## 
 ## - Estimated using un-pooled SD.
 ```
@@ -320,14 +320,14 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 ```
 ## Cohen's d |        95% CI
 ## -------------------------
-## -0.09     | [-0.24, 0.07]
+## -0.14     | [-0.30, 0.01]
 ## 
 ## - Estimated using un-pooled SD.
 ```
 
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 298.56, mean of y = 301.38) suggests that the effect is negative, statistically not significant, and very small (difference = -2.82, 95% CI [-7.87, 2.24], t(628.16) = -1.09, p = 0.274; Cohen's d = -0.09, 95% CI [-0.24, 0.07])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 299.02, mean of y = 303.60) suggests that the effect is negative, statistically not significant, and very small (difference = -4.57, 95% CI [-9.50, 0.35], t(577.82) = -1.82, p = 0.069; Cohen's d = -0.14, 95% CI [-0.30, 0.01])
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -674,15 +674,18 @@ power to detect the effect we’re interested in? If not, what is it going to ta
 ---
 # Determining Power
 
-R Packages: Power
+## R Packages: Power
 
 - `pwr` package
 
-&lt;img src="type1dis.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="pwr_package.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
 - Enter three of the four parameter options above (sample size, effect size, statistical significance, and power) and the package will calculate the fourth parameter.
 ---
-R Packages Power Simulation
+# Determining Power
+
+## R Packages: Power
+
 - `Superpower`
   - https://aaroncaldwell.us/SuperpowerBook/
 
@@ -714,21 +717,15 @@ From last lecture: A math test was given to 17 year old students in 1978 and aga
 We want to conduct a similar experiment and estimate how many people we should collect to achieve a desired power of 80%
 
 - What is the effect size?
-- Calculate power
 
+- Calculate power
 ---
 
 
 ```r
 library(pwr)
-
 d2abs = .2
-pwr.t.test(n= NULL, d = d2abs, power = 0.80, sig.level = 0.05,
-type = "two.sample", alternative = "two.sided")$n
-```
-
-```
-## [1] 393.4057
+pwr.t.test()
 ```
 ---
 # Power Curves
@@ -737,6 +734,8 @@ type = "two.sample", alternative = "two.sided")$n
 
 
 ```r
+d2abs=.2
+
 p.out &lt;- pwr.t.test(d = d2abs, power = 0.80, sig.level = 0.05,
 type = "two.sample", alternative = "two.sided")
 
@@ -799,12 +798,6 @@ pwr.t.test(n =NULL, d =, #effect size
            type = "one.sample", #independent
            alternative = "two.sided") #two tailed test
 ```
----
-# Superpower
-
-- Simulation based power (t.tests, ANOVA)
-
-- https://cran.r-project.org/web/packages/Superpower/vignettes/intro_to_superpower.html#power-in-a-two-group-one-way-anova
 ---
 # Simulation
 
@@ -889,7 +882,8 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 |                | power| lower.ci| upper.ci|
 |:---------------|-----:|--------:|--------:|
 |anova_condition |  65.6| 62.60105| 68.47955|
-
+---
+# Power Curve
 
 ```r
 plot_power(design_result, min_n = 10, max_n = 250)
@@ -930,7 +924,7 @@ pwr.t.test(n = 12,
 ## NOTE: n is number of *pairs*
 ```
 
-
+---
 
 ```r
 # if (!require("devtools")) {
