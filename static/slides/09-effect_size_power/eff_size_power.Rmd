@@ -13,7 +13,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 16:9
+      ratio: 18:10
       countIncrementalSlides: true
       background-image: url("lover.png")
       background-size: cover
@@ -101,6 +101,54 @@ pre[class] {
   background-color: inherit;
 }
 ```
+# Knowledge Check
+
+```{r}
+library(report)
+
+df=tibble::tribble(
+  ~Fake.Name, ~Own.Name,
+         60L,       47L,
+         78L,       63L,
+         57L,       27L,
+         64L,       42L,
+         89L,       23L,
+         79L,       75L,
+         63L,       24L,
+         81L,       44L,
+         46L,       40L,
+         50L,       44L
+  )
+
+```
+Males completed a math test under their own name and a fake name.
+
+- What test should be run?
+- Check assumptions
+- Run the test. What can we conclude?
+---
+
+# Answer
+
+```{r}
+
+shapiro.test(df$Own.Name) # check norm 
+shapiro.test(df$Fake.Name) # check norm
+
+t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
+
+report(t_test)
+
+```
+
+---
+# Answer
+```{r}
+t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
+```
+
+- `r report(t_test)`
+---
 # Last Class
 
 - Two sample *t*-tests

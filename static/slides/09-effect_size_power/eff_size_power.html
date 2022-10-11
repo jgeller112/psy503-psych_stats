@@ -54,6 +54,86 @@ pre[class] {
   background-color: inherit;
 }
 &lt;/style&gt;
+# Knowledge Check
+
+
+```r
+library(report)
+
+df=tibble::tribble(
+  ~Fake.Name, ~Own.Name,
+         60L,       47L,
+         78L,       63L,
+         57L,       27L,
+         64L,       42L,
+         89L,       23L,
+         79L,       75L,
+         63L,       24L,
+         81L,       44L,
+         46L,       40L,
+         50L,       44L
+  )
+```
+Males completed a math test under their own name and a fake name.
+
+- What test should be run?
+- Check assumptions
+- Run the test. What can we conclude?
+---
+
+# Answer
+
+
+```r
+shapiro.test(df$Own.Name) # check norm 
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  df$Own.Name
+## W = 0.91469, p-value = 0.3148
+```
+
+```r
+shapiro.test(df$Fake.Name) # check norm
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  df$Fake.Name
+## W = 0.94695, p-value = 0.6326
+```
+
+```r
+t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
+
+report(t_test)
+```
+
+```
+## Effect sizes were labelled following Cohen's (1988) recommendations.
+## 
+## The Paired t-test testing the difference between df$Fake.Name and df$Own.Name
+## (mean difference = 23.80) suggests that the effect is positive, statistically
+## significant, and large (difference = 23.80, 95% CI [9.80, 37.80], t(9) = 3.85,
+## p = 0.004; Cohen's d = 1.22, 95% CI [0.37, 2.03])
+```
+
+---
+# Answer
+
+```r
+t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
+```
+
+- Effect sizes were labelled following Cohen's (1988) recommendations.
+
+The Paired t-test testing the difference between df$Fake.Name and df$Own.Name (mean difference = 23.80) suggests that the effect is positive, statistically significant, and large (difference = 23.80, 95% CI [9.80, 37.80], t(9) = 3.85, p = 0.004; Cohen's d = 1.22, 95% CI [0.37, 2.03])
+---
 # Last Class
 
 - Two sample *t*-tests
@@ -226,9 +306,9 @@ effectsize::cohens_d(r, data = data1, pooled_sd = TRUE)#nonwelch
 ```
 
 ```
-## Cohen's d |         95% CI
-## --------------------------
-## -0.25     | [-0.40, -0.09]
+## Cohen's d |        95% CI
+## -------------------------
+## -0.09     | [-0.24, 0.07]
 ## 
 ## - Estimated using un-pooled SD.
 ```
@@ -238,16 +318,16 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 ```
 
 ```
-## Cohen's d |         95% CI
-## --------------------------
-## -0.25     | [-0.40, -0.09]
+## Cohen's d |        95% CI
+## -------------------------
+## -0.09     | [-0.24, 0.07]
 ## 
 ## - Estimated using un-pooled SD.
 ```
 
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 300.64, mean of y = 309.22) suggests that the effect is negative, statistically significant, and small (difference = -8.58, 95% CI [-13.94, -3.21], t(592.86) = -3.14, p = 0.002; Cohen's d = -0.25, 95% CI [-0.40, -0.09])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 298.56, mean of y = 301.38) suggests that the effect is negative, statistically not significant, and very small (difference = -2.82, 95% CI [-7.87, 2.24], t(628.16) = -1.09, p = 0.274; Cohen's d = -0.09, 95% CI [-0.24, 0.07])
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -663,7 +743,7 @@ type = "two.sample", alternative = "two.sided")
 plot(p.out)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 
 - From last lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is what the data looks like: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)?
@@ -762,7 +842,7 @@ design_result &lt;- ANOVA_design(design = design,
                               label_list = label_list)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-28-1.png" width="36%" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-31-1.png" width="36%" /&gt;
 
 ---
 # Monte Carlo Simulations
@@ -815,7 +895,7 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 plot_power(design_result, min_n = 10, max_n = 250)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-30-1.png" width="36%" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-33-1.png" width="36%" /&gt;
 
 ```
 ## Achieved Power and Sample Size for ANOVA-level effects
@@ -929,7 +1009,7 @@ plot(t(sim_out),
      main = "Two-sample t test simulation")
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -949,7 +1029,7 @@ plot(t(sim_out),
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "16:9",
+"ratio": "18:10",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"
