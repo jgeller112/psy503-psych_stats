@@ -200,7 +200,7 @@ class:middle center
     - Hedges' *g* (*N* &lt; 20)
     - Glass' `\(\Delta\)`
     - *r*
-    
+  
 - Always report an effect size with statistics! 
 ---
 # Cohen's *d*: 1 Sample
@@ -218,6 +218,7 @@ class:middle center
 - From lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is  the data: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)? Report the effect size.
 
 ---
+# Open R  
 
 
 ```r
@@ -293,6 +294,7 @@ Group 2: X2 = 306.7, s2 = 30.1, n = 350
 
 - What is the effect size?
 ---
+# Open R  
 
 
 ```r
@@ -306,9 +308,9 @@ effectsize::cohens_d(r, data = data1, pooled_sd = TRUE)#nonwelch
 ```
 
 ```
-## Cohen's d |        95% CI
-## -------------------------
-## -0.14     | [-0.30, 0.01]
+## Cohen's d |         95% CI
+## --------------------------
+## -0.34     | [-0.50, -0.19]
 ## 
 ## - Estimated using un-pooled SD.
 ```
@@ -318,47 +320,26 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 ```
 
 ```
-## Cohen's d |        95% CI
-## -------------------------
-## -0.14     | [-0.30, 0.01]
+## Cohen's d |         95% CI
+## --------------------------
+## -0.34     | [-0.50, -0.19]
 ## 
 ## - Estimated using un-pooled SD.
 ```
 
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 299.02, mean of y = 303.60) suggests that the effect is negative, statistically not significant, and very small (difference = -4.57, 95% CI [-9.50, 0.35], t(577.82) = -1.82, p = 0.069; Cohen's d = -0.14, 95% CI [-0.30, 0.01])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 295.01, mean of y = 305.99) suggests that the effect is negative, statistically significant, and small (difference = -10.98, 95% CI [-15.94, -6.01], t(601.96) = -4.34, p &lt; .001; Cohen's d = -0.34, 95% CI [-0.50, -0.19])
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
 - What is the effect size? 
 
----
-
 
 ```r
 longdata &lt;- read_csv("https://raw.githubusercontent.com/doomlab/statsofdoom-files/master/graduate/R%20Flip/11_ttests/data/invisible.csv")
-
-longdata
 ```
 
-```
-## # A tibble: 24 × 2
-##    Cloak    Mischief
-##    &lt;chr&gt;       &lt;dbl&gt;
-##  1 No Cloak        3
-##  2 No Cloak        1
-##  3 No Cloak        5
-##  4 No Cloak        4
-##  5 No Cloak        6
-##  6 No Cloak        4
-##  7 No Cloak        6
-##  8 No Cloak        2
-##  9 No Cloak        0
-## 10 No Cloak        5
-## # … with 14 more rows
-## # ℹ Use `print(n = ...)` to see more rows
-```
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -372,7 +353,7 @@ library(rio)
    group_by(Cloak) %&gt;%
    dplyr::summarize(mean=mean(Mischief), sd=sd(Mischief), N =12)
 
- # run indep t test using MOTE             
+# run indep t test using MOTE             
 effect &lt;- d.ind.t(m1 = M$mean[1], m2 = M$mean[2],        
                   sd1 = M$sd[1], sd2 = M$sd[2],        
                   n1 = 12, n2 = 12, a = .05)
@@ -429,8 +410,15 @@ cohens_d(Mischief~Cloak, data = longdata)
 ---
 # R Activity
 
-Using the cloak data, calculate *d* using all three effect size measures
+Using the cloak data, calculate *d* for dependent samples
 
+Use: 
+
+- `MOTE` d.dep.t.avg(m1, m2, sd1, sd2, n, a = 0.05) ($d_{avg}$)
+
+- `MOTE` d.dep.t.rm(m1, m2, sd1, sd2, r, n, a = 0.05) ($d_{rm}$)
+
+- What Cohen's *d* measure is used in the `effectsize` package?
 ---
 # `\(d_{avg}\)`
 
@@ -438,7 +426,7 @@ Using the cloak data, calculate *d* using all three effect size measures
 
 
 ```r
-effect2 &lt;- d.dep.t.avg(m1 = M$mean[1], m2 = M$mean[2],        
+effect2 &lt;- d.dep.t.avg(m1 = M$mean[1], m2 = M$mean[2],      
                   sd1 = M$sd[1], sd2 = M$sd[2],        
                   n=12, a = .05)
 effect2$d
@@ -466,8 +454,6 @@ effect2$d
 ```
 ---
 # `\(d_z\)`
-
-- If we were to use `\(d_z\)`, we would overestimate the effect size
 
 
 ```r
@@ -502,7 +488,6 @@ class: middle
 
 # Power
 ---
-
 # Recap of NHST
 
 - Do invisibility cloaks effect behavior?

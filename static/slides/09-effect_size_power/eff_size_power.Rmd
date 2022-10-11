@@ -227,7 +227,7 @@ knitr::include_graphics("rpsychologist-cohend (2).svg")
     - Hedges' *g* (*N* < 20)
     - Glass' $\Delta$
     - *r*
-    
+  
 - Always report an effect size with statistics! 
 ---
 # Cohen's *d*: 1 Sample
@@ -245,6 +245,7 @@ $$d = \frac{\bar{X}-\mu}{s}$$
 - From lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is  the data: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)? Report the effect size.
 
 ---
+# Open R  
 
 ```{r}
 
@@ -293,6 +294,7 @@ Group 2: X2 = 306.7, s2 = 30.1, n = 350
 
 - What is the effect size?
 ---
+# Open R  
 
 ```{r}
 
@@ -314,14 +316,11 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 
 - What is the effect size? 
 
----
-
 ```{r}
 
 longdata <- read_csv("https://raw.githubusercontent.com/doomlab/statsofdoom-files/master/graduate/R%20Flip/11_ttests/data/invisible.csv")
-
-longdata
 ```
+
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -334,7 +333,7 @@ library(rio)
    group_by(Cloak) %>%
    dplyr::summarize(mean=mean(Mischief), sd=sd(Mischief), N =12)
 
- # run indep t test using MOTE             
+# run indep t test using MOTE             
 effect <- d.ind.t(m1 = M$mean[1], m2 = M$mean[2],        
                   sd1 = M$sd[1], sd2 = M$sd[2],        
                   n1 = 12, n2 = 12, a = .05)
@@ -379,8 +378,15 @@ $$d_{rm} = \frac{M_1 - M_2}{\sqrt{(SD_1^2 + SD_2^2)  - (2 \times r \times SD_1 \
 ---
 # R Activity
 
-Using the cloak data, calculate *d* using all three effect size measures
+Using the cloak data, calculate *d* for dependent samples
 
+Use: 
+
+- `MOTE` d.dep.t.avg(m1, m2, sd1, sd2, n, a = 0.05) ($d_{avg}$)
+
+- `MOTE` d.dep.t.rm(m1, m2, sd1, sd2, r, n, a = 0.05) ($d_{rm}$)
+
+- What Cohen's *d* measure is used in the `effectsize` package?
 ---
 # $d_{avg}$
 
@@ -391,7 +397,7 @@ longdata <- longdata <- read_csv("https://raw.githubusercontent.com/doomlab/stat
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 
-effect2 <- d.dep.t.avg(m1 = M$mean[1], m2 = M$mean[2],        
+effect2 <- d.dep.t.avg(m1 = M$mean[1], m2 = M$mean[2],      
                   sd1 = M$sd[1], sd2 = M$sd[2],        
                   n=12, a = .05)
 effect2$d
@@ -412,8 +418,6 @@ effect2$d
 ```
 ---
 # $d_z$
-
-- If we were to use $d_z$, we would overestimate the effect size
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 #MOTE
@@ -444,7 +448,6 @@ class: middle
 
 # Power
 ---
-
 # Recap of NHST
 
 - Do invisibility cloaks effect behavior?
