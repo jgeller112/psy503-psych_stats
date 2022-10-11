@@ -82,13 +82,14 @@ lessons:
     slides: ""
     class: "08-ttests/ttests"
     assignment: "03" 
-    notes: "Problem Set 3 Assigned. Due on October 24th"
+    notes: "Problem Set 3 assigned. Due on October 24th"
     reading: "05b-reading"
     hasclass: True
     
   - title: "Comparing Two Means: Effect Size and Power"
     date: "Week 6 [MW, 10/10-10/12]"
     slides: ""
+    class: "09-effect_size_power/eff_size_power"
     notes: ""
     reading: "05b-reading"
     hasclass: True
