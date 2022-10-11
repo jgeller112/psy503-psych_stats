@@ -99,7 +99,7 @@ Our hypothesis is that there are are differences in gender for the cell phone me
 ```
 
 
-Calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as M, STDEV, and N.
+1. Calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as M, STDEV, and N.
 
 ```{r}
 
@@ -109,18 +109,7 @@ Calculate and save the mean, standard deviation, and length to be able to use th
 ```
 
 
-Next, check assumptions (provide output and graphs). 
-
-
-```{r}
-
-
-
-```
-
-Based on assumptions what type of test should you run?
-
-Is there a significant p < .05 difference in the means?
+2. Check assumptions (provide output and graphs). 
 
 ```{r}
 
@@ -128,8 +117,18 @@ Is there a significant p < .05 difference in the means?
 
 ```
 
+3. Based on assumptions check, what type of test should you run?
 
-Next, let’s get the effect size for this difference in means using MOTE or effectsize
+4. Is there a significant p < .05 difference in the means?
+
+```{r}
+
+
+
+```
+
+
+5. Next, let’s get the effect size for this difference in means using MOTE or effectsize
 
 ```{r}
 library(MOTE)
@@ -138,10 +137,10 @@ library(effectsize)#part of easystats ecosystem
 
 ```
 
-What size is the difference in means?
+6. What size is the difference in means?
 
 
-Last, we should figure out how many participants we might need if we replicated this study and expected the same effect size (although, it is quite large, so we may not get something that big again)
+7. How many participants would we need if we replicated this study and expected the same effect size (although, it is quite large, so we may not get something that big again)
 
 ```{r}
 
@@ -150,14 +149,14 @@ Last, we should figure out how many participants we might need if we replicated 
 ```
 
 
-**Write up results using APA style**
+8. **Write up results using APA style**
 
 
 ### Dependent t-Test
 
 Let’s try those same steps again to examine the hypothesis that there are differences in the cell phone and hand held accelerometer results.
 
-First, let’s calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as M2, STDEV2, and N2. Don’t forget! Repeated measures data should be restructured (hint look up `pivot_wider` function)
+1. First, let’s calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as M2, STDEV2, and N2. Don’t forget! Repeated measures data should be restructured (hint look up the `pivot_wider` function)
 
 ```{r}
 # data
@@ -165,7 +164,7 @@ First, let’s calculate and save the mean, standard deviation, and length to be
 
 ```
 
-Check assumptions
+2. Check assumptions
 
 ```{r}
 
@@ -174,12 +173,12 @@ Check assumptions
 ```
 
 
-Based on assumptions what type of test should you run?
+3. Based on your assumptions check, what type of test should you run?
 
 
-Is there a significant p < .05 difference in the means?
+4. Is there a significant p < .05 difference in the means?
 
-There are several different effect sizes for dependent t. Choose one and state which one you chose. 
+5. There are several different effect sizes for dependent t. Choose one and get the effect size.
 
 ```{r}
 library(MOTE)
@@ -187,13 +186,13 @@ library(effectsize)
 
 ```
 
-When we see a significant result, but a small effect, we know our sample size helped us have the power to find that small difference. How many participants did I actually need to find this small result?
+6. When we see a significant result, but a small effect, we know our sample size helped us have the power to find that small difference. How many participants did I actually need to find this small result?
 
 ```{r}
 
 ```
 
-**Write up results using APA style**
+7. **Write up results using APA style**
 
 ## Multiple Comparisons
 
