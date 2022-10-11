@@ -310,7 +310,7 @@ effectsize::cohens_d(r, data = data1, pooled_sd = TRUE)#nonwelch
 ```
 ## Cohen's d |         95% CI
 ## --------------------------
-## -0.34     | [-0.50, -0.19]
+## -0.24     | [-0.39, -0.08]
 ## 
 ## - Estimated using un-pooled SD.
 ```
@@ -322,14 +322,14 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 ```
 ## Cohen's d |         95% CI
 ## --------------------------
-## -0.34     | [-0.50, -0.19]
+## -0.24     | [-0.39, -0.08]
 ## 
 ## - Estimated using un-pooled SD.
 ```
 
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 295.01, mean of y = 305.99) suggests that the effect is negative, statistically significant, and small (difference = -10.98, 95% CI [-15.94, -6.01], t(601.96) = -4.34, p &lt; .001; Cohen's d = -0.34, 95% CI [-0.50, -0.19])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 300.16, mean of y = 307.70) suggests that the effect is negative, statistically significant, and small (difference = -7.54, 95% CI [-12.49, -2.60], t(594.92) = -3.00, p = 0.003; Cohen's d = -0.24, 95% CI [-0.39, -0.08])
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -490,7 +490,7 @@ class: middle
 ---
 # Recap of NHST
 
-- Do invisibility cloaks effect behavior?
+- Do invisibility cloaks increase mischeivous behavior?
 
   - `\(H_0\)`:There is no effect of cloaks on behavior
   - `\(H_1\)`: There is an effect of cloaks on behavior
@@ -498,13 +498,15 @@ class: middle
 ---
 # Recap of NHST
 
-- Two types of errors: 
+- A world which `\(H_1\)` exists
+
+  - Two types of errors: 
 
 &lt;img src="des.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 # Power
 
-- Power (1-$\beta$): Probability rejecting null when it is false 
+- Power ($1-\beta$): Probability rejecting null when it is false 
 
 - **Detecting the effect when it really exists**
 
@@ -533,7 +535,7 @@ with power = .75"
 --
 
  - **If retrieval practice is actually beneficial, there is a
-75% chance we’ll get a significant result when we do this study in the long run**
+75% chance we’ll get a significant result when we do this study MANY MANY TIMES**
 
 --
 
@@ -541,9 +543,8 @@ with power = .75"
 test of non-verbal cognition with power = .35
 
 -- 
-
   - **If there is a difference between monolinguals &amp;
-bilinguals, there is a 35% chance we’ll get p &lt; .05 over the long-run**
+bilinguals, there is a 35% chance we’ll get p &lt; .05 IF WE DO THIS MANY MANY TIMES**
 ---
 # Why do we care?
 
@@ -551,8 +552,7 @@ bilinguals, there is a 35% chance we’ll get p &lt; .05 over the long-run**
 
   - Power analyses tell us if our planned sample size (n) is:
 
-    - Large enough to be able to find what we’re
-looking for
+    - Large enough to be able to find what    we’re looking for
 
      - Not too large that we’re collecting more data than necessary 
 
@@ -599,12 +599,12 @@ Collaboration, 2015)
 
   - With high power, null result is more informative
 
-      -  e.g., null effect of working memory training on intelligence with 20% power
+      -  E.g., null effect of cloaks on behavior 20% power
       
-      -  Maybe cloaks work &amp; we just couldn’t detect the effect
+      -  Maybe cloaks work &amp; we just couldn’t detect the effect?
 
-  - But: null effect of cloaks on behavior with  power of 90%
-    - Makes me more sure 
+        - But: null effect of cloaks on behavior with  power of 90%
+          - Makes me more sure 
   
 ---
 # Why do we care?
@@ -649,10 +649,9 @@ power to detect the effect we’re interested in? If not, what is it going to ta
   -  Use literature to estimate effect size (set α, desired power)
 
 --
-
 3. Pilot data
 
-  - Estimate effect size using current data (set α, desired power)
+  - Estimate effect size using pilot data (set α, desired power)
   
 **For SESOI, you consider the smallest effect size you care about. For both a priori and pilot data power analyses, you need to get an estimate of the effect size (e.g., d)**
 
@@ -808,7 +807,7 @@ Remember the definition of power?
 
 ```r
 design &lt;- "2b"
-n &lt;- 24
+n &lt;- 12
 mu &lt;- c(5, 3.75)
 sd &lt;- c(1.65, 1.91)
 label_list = list("condition" = c("Cloak", "No Cloak")) #
@@ -820,7 +819,7 @@ design_result &lt;- ANOVA_design(design = design,
                               label_list = label_list)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-31-1.png" width="36%" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-31-1.png" width="36%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Monte Carlo Simulations
@@ -849,11 +848,11 @@ power_result_vig_2 &lt;- ANOVA_power(design_result,
 ```
 ## Power and Effect sizes for ANOVA tests
 ##                 power effect_size
-## anova_condition  65.6       0.125
+## anova_condition  38.2      0.1461
 ## 
 ## Power and Effect sizes for pairwise comparisons (t-tests)
 ##                                      power effect_size
-## p_condition_Cloak_condition_No Cloak  65.6     -0.7078
+## p_condition_Cloak_condition_No Cloak  38.2     -0.7335
 ```
 
 ```r
@@ -866,7 +865,7 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 
 |                | power| lower.ci| upper.ci|
 |:---------------|-----:|--------:|--------:|
-|anova_condition |  65.6| 62.60105| 68.47955|
+|anova_condition |  38.2| 35.23915| 41.25117|
 ---
 # Power Curve
 
@@ -884,7 +883,7 @@ plot_power(design_result, min_n = 10, max_n = 250)
 ---
 # Dependent: Power
 
-- The test type will affect power, as our independent results suggested we needed 66 or more people
+- The test type will affect power, as our independent results suggested we needed 44 or more people
 
 
 ```r
@@ -936,7 +935,7 @@ d_reg_mixed &lt;- mixedpower(d_reg, data=longdata, fixed_effects = c("Cloak"), s
 
 2. Adds nothing over a *p*-value
 
-  - *p* &gt; .05  = low power--Duh!
+  - *p* &gt; .05  = low power(Duh!)
 
 ---
 
@@ -1008,7 +1007,7 @@ plot(t(sim_out),
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "18:10",
+"ratio": "20:10",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"

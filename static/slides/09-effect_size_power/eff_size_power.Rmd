@@ -13,7 +13,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 18:10
+      ratio: 20:10
       countIncrementalSlides: true
       background-image: url("lover.png")
       background-size: cover
@@ -450,7 +450,7 @@ class: middle
 ---
 # Recap of NHST
 
-- Do invisibility cloaks effect behavior?
+- Do invisibility cloaks increase mischeivous behavior?
 
   - $H_0$:There is no effect of cloaks on behavior
   - $H_1$: There is an effect of cloaks on behavior
@@ -458,7 +458,9 @@ class: middle
 ---
 # Recap of NHST
 
-- Two types of errors: 
+- A world which $H_1$ exists
+
+  - Two types of errors: 
 
 ```{r, echo=FALSE, fig.align='center', out.width="50%"}
 
@@ -468,7 +470,7 @@ knitr::include_graphics("des.png")
 ---
 # Power
 
-- Power (1-$\beta$): Probability rejecting null when it is false 
+- Power ($1-\beta$): Probability rejecting null when it is false 
 
 - **Detecting the effect when it really exists**
 
@@ -501,7 +503,7 @@ with power = .75"
 --
 
  - **If retrieval practice is actually beneficial, there is a
-75% chance we’ll get a significant result when we do this study in the long run**
+75% chance we’ll get a significant result when we do this study MANY MANY TIMES**
 
 --
 
@@ -509,9 +511,8 @@ with power = .75"
 test of non-verbal cognition with power = .35
 
 -- 
-
   - **If there is a difference between monolinguals &
-bilinguals, there is a 35% chance we’ll get p < .05 over the long-run**
+bilinguals, there is a 35% chance we’ll get p < .05 IF WE DO THIS MANY MANY TIMES**
 ---
 # Why do we care?
 
@@ -519,8 +520,7 @@ bilinguals, there is a 35% chance we’ll get p < .05 over the long-run**
 
   - Power analyses tell us if our planned sample size (n) is:
 
-    - Large enough to be able to find what we’re
-looking for
+    - Large enough to be able to find what    we’re looking for
 
      - Not too large that we’re collecting more data than necessary 
 
@@ -571,12 +571,12 @@ knitr::include_graphics("rep.jpg")
 
   - With high power, null result is more informative
 
-      -  e.g., null effect of working memory training on intelligence with 20% power
+      -  E.g., null effect of cloaks on behavior 20% power
       
-      -  Maybe cloaks work & we just couldn’t detect the effect
+      -  Maybe cloaks work & we just couldn’t detect the effect?
 
-  - But: null effect of cloaks on behavior with  power of 90%
-    - Makes me more sure 
+        - But: null effect of cloaks on behavior with  power of 90%
+          - Makes me more sure 
   
 ---
 # Why do we care?
@@ -621,10 +621,9 @@ power to detect the effect we’re interested in? If not, what is it going to ta
   -  Use literature to estimate effect size (set α, desired power)
 
 --
-
 3. Pilot data
 
-  - Estimate effect size using current data (set α, desired power)
+  - Estimate effect size using pilot data (set α, desired power)
   
 **For SESOI, you consider the smallest effect size you care about. For both a priori and pilot data power analyses, you need to get an estimate of the effect size (e.g., d)**
 
@@ -773,10 +772,10 @@ Remember the definition of power?
 ---
 # Cloak Data
 
-```{r}
+```{r, fig.align='center'}
 
 design <- "2b"
-n <- 24
+n <- 12
 mu <- c(5, 3.75)
 sd <- c(1.65, 1.91)
 label_list = list("condition" = c("Cloak", "No Cloak")) #
@@ -818,14 +817,12 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 ---
 # Power Curve
 ```{r}
-
 plot_power(design_result, min_n = 10, max_n = 250)
-
 ```
 ---
 # Dependent: Power
 
-- The test type will affect power, as our independent results suggested we needed 66 or more people
+- The test type will affect power, as our independent results suggested we needed 44 or more people
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 pwr.t.test(n = 12, 
@@ -863,7 +860,7 @@ d_reg_mixed <- mixedpower(d_reg, data=longdata, fixed_effects = c("Cloak"), simv
 
 2. Adds nothing over a *p*-value
 
-  - *p* > .05  = low power--Duh!
+  - *p* > .05  = low power(Duh!)
 
 ---
 ```{r}
