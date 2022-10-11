@@ -78,18 +78,21 @@ pre[class] {
 
   - Determining Power
   
-    - R packages 
+      - R packages 
 
 ---
+class:middle center
 # Effect Size
 
 - "The amount of anything that's of research interest" (Cumming &amp; Calin-Jageman)
+---
+# Effect Size
 
 - Simple way to quantify the difference between two means / groups, by emphasizing the size of the difference rather than confounding with the sample size (like p-values)
 
 - Small
 
-&lt;img src="rpsychologist-cohend.svg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="rpsychologist-cohend.svg" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Effect Size
@@ -117,8 +120,10 @@ pre[class] {
     - Hedges' *g* (*N* &lt; 20)
     - Glass' `\(\Delta\)`
     - *r*
+    
+- Always report an effect size with statistics! 
 ---
-# Cohen's D: 1 Sample
+# Cohen's *d*: 1 Sample
 
 `$$d = \frac{\bar{X}-\mu}{s}$$`
 
@@ -128,6 +133,8 @@ pre[class] {
 - s = sample standard deviation
 
 ---
+# Open R  
+
 - From lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is  the data: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)? Report the effect size.
 
 ---
@@ -150,13 +157,13 @@ abs(d) # report positive value
 
 
 ```r
-library(effectsize)
-library(report)
-library(MOTE)
+library(effectsize) # easystats package
+library(report) # report results
+library(MOTE) # erin package effect size
 
-cookie=t.test(data1, mu=15)
+cookie=t.test(data1, mu=15) # perform ttest
 
-effectsize::cohens_d(cookie, data = data1, mu=15)
+effectsize::cohens_d(cookie, data = data1, mu=15) # get cohens_d 
 ```
 
 ```
@@ -187,7 +194,7 @@ effectsize::hedges_g(cookie, data = data1, mu=15)
 
 The One Sample t-test testing the difference between data1 (mean = 17.60) and mu = 15 suggests that the effect is positive, statistically significant, and large (difference = 2.60, 95% CI [15.63, 19.57], t(9) = 2.98, p = 0.015; Cohen's d = 0.94, 95% CI [0.17, 1.68])
 ---
-# 2 Sample
+# Cohen's *d*: 2 Sample
 
 `$$d = \frac{\bar{X_1} - \bar{X_2}}{SD_{pooled}}$$`
 
@@ -204,7 +211,7 @@ From last lecture: A math test was given to 300 17 year old students in 1978 and
 Group 1: X1 = 300.4, s1 = 34.9, n = 300
 Group 2: X2 = 306.7, s2 = 30.1, n = 350
 
-- Report effect size
+- What is the effect size?
 ---
 
 
@@ -240,7 +247,7 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 299.47, mean of y = 307.59) suggests that the effect is negative, statistically significant, and small (difference = -8.13, 95% CI [-13.21, -3.05], t(582.22) = -3.14, p = 0.002; Cohen's d = -0.25, 95% CI [-0.40, -0.09])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 300.64, mean of y = 309.22) suggests that the effect is negative, statistically significant, and small (difference = -8.58, 95% CI [-13.94, -3.21], t(592.86) = -3.14, p = 0.002; Cohen's d = -0.25, 95% CI [-0.40, -0.09])
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -280,14 +287,16 @@ longdata
 library(MOTE)# erin effect size package 
 library(rio)
 
+# extract means and sd from cloak df
  M &lt;- longdata  %&gt;%
    group_by(Cloak) %&gt;%
    dplyr::summarize(mean=mean(Mischief), sd=sd(Mischief), N =12)
-             
+
+ # run indep t test using MOTE             
 effect &lt;- d.ind.t(m1 = M$mean[1], m2 = M$mean[2],        
                   sd1 = M$sd[1], sd2 = M$sd[2],        
                   n1 = 12, n2 = 12, a = .05)
-effect$d
+effect$d # get effect size
 ```
 
 ```
@@ -296,6 +305,7 @@ effect$d
 
 
 ```r
+# using effect size package
 library(effectsize) # effect size package 
 cohens_d(Mischief~Cloak, data = longdata)
 ```
@@ -314,7 +324,7 @@ cohens_d(Mischief~Cloak, data = longdata)
 
 - This difference in interpretation is likely due to low power with a small sample size 
 ---
-# Dependent: Effect Size (Lakens, 2013)
+# Cohen's *d*: Dependent
 
 - Lots of different ones
 
@@ -335,46 +345,54 @@ cohens_d(Mischief~Cloak, data = longdata)
 - `\(d_{rm}\)` - looks at both SDs and controls for r
 
 `$$d_{rm} = \frac{M_1 - M_2}{\sqrt{(SD_1^2 + SD_2^2)  - (2 \times r \times SD_1 \times SD_2)}} \times \sqrt{2 \times (1-r)}$$`
+- You do not normally have to calculate all of these, just showing how these are different
+---
+# R Activity
+
+Using the cloak data, calculate *d* using all three effect size measures
+
+---
 # `\(d_{avg}\)`
 
 
 
 
 ```r
-effect2 &lt;- d.dep.t.avg(m1 = M[1], m2 = M[2],
-                       sd1 = STDEV[1], sd2 = STDEV[2],  
-                       n = N[1], a = .05)
+effect2 &lt;- d.dep.t.avg(m1 = M$mean[1], m2 = M$mean[2],        
+                  sd1 = M$sd[1], sd2 = M$sd[2],        
+                  n=12, a = .05)
 effect2$d
 ```
 
 ```
-##     Cloak 
-## 0.7013959
+## [1] 0.7013959
 ```
+
 ---
 # `\(d_{rm}\)`
 
 
 ```r
-effect2 &lt;- d.dep.t.rm(m1 = M[1], m2 = M[2],
-                       sd1 = STDEV[1], sd2 = STDEV[2], r= .7,  
-                       n = N[1], a = .05)
+#MOTE
+effect2 &lt;- d.dep.t.rm(m1 = M$mean[1], m2 = M$mean[2],        
+                  sd1 = M$sd[1], sd2 = M$sd[2],        
+                  n=12, a = .05,  r= .7)
+
 effect2$d
 ```
 
 ```
-##     Cloak 
-## 0.6909434
+## [1] 0.6909434
 ```
 ---
 # `\(d_z\)`
 
 - If we were to use `\(d_z\)`, we would overestimate the effect size
 
-- You do not normally have to calculate all of these, just showing how these are different
-
 
 ```r
+#MOTE
+
 diff &lt;- longdata$Mischief[longdata$Cloak == "Cloak"] - longdata$Mischief[longdata$Cloak == "No Cloak"]
 
 effect2.1 = d.dep.t.diff(mdiff = mean(diff, na.rm = T), 
@@ -450,7 +468,7 @@ with power = .75"
 --
 
  - **If retrieval practice is actually beneficial, there is a
-75% chance we’ll get a significant result**
+75% chance we’ll get a significant result when we do this study in the long run**
 
 --
 
@@ -460,7 +478,7 @@ test of non-verbal cognition with power = .35
 -- 
 
   - **If there is a difference between monolinguals &amp;
-bilinguals, there is a 35% chance we’ll get p &lt; .05**
+bilinguals, there is a 35% chance we’ll get p &lt; .05 over the long-run**
 ---
 # Why do we care?
 
@@ -491,6 +509,8 @@ looking for
 ---
 # Why do we care?
 
+.pull-left[
+
 - Understand non-replication (Open Science
 Collaboration, 2015)
 
@@ -499,7 +519,12 @@ Collaboration, 2015)
       - Power is almost never 100%
       
       - In fact, many common designs in psychology have low power (Etz &amp; Vandekerckhove, 2016; Maxwell et al., 2015)
-    
+] 
+
+.pull-right[
+
+&lt;img src="rep.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+]
 ---
 # Why do we care?
 
@@ -630,12 +655,15 @@ type = "two.sample", alternative = "two.sided")$n
 
 - Visualization showing power as a function sample size
 
-```{r. fig.align="center", out.width="100%"}
+
+```r
 p.out &lt;- pwr.t.test(d = d2abs, power = 0.80, sig.level = 0.05,
 type = "two.sample", alternative = "two.sided")
 
 plot(p.out)
 ```
+
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 
 - From last lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is what the data looks like: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)?
@@ -734,7 +762,7 @@ design_result &lt;- ANOVA_design(design = design,
                               label_list = label_list)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-26-1.png" width="36%" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-28-1.png" width="36%" /&gt;
 
 ---
 # Monte Carlo Simulations
@@ -787,7 +815,7 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 plot_power(design_result, min_n = 10, max_n = 250)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-28-1.png" width="36%" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-30-1.png" width="36%" /&gt;
 
 ```
 ## Achieved Power and Sample Size for ANOVA-level effects
@@ -872,6 +900,8 @@ x2 &lt;- rnorm(10, mean = 10.1, sd = 1)
 ---
 
 .pull-left[
+&lt;br&gt;
+&lt;br&gt;
 
 ```r
 sim_out &lt;- replicate(n = 2000, expr = {
@@ -888,6 +918,8 @@ sim_out &lt;- replicate(n = 2000, expr = {
 ]
 
 .pull-right[
+&lt;br&gt;
+&lt;br&gt;
 
 
 ```r
@@ -897,7 +929,7 @@ plot(t(sim_out),
      main = "Two-sample t test simulation")
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
