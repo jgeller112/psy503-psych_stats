@@ -134,7 +134,7 @@ Males completed a math test under their own name and a fake (movie stars)name
 
 ---
 
-# Knowledge Check Answer 
+# Knowledge Check
 
 ```{r}
 
@@ -183,7 +183,7 @@ t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
 class:middle center
 # Effect Size
 
-- "The amount of anything that's of research interest" (Cumming & Calin-Jageman)
+- "The amount of anything that's of research interest" (Cumming & Calin-Jageman, 2017, p.111)
 ---
 # Effect Size
 
@@ -535,7 +535,7 @@ test of non-verbal cognition with power = .35
 
 --
 
-  - **If there is a difference between monolinguals & bilinguals, there is a 35% chance we’ll get p < .05 IF WE DO THIS MANY MANY TIMES**
+- **If there is a difference between monolinguals & bilinguals, there is a 35% chance we’ll get p < .05 IF WE DO THIS MANY MANY TIMES**
 ---
 # Why do we care?
 
