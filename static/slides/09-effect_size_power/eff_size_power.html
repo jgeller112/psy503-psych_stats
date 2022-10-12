@@ -7,6 +7,8 @@
     <script src="eff_size_power_files/header-attrs/header-attrs.js"></script>
     <link href="eff_size_power_files/panelset/panelset.css" rel="stylesheet" />
     <script src="eff_size_power_files/panelset/panelset.js"></script>
+    <link href="eff_size_power_files/countdown/countdown.css" rel="stylesheet" />
+    <script src="eff_size_power_files/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -55,6 +57,11 @@ pre[class] {
 }
 &lt;/style&gt;
 # Knowledge Check
+
+<div class="countdown" id="timer_768f710c" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 
 ```r
@@ -110,17 +117,6 @@ shapiro.test(df$Fake.Name) # check norm
 
 ```r
 t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
-
-report(t_test)
-```
-
-```
-## Effect sizes were labelled following Cohen's (1988) recommendations.
-## 
-## The Paired t-test testing the difference between df$Fake.Name and df$Own.Name
-## (mean difference = 23.80) suggests that the effect is positive, statistically
-## significant, and large (difference = 23.80, 95% CI [9.80, 37.80], t(9) = 3.85,
-## p = 0.004; Cohen's d = 1.22, 95% CI [0.37, 2.03])
 ```
 
 ---
@@ -217,6 +213,11 @@ class:middle center
 
 - From lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is  the data: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)? Report the effect size.
 
+<div class="countdown" id="timer_fb83ee16" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">15</span></code>
+</div>
+
 ---
 # Open R  
 
@@ -293,6 +294,12 @@ Group 1: X1 = 300.4, s1 = 34.9, n = 300
 Group 2: X2 = 306.7, s2 = 30.1, n = 350
 
 - What is the effect size?
+
+<div class="countdown" id="timer_11d6acb3" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">15</span></code>
+</div>
+
 ---
 # Open R  
 
@@ -310,7 +317,7 @@ effectsize::cohens_d(r, data = data1, pooled_sd = TRUE)#nonwelch
 ```
 ## Cohen's d |         95% CI
 ## --------------------------
-## -0.24     | [-0.39, -0.08]
+## -0.27     | [-0.42, -0.11]
 ## 
 ## - Estimated using un-pooled SD.
 ```
@@ -322,14 +329,16 @@ effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 ```
 ## Cohen's d |         95% CI
 ## --------------------------
-## -0.24     | [-0.39, -0.08]
+## -0.27     | [-0.42, -0.11]
 ## 
 ## - Estimated using un-pooled SD.
 ```
+---
+# Reporting 
 
 - Effect sizes were labelled following Cohen's (1988) recommendations.
 
-The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 300.16, mean of y = 307.70) suggests that the effect is negative, statistically significant, and small (difference = -7.54, 95% CI [-12.49, -2.60], t(594.92) = -3.00, p = 0.003; Cohen's d = -0.24, 95% CI [-0.39, -0.08])
+The Welch Two Sample t-test testing the difference between group1 and group2 (mean of x = 298.26, mean of y = 306.85) suggests that the effect is negative, statistically significant, and small (difference = -8.58, 95% CI [-13.60, -3.57], t(588.23) = -3.36, p &lt; .001; Cohen's d = -0.27, 95% CI [-0.42, -0.11])
 ---
 # Cloak vs. No Cloak Data: Effect Size
 
@@ -408,7 +417,12 @@ cohens_d(Mischief~Cloak, data = longdata)
 `$$d_{rm} = \frac{M_1 - M_2}{\sqrt{(SD_1^2 + SD_2^2)  - (2 \times r \times SD_1 \times SD_2)}} \times \sqrt{2 \times (1-r)}$$`
 - You do not normally have to calculate all of these, just showing how these are different
 ---
-# R Activity
+# R 
+
+<div class="countdown" id="timer_df48b2d6" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">15</span></code>
+</div>
 
 Using the cloak data, calculate *d* for dependent samples
 
@@ -498,7 +512,7 @@ class: middle
 ---
 # Recap of NHST
 
-- A world which `\(H_1\)` exists
+- A world in which `\(H_1\)` exists
 
   - Two types of errors: 
 
@@ -506,7 +520,7 @@ class: middle
 ---
 # Power
 
-- Power ($1-\beta$): Probability rejecting null when it is false 
+- Power `\(1-\beta\)` : Probability rejecting null when it is false 
 
 - **Detecting the effect when it really exists**
 
@@ -542,9 +556,9 @@ with power = .75"
 - We compare bilinguals to monolinguals on a
 test of non-verbal cognition with power = .35
 
--- 
-  - **If there is a difference between monolinguals &amp;
-bilinguals, there is a 35% chance we’ll get p &lt; .05 IF WE DO THIS MANY MANY TIMES**
+--
+
+  - **If there is a difference between monolinguals &amp; bilinguals, there is a 35% chance we’ll get p &lt; .05 IF WE DO THIS MANY MANY TIMES**
 ---
 # Why do we care?
 
@@ -558,9 +572,9 @@ bilinguals, there is a 35% chance we’ll get p &lt; .05 IF WE DO THIS MANY MANY
 
 - This is about good use of our resources!
 
-- Societal resources: money, participant hours
+    - Societal resources: money, participant hours
 
-- Your resources: Time!!
+    - Your resources: Time!!
   
 ---
 # Why do we care?
@@ -601,9 +615,10 @@ Collaboration, 2015)
 
       -  E.g., null effect of cloaks on behavior 20% power
       
-      -  Maybe cloaks work &amp; we just couldn’t detect the effect?
+          -  Maybe cloaks work &amp; we just couldn’t detect the effect?
 
-        - But: null effect of cloaks on behavior with  power of 90%
+           - But: null effect of cloaks on behavior with  power of 90%
+         
           - Makes me more sure 
   
 ---
@@ -628,12 +643,12 @@ power to detect the effect we’re interested in? If not, what is it going to ta
 
 - Depends on: 
 
-1. Sample size
-2. Effect size (e.g., d)
-3. Statistical significance criteria (α)
+  1. Sample size
+  2. Effect size (e.g., d)
+  3. Statistical significance criteria (α)
+  4. Variability
 
 ---
-
 # Power to Estimate Sample Size
 
 - Calculate required sample size given a) effect size (e.g., d) b) significance level (α), c) desired power.
@@ -652,24 +667,27 @@ power to detect the effect we’re interested in? If not, what is it going to ta
 3. Pilot data
 
   - Estimate effect size using pilot data (set α, desired power)
-  
+---
+class: middle, center
 **For SESOI, you consider the smallest effect size you care about. For both a priori and pilot data power analyses, you need to get an estimate of the effect size (e.g., d)**
 
 ---
 # Determining Power
 
-## R Packages: Power
+## R Packages
 
+.pull-left[
 - `pwr` package
+]
 
+.pull-right[
 &lt;img src="pwr_package.jpg" width="50%" style="display: block; margin: auto;" /&gt;
-
+]
 - Enter three of the four parameter options above (sample size, effect size, statistical significance, and power) and the package will calculate the fourth parameter.
 ---
 # Determining Power
 
 ## R Packages: Power
-
 - `Superpower`
   - https://aaroncaldwell.us/SuperpowerBook/
 
@@ -703,6 +721,7 @@ We want to conduct a similar experiment and estimate how many people we should c
 - What is the effect size?
 
 - Calculate power
+
 ---
 
 
@@ -726,7 +745,7 @@ type = "two.sample", alternative = "two.sided")
 plot(p.out)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-30-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 
 - From last lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is what the data looks like: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)?
@@ -746,14 +765,14 @@ d1=effectsize::cohens_d(r, data = data1, mu=15)
 ---
 
 ```r
-pwr.t.test(d = d1$Cohens_d, power = 0.80, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$n
+pwr.t.test(d = d1$Cohens_d, power = 0.90, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$n
 ```
 
 ```
-## [1] 10.8989
+## [1] 13.87667
 ```
---
-# Power Question
+---
+# Power Questions
 
 - What would our power be if I could only collect 3 cookies?
 
@@ -819,7 +838,7 @@ design_result &lt;- ANOVA_design(design = design,
                               label_list = label_list)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-31-1.png" width="36%" style="display: block; margin: auto;" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-35-1.png" width="36%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Monte Carlo Simulations
@@ -873,7 +892,7 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 plot_power(design_result, min_n = 10, max_n = 250)
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-33-1.png" width="36%" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-37-1.png" width="36%" style="display: block; margin: auto;" /&gt;
 
 ```
 ## Achieved Power and Sample Size for ANOVA-level effects
@@ -956,7 +975,7 @@ x2 &lt;- rnorm(10, mean = 10.1, sd = 1)
 ```
 
 ---
-
+# Posthoc Power 
 .pull-left[
 &lt;br&gt;
 &lt;br&gt;
@@ -987,7 +1006,7 @@ plot(t(sim_out),
      main = "Two-sample t test simulation")
 ```
 
-&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="eff_size_power_files/figure-html/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1007,7 +1026,7 @@ plot(t(sim_out),
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "20:10",
+"ratio": "20:12",
 "countIncrementalSlides": true,
 "background-image": "url(\"lover.png\")",
 "background-size": "cover"

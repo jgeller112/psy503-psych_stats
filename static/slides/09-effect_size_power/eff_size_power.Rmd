@@ -13,7 +13,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 20:10
+      ratio: 20:12
       countIncrementalSlides: true
       background-image: url("lover.png")
       background-size: cover
@@ -103,6 +103,11 @@ pre[class] {
 ```
 # Knowledge Check
 
+```{r, echo=FALSE}
+library(countdown)
+countdown(minutes = 3, seconds =0 )
+```
+
 ```{r}
 library(report)
 
@@ -136,8 +141,6 @@ shapiro.test(df$Own.Name) # check norm
 shapiro.test(df$Fake.Name) # check norm
 
 t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
-
-report(t_test)
 
 ```
 
@@ -244,6 +247,12 @@ $$d = \frac{\bar{X}-\mu}{s}$$
 
 - From lecture: A cookie company claims that there are 15 chocolate chips per cookie, but you aren’t convinced. You take 10 cookies and count the number of chocolate chips in each cookie. Here is  the data: [13,14,15,17,18,19,21,20,19,20]. Are the number of chocolate chips significantly different from 15 (reminder: yes, p = 0.015)? Report the effect size.
 
+```{r, echo=FALSE}
+library(countdown)
+
+countdown(minutes = 3, seconds = 15)
+```
+
 ---
 # Open R  
 
@@ -293,6 +302,13 @@ Group 1: X1 = 300.4, s1 = 34.9, n = 300
 Group 2: X2 = 306.7, s2 = 30.1, n = 350
 
 - What is the effect size?
+
+```{r, echo=FALSE}
+library(countdown)
+
+countdown(minutes = 0, seconds = 15)
+```
+
 ---
 # Open R  
 
@@ -309,6 +325,8 @@ effectsize::cohens_d(r, data = data1, pooled_sd = TRUE)#nonwelch
 effectsize::cohens_d(r, data = data1, pooled_sd = FALSE)#welch
 
 ```
+---
+# Reporting 
 
 - `r report(r)`
 ---
@@ -376,7 +394,11 @@ $$d_{z} = \frac{t}
 $$d_{rm} = \frac{M_1 - M_2}{\sqrt{(SD_1^2 + SD_2^2)  - (2 \times r \times SD_1 \times SD_2)}} \times \sqrt{2 \times (1-r)}$$
 - You do not normally have to calculate all of these, just showing how these are different
 ---
-# R Activity
+# R 
+
+```{r, echo=FALSE}
+countdown(minutes = 5, seconds = 15)
+```
 
 Using the cloak data, calculate *d* for dependent samples
 
@@ -458,7 +480,7 @@ class: middle
 ---
 # Recap of NHST
 
-- A world which $H_1$ exists
+- A world in which $H_1$ exists
 
   - Two types of errors: 
 
@@ -470,7 +492,7 @@ knitr::include_graphics("des.png")
 ---
 # Power
 
-- Power ($1-\beta$): Probability rejecting null when it is false 
+- Power $1-\beta$ : Probability rejecting null when it is false 
 
 - **Detecting the effect when it really exists**
 
@@ -510,9 +532,9 @@ with power = .75"
 - We compare bilinguals to monolinguals on a
 test of non-verbal cognition with power = .35
 
--- 
-  - **If there is a difference between monolinguals &
-bilinguals, there is a 35% chance we’ll get p < .05 IF WE DO THIS MANY MANY TIMES**
+--
+
+  - **If there is a difference between monolinguals & bilinguals, there is a 35% chance we’ll get p < .05 IF WE DO THIS MANY MANY TIMES**
 ---
 # Why do we care?
 
@@ -526,9 +548,9 @@ bilinguals, there is a 35% chance we’ll get p < .05 IF WE DO THIS MANY MANY TI
 
 - This is about good use of our resources!
 
-- Societal resources: money, participant hours
+    - Societal resources: money, participant hours
 
-- Your resources: Time!!
+    - Your resources: Time!!
   
 ---
 # Why do we care?
@@ -573,9 +595,10 @@ knitr::include_graphics("rep.jpg")
 
       -  E.g., null effect of cloaks on behavior 20% power
       
-      -  Maybe cloaks work & we just couldn’t detect the effect?
+          -  Maybe cloaks work & we just couldn’t detect the effect?
 
-        - But: null effect of cloaks on behavior with  power of 90%
+           - But: null effect of cloaks on behavior with  power of 90%
+         
           - Makes me more sure 
   
 ---
@@ -600,12 +623,12 @@ power to detect the effect we’re interested in? If not, what is it going to ta
 
 - Depends on: 
 
-1. Sample size
-2. Effect size (e.g., d)
-3. Statistical significance criteria (α)
+  1. Sample size
+  2. Effect size (e.g., d)
+  3. Statistical significance criteria (α)
+  4. Variability
 
 ---
-
 # Power to Estimate Sample Size
 
 - Calculate required sample size given a) effect size (e.g., d) b) significance level (α), c) desired power.
@@ -624,29 +647,32 @@ power to detect the effect we’re interested in? If not, what is it going to ta
 3. Pilot data
 
   - Estimate effect size using pilot data (set α, desired power)
-  
+---
+class: middle, center
 **For SESOI, you consider the smallest effect size you care about. For both a priori and pilot data power analyses, you need to get an estimate of the effect size (e.g., d)**
 
 ---
 # Determining Power
 
-## R Packages: Power
+## R Packages
 
+.pull-left[
 - `pwr` package
+]
 
+.pull-right[
 ```{r, echo=FALSE, fig.align='center', out.width="50%"}
 #install.packages("pwr")
 library(pwr)
 knitr::include_graphics("pwr_package.jpg")
 
 ```
-
+]
 - Enter three of the four parameter options above (sample size, effect size, statistical significance, and power) and the package will calculate the fourth parameter.
 ---
 # Determining Power
 
 ## R Packages: Power
-
 - `Superpower`
   - https://aaroncaldwell.us/SuperpowerBook/
 
@@ -678,10 +704,10 @@ We want to conduct a similar experiment and estimate how many people we should c
 - What is the effect size?
 
 - Calculate power
+
 ---
 
 ```{r, eval=FALSE}
-
 library(pwr)
 d2abs = .2
 pwr.t.test()
@@ -691,7 +717,7 @@ pwr.t.test()
 
 - Visualization showing power as a function sample size
 
-```{r,fig.align="center", out.width="100%"}
+```{r,fig.align="center", out.width="50%"}
 
 
 d2abs=.2
@@ -718,10 +744,10 @@ d1=effectsize::cohens_d(r, data = data1, mu=15)
 
 ---
 ```{r}
-pwr.t.test(d = d1$Cohens_d, power = 0.80, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$n
+pwr.t.test(d = d1$Cohens_d, power = 0.90, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$n
 ```
---
-# Power Question
+---
+# Power Questions
 
 - What would our power be if I could only collect 3 cookies?
 
@@ -816,7 +842,7 @@ knitr::kable(confint(power_result_vig_2, level = .98))
 ```
 ---
 # Power Curve
-```{r}
+```{r, fig.align='center'}
 plot_power(design_result, min_n = 10, max_n = 250)
 ```
 ---
@@ -880,7 +906,7 @@ x2 <- rnorm(10, mean = 10.1, sd = 1)
 ```
 
 ---
-
+# Posthoc Power 
 .pull-left[
 <br>
 <br>
