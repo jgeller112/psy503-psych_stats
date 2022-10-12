@@ -48,7 +48,7 @@ style_solarized_dark(
   header_h1_font_size = "32px",
   header_color = "black",
   text_font_google = google_font("Open Sans"),
-  text_font_size = "30px",
+  text_font_size = "28px",
   text_color = "black", 
   background_color = "orange", 
   code_font_google = google_font("Share Tech Mono"),
