@@ -126,11 +126,12 @@ df=tibble::tribble(
   )
 
 ```
-Males completed a math test under their own name and a fake name.
+Males completed a math test under their own name and a fake (movie stars)name
 
 - What test should be run?
-- Check assumptions
+- What assumptions should be tested for this test?
 - Run the test. What can we conclude?
+
 ---
 
 # Knowledge Check Answer 
@@ -145,7 +146,7 @@ t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
 ```
 
 ---
-# Knowledge Check Answer
+# Knowledge Check
 ```{r}
 t_test=t.test(df$Fake.Name, df$Own.Name, paired = TRUE) # paired
 ```
