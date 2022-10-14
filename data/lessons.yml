@@ -100,25 +100,31 @@ lessons:
     notes: ""
     reading: ""
     hasclass: True
+  - title: '<span class="fake-header-table">**THE GLM**</span>'
+    header: True
     
-  - title: "Estimation and Uncertainty: Power and Effect Size"
+  - title: "Linear Modeling"
     date: "Week 8 [MW, 10/24-10/26]"
     slides: ""
     notes: ""
     reading: "05b-reading"
     hasclass: True
     
-  - title: '<span class="fake-header-table">**THE GLM**</span>'
-    header: True
+  - title: "Linear Modeling"
+    date: "Week 8 [MW, 10/24-10/26]"
+    slides: ""
+    notes: ""
+    reading: "05b-reading"
+    hasclass: True
     
-  - title: "Correlation and Regression"
+  - title: "Comparing Three Means (Between and Within ANOVA)"
     date: "Week 9 [MW, 10/31-11/02]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: False
     
-  - title: "More Regression"
+  - title: "Interactions"
     date: "Week 10 [MW, 11/7-11/09]"
     slides: ""
     notes: ""
