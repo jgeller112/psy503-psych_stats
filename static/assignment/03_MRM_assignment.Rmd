@@ -11,15 +11,15 @@ output:
 ## Z scores
 
 Mile Run Times
-- Mean = 10 minutes
-- Median = 12.5 minutes
+- Mean = 12.5 minutes
+- Median = 10 minutes
 - Mode = 6 minutes
 - Standard Deviation = 0.5 minutes
 
 Movies Last Year
-- Mean = 25
-- Median = 31
-- Mode = 21
+- Mean = 21
+- Median =  25
+- Mode = 31
 - Standard Deviation = 5
 
 1. For each of these variables above, explain: Is it normally distributed? Is it positively skewed? Is
