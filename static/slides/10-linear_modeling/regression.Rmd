@@ -41,13 +41,13 @@ knitr::knit_hooks$set(source = function(x, options) {
 library(xaringanthemer)
 
 style_solarized_dark(
-  header_font_google = google_font("Aleo"),
+  header_font_google = google_font("Work Sans"),
   header_h1_font_size = "36px",
   header_color = "black",
-  text_font_google = google_font("Aleo"),
+  text_font_google = google_font("Work Sans"),
   text_font_size = "28px",
   text_color = "black", 
-  background_color = "orange", 
+  background_color = "white", 
   code_font_google = google_font("Share Tech Mono"),
   extra_css = list(
     ".remark-slide-content h2" = list(
@@ -64,7 +64,7 @@ style_solarized_dark(
       "margin-top" = "-10px"
     ),
     "p .remark-inline-code" = list(
-      "background-color" = "orange",
+      "background-color" = "white",
       "padding" = "2px 2px",
       "margin" = "0 -2px"
     ),
@@ -74,7 +74,6 @@ style_solarized_dark(
 )
 
 ```
-
 
 ```{r, echo=FALSE}
 library(parameters)
@@ -89,68 +88,72 @@ pitch=read_csv(here::here("static", "slides", "10-linear_modeling", "data", "age
 ```
 # Outline
 
-- Quick recap of correlation
+- Correlation
 
-- Regression
-
-  - Multiple Regression
+- Regression (linear modeling)
 ---
 # Correlation (*r*)
 
-- How strong
-- How big 
+- Direction (positive or neagtive)
+
+- Strength  (small, medium, or large)
 
 $$r = \frac{covariance}{s_xs_y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(N - 1)s_x s_y}$$
 
 ---
 # Correlations
 
-Range: 
-
--1 defines a perfectly negative correlation,
-
-0 defines no correlation (completely random), and
-
-1 defines a perfectly positive correlation.
-
-```{r echo=FALSE,out.height="15%", out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE,out.height="15%", out.width="70%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('images/corr.png')
 ```
 ---
 Example: 
 
-- Is there a relationship between GPA and study hours?
+# Simple Regression Example
 
-```{r}
+- Pitch perception and age  N
 
-ggplot(gpa_study, aes(x=gpa, y=study_hours)) + 
-  geom_point(color='#2980B9', size = 4)
+  - What does the relationship look like?
+
+```{r, fig.align='center', echo=FALSE, out.width="100%"}
+
+# read in data
+pitch=read_csv(here::here("static", "slides", "10-linear_modeling", "data", "age_pitch.csv"))
+
+# Animation
+# Change the point sizes manually
+anim.1<- ggplot(pitch, aes(x=age, y=pitch))+
+   geom_point()+
+  theme(legend.position="top")
+
+anim.1
 ```
 ---
-# Statistical Test: Pearson
-
-```{r}
-
-cor(gpa_study$gpa, gpa_study$study_hours) %>%
-  tidy()
-
-```
+# Statistical Test: Pearson's *r*
 
 $$\textit{t}_r =  \frac{r\sqrt{N-2}}{\sqrt{1-r^2}}$$
 
 ```{r}
-cor.test(gpa_study$gpa, gpa_study$study_hours) %>%
-  tidy()
+library(correlation) # easystats
+library(see)
+
+cor_result <- cor_test(pitch, "age", "pitch")
 ```
----
-# Effect Size
 
-- r < 0.1	very small
-- 0.1  ≤ r < 0.3	small
-- 0.3   ≤ r < 0.5	moderate
-- r ≥ 0.5	large
 
+```{r, echo=FALSE, fig.align='center',out.width="100%"}
+plot(cor_result,
+  point = list(
+    aes = list(color = "pitch", size = "age"),
+    alpha = 0.66
+  ),
+  smooth = list(color = "black", se = FALSE)
+) +
+  see::theme_modern() +
+  see::scale_color_material_c(palette = "rainbow", guide = "none") +
+  scale_size_continuous(guide = "none")
+```
 ---
 # Nonparamteric Correlation
 
@@ -164,36 +167,68 @@ $$r_s = \frac{6 \sum d_i^2}{n(n^2 - 1)}$$
 - range [-1,+1]
 
 ---
-# Statistical Test: Spearman
+# Statistical Test: Spearman's *r*
 
 ```{r}
-
-cor(gpa_study$gpa, gpa_study$study_hours, *method="spearman") %>%
-  tidy()
-
-```
-
-$$\textit{t}_r =  \frac{r\sqrt{N-2}}{\sqrt{1-r^2}}$$
-
-```{r}
-cor.test(gpa_study$gpa, gpa_study$study_hours, method = "spearman") %>%
-  tidy()
+cor.test(pitch$pitch, pitch$age, data=pitch, method = "spearman")
 ```
 ---
-# What is Regression?
+# Effect Size Heuristics
 
-- A way of predicting the value of one variable from other variables.
+- *r* < 0.1	very small
+- 0.1  ≤ *r* < 0.3	small
+- 0.3   ≤ *r* < 0.5	moderate
+- *r* ≥ 0.5	large
+---
+
+# What is Linear Modeling?
+
+- A way of describing a phenomenon
+
+--
+
+- A way of predicting the value of one variable from other variables
 
     - It is a hypothetical model of the relationship between two or more variables
     
     - The model used is a linear one, but doesn't always have to be! 
-    
-    - Therefore, we describe the relationship using the equation of a straight line
+  
+---
+# Twitter Wars
 
+```{r echo=FALSE,out.height="15%", out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_url('https://twitter.com/spyasin/status/1543542858493337615')
+
+```
+
+---
+# Types of Linear Modeling
+
+- **Simple Linear Regression**
+
+    - One X variable (IV)
+
+- **Multiple Linear Regression = MLR**
+
+    - 2 or more X variables (IVs)
+    
+    - MLR types include: 
+
+         - Simultaneous: Everything at once
+         - Hierarchical: IVs in steps
+         - Stepwise: Statistical regression 
+---
+# Describing a Straight Line
+
+- We describe the relationship between variables using the equation of a straight line
+
+$$Y_i = b_0 + b_1X_i + \varepsilon_i$$
 ---
 # Describing a Straight Line
 
 $$Y_i = b_0 + b_1X_i + \varepsilon_i$$
+
 .pull-left[
 - What is $b_i$?  
 
@@ -202,29 +237,23 @@ $$Y_i = b_0 + b_1X_i + \varepsilon_i$$
     - Tells us how much we would expect y to change given a one-unit change in  x
     - Direction/Strength of Relationship
     
+]
+
+.pull-right[
 - What is $b_0$?
 
     - Intercept (value of Y when X(s) = 0)
     - Point at which the regression line crosses the Y-axis
-]
-
-.pull-right[
-
-```{r echo=FALSE,out.height="15%", out.width="75%",fig.cap="",fig.show='hold',fig.align='center'}
-
-knitr::include_graphics('images/riserun.png')
-
-```
-
+    
 ]
 ---
-#The Best Fit Line and Least Squares
+# The Best Fit Line and Least Squares
 
 - The best fitting line is one that minimizes the squared difference between X and Y
 
-- Ordinary least squares is most common
+- Ordinary least squares (OLS) is most common
 
-  - What do squares have to do with it? 
+  - What do squares have to do with it and why are they least sqaures?
 ---
 # Example
 
@@ -240,8 +269,6 @@ d$predicted <- predict(fit)   # Save the predicted values
 d$residuals <- residuals(fit) # Save the residual values
 
 coefs<-coef(lm(mpg ~ hp, data = mtcars))
-coefs[1]
-coefs[2]
 
 x<-d$hp
 move_line<-c(seq(-6,6,.5),seq(6,-6,-.5))
@@ -390,7 +417,10 @@ ggplot(some_data, aes(x=X, y=Y))+
 ---
 # Simple Regression Example
 
+- A linear model fit to data with a numeric $X$ is classical regression
+
 - Pitch perception and age 
+
   - As one ages, ability to hear certain pitch frequencies decreases
 
 ```{r, fig.align='center', echo=FALSE, out.width="100%"}
@@ -408,7 +438,7 @@ anim.1
 
 ```{r}
 
-lm(pitch~age, data=pitch)
+fit.pitch=lm(pitch~age, data=pitch)
 
 ```
 
@@ -469,7 +499,7 @@ anim.1<- ggplot(pitch, aes(x=age, y=pitch))+
 anim.1
 ```
 ---
-$$ \hat{pitch} = 216 + (-.7)*40$$
+$$ pitch = 216 + (-.7)*40$$
 ```{r, fig.align='center', echo=FALSE, out.width="100%"}
 
 #Animation
@@ -487,7 +517,7 @@ anim.1
 
 ---
 
-$$ pitch = 216 - 28$$
+$$ \hat{pitch} = 216 - 28$$
 
 ```{r, fig.align='center', echo=FALSE, out.width="100%"}
 
@@ -502,156 +532,6 @@ anim.1<- ggplot(pitch, aes(x=age, y=pitch))+
   geom_point(x=0, y=216, colour="red", size=5, shape=4) + geom_point(x=40, y=188, colour="red", size=5, shape=4)
 
 anim.1
-```
----
-# Partitoning Variance
-
-$$residual = y - \hat{y} = y - (x*\hat{\beta_x} + \hat{\beta_0})$$
-
-$$SS_{error} = \sum_{i=1}^n{(y_i - \hat{y_i})^2} = \sum_{i=1}^n{residuals^2}$$
-$$SS_{total}=\sum_{i=1}^{n}(Y_i-\bar{Y_{i}})^2$$
-
-$$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$
-$$SE_{model} = \sqrt{MS_{error}}SE_{model} = \sqrt{MS_{error}}$$
-
-$$SE_{\hat{\beta}_x} = \frac{SE_{model}}{\sqrt{{\sum{(x_i - \bar{x})^2}}}}$$
----
-# Regression Model
-
-- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
-
-    - Use the model summary, F-test, and $R^2$
-
-- How useful are each of the individual predictors for my model?
-
-    - Use the coefficients, t-test, and $pr^2$
-    
----
-# Overall Model
-
- Our overall model uses an *F*-test
- 
-- However, we can think about the hypotheses for the overall test being:
-
-    - H0: We cannot predict the dependent variable. 
-    - H1: We can predict the dependent variable. 
-
-- Generally, this form does not include one tailed tests because the math is squared, so it is impossible to get negative values in the statistical test
----
-# F-Statistic, Explained Over Unexplained
-
-- F-statistics use measures of variance, which are sums of squares divided by relevant degrees of freedom
-
-$$F = \frac{SS_{Explained}/df1}{SS_{Unexplained}/df2} = \frac{MS_{Explained}}{MS_{Unexplained}}$$
-
-- If explained = unexplained, then F=1
-
-- If explained > then, F >1 
-
-- If explained < unexplained, F < 1
-
----
-# Individual Predictors
-
-- We test the individual predictors with a t-test:
-  
-    - $t = \frac{b}{SE}$
-    - Therefore, the model for each individual predictor is our coefficient b. 
-    - Single sample t-test to determine if the b value is different from zero
-    
----
-# Individual Predictors: Standardization 
-
-- b = unstandardized regression coefficient
-
-    - For every one unit increase in X, there will be b units increase in Y.
-
-- $\beta$ = standardized regression coefficient
-
-    - b in standard deviation units.
-    - For every one SD increase in X, there will be $\beta$ SDs increase in Y.
-    
-- b or $\beta$?:
-
-    - b is more interpretable given your specific problem
-    
-    - $\beta$ is more interpretable given differences in scales for different variables.
----
-# Individual Predictors: Understand the NHST
-
-- Therefore, we might use the following hypotheses:
-
-    - H0: age does not predict pitch loss.
-    - H1: age  does predict pitch loss. 
-
-- Or, we could use a directional test, since the test statistic *t* can be negative:
-
-    - H0: Age  negatively or does not predict Y (b <= 0).
-    - H1: Age  positively predicts Y (b > 0).
-
----
-# Individual Predictors
-
- Unlike correlation, these statistics are often reported with *t*(df). 
-- $df = N - k - 1$
-
-    - N = total sample size
-    - k = number of predictors
-    - Correlation is technically N - 1 - 1 = N - 2
-    - We can also find this value in our output by looking at the *F*-statistic.
----
-# `broom` Regression 
-
-tidy(): coefficent table
-glance(): model summary
-augment(): adds information about each observation
-
-```{r}
-library(broom)
-library(report)
-
-fit.pitch = lm(pitch~age, data=pitch)
-
-```
----
-
-```{r}
-
-tidy(fit.pitch)
-
-```
-
----
-```{r}
-
-tidy(fit.pitch) %>%
-  select(term, estimate)
-
-
-```
-
----
-# Reporting
-
-- `r report(fit.pitch)`
-
----
-# Example: Overall Model
-
-- Is the overall model significant? Yes!
-
-```{r}
-library(papaja)
-apa_style <- apa_print(fit.pitch)
-apa_style$full_result$modelfit
-```
-
-- `r apa_style$full_result$modelfit`
----
-#  Example: Predictors
-
-```{r}
-apa_style$full_result$age
 ```
 ---
 
@@ -693,7 +573,7 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
 ---
 # SST 
 
-> squared differences between the observed dependent variable and its mean. 
+> Squared differences between the observed dependent variable and its mean. 
 
 $$SS_{total} = \sum{(Y_i - \bar{Y})^2}$$
 
@@ -757,7 +637,7 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
 ---
 # All Together
 
-```{r}
+```{r, fig.align='center', out.width="100%"}
 
 library(patchwork)
 
@@ -765,28 +645,6 @@ library(patchwork)
   plot_annotation(title = 'SStotal = SSexplained + SSunexplained')
 
 
-
-```
----
-# Effect Size: $R^2$
-
-$$R^2 = 1 - \frac{SS_{\text{error}}}{SS_{\text{tot}}}$$
-$$R^2 = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}}{SS_{Total}}$$
-
-- Standardized effect size
-
-  - Amount of variance explained
-  
-  - Range: 0-1
-  
-- Take *r* and $r^2$
----
-
-```{r}
-library(performance)
-# run model and input into function
-
-r2(fit.pitch)
 
 ```
 ---
@@ -804,27 +662,6 @@ $$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }
 $$SE_{model} = \sqrt{MS_{error}}SE_{model} = \sqrt{MS_{error}}$$
 
 $$SE_{\hat{\beta}_x} = \frac{SE_{model}}{\sqrt{{\sum{(x_i - \bar{x})^2}}}}$$
----
-```{r}
-# get MSE
-mse=performance_mse(fit.pitch)
-
-SEM<-sqrt(mse)
-
-ssr <- sum((pitch$age - mean(pitch$age))^2)
-
-SE <- mse/sqrt(ssr)
-
-```
-
-```{r}
-d=augment(fit.pitch)# residuals and fitted values
-```
----
-```{r}
-d=augment(fit.pitch)# residuals and fitted values
-
-```
 ---
 # `broom` Regression 
 
@@ -855,14 +692,55 @@ tidy(fit.pitch) %>%
 
 ```
 
+```{r}
+library(kableExtra)
+d=augment(fit.pitch)# residuals and fitted values
+
+head(d) %>%
+  kbl() %>%
+  kable_material_dark() 
+```
+
+```{r}
+# get MSE
+mse=performance_mse(fit.pitch)
+
+SEM<-sqrt(mse)
+
+ssr <- sum((pitch$age - mean(pitch$age))^2)
+
+SE <- mse/sqrt(ssr)
+
+```
+---
+
+# Effect Size: $R^2$
+
+$$R^2 = 1 - \frac{SS_{\text{error}}}{SS_{\text{tot}}}$$
+$$R^2 = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}}{SS_{Total}}$$
+
+- Standardized effect size
+
+  - Amount of variance explained
+  
+  - Range: 0-1
+  
+- Take *r* and $r^2$
+
+---
 # $R^2$
 ```{r}
 library(performance)
 
-r2(fit.pitch)
+rq2=r2(fit.pitch)
+
+rq2=rq2$R2
 
 
 ```
+
+- $R^2$ of `r rq2` means `r rq2`% of variance is explained by Age
+
 
 ---
 # Reporting
@@ -879,7 +757,7 @@ The dataset contains nutritional information on 77 Starbucks food items. Spend s
 
 ```{r}
 
-starbucks <- read_csv()
+starbucks <- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/10-linear_modeling/data/starbucks.csv")
 
 ```
 
@@ -893,42 +771,57 @@ starbucks <- read_csv()
 
 5. Find and interpret the value of $R^2$ for this model
 
-6.
 
 ---
 class: middle
 # Multiple Predictors
 ---
+# Multiple Regression Example
 
+ $$Y_i = b_0 + b_1X_1i + b_2X_i + b_3X_3i+  \varepsilon_i$$
+
+- Adding predictors to our linear equation
+
+
+---
+- Mental Health and Drug Use:
+    
+    - CESD = depression measure
+    - PIL total = measure of meaning in life
+    - AUDIT total = measure of alcohol use 
+    - DAST total = measure of drug usage
+
+```{r}
+master <- haven::read_spss(here::here("static", "slides", "10-linear_modeling", "data", "regression_data.sav"))
+master <- master[ , c(8:11)]
+str(master)
+```
 ---
 # Regression Assumptions
 
-- Outliers
-- Linearity
+- Missing
+- Additive (more than one variable)
 - Independence of residuals
+- Linearity
 - Normality of residuals
 - Homogeneity of residual variance (“homoskedasticity”)
-- Factors are not correlated with one another(multicollinearity)
+- Factors are not correlated with one another(multicollinearity) (more than one variable)
 
 ---
 # Assumptions
 
-- Normality
+- Missingness
 
-- Applies to residuals and not the distribution of the data
- 
 ```{r}
-
- ggplot(pitch, aes(age)) +
-  geom_density(color = 4,
-               fill = 4,
-               alpha = 0.25)
-
+summary(master)
+nomiss <- na.omit(master)
+nrow(master)
+nrow(nomiss)
 ```
 ---
 # Example: Outliers 
 
-- In this section, we will add a few new outlier checks:
+- A few new outlier checks:
 
     - Mahalanobis
     - Leverage scores
@@ -943,7 +836,7 @@ class: middle
 
 - The table tells us: 0 (not outliers) and 1 (considered an outlier) for just Mahalanobis values
 
-```{r echo=TRUE, message=FALSE, eval=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, eval=TRUE, warning=FALSE}
 mahal <- mahalanobis(nomiss, 
                     colMeans(nomiss), 
                     cov(nomiss))
@@ -958,11 +851,18 @@ table(badmahal)
 - `Y ~ X + X`: Y is approximated by X plus X.
 - So we will predict depression scores (CESD) with meaning, drugs, and alcohol.
 
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+model1 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
+             data = nomiss)
+```
+
 ---
 # Example: Leverage 
 
 - **Definition** - influence of that data point on the slope
+
 - Each score is the change in slope if you exclude that data point
+
 - How do we calculate how much change is bad?
 
     - $\frac{2K+2}{N}$
@@ -1003,40 +903,307 @@ table(badcooks)
 
 - You can decide what rule to use, but a suggestion is 2 or more indicators is an outliers
 
-```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 ##add them up!
 totalout <- badmahal + badleverage + badcooks
 table(totalout)
-noout <- subset(pitch, totalout < 2)
+noout <- subset(nomiss, totalout < 2)
 ```
 ---
-# Example: Assumptions
+# Assumptions
 
-- Now that we got rid of outliers, we need to run that model again, without the outliers
+- Now that we got rid of outliers, we need to run that model again, without the outliers.
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-fit.pitch <- lm(pitch~age, data=pitch)
+model2 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
+             data = noout)
 ```
+---
+# Assumptions
+
+  - Additivity
+  
+    -  The effects of different independent variables on the expected value of the dependent variable are additive.
+
+  
+    
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+summary(model2, correlation = TRUE)
+```
+
+
+---
+# Assumptions
+
+- Linearity
+
+  - Check (use a plot) that your variables are linearly related
+  
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+library(GGally)
+
+ggpairs(master)
+```
+--- 
+# Assumptions
+
+- Normality
+
+  - **Applies to residuals and not the distribution of the data**
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+model2 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
+             data = noout)
+
+check_normality(model2)
+```
+
+---
+# Assumptions
+
+- Homogeneity & Homoscedasticity
+
+```{r, fig.align='center', out.width="80%"}
+knitr::include_graphics("images/homohetero.svg")
+```
+
+
+---
+# Assumptions
+
+- Homogeneity & Homoscedasticity
+
+```{r, eval=FALSE}
+#easystats
+
+performance::check_homogeneity(model2)
+
+```
+
+---
+# Multicolinearity: 
+
+- You want X and Y to be correlated
+- You do not want the Xs to be highly correlated 
+
+  - Causes estimates to be untrustworthy
+
+    - "Bouncing betas"
+  
+- Test: 
+
+  - VIF (variance inflation factor)
+  
+    - Rule of thumb:
+    
+      -  > 10 problem with multicolinearity
+---
+# Assumptions
+
+- Multicolinearity
+
+```{r}
+#easystats performance package
+check_collinearity(model2)
+```
+
 ---
 # Check Assumptions
 
 ```{r}
-
-check_normality(fit.pitch)
-check_heteroscedasticity(fit.pitch)
-check_autocorrelation(fit.pitch)
-check_collinearity(fit.pitch)
-
-# check_model(fit.pitch)
+check_normality(model2)
+check_heteroscedasticity(model2)
+check_autocorrelation(model2)
+check_collinearity(model2)
 ```
+---
+# Check Assumptions
+
+```{r, fig.align='center', out.width="100%"}
+check_model(model2)
+```
+
 ---
 # Example: Assumption Alternatives
 
 - If your assumptions go wrong:
     - Linearity - try nonlinear regression or nonparametric regression
     - Normality - more subjects, still fairly robust
+    
     - Homogeneity/Homoscedasticity - bootstrapping
+    
+    - Multicolineary - drop one of the predictors; ridge regression
 ---
 
+# Regression Model
 
+- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
 
+    - Use the model summary, F-test, and $R^2$
+
+- How useful are each of the individual predictors for my model?
+
+    - Use the coefficients, t-test, and $pr^2$
+---
+# Overall Model
+
+ Our overall model uses an *F*-test
+ 
+- However, we can think about the hypotheses for the overall test being:
+
+    - H0: We cannot predict the dependent variable
+    
+    - H1: We can predict the dependent variable
+    
+- Generally, this form does not include two tailed tests because the math is squared, so it is impossible to get negative values in the statistical test
+
+---
+# F-Statistic, Explained Over Unexplained
+
+- F-statistics use measures of variance, which are sums of squares divided by relevant degrees of freedom
+
+$$F = \frac{SS_{Explained}/df1}{SS_{Unexplained}/df2} = \frac{MS_{Explained}}{MS_{Unexplained}}$$
+
+- If explained = unexplained, then F=1
+
+- If explained > then, F >1 
+
+- If explained < unexplained, F < 1
+
+---
+# ANOVA
+
+```{r}
+
+anova(lm(pitch~age, data=pitch))
+
+```
+---
+
+# Individual Predictors
+
+- We test the individual predictors with a t-test:
+  
+    - $t = \frac{b}{SE}$
+    - Therefore, the model for each individual predictor is our coefficient b. 
+    - Single sample t-test to determine if the b value is different from zero
+    
+---
+# Individual Predictors: Standardization 
+
+- b = unstandardized regression coefficient
+
+    - For every one unit increase in X, there will be b units increase in Y.
+
+- $\beta$ = standardized regression coefficient
+
+    - b in standard deviation units
+    - For every one SD increase in X, there will be $\beta$ SDs increase in Y
+    
+- b or $\beta$?:
+
+    - b is more interpretable given your specific problem
+    
+    - $\beta$ is more interpretable given differences in scales for different variables
+---
+
+## Example: Overall Model
+
+- Is the overall model significant? Yes!
+
+```{r}
+summary(model2)
+library(papaja)
+apa_style <- apa_print(model2)
+apa_style$full_result$modelfit
+```
+
+- `r apa_style$full_result$modelfit`
+
+## Example: Predictors
+
+```{r}
+summary(model2)
+```
+
+## Example: Predictors
+
+```{r}
+apa_style$full_result$PIL_total
+apa_style$full_result$AUDIT_TOTAL_NEW
+apa_style$full_result$DAST_TOTAL_NEW
+```
+
+- Meaning: `r apa_style$full_result$PIL_total`
+- Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`
+- Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`
+
+## Example: Predictors
+
+- Two concerns:
+
+    - What if I wanted to use beta because these are very different scales?
+    - What about an effect size for each individual predictor?
+---
+# Beta
+
+- You can use the `QuantPsyc` package for $\beta$ values. 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(QuantPsyc)
+lm.beta(model2)
+```
+
+```{r}
+#easystats
+standardize_parameters(model2)
+```
+---
+# Effect Size 
+
+- R is the multiple correlation
+- All overlap in Y, used for overall model
+- $A+B+C/(A+B+C+D)$
+
+```{r, echo = FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG")
+```
+
+## Example: Effect Size 
+
+- sr is the semi-partial correlations 
+- Unique contribution of IV to $R^2$ for those IVs
+
+- Increase in proportion of explained Y variance when X is added to the equation
+
+- $A/(A+B+C+D)$
+
+```{r, echo = FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG")
+```
+---
+## Example: Effect Size 
+
+- pr is the partial correlation
+
+- Proportion in variance in Y not explained by other predictors but this X only
+
+- $A/(A+D)$
+- Pr > sr
+
+```{r, echo = FALSE, out.width="50%", fig.align='center'}
+knitr::include_url("https://github.com/doomlab/learnSTATS/blob/master/vignettes/pictures/regression/19.PNG")
+```
+--
+# Partial Correlations
+
+- We would add these to our other reports:
+
+    - Meaning: `r apa_style$full_result$PIL_total`, $pr^2 = .30$
+    - Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`, $pr^2 < .01$
+    - Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`, $pr^2 < .01$
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(ppcor)
+partials <- pcor(noout)
+partials$estimate^2
+```

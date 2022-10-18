@@ -3,6 +3,10 @@ title: "08-Readings"
 ---
 #  Linear Modeling
 
-[Howell Chapter 10-11](http://waraqa.org/wp-content/uploads/2021/04/Fundamental-Statistics-for-the-Behavioral-Sciences-8th-edition.pdf)
+I think both these books have excellent chapters on linear modeling/regression. I encourage you to read them. 
+
+[Gelman et al. Regression and Other Stories Chapters 6, 7, 8, 10 ](/readings_pdf/Regression and Other Stories by Andrew Gelman, Jennifer Hill, Aki Vehtari.pdf)
+
+[Imai and Williams Chapter 4](/readings_pdf/Quantitative Social Science An Introduction by Kosuke Imai.pdf)
 
 
