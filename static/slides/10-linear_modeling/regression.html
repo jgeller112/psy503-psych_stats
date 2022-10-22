@@ -5,8 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
     <script src="regression_files/header-attrs/header-attrs.js"></script>
-    <script src="regression_files/kePrint/kePrint.js"></script>
-    <link href="regression_files/lightable/lightable.css" rel="stylesheet" />
+    <link href="regression_files/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -17,7 +16,7 @@ class: center, middle, inverse, title-slide
 # PSY 503: Foundations of Statistical Methods in Psychological Science
 ]
 .subtitle[
-## Linear Modeling
+## Modeling Continuous Relationships
 ]
 .author[
 ### Jason Geller, Ph.D. (he/him/his)
@@ -26,10 +25,45 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-10-18
+### Updated:2022-10-21
 ]
 
 ---
+
+
+
+
+
+
+
+
+
+&lt;div style = "position:fixed; visibility: hidden"&gt;
+`$$\require{color}\definecolor{red}{rgb}{1, 0, 0}$$`
+`$$\require{color}\definecolor{green}{rgb}{0, 1, 0}$$`
+`$$\require{color}\definecolor{blue}{rgb}{0, 0, 1}$$`
+&lt;/div&gt;
+
+&lt;script type="text/x-mathjax-config"&gt;
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      red: ["{\\color{red}{#1}}", 1],
+      green: ["{\\color{green}{#1}}", 1],
+      blue: ["{\\color{blue}{#1}}", 1]
+    },
+    loader: {load: ['[tex]/color']},
+    tex: {packages: {'[+]': ['color']}}
+  }
+});
+&lt;/script&gt;
+
+&lt;style&gt;
+.red {color: #FF0000;}
+.green {color: #00FF00;}
+.blue {color: #0000FF;}
+&lt;/style&gt;
+
 
 
 
@@ -43,129 +77,172 @@ class: center, middle, inverse, title-slide
 
 - Regression (linear modeling)
 ---
+# Dataset 
+
+- Mental Health and Drug Use:
+    
+    - CESD = depression measure
+    - PIL total = measure of meaning in life
+    - AUDIT total = measure of alcohol use 
+    - DAST total = measure of drug usage
+
+
+```r
+master &lt;- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/10-linear_modeling/data/regress.csv")
+```
+---
 # Correlation (*r*)
 
-- Direction (positive or neagtive)
+- Quantifies relationship between two variables
 
-- Strength  (small, medium, or large)
+  - Direction (positive or negative)
 
-`$$r = \frac{covariance}{s_xs_y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(N - 1)s_x s_y}$$`
+  - Strength 
 
+- +1 is a perfect positive correlation
+- 0 is no correlation (independence)
+- -1 is a perfect negative correlation
 ---
 # Correlations
 
 &lt;img src="images/corr.png" width="70%" height="15%" style="display: block; margin: auto;" /&gt;
 ---
-Example: 
+# Effect Size Heuristics
+  
+  - *r* &lt; 0.1	very small
+  - 0.1  ≤ *r* &lt; 0.3	small
+  - 0.3   ≤ *r* &lt; 0.5	moderate
+  - *r* ≥ 0.5	large
+---
+# Covariance and Correlation
 
-# Simple Regression Example
+&lt;br&gt;
+&lt;br&gt;
 
-- Pitch perception and age  N
+`$$covariance = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{N - 1}$$`
+`$$r = \frac{covariance}{s_xs_y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{(N - 1)s_x s_y}$$`
+---
+# Dataset
 
-  - What does the relationship look like?
+- CESD = depression measure
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+- PIL total = measure of meaning in life
+
+  - What do you think relationship looks like?
+  
+--
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 # Statistical Test: Pearson's *r*
+
+- `\(H_0\)` *r* = 0 
+- `\(H_1\)` *r* `\(\not=\)` 0
 
 `$$\textit{t}_r =  \frac{r\sqrt{N-2}}{\sqrt{1-r^2}}$$`
 
 
 ```r
-library(correlation) # easystats
-library(see)
+library(correlation) # easystats\
 
-cor_result &lt;- cor_test(pitch, "age", "pitch")
+cor_result &lt;- cor_test(master,"PIL_total", "CESD_total")
 ```
 
+- Let's open R 
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-# Nonparamteric Correlation
+# Scatter
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+# Scatter
+
+
+```r
+library(ggstatsplot)
+
+ggstatsplot::ggscatterstats(master, 
+                            x= "PIL_total", 
+                            y="CESD_total")
+```
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Non-paramteric Correlation
 
 - Spearman’s rank correlation coefficient (ρ):
 
 `$$r_s = \frac{6 \sum d_i^2}{n(n^2 - 1)}$$`
 
-- It assesses how well the relationship between two variables can be described using a  monotonic (increasing or decreasing) function
+- It assesses how well the relationship between two variables can be described using a monotonic (increasing or decreasing) function
 
 - Rank order method
-- range [-1,+1]
+- Range [-1,+1]
 
 ---
 # Statistical Test: Spearman's *r*
 
 
 ```r
-cor.test(pitch$pitch, pitch$age, data=pitch, method = "spearman")
+cor_result_s &lt;- cor_test(master, "CESD_total", "PIL_total", method = "spearman")
 ```
 
-```
-## 
-## 	Spearman's rank correlation rho
-## 
-## data:  pitch$pitch and pitch$age
-## S = 68527, p-value = 0.0003087
-## alternative hypothesis: true rho is not equal to 0
-## sample estimates:
-##       rho 
-## -0.430486
-```
+- Let's go to R 
 ---
-# Effect Size Heuristics
-
-- *r* &lt; 0.1	very small
-- 0.1  ≤ *r* &lt; 0.3	small
-- 0.3   ≤ *r* &lt; 0.5	moderate
-- *r* ≥ 0.5	large
----
-
 # What is Linear Modeling?
 
-- A way of describing a phenomenon
+- A way of describing/explaining a phenomenon/relationship between variables
 
 --
 
 - A way of predicting the value of one variable from other variables
 
-    - It is a hypothetical model of the relationship between two or more variables
+--
+
+- It is a hypothetical model of the relationship between two or more variables
     
-    - The model used is a linear one, but doesn't always have to be! 
+    - The model commonly used is a linear one
+    
+    - BUT! This does not preclude testing non-linear or non-additive effects
   
----
-# Twitter Wars
-
-&lt;iframe src="https://twitter.com/spyasin/status/1543542858493337615" width="75%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
-
 ---
 # Types of Linear Modeling
 
-- **Simple Linear Regression**
+- **Simple Linear model**
 
-    - One X variable (IV)
+    - One X variable (IV) and one continuous variable (DV)
 
 - **Multiple Linear Regression = MLR**
 
-    - 2 or more X variables (IVs)
-    
-    - MLR types include: 
+    - 2 or more X variables (IVs) and one continuous variable (DV)
+         
+- **A linear model can be fit to data with continuous, discrete, and categorical `\(X\)` variables**
 
-         - Simultaneous: Everything at once
-         - Hierarchical: IVs in steps
-         - Stepwise: Statistical regression 
 ---
 # Describing a Straight Line
 
 - We describe the relationship between variables using the equation of a straight line
 
-`$$Y_i = b_0 + b_1X_i + \varepsilon_i$$`
+`$$Y_i = b_0(\alpha) + b_1X_i + \varepsilon_i$$`
 ---
 # Describing a Straight Line
 
-`$$Y_i = b_0 + b_1X_i + \varepsilon_i$$`
+&lt;br&gt;
+&lt;br&gt;
+`$$\red{Y_i} = \beta_0 + \beta_1 \green{X_i} + \blue{\varepsilon_i}$$`
+
+with
+
+- .red[reponse variable]
+- .green[predictor variable]
+- .blue[error term]
+
+
+---
+# Regression Paramters
 
 .pull-left[
-- What is `\(b_i\)`?  
+- What is `\(b_1\)`?  
 
     - Regression coefficient for the predictor
     - Gradient (slope) of the regression line
@@ -186,28 +263,29 @@ cor.test(pitch$pitch, pitch$age, data=pitch, method = "spearman")
 
 - The best fitting line is one that minimizes the squared difference between X and Y
 
-- Ordinary least squares (OLS) is most common
+- We use a method known as least squares to obtain estimates of 𝛼 and 𝛽
 
-  - What do squares have to do with it and why are they least sqaures?
+  - Ordinary least squares (OLS) is most common
 ---
-# Example
+# The Relation Between Correlation and Regression
 
-.pull-left[
-&lt;img src="regression_files/figure-html/unnamed-chunk-8-1.gif" width="100%" style="display: block; margin: auto;" /&gt;
-]
+`$$\hat{r} = \frac{covariance_{xy}}{s_x * s_y}$$`
 
-.pull-left[
+`$$\hat{\beta_x} = \frac{covariance_{xy}}{s_x*s_x}$$`
 
-- Shows two concepts:
+`$$\hat{\beta_x} =  \frac{\hat{r} * s_x * s_y}{s_x} = r * \frac{s_y}{s_x}$$`
 
-  1. Regression line is "best fit line"
-  
-  2. The “best fit line” is the one that minimizes the sum of the squared deviations between each point and the line
-]
+`$$\hat{\alpha} = \bar{y} - \hat{\beta_x}$$`
+
+---
+class:middle
+
+- What do squares have to do with it and why are they least squares?
+
 ---
 # Visualizing Error
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Visualize Errors as Sqaures
 
@@ -236,52 +314,70 @@ g=ggplot(some_data, aes(x=X, y=Y))+
 
 .pull-right[
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-13-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
 
+]
+---
+# Example
+
+.pull-left[
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-14-1.gif" width="100%" height="50%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-left[
+
+- Shows two concepts:
+
+  1. Regression line is "best fit line"
+  
+  2. The “best fit line” is the one that minimizes the sum of the squared deviations between each point and the line
 ]
 ---
 # Worse Fit Lines
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-15-1.png" width="100%" /&gt;
 ---
 # Simple Regression Example
 
 - A linear model fit to data with a numeric `\(X\)` is classical regression
 
-- Pitch perception and age 
+  -  Depression scores and meaningfulness (in one's life)
 
-  - As one ages, ability to hear certain pitch frequencies decreases
-
-&lt;img src="regression_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# `lm()` in R
+
 
 
 ```r
-fit.pitch=lm(pitch~age, data=pitch)
+lm_reg &lt;-lm(master$CESD_total~master$PIL_total)
 ```
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+--
+
+- How would we interpret this?
 
 ---
-&lt;img src="regression_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
----
-&lt;img src="regression_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
----
-$$ pitch = 216 + (-.7)*age$$
-
-&lt;img src="regression_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
----
-$$ pitch = 216 + (-.7)*40$$
 &lt;img src="regression_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
 ---
-
-$$ \hat{pitch} = 216 - 28$$
-
 &lt;img src="regression_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
+`$$CESD_{total} = 56 + (-.39)*PIL_{total}$$`
 
+&lt;img src="regression_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+`$$\hat{PIL_{total}} = 56 + (-.39)*60$$`
+&lt;img src="regression_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
 # Residuals, Fitted Values, and Model Fit
 
 - If we want to make inferences about the regression parameter estimates, then we also need an estimate of their variability. 
@@ -293,26 +389,26 @@ $$ \hat{pitch} = 216 - 28$$
 
 `$$SS_{error} = \sum_{i=1}^n{(y_i - \hat{y_i})^2} = \sum_{i=1}^n{residuals^2}$$`
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
-# SST 
+# SS Total (Sums of Sqaures Total) 
 
 &gt; Squared differences between the observed dependent variable and its mean. 
 
 `$$SS_{total} = \sum{(Y_i - \bar{Y})^2}$$`
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-22-1.png" width="100%" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-24-1.png" width="100%" /&gt;
 
 
 ---
-# Sums of Squares Regression (SS Explained)
+# SS Explained (Sums of Squares Regression)
 
 &gt; The sum of the differences between the predicted value and the mean of the dependent variable
 
 `$$SS_{Explained} = \sum (Y'_i - \bar{Y})^2$$`
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # All Together
 
@@ -324,9 +420,27 @@ library(patchwork)
   plot_annotation(title = 'SStotal = SSexplained + SSunexplained')
 ```
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
 ---
-# Statistical Tests
+# `broom` Regression 
+
+- How to analyze your regression analysis
+
+- tidy(): coefficent table
+- glance(): model summary
+- augment(): adds information about each observation
+
+
+```r
+library(broom) # install
+```
+---
+# Regression: NHST 
+
+`$$H_0\colon \ \beta_1=0$$`
+`$$H_a\colon \ \beta_1\ne0$$`
+
 
 `$$\begin{array}{c}
 t_{N - p} = \frac{\hat{\beta} - \beta_{expected}}{SE_{\hat{\beta}}}\\
@@ -334,155 +448,174 @@ t_{N - p} = \frac{\hat{\beta} - 0}{SE_{\hat{\beta}}}\\
 t_{N - p} = \frac{\hat{\beta} }{SE_{\hat{\beta}}}
 \end{array}$$`
 ---
-# Standard Error
-
-`$$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$`
-`$$SE_{model} = \sqrt{MS_{error}}SE_{model} = \sqrt{MS_{error}}$$`
-
-`$$SE_{\hat{\beta}_x} = \frac{SE_{model}}{\sqrt{{\sum{(x_i - \bar{x})^2}}}}$$`
----
-# `broom` Regression 
-
-tidy(): coefficent table
-glance(): model summary
-augment(): adds information about each observation
-
 
 ```r
-library(broom)
-library(report)
-```
----
-
-
-```r
-tidy(fit.pitch)
+model1 &lt;- lm(master$CESD_total~master$PIL_total)
+tidy(model1)
 ```
 
-```
-## # A tibble: 2 × 5
-##   term        estimate std.error statistic  p.value
-##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 (Intercept)  216.       4.95       43.6  2.49e-49
-## 2 age           -0.694    0.0822     -8.44 5.50e-12
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-28">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">56.4&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.75&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">15&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.43e-37</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">master$PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.39</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0336</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-11.6</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.95e-25</td></tr>
+</table>
+
 
 ---
 
 ```r
-tidy(fit.pitch) %&gt;%
+tidy(model1) %&gt;%
   select(term, estimate)
 ```
 
-```
-## # A tibble: 2 × 2
-##   term        estimate
-##   &lt;chr&gt;          &lt;dbl&gt;
-## 1 (Intercept)  216.   
-## 2 age           -0.694
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-29">
+<col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">56.4&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">master$PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.39</td></tr>
+</table>
 
+---
+# How Calculate Standard Error
 
-```r
-library(kableExtra)
-d=augment(fit.pitch)# residuals and fitted values
+`$$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$`
 
-head(d) %&gt;%
-  kbl() %&gt;%
-  kable_material_dark() 
-```
+`$$SE_{model} = \sqrt{MS_{error}}SE_{model} = \sqrt{MS_{error}}$$`
 
-&lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:right;"&gt; pitch &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .fitted &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .resid &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .hat &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .sigma &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .cooksd &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .std.resid &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 165.8599 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 66.41 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 169.8942 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -4.034248 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0202980 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.839121 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0022301 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.4639750 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 169.5648 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 64.35 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 171.3231 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -1.758256 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0179033 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.851203 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0003718 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.2019687 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 171.8329 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 61.89 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 173.0294 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -1.196494 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0160178 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.852721 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0001535 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.1373081 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 170.9136 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 54.58 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 178.0998 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -7.186207 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0166716 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.806824 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0057691 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.8249534 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 155.6435 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 69.41 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 167.8133 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -12.169830 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0251153 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.716784 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0253588 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -1.4030943 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 168.9725 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 61.98 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 172.9670 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -3.994467 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0160681 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.839477 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.0017159 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; -0.4584113 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+`$$SE_{\hat{\beta}_x} = \frac{SE_{model}}{\sqrt{{\sum{(x_i - \bar{x})^2}}}}$$`
 
 
 ```r
 # get MSE
-mse=performance_mse(fit.pitch)
+# 1
+mse=performance_mse(model1)
+# 2 
+SE&lt;-sqrt(mse)
+#3
+x_de&lt;- (master$PIL_total - mean(master$PIL_total))^2
 
-SEM&lt;-sqrt(mse)
+x_sum&lt;-mean(x_de)
 
-ssr &lt;- sum((pitch$age - mean(pitch$age))^2)
+x_sqrt &lt;- sqrt(x_sum)
 
-SE &lt;- mse/sqrt(ssr)
+SE &lt;- SE/x_sum
+
+SE
 ```
+---
+# Getting Residuals and Model Fit
+
+```r
+assump=augment(model1)# residuals and fitted values
+
+head(assump)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-31">
+<col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">master$CESD_total</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">master$PIL_total</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">.fitted</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">.resid</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">.hat</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">.sigma</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">.cooksd</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">.std.resid</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">28</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">121</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">9.17</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">18.8&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0058&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.6&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0176&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.46&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">37</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">76</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">26.7&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10.3&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0268&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">7.66</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0253&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.36&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">20</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">98</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">18.1&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.85</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.00683</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.69</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.000202</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.242</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">15</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">122</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">8.78</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6.22</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00621</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">7.68</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00207&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.813</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">99</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">17.8&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-10.8&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.00636</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.66</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.00632&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1.41&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">7</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">134</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.1&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.9&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0142&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">7.69</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00105&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.381</td></tr>
+</table>
+
+---
+# Model Fit
+
+
+```r
+assump=glance(model1)#model fit indices
+
+head(assump)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
+<col><col><col><col><col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">r.squared</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">adj.r.squared</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">sigma</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">logLik</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">BIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.residual</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">nobs</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.337</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.334</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.68</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">135</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.95e-25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-922</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.85e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.86e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.56e+04</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">265</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">267</td></tr>
+</table>
+
+---
+# Assumptions
+
+1. Linearity
+
+2. Normality of errors (on the residuals)
+
+3. Equal variances (Homoscedacity)
+
+  - The variance of the residuals is the same for all values of X
+
+4. Independence of errors
+
+  - There is not a relationship between the residuals and the variable
+
+---
+# Assumptions: Linearity
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-33-1.png" width="36%" /&gt;
+---
+# Assumptions: Normality of Errors
+
+- Shaprio test
+
+- QQ-Plot
+
+
+```r
+assump=augment(model1)# residuals and fitted values
+
+  ggplot(assump, aes(sample = .resid)) +
+  stat_qq() +
+  stat_qq_line() +
+  theme_classic()
+```
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-34-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumptions: Equal Variances and Indpendence 
+
+.pull-left[
+
+
+```r
+  ggplot(assump, aes(x = .fitted, y = .resid)) +
+  geom_point(size = 3, alpha = 0.7) +
+  theme_classic()
+```
+
+&lt;img src="regression_files/figure-html/unnamed-chunk-35-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+&lt;img src="images/candy.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
 ---
 
 # Effect Size: `\(R^2\)`
+
+- Coefficient of determination
 
 `$$R^2 = 1 - \frac{SS_{\text{error}}}{SS_{\text{tot}}}$$`
 `$$R^2 = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}}{SS_{Total}}$$`
@@ -501,62 +634,50 @@ SE &lt;- mse/sqrt(ssr)
 ```r
 library(performance)
 
-rq2=r2(fit.pitch)
+rq2=r2(model1)
 
 rq2=rq2$R2
 ```
 
-- `\(R^2\)` of 0.5265089 means 0.5265089% of variance is explained by Age
-
+- `\(R^2\)` of 0.337 means 0.337% of variance is explained 
 
 ---
 # Reporting
 
-- "For each additional year, pitch dropped by 0.7 Hz (SE = 0.08)"
-
-- “Age had a negative effect on pitch (estimate: -0.7, SE = 0.08, t = -8.4, p &lt; 0.001).”
-
-- We fitted a linear model (estimated using OLS) to predict pitch with age (formula: pitch ~ age). The model explains a statistically significant and substantial proportion of variance (R2 = 0.53, F(1, 64) = 71.17, p &lt; .001, adj. R2 = 0.52). The model's intercept, corresponding to age = 0, is at 215.96 (95% CI [206.07, 225.85], t(64) = 43.63, p &lt; .001). Within this model:
-
-  - The effect of age is statistically significant and negative (beta = -0.69, 95% CI [-0.86, -0.53], t(64) = -8.44, p &lt; .001; Std. beta = -0.73, 95% CI [-0.90, -0.55])
-
-Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
+- linear model (estimated using OLS) to predict master$CESD_total with master (formula: master$CESD_total ~ master$PIL_total), linear model (estimated using OLS) to predict master$CESD_total with PIL_total (formula: master$CESD_total ~ master$PIL_total)
 ---
 # Your turn
 
-The dataset contains nutritional information on 77 Starbucks food items. Spend some time reading the help file of this dataset. For this problem, you will explore the relationship between the calories and carbohydrate grams in these items.
-
-
-```r
-starbucks &lt;- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/10-linear_modeling/data/starbucks.csv")
-```
-
-1. Create a scatterplot of this data with calories on the x-axis and carbohydrate grams on the y-axis, and describe the relationship you see
-
-2. In the scatterplot you made, what is the explanatory variable? What is the response variable? Why might you want to construct the problem in this way?
-
-3. Fit a simple linear regression to this data, with carbohydrate grams as the dependent variable and the calories as the explanatory variable
-
-4. Write the fitted model out using mathematical notation. Interpret the slope and the intercept parameters
-
-5. Find and interpret the value of `\(R^2\)` for this model
-
+- Download the lab activity from Canvas
 
 ---
 class: middle
-# Multiple Predictors
+
+# Multiple Continuous Predictors
 ---
 # Multiple Regression Example
 
- `$$Y_i = b_0 + b_1X_1i + b_2X_i + b_3X_3i+  \varepsilon_i$$`
-
+ `$$\hat{Y}_i = b_0 + b_1X_1i + b_2X_2i + b_3X_3i+...+B_kX_k \varepsilon_i$$`
+ 
 - Adding predictors to our linear equation
 
+---
+# Multiple regression equation
+
+`\(\hat{Ŷ}\)` = predicted value on the outcome variable Y
+`\(B_0\)` = predicted value on Y when all X = 0
+`\(X_k\)` = predictor variables
+`\(B_k\)` = unstandardized regression coefficients
+`\(Y - Ŷ\)` = residual (prediction error)
+`\(k\)` = the number of predictor variables
 
 ---
+# Multiple Regresson: Example 
+
 - Mental Health and Drug Use:
     
     - CESD = depression measure
+    
     - PIL total = measure of meaning in life
     - AUDIT total = measure of alcohol use 
     - DAST total = measure of drug usage
@@ -584,15 +705,16 @@ str(master)
 ##   ..- attr(*, "display_width")= int 16
 ```
 ---
-# Regression Assumptions
+# Linear Model Assumptions (more than one variable)
 
-- Missing
-- Additive (more than one variable)
-- Independence of residuals
-- Linearity
-- Normality of residuals
-- Homogeneity of residual variance (“homoskedasticity”)
-- Factors are not correlated with one another(multicollinearity) (more than one variable)
+1. Linearity
+2. Normality of residuals
+3. Homogeneity of residual variance (“homoskedasticity”)
+4. Independence of residuals
+5. No missingness
+6. No outliers
+6. Additive (more than one variable)
+7. Factors are not correlated with one another(multicollinearity) (more than one variable)
 
 ---
 # Assumptions
@@ -632,9 +754,143 @@ nrow(nomiss)
 ## [1] 266
 ```
 ---
-# Example: Outliers 
+# Assumptions
 
-- A few new outlier checks:
+  - Additivity
+  
+    - Implies that for an existing model, the effect of a predictor on a response variable (whether it be linear or non-linear) is not affected by changes in other existing predictors.
+
+---
+# Assumptions
+
+- Linearity
+
+  - Check (use a plot) that your variables are linearly related
+  
+&lt;img src="regression_files/figure-html/unnamed-chunk-40-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+--- 
+# Assumptions
+
+- Normality
+
+**Applies to residuals and not the distribution of the data**
+  
+
+```r
+model1 &lt;- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
+             data = nomiss)
+check_normality(model1)
+```
+
+```
+## Warning: Non-normality of residuals detected (p &lt; .001).
+```
+
+---
+# Assumptions
+
+- Homogeneity &amp; Homoscedasticity
+
+  - Constant error variance 
+
+
+```r
+knitr::include_graphics("images/homohetero.svg")
+```
+
+&lt;img src="images/homohetero.svg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# Assumptions
+
+- Homogeneity &amp; Homoscedasticity
+
+
+```r
+#easystats
+
+performance::check_homogeneity(model2)
+```
+
+---
+# Problems
+
+- Multicolinearity: 
+
+
+- Collinearity = two predictors A and B are collinear if there is a linear combination of A and B that equals zero for all data
+
+  - You want X and Y to be correlated
+
+  - You do not want the Xs to be highly correlated 
+
+---
+# Multicolinearity 
+
+- Problems
+
+  - Extreme cases (complete collinearity) =          - Nonidentifiable model
+    - “Unstable” regression coefficients
+    - Large standard errors
+
+- "Bouncing betas"
+---
+# Multicolinearity
+
+- Assumption 
+
+  - VIF (variance inflation factor)
+  
+`$$VIF=\frac{1}{1- R^2}$$`
+    - Rule of thumb:
+    
+      -  &gt; 10 indicates issues
+---
+# Multicolinearity
+
+- Strategies
+
+  - Anticipate collinearity issues at the design stage
+  
+  - Depends: Drop variable if there’s no theoretical pay-off anyway
+  
+  - Depends: Fit separate models and compare fit
+  
+  - Depends: Increase sample size
+  
+  - Depends: Orthogonalize predictor experimentally
+  
+  - Depends: Use alternative approaches, such as ridge regression or LASSO
+  
+*Do not residualize*
+
+---
+# Assumptions
+
+- Multicolinearity
+
+
+```r
+#easystats performance package
+check_collinearity(model1)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-44">
+<col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">VIF</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">VIF_CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">VIF_CI_high</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SE_factor</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Tolerance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Tolerance_CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Tolerance_CI_high</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.6&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.02</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.969</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.385</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.999</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">AUDIT_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.37</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.22</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.65</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.17</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.728</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.608</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.823</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">DAST_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.39</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.23</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.66</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.18</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.72&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.601</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.815</td></tr>
+</table>
+
+
+---
+# Problems: Influential points
+
+- A few outlier checks:
 
     - Mahalanobis
     - Leverage scores
@@ -644,7 +900,8 @@ nrow(nomiss)
 ---
 # Example: Mahalanobis 
 
-- The `mahalanobis()` function we have used previously.
+- The `mahalanobis()` function 
+
 - Since we are going to use multiple criteria, we are going to save if they are an outlier or not
 
 - The table tells us: 0 (not outliers) and 1 (considered an outlier) for just Mahalanobis values
@@ -667,8 +924,10 @@ table(badmahal)
 ---
 # Example: Other Outliers
 
-- To get the other outlier statistics, we have to use the regression model we wish to test. - We will use the `lm()` function with our regression formula.
-- `Y ~ X + X`: Y is approximated by X plus X.
+- To get the other outlier statistics, we have to use the regression model we wish to test. - We will use the `lm()` function with our regression formula
+
+- `Y ~ X + X`: Y is approximated by X plus X
+
 - So we will predict depression scores (CESD) with meaning, drugs, and alcohol.
 
 
@@ -680,7 +939,7 @@ model1 &lt;- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
 ---
 # Example: Leverage 
 
-- **Definition** - influence of that data point on the slope
+- Influence of that data point on the slope
 
 - Each score is the change in slope if you exclude that data point
 
@@ -695,22 +954,25 @@ model1 &lt;- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
 
 ```r
 k &lt;- 3 ##number of IVs
-leverage &lt;- hatvalues(fit.pitch)
-cutleverage &lt;- (2*k+2) / nrow(pitch)
+leverage &lt;- hatvalues(model1)
+cutleverage &lt;- (2*k+2) / nrow(nomiss)
 badleverage &lt;- as.numeric(leverage &gt; cutleverage)
 table(badleverage)
 ```
 
 ```
 ## badleverage
-##  0  1 
-## 63  3
+##   0   1 
+## 247  19
 ```
 ---
 # Example: Cook's Distance 
 
-- Influence **(Cook's Distance)** - a measure of how much of an effect that single case has on the whole model 
-- Often described as leverage + discrepancy 
+- Influence **(Cook's Distance)** 
+
+  - a measure of how much of an effect that single case has on the whole model 
+  
+  - Often described as leverage + discrepancy 
 
 - How do we calculate how much change is bad?
   
@@ -718,16 +980,16 @@ table(badleverage)
 
 
 ```r
-cooks &lt;- cooks.distance(fit.pitch)
-cutcooks &lt;- 4 / (nrow(pitch) - k - 1)
+cooks &lt;- cooks.distance(model1)
+cutcooks &lt;- 4 / (nrow(nomiss) - k - 1)
 badcooks &lt;- as.numeric(cooks &gt; cutcooks)
 table(badcooks)
 ```
 
 ```
 ## badcooks
-##  0  1 
-## 60  6
+##   0   1 
+## 251  15
 ```
 ---
 # Example: Outliers Combined
@@ -741,14 +1003,16 @@ table(badcooks)
 
 ```r
 ##add them up!
+
 totalout &lt;- badmahal + badleverage + badcooks
+
 table(totalout)
 ```
 
 ```
 ## totalout
-##   0   1   2 
-## 229  33   4
+##   0   1   2   3 
+## 239  17   8   2
 ```
 
 ```r
@@ -757,148 +1021,13 @@ noout &lt;- subset(nomiss, totalout &lt; 2)
 ---
 # Assumptions
 
-- Now that we got rid of outliers, we need to run that model again, without the outliers.
+- Now that we got rid of outliers, we need to run that model again, without the outliers
 
 
 ```r
 model2 &lt;- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
              data = noout)
 ```
----
-# Assumptions
-
-  - Additivity
-  
-    -  The effects of different independent variables on the expected value of the dependent variable are additive.
-
-  
-    
-
-```r
-summary(model2, correlation = TRUE)
-```
-
-```
-## 
-## Call:
-## lm(formula = CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
-##     data = noout)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -19.857  -5.230  -1.231   3.540  28.724 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)     56.25004    3.92276  14.339   &lt;2e-16 ***
-## PIL_total       -0.38990    0.03406 -11.446   &lt;2e-16 ***
-## AUDIT_TOTAL_NEW -0.09947    0.09437  -1.054   0.2928    
-## DAST_TOTAL_NEW   1.02970    0.40030   2.572   0.0107 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 7.578 on 258 degrees of freedom
-## Multiple R-squared:  0.3676,	Adjusted R-squared:  0.3602 
-## F-statistic: 49.98 on 3 and 258 DF,  p-value: &lt; 2.2e-16
-## 
-## Correlation of Coefficients:
-##                 (Intercept) PIL_total AUDIT_TOTAL_NEW
-## PIL_total       -0.98                                
-## AUDIT_TOTAL_NEW -0.17        0.06                    
-## DAST_TOTAL_NEW  -0.12        0.11     -0.51
-```
-
-
----
-# Assumptions
-
-- Linearity
-
-  - Check (use a plot) that your variables are linearly related
-  
-&lt;img src="regression_files/figure-html/unnamed-chunk-41-1.png" width="100%" style="display: block; margin: auto;" /&gt;
---- 
-# Assumptions
-
-- Normality
-
-  - **Applies to residuals and not the distribution of the data**
-
-```r
-model2 &lt;- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
-             data = noout)
-
-check_normality(model2)
-```
-
-```
-## Warning: Non-normality of residuals detected (p &lt; .001).
-```
-
----
-# Assumptions
-
-- Homogeneity &amp; Homoscedasticity
-
-
-```r
-knitr::include_graphics("images/homohetero.svg")
-```
-
-&lt;img src="images/homohetero.svg" width="80%" style="display: block; margin: auto;" /&gt;
-
-
----
-# Assumptions
-
-- Homogeneity &amp; Homoscedasticity
-
-
-```r
-#easystats
-
-performance::check_homogeneity(model2)
-```
-
----
-# Multicolinearity: 
-
-- You want X and Y to be correlated
-- You do not want the Xs to be highly correlated 
-
-  - Causes estimates to be untrustworthy
-
-    - "Bouncing betas"
-  
-- Test: 
-
-  - VIF (variance inflation factor)
-  
-    - Rule of thumb:
-    
-      -  &gt; 10 problem with multicolinearity
----
-# Assumptions
-
-- Multicolinearity
-
-
-```r
-#easystats performance package
-check_collinearity(model2)
-```
-
-```
-## # Check for Multicollinearity
-## 
-## Low Correlation
-## 
-##             Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
-##        PIL_total 1.03 [1.00, 2.59]         1.02      0.97     [0.39, 1.00]
-##  AUDIT_TOTAL_NEW 1.38 [1.22, 1.66]         1.17      0.73     [0.60, 0.82]
-##   DAST_TOTAL_NEW 1.39 [1.23, 1.67]         1.18      0.72     [0.60, 0.81]
-```
-
 ---
 # Check Assumptions
 
@@ -916,7 +1045,7 @@ check_heteroscedasticity(model2)
 ```
 
 ```
-## Warning: Heteroscedasticity (non-constant error variance) detected (p &lt; .001).
+## Warning: Heteroscedasticity (non-constant error variance) detected (p = 0.001).
 ```
 
 ```r
@@ -931,16 +1060,17 @@ check_autocorrelation(model2)
 check_collinearity(model2)
 ```
 
-```
-## # Check for Multicollinearity
-## 
-## Low Correlation
-## 
-##             Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
-##        PIL_total 1.03 [1.00, 2.59]         1.02      0.97     [0.39, 1.00]
-##  AUDIT_TOTAL_NEW 1.38 [1.22, 1.66]         1.17      0.73     [0.60, 0.82]
-##   DAST_TOTAL_NEW 1.39 [1.23, 1.67]         1.18      0.72     [0.60, 0.81]
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-51">
+<col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">VIF</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">VIF_CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">VIF_CI_high</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SE_factor</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Tolerance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Tolerance_CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Tolerance_CI_high</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.04</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.83</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.02</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.958</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.546</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.998</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">AUDIT_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.3&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.16</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.57</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.14</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.767</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.636</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.861</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">DAST_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.33</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.18</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.6&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.15</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.753</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.625</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.848</td></tr>
+</table>
+
 ---
 # Check Assumptions
 
@@ -949,20 +1079,23 @@ check_collinearity(model2)
 check_model(model2)
 ```
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-47-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="regression_files/figure-html/unnamed-chunk-52-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ---
 # Example: Assumption Alternatives
 
 - If your assumptions go wrong:
+
     - Linearity - try nonlinear regression or nonparametric regression
+    
     - Normality - more subjects, still fairly robust
     
     - Homogeneity/Homoscedasticity - bootstrapping
     
-    - Multicolineary - drop one of the predictors; ridge regression
+      - Use robust method for SE
+        - model_parameters(model, vcov = "HC3")
+    
+    - Multicolineary - drop one of the predictors; ridge regression; Lasso
 ---
-
 # Regression Model
 
 - Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
@@ -1003,21 +1136,24 @@ check_model(model2)
 
 
 ```r
-anova(lm(pitch~age, data=pitch))
+anova(model2) %&gt;%
+tidy()
 ```
 
-```
-## Analysis of Variance Table
-## 
-## Response: pitch
-##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-## age        1 5491.8  5491.8  71.166 5.504e-12 ***
-## Residuals 64 4938.8    77.2                      
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-53">
+<col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">sumsq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">meansq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">6.18e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">6.18e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.13e-22</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">AUDIT_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.56&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.56&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0288</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.865&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">DAST_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.04&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.155&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Residuals</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">252</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.36e+04</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">54.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
 ---
-
 # Individual Predictors
 
 - We test the individual predictors with a t-test:
@@ -1044,39 +1180,29 @@ anova(lm(pitch~age, data=pitch))
     
     - `\(\beta\)` is more interpretable given differences in scales for different variables
 ---
-
-## Example: Overall Model
+# Example: Overall Model
 
 - Is the overall model significant? Yes!
 
 
 ```r
-summary(model2)
+summary(model2) %&gt;%
+  tidy()
 ```
 
-```
-## 
-## Call:
-## lm(formula = CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
-##     data = noout)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -19.857  -5.230  -1.231   3.540  28.724 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)     56.25004    3.92276  14.339   &lt;2e-16 ***
-## PIL_total       -0.38990    0.03406 -11.446   &lt;2e-16 ***
-## AUDIT_TOTAL_NEW -0.09947    0.09437  -1.054   0.2928    
-## DAST_TOTAL_NEW   1.02970    0.40030   2.572   0.0107 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 7.578 on 258 degrees of freedom
-## Multiple R-squared:  0.3676,	Adjusted R-squared:  0.3602 
-## F-statistic: 49.98 on 3 and 258 DF,  p-value: &lt; 2.2e-16
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-54">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">54.2&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.2&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">12.9&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.56e-29</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.373&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0363</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-10.3&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6.7e-21&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">AUDIT_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.0777</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0955</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.814</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.416&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">DAST_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.727&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.51&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.43&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.155&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
 
 ```r
 library(papaja)
@@ -1086,43 +1212,54 @@ apa_style$full_result$modelfit
 
 ```
 ## $r2
-## [1] "$R^2 = .37$, 90\\% CI $[0.28, 0.44]$, $F(3, 258) = 49.98$, $p &lt; .001$"
+## [1] "$R^2 = .32$, 90\\% CI $[0.23, 0.39]$, $F(3, 252) = 38.76$, $p &lt; .001$"
 ```
 
-- `\(R^2 = .37\)`, 90\% CI `\([0.28, 0.44]\)`, `\(F(3, 258) = 49.98\)`, `\(p &lt; .001\)`
+- `\(R^2 = .32\)`, 90\% CI `\([0.23, 0.39]\)`, `\(F(3, 252) = 38.76\)`, `\(p &lt; .001\)`
 
-## Example: Predictors
+- We fitted a linear model (estimated using OLS) to predict CESD_total with PIL_total (formula: CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW). The model explains a statistically significant and substantial proportion of variance (R2 = 0.32, F(3, 252) = 38.76, p &lt; .001, adj. R2 = 0.31). The model's intercept, corresponding to PIL_total = 0, is at 54.19 (95% CI [45.91, 62.47], t(252) = 12.89, p &lt; .001). Within this model:
+
+  - The effect of PIL total is statistically significant and negative (beta = -0.37, 95% CI [-0.44, -0.30], t(252) = -10.27, p &lt; .001; Std. beta = -0.55, 95% CI [-0.65, -0.44])
+  - The effect of AUDIT TOTAL NEW is statistically non-significant and negative (beta = -0.08, 95% CI [-0.27, 0.11], t(252) = -0.81, p = 0.416; Std. beta = -0.05, 95% CI [-0.17, 0.07])
+  - The effect of DAST TOTAL NEW is statistically non-significant and positive (beta = 0.73, 95% CI [-0.28, 1.73], t(252) = 1.43, p = 0.155; Std. beta = 0.09, 95% CI [-0.03, 0.20])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation., We fitted a linear model (estimated using OLS) to predict CESD_total with AUDIT_TOTAL_NEW (formula: CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW). The model explains a statistically significant and substantial proportion of variance (R2 = 0.32, F(3, 252) = 38.76, p &lt; .001, adj. R2 = 0.31). The model's intercept, corresponding to AUDIT_TOTAL_NEW = 0, is at 54.19 (95% CI [45.91, 62.47], t(252) = 12.89, p &lt; .001). Within this model:
+
+  - The effect of PIL total is statistically significant and negative (beta = -0.37, 95% CI [-0.44, -0.30], t(252) = -10.27, p &lt; .001; Std. beta = -0.55, 95% CI [-0.65, -0.44])
+  - The effect of AUDIT TOTAL NEW is statistically non-significant and negative (beta = -0.08, 95% CI [-0.27, 0.11], t(252) = -0.81, p = 0.416; Std. beta = -0.05, 95% CI [-0.17, 0.07])
+  - The effect of DAST TOTAL NEW is statistically non-significant and positive (beta = 0.73, 95% CI [-0.28, 1.73], t(252) = 1.43, p = 0.155; Std. beta = 0.09, 95% CI [-0.03, 0.20])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation., We fitted a linear model (estimated using OLS) to predict CESD_total with DAST_TOTAL_NEW (formula: CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW). The model explains a statistically significant and substantial proportion of variance (R2 = 0.32, F(3, 252) = 38.76, p &lt; .001, adj. R2 = 0.31). The model's intercept, corresponding to DAST_TOTAL_NEW = 0, is at 54.19 (95% CI [45.91, 62.47], t(252) = 12.89, p &lt; .001). Within this model:
+
+  - The effect of PIL total is statistically significant and negative (beta = -0.37, 95% CI [-0.44, -0.30], t(252) = -10.27, p &lt; .001; Std. beta = -0.55, 95% CI [-0.65, -0.44])
+  - The effect of AUDIT TOTAL NEW is statistically non-significant and negative (beta = -0.08, 95% CI [-0.27, 0.11], t(252) = -0.81, p = 0.416; Std. beta = -0.05, 95% CI [-0.17, 0.07])
+  - The effect of DAST TOTAL NEW is statistically non-significant and positive (beta = 0.73, 95% CI [-0.28, 1.73], t(252) = 1.43, p = 0.155; Std. beta = 0.09, 95% CI [-0.03, 0.20])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
+---
+# Example: Predictors
 
 
 ```r
-summary(model2)
+summary(model2) %&gt;%
+tidy()
 ```
 
-```
-## 
-## Call:
-## lm(formula = CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
-##     data = noout)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -19.857  -5.230  -1.231   3.540  28.724 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)     56.25004    3.92276  14.339   &lt;2e-16 ***
-## PIL_total       -0.38990    0.03406 -11.446   &lt;2e-16 ***
-## AUDIT_TOTAL_NEW -0.09947    0.09437  -1.054   0.2928    
-## DAST_TOTAL_NEW   1.02970    0.40030   2.572   0.0107 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 7.578 on 258 degrees of freedom
-## Multiple R-squared:  0.3676,	Adjusted R-squared:  0.3602 
-## F-statistic: 49.98 on 3 and 258 DF,  p-value: &lt; 2.2e-16
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-55">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">54.2&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.2&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">12.9&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.56e-29</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.373&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0363</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-10.3&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6.7e-21&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">AUDIT_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.0777</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0955</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.814</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.416&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">DAST_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.727&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.51&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.43&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.155&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
 
-## Example: Predictors
+---
+# Example: Predictors
 
 
 ```r
@@ -1130,7 +1267,7 @@ apa_style$full_result$PIL_total
 ```
 
 ```
-## [1] "$b = -0.39$, 95\\% CI $[-0.46, -0.32]$, $t(258) = -11.45$, $p &lt; .001$"
+## [1] "$b = -0.37$, 95\\% CI $[-0.44, -0.30]$, $t(252) = -10.27$, $p &lt; .001$"
 ```
 
 ```r
@@ -1138,7 +1275,7 @@ apa_style$full_result$AUDIT_TOTAL_NEW
 ```
 
 ```
-## [1] "$b = -0.10$, 95\\% CI $[-0.29, 0.09]$, $t(258) = -1.05$, $p = .293$"
+## [1] "$b = -0.08$, 95\\% CI $[-0.27, 0.11]$, $t(252) = -0.81$, $p = .416$"
 ```
 
 ```r
@@ -1146,14 +1283,14 @@ apa_style$full_result$DAST_TOTAL_NEW
 ```
 
 ```
-## [1] "$b = 1.03$, 95\\% CI $[0.24, 1.82]$, $t(258) = 2.57$, $p = .011$"
+## [1] "$b = 0.73$, 95\\% CI $[-0.28, 1.73]$, $t(252) = 1.43$, $p = .155$"
 ```
 
-- Meaning: `\(b = -0.39\)`, 95\% CI `\([-0.46, -0.32]\)`, `\(t(258) = -11.45\)`, `\(p &lt; .001\)`
-- Alcohol: `\(b = -0.10\)`, 95\% CI `\([-0.29, 0.09]\)`, `\(t(258) = -1.05\)`, `\(p = .293\)`
-- Drugs: `\(b = 1.03\)`, 95\% CI `\([0.24, 1.82]\)`, `\(t(258) = 2.57\)`, `\(p = .011\)`
-
-## Example: Predictors
+- Meaning: `\(b = -0.37\)`, 95\% CI `\([-0.44, -0.30]\)`, `\(t(252) = -10.27\)`, `\(p &lt; .001\)`
+- Alcohol: `\(b = -0.08\)`, 95\% CI `\([-0.27, 0.11]\)`, `\(t(252) = -0.81\)`, `\(p = .416\)`
+- Drugs: `\(b = 0.73\)`, 95\% CI `\([-0.28, 1.73]\)`, `\(t(252) = 1.43\)`, `\(p = .155\)`
+---
+# Example: Predictors
 
 - Two concerns:
 
@@ -1162,73 +1299,76 @@ apa_style$full_result$DAST_TOTAL_NEW
 ---
 # Beta
 
-- You can use the `QuantPsyc` package for `\(\beta\)` values. 
-
-
-```r
-library(QuantPsyc)
-lm.beta(model2)
-```
-
-```
-##       PIL_total AUDIT_TOTAL_NEW  DAST_TOTAL_NEW 
-##     -0.57578046     -0.06128615      0.15028366
-```
-
 
 ```r
 #easystats
 standardize_parameters(model2)
 ```
 
-```
-## # Standardization method: refit
-## 
-## Parameter       | Std. Coef. |         95% CI
-## ---------------------------------------------
-## (Intercept)     |  -9.98e-17 | [-0.10,  0.10]
-## PIL_total       |      -0.58 | [-0.67, -0.48]
-## AUDIT_TOTAL_NEW |      -0.06 | [-0.18,  0.05]
-## DAST_TOTAL_NEW  |       0.15 | [ 0.04,  0.27]
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-57">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Parameter</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Std_Coefficient</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_high</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.23e-17</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.102&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.102&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">PIL_total</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.547&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.652&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.442&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">AUDIT_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.0484&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.166&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0687</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">DAST_TOTAL_NEW</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0857&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.0325</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.204&nbsp;</td></tr>
+</table>
+
 ---
 # Effect Size 
 
+.pull-left[
 - R is the multiple correlation
 - All overlap in Y, used for overall model
 - `\(A+B+C/(A+B+C+D)\)`
+]
 
-&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="50%" style="display: block; margin: auto;" /&gt;
+.pull-right[
+&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Example: Effect Size 
 
-## Example: Effect Size 
-
+.pull-left[
 - sr is the semi-partial correlations 
 - Unique contribution of IV to `\(R^2\)` for those IVs
 
 - Increase in proportion of explained Y variance when X is added to the equation
 
 - `\(A/(A+B+C+D)\)`
+]
 
-&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="50%" style="display: block; margin: auto;" /&gt;
+.pull-right[
+&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+]
 ---
-## Example: Effect Size 
+# Example: Effect Size 
 
+.pull-left[
 - pr is the partial correlation
 
 - Proportion in variance in Y not explained by other predictors but this X only
 
 - `\(A/(A+D)\)`
 - Pr &gt; sr
+]
 
-&lt;iframe src="https://github.com/doomlab/learnSTATS/blob/master/vignettes/pictures/regression/19.PNG" width="50%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
---
+.pull-right[
+
+&lt;iframe src="https://github.com/doomlab/learnSTATS/blob/master/vignettes/pictures/regression/19.PNG" width="100%" height="400px" data-external="1"&gt;&lt;/iframe&gt;
+]
+---
 # Partial Correlations
 
 - We would add these to our other reports:
 
-    - Meaning: `\(b = -0.39\)`, 95\% CI `\([-0.46, -0.32]\)`, `\(t(258) = -11.45\)`, `\(p &lt; .001\)`, `\(pr^2 = .30\)`
-    - Alcohol: `\(b = -0.10\)`, 95\% CI `\([-0.29, 0.09]\)`, `\(t(258) = -1.05\)`, `\(p = .293\)`, `\(pr^2 &lt; .01\)`
-    - Drugs: `\(b = 1.03\)`, 95\% CI `\([0.24, 1.82]\)`, `\(t(258) = 2.57\)`, `\(p = .011\)`, `\(pr^2 &lt; .01\)`
+    - Meaning: `\(b = -0.37\)`, 95\% CI `\([-0.44, -0.30]\)`, `\(t(252) = -10.27\)`, `\(p &lt; .001\)`, `\(pr^2 = .30\)`
+    - Alcohol: `\(b = -0.08\)`, 95\% CI `\([-0.27, 0.11]\)`, `\(t(252) = -0.81\)`, `\(p = .416\)`, `\(pr^2 &lt; .01\)`
+    - Drugs: `\(b = 0.73\)`, 95\% CI `\([-0.28, 1.73]\)`, `\(t(252) = 1.43\)`, `\(p = .155\)`, `\(pr^2 &lt; .01\)`
 
 
 ```r
@@ -1238,11 +1378,11 @@ partials$estimate^2
 ```
 
 ```
-##                    PIL_total  CESD_total AUDIT_TOTAL_NEW DAST_TOTAL_NEW
-## PIL_total       1.000000e+00 0.336787039     0.007300578   1.883381e-07
-## CESD_total      3.367870e-01 1.000000000     0.004287781   2.500593e-02
-## AUDIT_TOTAL_NEW 7.300578e-03 0.004287781     1.000000000   2.640798e-01
-## DAST_TOTAL_NEW  1.883381e-07 0.025005926     0.264079779   1.000000e+00
+##                   PIL_total  CESD_total AUDIT_TOTAL_NEW DAST_TOTAL_NEW
+## PIL_total       1.000000000 0.295101597     0.005899378    0.005606820
+## CESD_total      0.295101597 1.000000000     0.002623799    0.008022779
+## AUDIT_TOTAL_NEW 0.005899378 0.002623799     1.000000000    0.218315640
+## DAST_TOTAL_NEW  0.005606820 0.008022779     0.218315640    1.000000000
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
