@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-10-21
+### Updated:2022-10-22
 ]
 
 ---
@@ -223,7 +223,7 @@ cor_result_s &lt;- cor_test(master, "CESD_total", "PIL_total", method = "spearma
 
 - We describe the relationship between variables using the equation of a straight line
 
-`$$Y_i = b_0(\alpha) + b_1X_i + \varepsilon_i$$`
+`$$Y_i = b_0 + b_1X_i + \varepsilon_i$$`
 ---
 # Describing a Straight Line
 
@@ -261,7 +261,9 @@ with
 ---
 # The Best Fit Line and Least Squares
 
-- The best fitting line is one that minimizes the squared difference between X and Y
+- Many lines could fit the data, but which is best?
+ 
+  - The best fitting line is one that produces rge "least squares" or minimizes the squared difference between X and
 
 - We use a method known as least squares to obtain estimates of 𝛼 and 𝛽
 
@@ -287,7 +289,7 @@ class:middle
 
 &lt;img src="regression_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-# Visualize Errors as Sqaures
+# Visualize Errors as Squares
 
 .pull-left[
 
@@ -382,6 +384,8 @@ lm_reg &lt;-lm(master$CESD_total~master$PIL_total)
 
 - If we want to make inferences about the regression parameter estimates, then we also need an estimate of their variability. 
 
+- We also need to know how well are data fits the linear model
+
 ---
 # SS Unexplained (Sums of Sqaures Error)
 
@@ -423,9 +427,17 @@ library(patchwork)
 &lt;img src="regression_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
-# `broom` Regression 
+# Regression Model
 
-- How to analyze your regression analysis
+- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
+
+    - Use the model summary, F-test, and `\(R^2\)`
+
+- How useful are each of the individual predictors for my model?
+
+    - Use the coefficients and t-tests of the slopes
+---
+# `broom` Regression 
 
 - tidy(): coefficent table
 - glance(): model summary
@@ -439,8 +451,7 @@ library(broom) # install
 # Regression: NHST 
 
 `$$H_0\colon \ \beta_1=0$$`
-`$$H_a\colon \ \beta_1\ne0$$`
-
+`$$H_1\colon \ \beta_1\ne0$$`
 
 `$$\begin{array}{c}
 t_{N - p} = \frac{\hat{\beta} - \beta_{expected}}{SE_{\hat{\beta}}}\\
@@ -481,7 +492,7 @@ tidy(model1) %&gt;%
 </table>
 
 ---
-# How Calculate Standard Error
+# Calculate Standard Error
 
 `$$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$`
 
@@ -508,7 +519,8 @@ SE &lt;- SE/x_sum
 SE
 ```
 ---
-# Getting Residuals and Model Fit
+# Getting Residuals and Predicted Values
+
 
 ```r
 assump=augment(model1)# residuals and fitted values
@@ -551,6 +563,76 @@ head(assump)
 </table>
 
 ---
+# Effect Size: `\(R^2\)`
+
+- Coefficient of determination
+
+`$$R^2 = 1 - \frac{SS_{\text{error}}}{SS_{\text{tot}}}$$`
+`$$R^2 = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}}{SS_{Total}}$$`
+
+- Standardized effect size
+
+  - Amount of variance explained
+  
+    - `\(R^2\)` of .4 means 40% of variance in the outcome variable ($Y$) can be explained by the predictor ($X$)
+  
+  - Range: 0-1
+  
+- Take *r* and `\(r^2\)`
+
+---
+# `\(R^2\)`
+
+```r
+library(performance)
+
+rq2=r2(model1)
+
+rq2=rq2$R2
+```
+
+--
+
+- `\(R^2\)` of 0.337 means 33 % of variance in depressions scores is explained by meaning in life 
+---
+# Overall Model
+
+- Our overall model uses an *F*-test
+ 
+- However, we can think about the hypotheses for the overall test being:
+
+    - H0: We cannot predict the dependent variable
+    
+    - H1: We can predict the dependent variable
+    
+- Generally, this form does not include two tailed tests because the math is squared, so it is impossible to get negative values in the statistical test
+
+---
+# F-Statistic, Explained Over Unexplained
+
+- F-statistics use measures of variance, which are sums of squares divided by relevant degrees of freedom
+
+`$$F = \frac{SS_{Explained}/df1}{SS_{Unexplained}/df2} = \frac{MS_{Explained}}{MS_{Unexplained}}$$`
+
+- If explained = unexplained, then F=1
+
+- If explained &gt; then, F &gt;1 
+
+- If explained &lt; unexplained, F &lt; 1
+
+---
+# Reporting
+
+- We fitted a linear model (estimated using OLS) to predict master$CESD_total with master (formula: master$CESD_total ~ master$PIL_total). The model explains a statistically significant and substantial proportion of variance (R2 = 0.34, F(1, 265) = 134.58, p &lt; .001, adj. R2 = 0.33). The model's intercept, corresponding to PIL_total = 0, is at 56.40 (95% CI [49.01, 63.78], t(265) = 15.03, p &lt; .001). Within this model:
+
+  - The effect of master$PIL total is statistically significant and negative (beta = -0.39, 95% CI [-0.46, -0.32], t(265) = -11.60, p &lt; .001; Std. beta = -0.39, 95% CI [-0.46, -0.32])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation., We fitted a linear model (estimated using OLS) to predict master$CESD_total with PIL_total (formula: master$CESD_total ~ master$PIL_total). The model explains a statistically significant and substantial proportion of variance (R2 = 0.34, F(1, 265) = 134.58, p &lt; .001, adj. R2 = 0.33). The model's intercept, corresponding to PIL_total = 0, is at 56.40 (95% CI [49.01, 63.78], t(265) = 15.03, p &lt; .001). Within this model:
+
+  - The effect of master$PIL total is statistically significant and negative (beta = -0.39, 95% CI [-0.46, -0.32], t(265) = -11.60, p &lt; .001; Std. beta = -0.39, 95% CI [-0.46, -0.32])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
+---
 # Assumptions
 
 1. Linearity
@@ -568,7 +650,7 @@ head(assump)
 ---
 # Assumptions: Linearity
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-33-1.png" width="36%" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-34-1.png" width="36%" /&gt;
 ---
 # Assumptions: Normality of Errors
 
@@ -586,7 +668,7 @@ assump=augment(model1)# residuals and fitted values
   theme_classic()
 ```
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-34-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-35-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Assumptions: Equal Variances and Indpendence 
@@ -600,7 +682,7 @@ assump=augment(model1)# residuals and fitted values
   theme_classic()
 ```
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-35-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -611,40 +693,6 @@ assump=augment(model1)# residuals and fitted values
 
 ]
 
----
-
-# Effect Size: `\(R^2\)`
-
-- Coefficient of determination
-
-`$$R^2 = 1 - \frac{SS_{\text{error}}}{SS_{\text{tot}}}$$`
-`$$R^2 = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}}{SS_{Total}}$$`
-
-- Standardized effect size
-
-  - Amount of variance explained
-  
-  - Range: 0-1
-  
-- Take *r* and `\(r^2\)`
-
----
-# `\(R^2\)`
-
-```r
-library(performance)
-
-rq2=r2(model1)
-
-rq2=rq2$R2
-```
-
-- `\(R^2\)` of 0.337 means 0.337% of variance is explained 
-
----
-# Reporting
-
-- linear model (estimated using OLS) to predict master$CESD_total with master (formula: master$CESD_total ~ master$PIL_total), linear model (estimated using OLS) to predict master$CESD_total with PIL_total (formula: master$CESD_total ~ master$PIL_total)
 ---
 # Your turn
 
@@ -817,8 +865,9 @@ performance::check_homogeneity(model2)
 
 - Multicolinearity: 
 
+- Collinearity 
 
-- Collinearity = two predictors A and B are collinear if there is a linear combination of A and B that equals zero for all data
+  - Two predictors A and B are collinear if there is a linear combination of A and B that equals zero for all data
 
   - You want X and Y to be correlated
 
@@ -829,11 +878,12 @@ performance::check_homogeneity(model2)
 
 - Problems
 
-  - Extreme cases (complete collinearity) =          - Nonidentifiable model
-    - “Unstable” regression coefficients
+  - Extreme cases (complete collinearity) = Nonidentifiable model
+  
+    - “Unstable” regression coefficients ("Bouncing betas")
+    
     - Large standard errors
 
-- "Bouncing betas"
 ---
 # Multicolinearity
 
@@ -1094,43 +1144,7 @@ check_model(model2)
       - Use robust method for SE
         - model_parameters(model, vcov = "HC3")
     
-    - Multicolineary - drop one of the predictors; ridge regression; Lasso
----
-# Regression Model
-
-- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
-
-    - Use the model summary, F-test, and `\(R^2\)`
-
-- How useful are each of the individual predictors for my model?
-
-    - Use the coefficients, t-test, and `\(pr^2\)`
----
-# Overall Model
-
- Our overall model uses an *F*-test
- 
-- However, we can think about the hypotheses for the overall test being:
-
-    - H0: We cannot predict the dependent variable
-    
-    - H1: We can predict the dependent variable
-    
-- Generally, this form does not include two tailed tests because the math is squared, so it is impossible to get negative values in the statistical test
-
----
-# F-Statistic, Explained Over Unexplained
-
-- F-statistics use measures of variance, which are sums of squares divided by relevant degrees of freedom
-
-`$$F = \frac{SS_{Explained}/df1}{SS_{Unexplained}/df2} = \frac{MS_{Explained}}{MS_{Unexplained}}$$`
-
-- If explained = unexplained, then F=1
-
-- If explained &gt; then, F &gt;1 
-
-- If explained &lt; unexplained, F &lt; 1
-
+    - Multicolineary - drop one of the predictors; ridge regression; lasso regression
 ---
 # ANOVA
 
