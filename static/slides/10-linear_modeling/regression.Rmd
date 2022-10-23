@@ -1,6 +1,6 @@
 ---
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
-subtitle: "Modeling Continuous Relationships"
+subtitle: "Modeling Continuous Relationships: Correlation and Linear Modeling"
 institute: "Princeton University"
 author: "Jason Geller, Ph.D. (he/him/his)"
 date:  'Updated:`r Sys.Date()`'
@@ -166,7 +166,20 @@ library(report)
 library(huxtable)
 library(skimr)
 ```
-# Outline
+# Housekeeping
+
+- Data 
+
+  - Please let me know what data you intend to re-analyze (10/31)
+
+- No more knowledge checks
+
+  - Instead, you will submit 2-3 questions each week (Friday by 11:59 P.M.) over the material we have covered so far
+  
+    - What were 2-3 muddiest or unclear things from sessions this week? What are you still wondering about?
+    
+---
+# Today
 
 - Correlation
 
@@ -206,13 +219,18 @@ knitr::include_graphics('images/corr.png')
 ```
 ---
 # Effect Size Heuristics
-  
-  - *r* < 0.1	very small
-  - 0.1  ≤ *r* < 0.3	small
-  - 0.3   ≤ *r* < 0.5	moderate
-  - *r* ≥ 0.5	large
+
+<br>
+<br>
+
+- *r* < 0.1	very small
+- 0.1  ≤ *r* < 0.3	small
+- 0.3   ≤ *r* < 0.5	moderate
+- *r* ≥ 0.5	large
 ---
 # Covariance and Correlation
+
+- Pearson's *r*
 
 <br>
 <br>
@@ -257,7 +275,7 @@ cor_result <- cor_test(master,"PIL_total", "CESD_total")
 - Let's open R 
 
 ---
-# Scatter
+# Scatterplot 
 
 ```{r, echo=FALSE, fig.align='center',out.width="90%"}
 plot(cor_result,
@@ -271,7 +289,7 @@ plot(cor_result,
   scale_size_continuous(guide = "none")
 ```
 ---
-# Scatter
+# Scatterplot
 
 ```{r, fig.align='center', out.width="100%"}
 
@@ -301,7 +319,8 @@ $$r_s = \frac{6 \sum d_i^2}{n(n^2 - 1)}$$
 cor_result_s <- cor_test(master, "CESD_total", "PIL_total", method = "spearman")
 ```
 
-- Let's go to R 
+- Let's go to R! 
+
 ---
 # What is Linear Modeling?
 
@@ -322,7 +341,7 @@ cor_result_s <- cor_test(master, "CESD_total", "PIL_total", method = "spearman")
 ---
 # Types of Linear Modeling
 
-- **Simple Linear model**
+- **Simple linear model**
 
     - One X variable (IV) and one continuous variable (DV)
 
@@ -337,7 +356,11 @@ cor_result_s <- cor_test(master, "CESD_total", "PIL_total", method = "spearman")
 
 - We describe the relationship between variables using the equation of a straight line
 
-$$Y_i = b_0 + b_1X_i + \varepsilon_i$$
+$$Y = mX + b$$
+$$\begin{align}
+Y &= \beta_0 + \beta_1 X + \varepsilon\\
+\varepsilon &\sim N(0, \sigma^2)
+\end{align}$$
 ---
 # Describing a Straight Line
 
@@ -377,11 +400,9 @@ with
 
 - Many lines could fit the data, but which is best?
  
-  - The best fitting line is one that produces thw "least squares", or minimizes the squared difference between X and Y 
+  - The best fitting line is one that produces the "least squares", or minimizes the squared difference between X and Y 
 
-- We use a method known as least squares to obtain estimates of 𝛼 and 𝛽
-
-  - Ordinary least squares (OLS) is most common
+- We use a method known as least squares to obtain estimates of $b_0$ and $b_1$ 
 ---
 # The Relation Between Correlation and Regression
 
@@ -673,7 +694,7 @@ anim.1
 ---
 # Residuals, Fitted Values, and Model Fit
 
-- If we want to make inferences about the regression parameter estimates, then we also need an estimate of their variability. 
+- If we want to make inferences about the regression parameter estimates, then we also need an estimate of their variability 
 
 - We also need to know how well are data fits the linear model
 
@@ -684,7 +705,7 @@ $$residual = y - \hat{y} = y - (x*\hat{\beta_x} + \hat{\beta_0})$$
 
 $$SS_{error} = \sum_{i=1}^n{(y_i - \hat{y_i})^2} = \sum_{i=1}^n{residuals^2}$$
 
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
 some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
                         X= c(3,5,4,2,6,7,8,9)) %>%
   mutate(Y_pred = predict.lm(lm(Y~X))) %>%
@@ -739,7 +760,6 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
 
 ```
 
-
 ---
 # SS Explained (Sums of Squares Regression)
 
@@ -783,17 +803,6 @@ library(patchwork)
   plot_annotation(title = 'SStotal = SSexplained + SSunexplained')
 
 ```
-
----
-# Regression Model
-
-- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
-
-    - Use the model summary, F-test, and $R^2$
-
-- How useful are each of the individual predictors for my model?
-
-    - Use the coefficients and t-tests of the slopes
 ---
 # `broom` Regression 
 
@@ -828,18 +837,15 @@ tidy(model1)
 
 ---
 ```{r}
-
 tidy(model1) %>%
   select(term, estimate)
 
 ```
 ---
 # Calculate Standard Error
-
 $$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$
 
 $$SE_{model} = \sqrt{MS_{error}}SE_{model} = \sqrt{MS_{error}}$$
-
 $$SE_{\hat{\beta}_x} = \frac{SE_{model}}{\sqrt{{\sum{(x_i - \bar{x})^2}}}}$$
 
 ```{r, eval=FALSE}
@@ -849,13 +855,11 @@ mse=performance_mse(model1)
 # 2 
 SE<-sqrt(mse)
 #3
-x_de<- (master$PIL_total - mean(master$PIL_total))^2
+x_de<- sum((master$CESD_total - mean(master$CESD_total))^2)
 
-x_sum<-mean(x_de)
+x_sqrt <- sqrt(x_de)
 
-x_sqrt <- sqrt(x_sum)
-
-SE <- SE/x_sum
+SE <- SE/x_sqrt
 
 SE
 
@@ -865,8 +869,6 @@ SE
 
 ```{r}
 assump=augment(model1)# residuals and fitted values
-
-head(assump)
 ```
 ---
 # Model Fit
@@ -874,8 +876,6 @@ head(assump)
 ```{r}
 
 assump=glance(model1)#model fit indices
-
-head(assump)
 
 ```
 ---
@@ -893,8 +893,6 @@ $$R^2 = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}}{SS_{Tota
     - $R^2$ of .4 means 40% of variance in the outcome variable ($Y$) can be explained by the predictor ($X$)
   
   - Range: 0-1
-  
-- Take *r* and $r^2$
 
 ---
 # $R^2$
@@ -905,21 +903,35 @@ rq2=r2(model1)
 
 rq2=rq2$R2
 
+SS_explained <- sum((assump$.fitted - mean(assump$`master$CESD_total`))^2)
+
+SS_total <- sum((assump$`master$CESD_total` - mean(assump$`master$CESD_total`))^2)
+
+r2<- SS_explained/SS_total
+
 ```
-
 --
-
-- $R^2$ of `r round(rq2, 3)` means 33 % of variance in depressions scores is explained by meaning in life 
+- $R^2$ of `r round(rq2, 3)` means 33% of variance in depressions scores is explained by meaning in life 
 ---
-# Overall Model
+# Regression Model
+
+- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
+
+    - Use the model summary, F-test, and $R^2$
+
+- How useful are each of the individual predictors for my model?
+
+    - Use the coefficients and t-tests of the slopes
+---
+# Overall Model Significance
 
 - Our overall model uses an *F*-test
  
 - However, we can think about the hypotheses for the overall test being:
 
-    - H0: We cannot predict the dependent variable
+    - $H_0$: We cannot predict the dependent variable (over and above a model with only an intercept)
     
-    - H1: We can predict the dependent variable
+    - $H_1$: We can predict the dependent variable ( over and above a model with only an intercept)
     
 - Generally, this form does not include two tailed tests because the math is squared, so it is impossible to get negative values in the statistical test
 
@@ -937,11 +949,23 @@ $$F = \frac{SS_{Explained}/df1}{SS_{Unexplained}/df2} = \frac{MS_{Explained}}{MS
 - If explained < unexplained, F < 1
 
 ---
-# Reporting
+# Calculating Mean Squares in R
 
-- `r report(model1)`
+```{r}
+#use augment to get fitted and resid information
+SS_explained <- sum((assump$.fitted - mean(assump$`master$CESD_total`))^2)
+
+SS_unexplained <- sum((assump$`master$CESD_total` - assump$.fitted)^2)
+
+# easier solution
+ms_error <- performance_mse(model1)
+
+#TSS?
+
+```
+
 ---
-# Assumptions
+# Linear Modeling Assumptions
 
 1. Linearity
 
@@ -982,7 +1006,7 @@ assump=augment(model1)# residuals and fitted values
 ```
 
 ---
-# Assumptions: Equal Variances and Indpendence 
+# Assumptions: Equal Variances and Independence 
 
 .pull-left[
 
@@ -1003,7 +1027,10 @@ knitr::include_graphics('images/candy.jpeg')
 
 
 ]
+---
+# Reporting
 
+- `r report(model1)`
 ---
 # Your turn
 
