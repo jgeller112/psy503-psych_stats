@@ -674,7 +674,7 @@ anim.1<- ggplot(master, aes(PIL_total,CESD_total))+
 anim.1
 ```
 ---
-$$\hat{PIL_{total}} = 56 + (-.39)*60$$
+$$ \hat{CESD_{total}} = 56 + (-.39)*60$$
 ```{r, fig.align='center', echo=FALSE, out.width="100%"}
 
 #Animation
@@ -739,7 +739,7 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
 
 $$SS_{total} = \sum{(Y_i - \bar{Y})^2}$$
 
-```{r, echo=FALSE, out.width="100%"}
+```{r, echo=FALSE, out.width="80%"}
 
 some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
                         X= c(3,5,4,2,6,7,8,9)) %>%
@@ -770,7 +770,7 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
 
 $$SS_{Explained} = \sum (Y'_i - \bar{Y})^2$$
 
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
 
 some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
                         X= c(3,5,4,2,6,7,8,9)) %>%
@@ -863,18 +863,12 @@ SE
 ---
 # 95% CIs
 
-$$
-b_1 \pm t^\ast (SE_{b_1})
-$$
+$$b_1 \pm t^\ast (SE_{b_1})$$
 ```{r}
-
 tidy(model1, conf.int = TRUE)
-
 ```
 
-
-
-
+---
 # Getting Residuals and Predicted Values
 
 ```{r}
@@ -1006,7 +1000,7 @@ anim.1
 
 - QQ-Plot
 
-```{r, fig.align='center', out.width="80%"}
+```{r, fig.align='center', out.width="50%"}
 assump=augment(model1)# residuals and fitted values
 
   ggplot(assump, aes(sample = .resid)) +

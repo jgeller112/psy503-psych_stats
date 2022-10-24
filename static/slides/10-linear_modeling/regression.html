@@ -397,7 +397,7 @@ lm_reg &lt;-lm(master$CESD_total~master$PIL_total)
 
 &lt;img src="regression_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-`$$\hat{PIL_{total}} = 56 + (-.39)*60$$`
+$$ \hat{CESD_{total}} = 56 + (-.39)*60$$
 &lt;img src="regression_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -426,7 +426,7 @@ lm_reg &lt;-lm(master$CESD_total~master$PIL_total)
 
 `$$SS_{total} = \sum{(Y_i - \bar{Y})^2}$$`
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-24-1.png" width="100%" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-24-1.png" width="80%" /&gt;
 
 ---
 # SS Explained (Sums of Squares Regression)
@@ -435,7 +435,7 @@ lm_reg &lt;-lm(master$CESD_total~master$PIL_total)
 
 `$$SS_{Explained} = \sum (Y'_i - \bar{Y})^2$$`
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-25-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 # All Together
 
@@ -512,9 +512,7 @@ SE
 ---
 # 95% CIs
 
-$$
-b_1 \pm t^\ast (SE_{b_1})
-$$
+`$$b_1 \pm t^\ast (SE_{b_1})$$`
 
 ```r
 tidy(model1, conf.int = TRUE)
@@ -530,9 +528,7 @@ tidy(model1, conf.int = TRUE)
 </table>
 
 
-
-
-
+---
 # Getting Residuals and Predicted Values
 
 
@@ -668,7 +664,7 @@ assump=augment(model1)# residuals and fitted values
   theme_classic()
 ```
 
-&lt;img src="regression_files/figure-html/unnamed-chunk-36-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="regression_files/figure-html/unnamed-chunk-36-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Assumptions: Equal Variances and Independence 
