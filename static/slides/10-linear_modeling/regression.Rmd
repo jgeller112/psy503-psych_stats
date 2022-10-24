@@ -408,7 +408,7 @@ with
 
 $$\hat{r} = \frac{covariance_{xy}}{s_x * s_y}$$
 
-$$\hat{\beta_x} = \frac{covariance_{xy}}{s_x*s_x}$$
+$$\hat{\beta_x} = \frac{covariance_{xy}}{s_x*s_y}$$
 
 $$\hat{\beta_x} =  \frac{\hat{r} * s_x * s_y}{s_x} = r * \frac{s_y}{s_x}$$
 
@@ -694,6 +694,9 @@ anim.1
 ---
 # Residuals, Fitted Values, and Model Fit
 
+<br>
+<br>
+<br>
 - If we want to make inferences about the regression parameter estimates, then we also need an estimate of their variability 
 
 - We also need to know how well are data fits the linear model
@@ -834,13 +837,6 @@ tidy(model1)
 
 
 ```
-
----
-```{r}
-tidy(model1) %>%
-  select(term, estimate)
-
-```
 ---
 # Calculate Standard Error
 $$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$
@@ -865,6 +861,20 @@ SE
 
 ```
 ---
+# 95% CIs
+
+$$
+b_1 \pm t^\ast (SE_{b_1})
+$$
+```{r}
+
+tidy(model1, conf.int = TRUE)
+
+```
+
+
+
+
 # Getting Residuals and Predicted Values
 
 ```{r}
@@ -940,7 +950,7 @@ r2<- SS_explained/SS_total
 
 - F-statistics use measures of variance, which are sums of squares divided by relevant degrees of freedom
 
-$$F = \frac{SS_{Explained}/df1}{SS_{Unexplained}/df2} = \frac{MS_{Explained}}{MS_{Unexplained}}$$
+$$F = \frac{SS_{Explained}/df1 (p-1)}{SS_{Unexplained}/df2(n-p)} = \frac{MS_{Explained}}{MS_{Unexplained}}$$
 
 - If explained = unexplained, then F=1
 
@@ -982,7 +992,7 @@ ms_error <- performance_mse(model1)
 ---
 # Assumptions: Linearity
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 anim.1<- ggplot(master, aes(CESD_total,PIL_total))+
    geom_point()+
   theme(legend.position="top")
