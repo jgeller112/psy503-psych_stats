@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-10-25
+### Updated:2022-10-26
 ]
 
 ---
@@ -1197,6 +1197,14 @@ check_collinearity(model4)
     - Single sample t-test to determine if the b value is different from zero
     
 ---
+# Linear Model with Multiple Predictors: NHST
+
+- All slopes
+
+$$ b_1 = b_2 = b_3 = 0$$
+`$$b_1 \neq b_2 \neq b_3$$`
+- Or at least one of the slopes is not 0 
+---
 # Overall Model Fit
 
 - Is the overall model significant?
@@ -1351,6 +1359,7 @@ standardize_parameters(model2)
 
 .pull-left[
 - R is the multiple correlation
+- `\(R^2\)` is the multiple correlation squared
 - All overlap in Y, used for overall model
 - `\(A+B+C/(A+B+C+D)\)`
 ]
@@ -1385,7 +1394,7 @@ standardize_parameters(model2)
 
 - `\(A/(A+D)\)`
 
-- Removes the shared variance of the control variable (Say X2) from both Y and X1.
+- Removes the shared variance of the control variable (Say X2) from both Y and X1
 
 - Pr &gt; sr
 ]
