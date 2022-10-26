@@ -1049,7 +1049,7 @@ knitr::include_graphics('images/candy.jpeg')
 ---
 class: middle
 
-# Linear Modeling with multiple continuous predictors
+# Linear Modeling with Multiple Continuous Predictors
 
 ---
 # Simple Linear Model
