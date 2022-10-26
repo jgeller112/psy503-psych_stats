@@ -1408,7 +1408,7 @@ check_collinearity(model4)
 ---
 # Check Assumptions
 
-```{r echo=FALSE, out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+```{r echo=FALSE, out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
 
 knitr::include_graphics('images/performance_check_model_plot.webp')
 ```
