@@ -117,6 +117,7 @@ lessons:
     slides: ""
     class: "10-linear_modeling/regression.html"
     notes: ""
+    assignment: "04" 
     reading: "08-reading"
     hasclass: True
     
