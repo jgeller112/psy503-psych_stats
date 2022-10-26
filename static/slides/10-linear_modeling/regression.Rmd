@@ -1344,7 +1344,9 @@ model4 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
 
   - Additivity
   
-    - Implies that for an existing model, the effect of a predictor on a response variable (whether it be linear or non-linear) is not affected by changes in other existing predictors.
+    - Implies that for an existing model, the effect of a predictor on a response variable (whether it be linear or non-linear) is not affected by changes in other existing predictors
+    
+
 
 ---
 # Assumptions
@@ -1468,7 +1470,7 @@ apa_style$full_result$modelfit
 - What about the predictors?
 
 ```{r}
-summary(model2) %>%
+summary(model4) %>%
 tidy()
 ```
 ---

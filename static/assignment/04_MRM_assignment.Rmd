@@ -1,0 +1,159 @@
+---
+title: "Problem Set 4: Simple Linear Model"
+author: "Jason Geller"
+date: 'Updated:`r Sys.Date()`'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Linear model exercise
+
+In this exercise, you will load in the `age_pitch.csv` dataset and build a linear model of the relationship between pitch and age, using the `broom` package for tidy regression output.
+
+Load `tidyverse` and `broom`:
+
+```{r, message = FALSE, warning = FALSE}
+
+```
+
+Load the `age_pitch.csv` data from Github. Call the tibble `age`:
+
+```{r, message = FALSE, warning = FALSE}
+
+data = "https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/10-linear_modeling/data/age_pitch.csv"
+
+
+```
+
+Check data is correct: 
+
+```{r}
+
+```
+
+## Make a scatterplot
+
+Make a scatterplot of the relationship between `age` (x-axis) and `pitch` (y-axis). Use `geom_point()` for this and make the points slightly bigger in size by changing the `size` argument, and make the points slightly transparent. And don't forget to add a nice theme!
+
+Once you're done with the basics of the plot, add `geom_smooth(method = 'lm')`. This plots a regression line and a 95% confidence ribbon. Rethink the order of the geoms (whether points should or should not be occluded).
+
+```{r}
+
+```
+
+## Fit a model
+
+Regress `pitch` onto `age` in a linear model. Summarize the model using the `tidy()` function:
+
+```{r}
+
+```
+
+Use the `glance()` function to interrogate the overall model stats (model fit). What is the r-squared value?
+
+```{r}
+
+```
+
+Does this model explain a lot of variance in pitch?
+
+## Assess what your model predicts by hand
+
+Can you extract the intercept and slope and calculate predictions for 20, 30, 40, 50, 60, and 70 year old people? The `pull()` function comes in handy here... and you can use the `seq()` function to generate a sequence in a step-size of 10.
+
+```{r}
+# estimates <- tidy(pitch_mdl) %>% 
+#   pull(estimate)
+
+# Extract intercept and slope:
+
+# intercept <- estimates[1]
+# slope <- estimates[2]
+
+# Generate vector to get predictions for:
+
+# pred_vals <- seq(from = 20, to = 70, by = 10)
+
+# Multiply out:
+
+# ...
+```
+
+## Assess what your model predicts again, but more lazy
+
+The `predict()` function is _super_ useful when you are uncertain about what your model predicts. Build a tibble that contains a column with the vector of values you want predictions for. The column needs to be called `age` so that the `predict()` function knows how the tibble corresponds to the data that went into the model.
+
+```{r}
+# Build tibble to get predictions for:
+
+# ..
+
+# Calculate predictions:
+
+# ..
+```
+
+## Predictions for the original data
+
+You can use the `fitted()` and `residuals()` function to assess the fitted values and residuals by hand:
+
+```{r}
+# Predictions:
+
+# ...
+
+# Deviations from predictions:
+
+# ...
+```
+
+Or you can use `augment()` from the broom package to get this right into the original dataframe. Like `predict()`, this function takes as its first argument the model, and then as its second argument the data frame (in this case, the original data frame.)
+
+```{r}
+# age_with_preds <- ...
+# 
+# age_with_preds
+```
+
+By setting the `se_fit` argument to `TRUE` and the `interval` argument to `confidence` we get standard errors and 95% confidence intervals for each fitted value.
+
+```{r}
+# augment(pitch_mdl, age,
+#         se_fit = TRUE, interval = 'confidence')
+```
+
+## Checking model assumptions
+
+We can use the augmented tibble to check assumptions. First, a histogram of the residuals:
+
+```{r}
+
+```
+
+How does it look?
+
+Better visualization of the same thing would be a Q-Q plot:
+
+```{r}
+age_with_preds %>% 
+  ggplot(aes(sample = .resid)) +
+  stat_qq() +
+  stat_qq_line() +
+  theme_classic()
+```
+
+Next, a residual plot. For this, all you need to do is plot the fitted values on the x axis and the residuals on the y axis.
+
+```{r}
+
+```
+
+How does it look?
+
+
+
+
+
