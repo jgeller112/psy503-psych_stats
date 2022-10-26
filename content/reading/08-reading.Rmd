@@ -10,3 +10,10 @@ I think both these books have excellent chapters on linear modeling/regression. 
 [Imai and Williams Chapter 4](/readings_pdf/Quantitative Social Science An Introduction by Kosuke Imai.pdf)
 
 
+Recommended: 
+
+Excellent chapter
+
+[Nick Huntington-Klein - The Effect Chapter 13- Regression ]([https://theeffectbook.net/ch-StatisticalAdjustment.html)
+
+[Quantitude - Regression like that old friend you've outgrown](https://quantitudepod.org/s2e18-regression-like-that-old-high-school-friend-youve-outgrown/)

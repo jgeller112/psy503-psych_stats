@@ -157,6 +157,7 @@ style_solarized_dark(
 
 ```{r, echo=FALSE}
 library(parameters)
+library(papaja)
 library(tidyverse)
 library(performance)
 library(equatiomatic)
@@ -831,6 +832,7 @@ tidy(model1)
 ```
 ---
 # Calculate Standard Error
+
 $$MS_{error} = \frac{SS_{error}}{df} = \frac{\sum_{i=1}^n{(y_i - \hat{y_i})^2} }{N - p}$$
 
 $$SE_{model} = \sqrt{MS_{error}}SE_{model} = \sqrt{MS_{error}}$$
@@ -909,15 +911,25 @@ r2<- SS_explained/SS_total
 --
 - $R^2$ of `r round(rq2, 3)` means 33% of variance in depressions scores is explained by meaning in life 
 ---
+# $$R^2_{adj}$$
+
+
+$$R^2_{adj} = 1 - \frac{SS_{unexplained}}{SS_{Total}} = \frac{SS_{explained}(n-K)}{SS_{Total}(n-1)}$$
+where: 
+
+- n = Sample size
+- K = # of predictors
+
+---
 # Regression Model
-
-- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
-
-    - Use the model summary, F-test, and $R^2$
 
 - How useful are each of the individual predictors for my model?
 
     - Use the coefficients and t-tests of the slopes
+
+- Is my overall model *(i.e., the regression equation)* useful at predicting the outcome variable?
+
+    - Use the model summary, F-test, and $R^2$
 ---
 # Overall Model Significance
 
@@ -931,6 +943,14 @@ r2<- SS_explained/SS_total
     
 - Generally, this form does not include two tailed tests because the math is squared, so it is impossible to get negative values in the statistical test
 
+---
+# F-distribution
+
+```{r, echo=FALSE, fig.align='center', out.width="60%"}
+
+knitr::include_graphics('images/fdis.png')
+
+```
 ---
 # F-Statistic, Explained Over Unexplained
 
@@ -965,16 +985,15 @@ ms_error <- performance_mse(model1)
 
 1. Linearity
 
-2. Normality of errors (on the residuals)
+2. Independence of errors
 
-3. Equal variances (Homoscedacity)
+  - There is not a relationship between the residuals and the variable  
+
+3. Normality of errors (on the residuals)
+
+4. Equal variances (Homoscedacity)
 
   - The variance of the residuals is the same for all values of X
-
-4. Independence of errors
-
-  - There is not a relationship between the residuals and the variable
-
 ---
 # Assumptions: Linearity
 
@@ -1028,60 +1047,120 @@ knitr::include_graphics('images/candy.jpeg')
 
 - `r report(model1)`
 ---
-# Your turn
-
-- Download the lab activity from Canvas
-
----
 class: middle
 
-# Multiple Continuous Predictors
+# Linear Modeling with multiple continuous predictors
+
+---
+# Simple Linear Model
+
+```{r echo=FALSE, out.width="50%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('images/Pxy.png')
+```
+---
+# Multiple Predictors in Linear Regression
+
+```{r echo=FALSE, out.width="30%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('images/xymult.png')
+```
 ---
 # Multiple Regression Example
 
+$$\begin{align}
+Y &= \beta_0 + \beta_1 X + \varepsilon\\
+\varepsilon &\sim N(0, \sigma^2)
+\end{align}$$
+
  $$\hat{Y}_i = b_0 + b_1X_1i + b_2X_2i + b_3X_3i+...+B_kX_k \varepsilon_i$$
  
-- Adding predictors to our linear equation
+- Simple as adding predictors to our linear equation
 
 ---
 # Multiple regression equation
 
-$\hat{Ŷ}$ = predicted value on the outcome variable Y
-$B_0$ = predicted value on Y when all X = 0
-$X_k$ = predictor variables
-$B_k$ = unstandardized regression coefficients
-$Y - Ŷ$ = residual (prediction error)
-$k$ = the number of predictor variables
+$$\hat{Y}_i = b_0 + b_1X_1i + b_2X_2i + b_3X_3i+...+B_kX_k \varepsilon_i$$
+ 
+- $\hat{Y}$ = predicted value on the outcome variable Y
+- $B_0$ = predicted value on Y when all Xs = 0
+- $X_k$ = predictor variables
+- $b_k$ = unstandardized regression coefficients
+- $k$ = the number of predictor variables
 
+---
+# Straight Line to Hyperplane
+
+.pull-left[
+-  2 predictors - 2-D Plane in 3-D
+
+- Intercept α ($b_0) predicts where the regression plane crosses the Y axis
+
+- Slope for variable X1 ($b_1$) predicts the change in Y per unit X1 holding X2 constant
+
+- The slope for variable X2 ($b_2$) predicts the change in Y per unit X2 holding X1 constant
+]
+
+.pull-right[
+
+```{r echo=FALSE, out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('images/plane.png')
+```
+]
 ---
 # Multiple Regresson: Example 
 
+```{r}
+model2 <- lm(CESD_total~PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, data=master)
+
+```
+
+$$\operatorname{CESD\_total} = \alpha + \beta_{1}(\operatorname{PIL\_total}) + \beta_{2}(\operatorname{AUDIT\_TOTAL\_NEW}) + \beta_{3}(\operatorname{DAST\_TOTAL\_NEW}) + \epsilon$$
 - Mental Health and Drug Use:
     
     - CESD = depression measure
     - PIL total = measure of meaning in life
     - AUDIT total = measure of alcohol use 
     - DAST total = measure of drug usage
+---
 
-```{r}
-master <- haven::read_spss(here::here("static", "slides", "10-linear_modeling", "data", "regression_data.sav"))
-master <- master[ , c(8:11)]
-str(master)
+# Scatterplot
+
+```{r, fig.align='center', out.width="80%"}
+# Change the point sizes manually
+
+anim.1<- ggplot(master, aes(x=AUDIT_TOTAL_NEW, y=CESD_total))+
+   geom_point()
+
+anim.1
 ```
 ---
-# Linear Model Assumptions (more than one variable)
+# Scatterplot
 
-1. Linearity
-2. Normality of residuals
-3. Homogeneity of residual variance (“homoskedasticity”)
-4. Independence of residuals
-5. No missingness
-6. No outliers
-6. Additive (more than one variable)
-7. Factors are not correlated with one another(multicollinearity) (more than one variable)
+```{r, fig.align='center', out.width="80%"}
+# Change the point sizes manually
 
+anim.1<- ggplot(master, aes(x=DAST_TOTAL_NEW, y=CESD_total))+
+   geom_point()
+
+anim.1
+```
 ---
-# Assumptions
+# Linear Model Assumptions (multiple predictors)
+
+- Linearity
+- Independence of residuals
+- Normality of residuals
+- Equal error (“homoskedasticity”)
+- Additive (more than one variable)
+
+Problems: 
+- Missingness
+- Factors are not correlated with one another(multicollinearity) (more than one variable)
+- No outliers
+---
+# Problems
 
 - Missingness
 
@@ -1092,72 +1171,13 @@ nrow(master)
 nrow(nomiss)
 ```
 ---
-# Assumptions
-
-  - Additivity
-  
-    - Implies that for an existing model, the effect of a predictor on a response variable (whether it be linear or non-linear) is not affected by changes in other existing predictors.
-
----
-# Assumptions
-
-- Linearity
-
-  - Check (use a plot) that your variables are linearly related
-  
-```{r, echo=FALSE, fig.align='center', out.width="70%"}
-
-library(GGally)
-ggpairs(master)
-```
---- 
-# Assumptions
-
-- Normality
-
-**Applies to residuals and not the distribution of the data**
-  
-```{r echo=TRUE, message=FALSE, warning=FALSE}
-model1 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
-             data = nomiss)
-check_normality(model1)
-```
-
----
-# Assumptions
-
-- Homogeneity & Homoscedasticity
-
-  - Constant error variance 
-
-```{r, fig.align='center', out.width="80%"}
-knitr::include_graphics("images/homohetero.svg")
-```
-
----
-# Assumptions
-
-- Homogeneity & Homoscedasticity
-
-```{r, eval=FALSE}
-#easystats
-
-performance::check_homogeneity(model2)
-
-```
-
----
 # Problems
 
-- Multicolinearity: 
-
-- Collinearity 
-
-  - Two predictors A and B are collinear if there is a linear combination of A and B that equals zero for all data
+- Multicolinearity 
 
   - You want X and Y to be correlated
 
-  - You do not want the Xs to be highly correlated 
+  - You do not want the Xs to be highly correlated
 
 ---
 # Multicolinearity 
@@ -1173,14 +1193,16 @@ performance::check_homogeneity(model2)
 ---
 # Multicolinearity
 
-- Assumption 
+- Tolerance 
 
-  - VIF (variance inflation factor)
+$$tolerance=1- R^2$$
+
+- VIF (variance inflation factor)
   
 $$VIF=\frac{1}{1- R^2}$$
-    - Rule of thumb:
-    
-      -  > 10 indicates issues
+  - Rule of thumb:
+  
+    -  >10 indicates issues
 ---
 # Multicolinearity
 
@@ -1194,22 +1216,21 @@ $$VIF=\frac{1}{1- R^2}$$
   
   - Depends: Increase sample size
   
-  - Depends: Orthogonalize predictor experimentally
+  - Depends: Orthogonalize predictors experimentally
   
   - Depends: Use alternative approaches, such as ridge regression or LASSO
   
 *Do not residualize*
 
 ---
-# Assumptions
+# Problems
 
-- Multicolinearity
+- Check multicolinearity in your data
 
-```{r}
+```{r, fig.align='center', out.width="80%"}
 #easystats performance package
-check_collinearity(model1)
+plot(check_collinearity(model2))
 ```
-
 ---
 # Problems: Influential points
 
@@ -1219,9 +1240,8 @@ check_collinearity(model1)
     - Leverage scores
     - Cook's distance
 
-- Because we are using regression as our model, we may consider using multiple checks before excluding outliers. 
 ---
-# Example: Mahalanobis 
+# Mahalanobis Distance 
 
 - The `mahalanobis()` function 
 
@@ -1238,21 +1258,21 @@ badmahal <- as.numeric(mahal > cutmahal) ##note the direction of the >
 table(badmahal)
 ```
 ---
-# Example: Other Outliers
+# Other Outliers
 
-- To get the other outlier statistics, we have to use the regression model we wish to test. - We will use the `lm()` function with our regression formula
+- To get the other outlier statistics, we have to use the regression model we wish to test. 
 
-- `Y ~ X + X`: Y is approximated by X plus X
+- We will use the `lm()` function with our regression formula
 
-- So we will predict depression scores (CESD) with meaning, drugs, and alcohol.
+- So we will predict depression scores (CESD) with meaning, drugs, and alcohol 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-model1 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
+model3 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
              data = nomiss)
 ```
 
 ---
-# Example: Leverage 
+# Leverage 
 
 - Influence of that data point on the slope
 
@@ -1264,37 +1284,35 @@ model1 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
     - K is the number of predictors
     - N is the sample size 
 ---
-#  Example: Leverage 
+# Leverage 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 k <- 3 ##number of IVs
-leverage <- hatvalues(model1)
+leverage <- hatvalues(model3)
 cutleverage <- (2*k+2) / nrow(nomiss)
 badleverage <- as.numeric(leverage > cutleverage)
 table(badleverage)
 ```
 ---
-# Example: Cook's Distance 
+# Cook's Distance 
 
 - Influence **(Cook's Distance)** 
 
-  - a measure of how much of an effect that single case has on the whole model 
+  - A measure of how much of an effect that single case has on the whole model 
   
   - Often described as leverage + discrepancy 
-
 - How do we calculate how much change is bad?
   
     - $\frac{4}{N-K-1}$
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-cooks <- cooks.distance(model1)
+cooks <- cooks.distance(model3)
 cutcooks <- 4 / (nrow(nomiss) - k - 1)
 badcooks <- as.numeric(cooks > cutcooks)
 table(badcooks)
-
 ```
 ---
-# Example: Outliers Combined
+# Combine Outlier Metrics
 
 - What do I do with all these numbers?
 
@@ -1309,34 +1327,93 @@ totalout <- badmahal + badleverage + badcooks
 
 table(totalout)
 
-noout <- subset(nomiss, totalout < 2)
+noout <- filter(nomiss, totalout <= 2)
+
 ```
 ---
-# Assumptions
+# Run Model Again 
 
 - Now that we got rid of outliers, we need to run that model again, without the outliers
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-model2 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
+model4 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, 
              data = noout)
 ```
 ---
+# Assumptions
+
+  - Additivity
+  
+    - Implies that for an existing model, the effect of a predictor on a response variable (whether it be linear or non-linear) is not affected by changes in other existing predictors.
+
+---
+# Assumptions
+
+- Linearity
+
+  - Check (use a plot) that your variables are linearly related
+  
+```{r, echo=TRUE, fig.align='center', out.width="60%"}
+
+library(GGally)
+ggpairs(master)
+```
+---
+# Assumptions
+
+- Normality
+
+**Applies to residuals and not the distribution of the data**
+  
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.align='center', out.width="70%"}
+model4 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
+             data = noout)
+
+plot(check_normality(model4))
+```
+
+---
+# Assumptions
+
+.pull-left[
+- Homogeneity & Homoscedasticity
+
+  - Constant error variance
+  ]
+.pull-right[
+```{r, fig.align='center', out.width="80%"}
+knitr::include_graphics("images/homohetero.svg")
+```
+]
+---
+# Assumptions
+
+- Homogeneity & Homoscedasticity
+
+  - Uses Levene's test (we know that one) or Bartlett's test
+
+```{r, eval=FALSE}
+#easystats
+performance::check_homogeneity(model4)
+```
+
+---
 # Check Assumptions
 
-```{r}
-check_normality(model2)
-check_heteroscedasticity(model2)
-check_autocorrelation(model2)
-check_collinearity(model2)
+```{r, message=FALSE}
+check_normality(model4)
+check_heteroscedasticity(model4)
+check_collinearity(model4)
 ```
 ---
 # Check Assumptions
 
-```{r, fig.align='center',out.width="50%"}
-check_model(model2)
+```{r echo=FALSE, out.width="100%",fig.cap="",fig.show='hold',fig.align='center'}
+
+knitr::include_graphics('images/performance_check_model_plot.webp')
 ```
 ---
-# Example: Assumption Alternatives
+# Assumption Alternatives
 
 - If your assumptions go wrong:
 
@@ -1346,28 +1423,66 @@ check_model(model2)
     
     - Homogeneity/Homoscedasticity - bootstrapping
     
-      - Use robust method for SE
+      - Use robust methods for SE
         - model_parameters(model, vcov = "HC3")
     
     - Multicolineary - drop one of the predictors; ridge regression; lasso regression
----
-# ANOVA
-
-```{r}
-
-anova(model2) %>%
-tidy()
-
-```
 ---
 # Individual Predictors
 
 - We test the individual predictors with a t-test:
   
     - $t = \frac{b}{SE}$
-    - Therefore, the model for each individual predictor is our coefficient b. 
+    
+    - Therefore, the model for each individual predictor is our coefficient b
+    
     - Single sample t-test to determine if the b value is different from zero
     
+---
+# Overall Model Fit
+
+- Is the overall model significant?
+
+```{r}
+summary(model4)
+```
+
+---
+```{r}
+library(papaja)
+apa_style <- apa_print(model4)
+apa_style$full_result$modelfit
+```
+- `r apa_style$full_result$modelfit`
+---
+# Predictors
+
+- What about the predictors?
+
+```{r}
+summary(model2) %>%
+tidy()
+```
+---
+# Predictors
+
+```{r}
+apa_style$full_result$PIL_total
+apa_style$full_result$AUDIT_TOTAL_NEW
+apa_style$full_result$DAST_TOTAL_NEW
+```
+
+- Meaning: `r apa_style$full_result$PIL_total`
+- Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`
+- Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`
+---
+# Predictors
+
+- Two concerns:
+
+    - What if I wanted to use beta because these are very different scales?
+    
+    - What about an effect size for each individual predictor?
 ---
 # Individual Predictors: Standardization 
 
@@ -1386,57 +1501,15 @@ tidy()
     
     - $\beta$ is more interpretable given differences in scales for different variables
 ---
-# Example: Overall Model
-
-- Is the overall model significant? Yes!
-
-```{r}
-summary(model2) %>%
-  tidy()
-
-library(papaja)
-apa_style <- apa_print(model2)
-apa_style$full_result$modelfit
-```
-
-- `r apa_style$full_result$modelfit`
-
-- `r report(model2)`
----
-# Example: Predictors
-
-```{r}
-summary(model2) %>%
-tidy()
-```
----
-# Example: Predictors
-
-```{r}
-apa_style$full_result$PIL_total
-apa_style$full_result$AUDIT_TOTAL_NEW
-apa_style$full_result$DAST_TOTAL_NEW
-```
-
-- Meaning: `r apa_style$full_result$PIL_total`
-- Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`
-- Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`
----
-# Example: Predictors
-
-- Two concerns:
-
-    - What if I wanted to use beta because these are very different scales?
-    - What about an effect size for each individual predictor?
----
 # Beta
 
 ```{r}
 #easystats
+library(parameters)
 standardize_parameters(model2)
 ```
 ---
-# Effect Size 
+# The Impact of Individual Predictors on the Model: Effect Size
 
 .pull-left[
 - R is the multiple correlation
@@ -1450,10 +1523,11 @@ knitr::include_graphics("https://raw.githubusercontent.com/doomlab/learnSTATS/ma
 ```
 ]
 ---
-# Example: Effect Size 
+# Effect Size 
 
 .pull-left[
 - sr is the semi-partial correlations 
+
 - Unique contribution of IV to $R^2$ for those IVs
 
 - Increase in proportion of explained Y variance when X is added to the equation
@@ -1467,21 +1541,25 @@ knitr::include_graphics("https://raw.githubusercontent.com/doomlab/learnSTATS/ma
 ```
 ]
 ---
-# Example: Effect Size 
+# Effect Size 
 
 .pull-left[
+
 - pr is the partial correlation
 
-- Proportion in variance in Y not explained by other predictors but this X only
+- Partial correlation asks how much of the Y variance, which is not estimated by the other IVs, is estimated by this variable.
 
 - $A/(A+D)$
+
+- Removes the shared variance of the control variable (Say X2) from both Y and X1.
+
 - Pr > sr
 ]
 
 .pull-right[
 
 ```{r, echo = FALSE, out.width="100%", fig.align='center'}
-knitr::include_url("https://github.com/doomlab/learnSTATS/blob/master/vignettes/pictures/regression/19.PNG")
+knitr::include_graphics("https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG")
 ```
 ]
 ---
@@ -1489,12 +1567,46 @@ knitr::include_url("https://github.com/doomlab/learnSTATS/blob/master/vignettes/
 
 - We would add these to our other reports:
 
-    - Meaning: `r apa_style$full_result$PIL_total`, $pr^2 = .30$
-    - Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`, $pr^2 < .01$
-    - Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`, $pr^2 < .01$
+    - Meaning: `r apa_style$full_result$PIL_total`, $pr^2 = .30$`
+    - Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`, $pr^2 < .01$`
+    - Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`, $pr^2 < .01$`
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(ppcor)
 partials <- pcor(noout)
 partials$estimate^2
+
+#spcor.test (semi-partial)
 ```
+
+---
+# Multiple Regression: Power
+
+- We can use the `pwr` library to calculate the required sample size for any particular effect size
+
+- First, we need to convert the $R^2$ value to $f^2$, which is a different effect size, not the ANOVA *F*
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(pwr)
+R2 <- model2$r.squared
+f2 <- R2 / (1-R2)
+R2
+f2
+```
+---
+# Multiple Regression: Power
+
+- `u` is degrees of freedom for the model, first value in the F-statistic
+- `v` is degrees of freedom for error, but we are trying to figure out sample size for each condition, so we leave this one blank. 
+- `f2` is the converted effect size.
+- `sig.level` is our $\alpha$ value
+- `power` is our power level
+- The final sample size is *v + k + 1 where k is the predictors*
+
+```{r, eval=FALSE}
+#f2 is cohen f squared 
+pwr.f2.test(u = model2$df[1], 
+            v = NULL, f2 = f2, 
+            sig.level = .05, power = .80)
+```
+
