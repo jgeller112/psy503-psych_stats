@@ -121,11 +121,11 @@ lessons:
     reading: "08-reading"
     hasclass: True
     
-  - title: "Comparing Three Means (Between and Within ANOVA)"
+  - title: "More LM: Categorical Predictors"
     date: "Week 9 [MW, 10/31-11/02]"
     slides: ""
     notes: ""
-    reading: ""
+    reading: "09-reading"
     hasclass: False
     
   - title: "Interactions"

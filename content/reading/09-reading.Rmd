@@ -1,0 +1,10 @@
+---
+title: "09-Readings"
+---
+#  More LM - Categorical Prediction
+
+[Brehm & Alday 2022](/readings_pdf/contrast_coding.pdf)
+
+Websites: 
+
+https://debruine.github.io/faux/dev/articles/contrasts.html
