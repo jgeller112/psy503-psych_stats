@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 503: Foundations of Statistical Methods in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
+    <script src="More_LM_categorical_files/header-attrs/header-attrs.js"></script>
+    <link href="More_LM_categorical_files/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link href="More_LM_categorical_files/tabwid/tabwid.css" rel="stylesheet" />
+    <link href="More_LM_categorical_files/tabwid/scrool.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# PSY 503: Foundations of Statistical Methods in Psychological Science
+]
+.subtitle[
+## More LM: Categorical Predictors
+]
+.author[
+### Jason Geller, Ph.D. (he/him/his)
+]
+.institute[
+### Princeton University
+]
+.date[
+### Updated:2022-10-30
+]
+
+---
+
+
+
+
+
+
+
+
+
+&lt;div style = "position:fixed; visibility: hidden"&gt;
+`$$\require{color}\definecolor{red}{rgb}{1, 0, 0}$$`
+`$$\require{color}\definecolor{green}{rgb}{0, 1, 0}$$`
+`$$\require{color}\definecolor{blue}{rgb}{0, 0, 1}$$`
+&lt;/div&gt;
+
+&lt;script type="text/x-mathjax-config"&gt;
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      red: ["{\\color{red}{#1}}", 1],
+      green: ["{\\color{green}{#1}}", 1],
+      blue: ["{\\color{blue}{#1}}", 1]
+    },
+    loader: {load: ['[tex]/color']},
+    tex: {packages: {'[+]': ['color']}}
+  }
+});
+&lt;/script&gt;
+
+&lt;style&gt;
+.red {color: #FF0000;}
+.green {color: #00FF00;}
+.blue {color: #0000FF;}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+
+
+
+---
+# Outline
+
+- Check-in questions
+
+- Effect size and power in MR
+
+- Categorical predictors
+
+  - How linear modeling is related to t-tests/ANOVAs
+  
+  - Contrast coding for two means 
+    
+  - Contrast coding &gt; 2 means
+---
+# Check-in Questions
+
+- What the heck is heteroskedasticity?
+
+---
+# Heteroskedasticity
+
+- Non-constant error (residual) variance
+
+  - Residuals and predictors are correlated
+
+&lt;img src="hetero.webp" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+# Heteroskedasticity
+
+- Consequences:
+
+  - Causes stahdard errors (SE) to be unreliable
+  
+    - Increased Type 1 and Type 2 Error
+
+- Solution:
+
+  - Easiest would be to use robust methods for the SE     
+---
+.pull-left[
+
+```r
+library(performance)
+model_parameters(model2) %&gt;%
+  flextable() %&gt;%
+  autofit()
+```
+
+
+&lt;template id="fd23c39b-f5a7-4358-a400-a37b8f306d2b"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-3246070e{}.cl-3240c992{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3240da22{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3240da2c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-32410c0e{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c0f{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c18{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c19{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c22{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c23{width:82.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c24{width:274.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c25{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c2c{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c36{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c37{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c38{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c40{width:82.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c41{width:274.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c4a{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c4b{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c4c{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c54{width:82.3pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c55{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c5e{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c5f{width:274.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c60{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c68{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c69{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c6a{width:274.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c72{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c73{width:82.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c74{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c7c{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c7d{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c86{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c87{width:274.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c90{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c91{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-32410c92{width:82.3pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-3246070e'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-32410c91"&gt;&lt;p class="cl-3240da22"&gt;&lt;span class="cl-3240c992"&gt;Parameter&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c7d"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;Coefficient&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c7c"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c86"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;CI&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c7c"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;CI_low&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c7d"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;CI_high&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c92"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;t&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c90"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;df_error&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c87"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;p&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-32410c19"&gt;&lt;p class="cl-3240da22"&gt;&lt;span class="cl-3240c992"&gt;(Intercept)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c0e"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;55.16373592&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c18"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;3.88904610&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c22"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c18"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;47.5059719&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c0e"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;62.82149992&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c23"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;14.1843873&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c0f"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c24"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.0000000000000000000000000000000002841237&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-32410c38"&gt;&lt;p class="cl-3240da22"&gt;&lt;span class="cl-3240c992"&gt;PIL_total&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c37"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-0.38157775&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c2c"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.03384062&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c36"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c2c"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-0.4482119&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c37"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-0.31494356&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c40"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-11.2757330&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c25"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c41"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.0000000000000000000000026622090508643975&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-32410c4b"&gt;&lt;p class="cl-3240da22"&gt;&lt;span class="cl-3240c992"&gt;AUDIT_TOTAL_NEW&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c4c"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-0.09210892&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c5e"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.09391092&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c4a"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c5e"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-0.2770251&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c4c"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.09280729&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c54"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;-0.9808116&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c55"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c5f"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.3275904695939578781249679195752833038568&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-32410c74"&gt;&lt;p class="cl-3240da22"&gt;&lt;span class="cl-3240c992"&gt;DAST_TOTAL_NEW&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c68"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;1.03415391&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c72"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.39871264&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c60"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c72"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.2490649&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c68"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;1.81924291&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c73"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;2.5937324&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c69"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-32410c6a"&gt;&lt;p class="cl-3240da2c"&gt;&lt;span class="cl-3240c992"&gt;0.0100281479598650895973532826133123307955&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="87af7d6c-2ac0-45c3-9e8b-5c6d1aad85f3"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("87af7d6c-2ac0-45c3-9e8b-5c6d1aad85f3");
+var template = document.getElementById("fd23c39b-f5a7-4358-a400-a37b8f306d2b");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+]
+.pull-right[
+
+```r
+model_parameters(model2, vcov = "HC3") %&gt;% #get corrected SE# robust params
+flextable() %&gt;%
+  autofit()# robust params
+```
+
+
+&lt;template id="0262cef1-d88e-4b07-bb07-8841d40515fc"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-3261064e{}.cl-325c14d6{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-325c2110{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-325c211a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-325c4776{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4780{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4781{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c478a{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c478b{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4794{width:76.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4795{width:249.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4796{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c479e{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47a8{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47a9{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47aa{width:76.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47b2{width:249.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47b3{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47b4{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47bc{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47bd{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47c6{width:76.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47c7{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47c8{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47d0{width:249.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47d1{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47da{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47db{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47dc{width:249.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47e4{width:76.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47e5{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47ee{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47ef{width:84.8pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47f8{width:41.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c47f9{width:78.6pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4802{width:249.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4803{width:59pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c4804{width:126.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-325c480c{width:76.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-3261064e'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-325c4804"&gt;&lt;p class="cl-325c2110"&gt;&lt;span class="cl-325c14d6"&gt;Parameter&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47ef"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;Coefficient&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47f9"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47f8"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;CI&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47ef"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;CI_low&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47ef"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;CI_high&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c480c"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;t&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4803"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;df_error&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4802"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;p&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-325c478a"&gt;&lt;p class="cl-325c2110"&gt;&lt;span class="cl-325c14d6"&gt;(Intercept)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4776"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;55.16373592&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4781"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;4.20877887&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c478b"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4776"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;46.87639900&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4776"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;63.45107283&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4794"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;13.106827&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4780"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4795"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.000000000000000000000000000001603377&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-325c47a9"&gt;&lt;p class="cl-325c2110"&gt;&lt;span class="cl-325c14d6"&gt;PIL_total&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c479e"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-0.38157775&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47b3"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.03597990&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47a8"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c479e"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-0.45242431&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c479e"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-0.31073119&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47aa"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-10.605305&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c4796"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47b2"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.000000000000000000000425863763393213&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-325c47bc"&gt;&lt;p class="cl-325c2110"&gt;&lt;span class="cl-325c14d6"&gt;AUDIT_TOTAL_NEW&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47bd"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-0.09210892&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47c8"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.08647293&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47b4"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47bd"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-0.26237929&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47bd"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.07816145&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47c6"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;-1.065176&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47c7"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47d0"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.287776789141752753486969140794826671&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-325c47e5"&gt;&lt;p class="cl-325c2110"&gt;&lt;span class="cl-325c14d6"&gt;DAST_TOTAL_NEW&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47da"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;1.03415391&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47ee"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.48095976&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47d1"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.95&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47da"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.08711542&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47da"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;1.98119239&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47e4"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;2.150188&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47db"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;262&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-325c47dc"&gt;&lt;p class="cl-325c211a"&gt;&lt;span class="cl-325c14d6"&gt;0.032455663970932233097776986596727511&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="32eaf607-db87-4e41-b5db-b6697ea3a290"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("32eaf607-db87-4e41-b5db-b6697ea3a290");
+var template = document.getElementById("0262cef1-d88e-4b07-bb07-8841d40515fc");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+]
+---
+# Check-in Questions
+
+- What the heck is heteroskedasticity?
+
+- Assumptions of simple linear model
+
+---
+# Simple Linear Modeling Assumptions
+
+- Normality of residuals
+
+- Missingness
+
+- Outliers
+
+---
+# Burning Questions
+
+- What the heck is heteroskedasticity?
+
+- Assumptions of simple linear model
+
+- Difference between `\(\epsilon\)` and residual
+---
+# Errors
+
+- Error is basically an unobservable  quantity in our model
+
+  - We use residuals as a proxy
+---
+# Outliers
+
+&lt;img src="out.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+# Outliers: Discrepancy
+
+&gt; A data point that is unusual in the context of the least squares model 
+
+`$$e_i^* = \dfrac{e_i}{S_{E(-i)}\sqrt{1-h_i}}$$`
+
+&lt;img src="hdl.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Outliers: Leverage
+
+&gt; Leverage measures how far a data point is from the mean 
+
+`$$h_i = \dfrac{1}{n} + \dfrac{\left(x_i -\overline{x}\right)^2}{\sum_{j=1}^{n}{\left(x_j -\overline{x}\right)^2}} \qquad \text{and}\qquad \overline{h} = \dfrac{k}{n}  \qquad \text{and}\qquad \dfrac{1}{n} \leq h_i \leq 1.0$$`
+&lt;img src="hdl.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Cook's Distance
+
+- A measure of how much of an effect a single data point has on the whole model 
+  
+- Often described as leverage + discrepancy (residuals)
+  
+`$$D_i = \dfrac{e_i^2}{k \times \frac{1}{n}\sum{e_i^2}} \times \dfrac{h_i}{1-h_i}$$`
+`$$e_i^* = \dfrac{e_i}{S_{E(-i)}\sqrt{1-h_i}}$$`
+- How do we calculate how much change is bad?
+&lt;p align="center"&gt;
+    - `\(\frac{4}{N-K-1}\)`
+---
+# Calculate in R 
+
+
+```r
+augment(model) # in broom package
+```
+
+---
+# The Impact of Individual Predictors on the Model: Effect Size
+
+.pull-left[
+- R is the multiple correlation
+- `\(R^2\)` is the multiple correlation squared
+- All overlap in Y, used for overall model
+- `\(A+B+C/(A+B+C+D)\)`
+]
+
+.pull-right[
+&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Effect Size 
+
+.pull-left[
+
+- sr is the semi-partial correlations 
+
+- Unique contribution of IV to `\(R^2\)` for those IVs
+
+- Increase in proportion of explained Y variance when X is added to the equation
+
+- `\(A/(A+B+C+D)\)`
+]
+
+.pull-right[
+&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Effect Size 
+
+.pull-left[
+
+- pr is the partial correlation
+
+- Partial correlation asks how much of the Y variance, which is not estimated by the other IVs, is estimated by this variable.
+
+- `\(A/(A+D)\)`
+
+- Removes the shared variance of the control variable (Say X2) from both Y and X1
+
+- Pr &gt; sr
+]
+
+.pull-right[
+
+&lt;img src="https://raw.githubusercontent.com/doomlab/learnSTATS/master/vignettes/pictures/regression/19.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Partial Correlations
+
+- We would add these to our other reports:
+
+    - Meaning: `\(b = -0.38\)`, 95\% CI `\([-0.45, -0.31]\)`, `\(t(262) = -11.28\)`, `\(p &lt; .001\)`, `\(pr^2 = .30\)``
+    - Alcohol: `\(b = -0.09\)`, 95\% CI `\([-0.28, 0.09]\)`, `\(t(262) = -0.98\)`, `\(p = .328\)`, `\(pr^2 &lt; .01\)``
+    - Drugs: `\(b = 1.03\)`, 95\% CI `\([0.25, 1.82]\)`, `\(t(262) = 2.59\)`, `\(p = .010\)`, `\(pr^2 &lt; .01\)``
+
+
+```r
+library(ppcor)
+partials &lt;- pcor(master)
+partials$estimate^2
+#spcor.test (semi-partial)
+```
+
+---
+# Multiple Regression: Power
+
+- We can use the `pwr` library to calculate the required sample size for any particular effect size
+
+- First, we need to convert the `\(R^2\)` value to `\(f^2\)`, which is a different effect size, not the ANOVA *F*
+
+
+```r
+library(pwr)
+R2 &lt;- model2$r.squared
+f2 &lt;- R2 / (1-R2)
+R2
+```
+
+```
+## NULL
+```
+
+```r
+f2
+```
+
+```
+## numeric(0)
+```
+---
+# Multiple Regression: Power
+
+- `u` is degrees of freedom for the model, first value in the F-statistic
+- `v` is degrees of freedom for error, but we are trying to figure out sample size for each condition, so we leave this one blank. 
+- `f2` is the converted effect size.
+- `sig.level` is our `\(\alpha\)` value
+- `power` is our power level
+- The final sample size is *v + k + 1 where k is the predictors*
+
+
+```r
+#f2 is cohen f squared 
+pwr.f2.test(u = model2$df[1], 
+            v = NULL, f2 = f2, 
+            sig.level = .05, power = .80)
+```
+
+---
+class: middle
+# Categorical Predictors
+---
+# Modeling Categorical Variables
+
+- Today's Dataset
+
+  - Winter(2016)
+
+    - Are smell words (e.g., *rancid*) rated as more negative/unpleaseant than taste words (e.g., *sweet*)?
+    
+    - 1 to 9 rating scale
+   
+
+```r
+library(tidyverse)
+senses&lt;- read_csv("data/winter_2016_senses_valence.csv")
+
+senses_filt &lt;- senses %&gt;%
+  filter(Modality=="Taste" | Modality=="Smell")
+```
+
+---
+# Linear Model
+
+&lt;br&gt;
+&lt;br&gt;
+
+`$$\red{Y_i} = \beta_0 + \beta_1 \blue{X_i} + \green{\varepsilon_i}$$`
+
+--
+
+- So far .blue[predictor variable] has been continuous
+
+--
+
+- We can also use linear modeling for categorical variables
+
+---
+# Categorical Variables?
+
+- Terminology
+
+  - *Factor*: a variable with a fix set of categories
+  
+  - *Levels*: The individual categories within a factor
+
+--
+
+- In our dataset, what is the factor and what are its levels?
+---
+# Linear Modeling and t-tests/ANOVAs 
+
+What do we do in linear modeling?
+
+- Fit a line (least squares method)
+
+  - Describe relationships
+  - Prediction
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-19-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# Linear Modeling and *t*-tests/ANOVAs 
+
+Within a t-test/ANOVA framework we want to know if means differ between groups 
+
+
+```r
+t.test() # test mean differences
+```
+
+
+
+```r
+senses_filt %&gt;%
+  ggplot(aes(x=Modality, y = Val)) + 
+   geom_point2(size = 4, alpha = 0.3) + 
+   stat_summary(fun.y = mean, color = "black", geom ="point", aes(group = 1), size = 9,
+                   show.legend = FALSE, colour="red")
+```
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-21-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+# Linear Modeling and t-tests/ANOVAs 
+
+- First, calculate `\(SS_{total}\)`
+
+.pull-left[
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-22-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+.pull-left[
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-23-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Fit a line
+
+- Find line using least squares regression
+
+  - Mean is best line fit
+
+.pull-left[
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Fit a line
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.pull-left[
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+```r
+library(see)
+
+senses_filt_mean &lt;- senses_filt %&gt;%
+  group_by(Modality) %&gt;%
+  summarize(mean=mean(Val))
+
+senses_filt %&gt;%
+  ggplot(aes(x=Modality, y = Val)) + 
+   geom_point2(size = 4, alpha = 0.3) + 
+   stat_summary(fun.y = mean, color = "black", geom ="point", aes(group = 1), size = 5,
+                   show.legend = FALSE) + 
+   stat_summary(fun="mean", geom="segment", mapping=aes(xend=..x.. - 0.25, yend=..y..), color="blue", size=3) + 
+  stat_summary(fun="mean", geom="segment", mapping=aes(xend=..x.. + 0.25, yend=..y..), color="blue", size=3)
+```
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-28-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Single Line
+
+- We have two equations 
+
+  - `\(y = b_0\)` = intercept(mean of smell)
+  
+  - `\(y = b_0\)` = intercept(mean of touch)
+  
+- How do we get one linear equation?
+---
+class:middle
+# Dummy Coding/Treatment Coding
+---
+# Dummy Coding/Treatment Coding
+
+- R's default system
+
+    - 0’s and 1’s, with reference level at intercept
+
+    - R does this automatically (0 = whatever comes first alphabetically)
+
+        - Smell = 0 
+  
+       - Taste = 1
+
+`$$\operatorname{Val} = \alpha + \beta_{1}(X_i) + \epsilon$$`
+&lt;p align="center"&gt;
+`\(X_i\)` = Indicator of group (0 or 1)
+---
+# Dummy Coding/Treatment Coding
+
+- Prediction for Smell ($X_i =0$)
+
+`$$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Taste}}0) + \epsilon$$`
+$$
+\operatorname{\bar{Y}} = \alpha(Smell_{mean})
+$$
+- Prediction for Taste ($X_i =1$)
+
+`$$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Taste}}1) + \epsilon$$`
+`$$\operatorname{\bar{Y}{taste}} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Taste}}1) + \epsilon$$`
+
+---
+# Dummy Coding By Hand
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.pull-left[
+
+```r
+senses_dum &lt;- senses_filt %&gt;%
+  mutate(mod=ifelse(Modality=="Smell", 0, 1))
+```
+]
+
+.pull-right[
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Categorical Contrast Coding
+
+`$$slope=\frac{\mu_{diff}}{run}$$` 
+.pull-left[
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-31-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+&lt;img src="twomean.JPG" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Dummy Coded Regression
+
+
+```r
+lm(Val ~ Modality, data=senses_filt)
+```
+
+--
+
+- Intercept: `\(\bar{Y} = b_0\)`(Smell) = 5.47
+
+- Slope ($b_1$): Valance of taste words are .337 higher
+
+  - One unit increase (going from 0 to 1; from Smell to Taste) associated with .337 increase in valance scores (mean difference)
+
+- Adding intercept and slope together will give us mean valence of taste words 
+
+---
+# Change Reference Level
+.pull-left[
+
+```r
+senses_dum &lt;- senses_filt %&gt;%
+  mutate(mod=factor(Modality)) %&gt;% 
+  mutate(mod1=relevel(mod, ref="Taste")) # relevel the var 
+contrasts(senses_dum$mod1)
+```
+
+```
+##       Smell
+## Taste     0
+## Smell     1
+```
+
+```r
+contrasts(senses_dum$mod)
+```
+
+```
+##       Taste
+## Smell     0
+## Taste     1
+```
+]
+.pull-right[
+
+
+```r
+lm(Val ~ mod, data=senses_dum)
+```
+
+]
+
+---
+class:middle 
+
+# Effects Coding/Sum Coding
+
+---
+# Effects Coding/Sum Coding
+
+- So far the intercept at 0 has referred to a particular baseline or reference level
+
+--
+
+- Centering (subtracting mean from each value) changes the intercept to correspond to the overall mean
+
+  - While mostly done for continuous variables, you can apply centering to categorical variables
+---
+# Effects Coding/Sum Coding (.5, -.5)
+
+- Mean of dummy coded variable is = .5
+
+  - Subtract .5 from (0, 1) and we get *+ 0.5* and *-0.5*
+
+- Y intercept is now the grand mean 
+
+`$$\frac{\mu_1 + \mu_2}{2}$$`
+- Slope is still the difference!
+
+
+```r
+senses_filt_sum &lt;- senses_filt %&gt;%
+  mutate(mod_sum=as.factor(Modality), mod_sum_r = as.factor(Modality)) # add a new var to sum code
+
+contrasts(senses_filt_sum$mod_sum) &lt;- c(0.5, -0.5) # change 0 - 1 to +.5 and -.5
+```
+
+---
+# Effects Coding Results
+
+.pull-left[
+
+
+```r
+# reg regression
+lm(Val ~ Modality, data=senses_filt)
+```
+
+]
+
+.pull-right[
+
+
+```r
+# regression with sum coding (.5 - .5)
+lm(Val ~ mod_sum, data=senses_filt_sum)
+```
+]
+
+--
+
+- Intercept is grand mean (mean of means): `\(\hat \beta_0=5.64\)`
+
+- Mean of Smell: `\(\hat\beta_0+\hat\beta_1\times .5=5.64-0.33=5.47\)`
+
+- Mean of Taste: `\(\hat\beta_0+\hat\beta_1\times -.5=5.64-0.33=5.80\)`
+
+---
+# Default R behavior
+
+- Change levels from (0-1) to + (1 and -1)
+
+
+```r
+senses_filt_sum &lt;- senses_filt_sum %&gt;%
+  mutate(mod_sum55=ifelse(mod_sum=="Taste", .5, -.5), mod_sum11 = ifelse(mod_sum=="Taste", 1, -1)) # add a new var to sum code (1, -1)
+```
+
+---
+# Sum Coding (-1 + 1) Interpretation
+
+.pull-left[
+
+What does this do to our interpretation?
+
+- Intercept is now centered at 0
+
+- Slope rise is still the same (difference between categories) but: 
+
+  -  Stepping from one category to another (the run) results in overall change of 2 
+
+  - Results are halved
+]
+
+.pull-right[
+&lt;br&gt;
+&lt;br&gt;
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+---
+# Sum Coding (+1, -1) Model Results
+
+.pull-left[
+
+
+```r
+lm(Val ~ mod_sum55, data=senses_filt_sum)
+```
+]
+.pull-right[
+
+
+```r
+lm(Val ~ mod_sum11, data=senses_filt_sum)
+```
+
+--
+- Intercept is grand mean: `\(\hat\beta_0\)`=5.64
+
+- Mean of Smell: 
+
+- Mean of Taste:
+]
+---
+# Why -0.5 and +0.5?
+
+&lt;img src="contrastcodes.bmp" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# The General Linear F-Test
+
+- Can test overall influence for 2 or more levels of a factor
+
+- Test overall differences between the groups *F*-test
+ 
+- We can think about the hypotheses for the overall test being:
+---
+# Restricted Model
+
+`$$Y_{ij} = \mu + \epsilon$$`
+- Restricted model (Intercept-only): each score `\(Y_{ij}\)` is the result of a single population mean plus random error
+
+`$$SS_{error}(R)=\sum(y_i-\bar{y})^2=SS_{total}$$`
+where:
+
+`\(y_i\)` = observed value
+`\(\bar{y}\)` = mean value 
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-44-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Full Model
+
+`$$Y_{ij} = \mu_j + \epsilon$$`
+
+- Full model (all predictors/levels): each score `\(Y_ij\)` is the result of a different group mean plus random error
+
+`$$SSE(F)=\sum(y_{ij}-\hat{y}_{ij})^2=SSE$$`
+where:
+
+`\(i\)` = Person
+`\(j\)` = Group
+`\(y_i\)` = Observed value
+`\(\hat{y}\)` = Value estimated by regression line
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-45-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# F-ratio
+
+- F-ratio is measure of signal to noise
+
+`$$\begin{aligned} &amp;&amp;df_{R} = N - 1\\  &amp;&amp;df_{F} = N - a\\ &amp;&amp;SSE(R)=SS_{total}\\&amp;&amp;SSE(F)=SS_{error}\end{aligned}$$`
+`$$F^*=\left( \dfrac{SS_{total}-SS_{error}}{(df_R)-(df_F)}\right)\div\left( \dfrac{SS_{model}}{df_F}\right)=\frac{MSR}{MSE}$$`
+
+- If Full =  Restricted , then F=1
+
+- If Full &gt; Restricted, F &gt; 1 
+
+- If Full &lt; Restricted, F &lt; 1
+
+*Degrees of freedom: F(a-1, n - a)*
+
+---
+# Plotting Categorical Effects
+
+- Boxplot
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Violin Plots
+
+.pull-left[
+
+
+```r
+mod=lm(Val ~ Modality, data=senses_filt)
+
+means=modelbased::estimate_means(mod)
+
+d=ggplot(senses_filt, aes(x = Modality, y = Val)) +
+  # Add base data
+  geom_violin(aes(fill = Modality), color = "white") +
+  geom_jitter2(width = 0.05, alpha = 0.5) +
+
+  # Add pointrange and line from means
+  geom_line(data = means, aes(y = Mean, group = 1), size = 1) +
+  geom_pointrange(
+    data = means,
+    aes(y = Mean, ymin = CI_low, ymax = CI_high),
+    size = 1,
+    color = "white"
+  ) +
+  # Improve colors
+  scale_fill_material() +
+  theme_modern()
+```
+]
+
+&lt;br&gt;
+&lt;br&gt;
+
+.pull-right[
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-48-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Activity
+
+Mental Health and Drug Use
+
+- CESD: Depressions scores
+- unemp: 1=employed 0=unemployed
+
+
+```r
+d &lt;- read_csv("https://raw.githubusercontent.com/ASKurz/Applied-Longitudinal-Data-Analysis-with-brms-and-the-tidyverse/master/data/unemployment_pp.csv")
+```
+---
+# Activity
+
+1. Change `unemp` variable to a factor with categorical labels
+
+2. Calculate the mean for each group
+
+3. Dummy code the unemployment variable
+
+5. Run `lm` on the dummy coded variable
+
+6. Interpret the output 
+
+6. Run `lm` on the contrast coded (.5, -.5) variable
+
+7. Interpret the outputs 
+
+8. Use output to extract the means for each group only using the output. Are they similar to what you hand coded?
+
+9. Plot the results
+---
+# Linear Models with Multiple Levels
+
+- So far we have only been looking at two levels
+
+- We easily can extend linear modeling approach to multiple levels
+
+- Let's go back to our sense data
+
+  - Before filtering it down to 2 senses it had 5 senses!
+
+
+```r
+senses&lt;- read_csv("data/winter_2016_senses_valence.csv")
+
+glimpse(senses)
+```
+
+```
+## Rows: 405
+## Columns: 3
+## $ Word     &lt;chr&gt; "abrasive", "absorbent", "aching", "acidic", "acrid", "adhesi…
+## $ Modality &lt;chr&gt; "Touch", "Sight", "Touch", "Taste", "Smell", "Touch", "Taste"…
+## $ Val      &lt;dbl&gt; 5.398113, 5.876667, 5.233370, 5.539592, 5.173947, 5.240000, 5…
+```
+---
+Treatment/Dummy Coding: Multilevel Factors
+
+
+```r
+lm(Val~Modality, data=senses) %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-51">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.58&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0189</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">295&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ModalitySmell</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.109&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0564</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.93</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0549&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">ModalitySound</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.174&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0376</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-4.64</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.66e-06</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ModalityTaste</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.228&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0431</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.3&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.96e-07</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">ModalityTouch</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.0452</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0374</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1.21</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.227&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
+
+- What is going on here? There are only 4 levels, but we actually have 5 levels.
+
+---
+# Dummy Coding Extension
+
+1. Create one fewer dummy codes than levels (K (number of levels)-1)
+
+2. Choose one of your levels as baseline (default to 0 for whatever comes first alphabetically)
+
+3. Assign all zeros for this level across each dummy code
+
+4. For first dummy code, assign 1 to first group and 0s for rest of levels
+
+5. For the second dummy code, assign 1 to second group and 0s for rest of levels
+
+6. For third dummy code, assign 1 to third group and 0s for rest of levels
+
+7. For fourth dummy code, assign 1 to fourth group and 0s for rest of levels
+
+---
+# Dummy Coding
+
+.pull-left[
+
+
+```r
+contr.treatment(5)
+```
+
+```
+##   2 3 4 5
+## 1 0 0 0 0
+## 2 1 0 0 0
+## 3 0 1 0 0
+## 4 0 0 1 0
+## 5 0 0 0 1
+```
+]
+
+---
+# Linear Equation
+
+`$$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Smell}}) + \beta_{2}(\operatorname{Modality}_{\operatorname{Sound}}) + \beta_{3}(\operatorname{Modality}_{\operatorname{Taste}}) + \beta_{4}(\operatorname{Modality}_{\operatorname{Touch}}) + \epsilon$$`
+
+
+```r
+sense_ml &lt;- lm(Val~Modality, data=senses)
+```
+
+---
+&lt;img src="morethree.JPG" width="80%" style="display: block; margin: auto;" /&gt;
+---
+Hello Again Sums of Squares
+
+
+```r
+knitr::include_graphics("ss_aov.bmp")
+```
+
+&lt;img src="ss_aov.bmp" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Partitoning Variance
+&lt;img src="part.bmp" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# The General Linear F-Test
+
+- Useful if you have more than 2 levels for a factor
+
+- Test overall differences between the groups *F*-test
+ 
+- We can think about the hypotheses for the overall test being:
+
+`$$\operatorname{H_0} =  \beta_{1}(\operatorname{Modality}_{\operatorname{Smell}})= \beta_{2}(\operatorname{Modality}_{\operatorname{Sound}}) = \beta_{3}(\operatorname{Modality}_{\operatorname{Taste}}) = \beta_{4}(\operatorname{Modality}_{\operatorname{Touch}}) = \epsilon$$`
+         
+`$$H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5$$`
+
+`$$H_1:  b_1  \neq b_2 \neq b_3 \neq b_4 \neq b_5$$`
+- Analysis of Variance (ANOVA)
+---
+# Restricted Model
+
+`$$Y_{ij} = \mu + \epsilon$$`
+
+- Restricted model (Intercept-only): each score `\(Y_{ij}\)` is the result of a single population mean plus random error
+
+`$$SS_{error}(R)=\sum(y_i-\bar{y})^2=SS_{total}$$`
+where:
+
+`\(y_i\)` = observed value
+`\(\bar{y}\)` = mean value 
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-57-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Full Model
+
+.pull-left[
+`$$Y_{ij} = \mu_j + \epsilon$$`
+
+- Full model (all predictors/levels): each score `\(Y_ij\)` is the result of a different group mean plus random error
+
+`$$SSE(F)=\sum(y_{ij}-\hat{y}_{ij})^2=SSE$$`
+where:
+
+`\(i\)` = Person
+`\(j\)` = Group
+`\(y_i\)` = Observed value
+`\(\hat{y}\)` = Value estimated by regression line
+]
+
+
+.pull-right[
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-58-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+---
+# F-ratio
+
+- F-ratio is measure of signal to noise
+
+`$$\begin{aligned} &amp;&amp;df_{R} = N - 1\\  &amp;&amp;df_{F} = N - a\\ &amp;&amp;SSE(R)=SS_{total}\\&amp;&amp;SSE(F)=SS_{error}\end{aligned}$$`
+`$$F^*=\left( \dfrac{SS_{total}-SS_{error}}{(df_R)-(df_F)}\right)\div\left( \dfrac{SS_{model}}{df_F}\right)=\frac{MSR}{MSE}$$`
+
+- If Full =  Restricted , then F=1
+
+- If Full &gt; Restricted, F &gt; 1 
+
+- If Full &lt; Restricted, F &lt; 1
+
+*Degrees of freedom: F(a-1, n - a)*
+
+---
+.pull-left[
+
+
+```r
+lm(Val~Modality, data=senses) %&gt;%
+  summary()
+```
+
+```
+## 
+## Call:
+## lm(formula = Val ~ Modality, data = senses)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.99315 -0.16482 -0.02158  0.15920  1.15734 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    5.57966    0.01889 295.308  &lt; 2e-16 ***
+## ModalitySmell -0.10865    0.05643  -1.925   0.0549 .  
+## ModalitySound -0.17447    0.03758  -4.643 4.66e-06 ***
+## ModalityTaste  0.22846    0.04314   5.296 1.96e-07 ***
+## ModalityTouch -0.04523    0.03737  -1.210   0.2269    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2659 on 400 degrees of freedom
+## Multiple R-squared:  0.1455,	Adjusted R-squared:  0.137 
+## F-statistic: 17.03 on 4 and 400 DF,  p-value: 6.616e-13
+```
+]
+
+.pull-right[
+
+
+```r
+aov1&lt;-aov(Val~ 1, data=senses)
+
+aov2 &lt;- aov(Val~Modality, data=senses)
+
+anova(aov1, aov2)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-60">
+<col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Res.Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">RSS</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Sum of Sq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Pr(&gt;F)</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">404</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">33.1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;"></td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;"></td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">400</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">28.3</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.81</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">17</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6.62e-13</td></tr>
+</table>
+
+
+```r
+aov(Val~Modality, data=senses) %&gt;%
+  summary()
+```
+
+```
+##              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## Modality      4  4.815  1.2036   17.03 6.62e-13 ***
+## Residuals   400 28.274  0.0707                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+]
+
+---
+# Reporting 
+
+We fitted a linear model (estimated using OLS) to predict Val with Modality (formula: Val ~ Modality). The model explains a statistically significant and moderate proportion of variance (R2 = 0.15, F(4, 400) = 17.03, p &lt; .001, adj. R2 = 0.14). The model's intercept, corresponding to Modality = Sight, is at 5.58 (95% CI [5.54, 5.62], t(400) = 295.31, p &lt; .001). Within this model:
+
+  - The effect of Modality [Smell] is statistically non-significant and negative (beta = -0.11, 95% CI [-0.22, 2.29e-03], t(400) = -1.93, p = 0.055; Std. beta = -0.38, 95% CI [-0.77, 7.99e-03])
+  - The effect of Modality [Sound] is statistically significant and negative (beta = -0.17, 95% CI [-0.25, -0.10], t(400) = -4.64, p &lt; .001; Std. beta = -0.61, 95% CI [-0.87, -0.35])
+  - The effect of Modality [Taste] is statistically significant and positive (beta = 0.23, 95% CI [0.14, 0.31], t(400) = 5.30, p &lt; .001; Std. beta = 0.80, 95% CI [0.50, 1.09])
+  - The effect of Modality [Touch] is statistically non-significant and negative (beta = -0.05, 95% CI [-0.12, 0.03], t(400) = -1.21, p = 0.227; Std. beta = -0.16, 95% CI [-0.41, 0.10])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
+
+---
+# `afex` ANOVA package
+
+
+```r
+library(afex)
+
+one_fit &lt;- aov_ez("Word", "Val", data = senses, between = c("Modality"))
+
+afex_plot(one_fit, x="Modality")
+```
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-61-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+# Model Comparison Approach vs Traditional Approach to ANOVA
+
+- Traditional formulation of ANOVA asks the same question in a different way:
+
+  - Is the variability between groups (variance due to differences between groups)
+greater than expected on the basis of the within-group variability (the variability
+within a group) observed, and random sampling of group members?
+
+- Both use sum of squares
+- Both use F-statistic
+- F = MSR / MSE (Same Mean Squared Error on ANOVA table outputs)
+
+---
+# Post-Hoc Comparisons
+
+
+```r
+aov(Val~Modality, data=senses) %&gt;%
+  summary()
+```
+
+```
+##              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## Modality      4  4.815  1.2036   17.03 6.62e-13 ***
+## Residuals   400 28.274  0.0707                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+- The Modality factor is significant. Now what?
+
+---
+# Post-Hoc Comparisons
+
+- The best package ever created: `emmeans`
+
+- Allows one to extract marginal means for the model and also test comparisons of interest
+
+  - Get means for each group: 
+
+
+```r
+library(emmeans)
+
+aov_em &lt;- aov(Val~Modality, data=senses)
+
+# get our means 
+emmeans::emmeans(aov_em, specs = "Modality") %&gt;%
+  as.data.frame()%&gt;%
+  flextable::flextable()
+```
+
+
+&lt;template id="a1a25dbd-fbcc-485e-88e2-519be300698a"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-34e957cc{}.cl-34e5d4e4{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-34e5de76{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-34e5de80{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-34e602c0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34e602c1{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34e602ca{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34e602cb{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34e602cc{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34e602d4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-34e957cc'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34e602d4"&gt;&lt;p class="cl-34e5de76"&gt;&lt;span class="cl-34e5d4e4"&gt;Modality&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602cc"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;emmean&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602cc"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602cc"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;df&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602cc"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;lower.CL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602cc"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;upper.CL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34e602c1"&gt;&lt;p class="cl-34e5de76"&gt;&lt;span class="cl-34e5d4e4"&gt;Sight&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.579663&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;0.01889440&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.542518&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.616808&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34e602c1"&gt;&lt;p class="cl-34e5de76"&gt;&lt;span class="cl-34e5d4e4"&gt;Smell&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.471012&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;0.05317357&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.366477&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.575546&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34e602c1"&gt;&lt;p class="cl-34e5de76"&gt;&lt;span class="cl-34e5d4e4"&gt;Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.405193&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;0.03248092&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.341338&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.469047&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34e602c1"&gt;&lt;p class="cl-34e5de76"&gt;&lt;span class="cl-34e5d4e4"&gt;Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.808124&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;0.03878081&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.731884&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602c0"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.884364&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34e602cb"&gt;&lt;p class="cl-34e5de76"&gt;&lt;span class="cl-34e5d4e4"&gt;Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602ca"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.534435&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602ca"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;0.03224121&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602ca"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602ca"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.471052&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34e602ca"&gt;&lt;p class="cl-34e5de80"&gt;&lt;span class="cl-34e5d4e4"&gt;5.597818&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="474082d6-f2a1-4a67-80bc-b05dc2c75aee"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("474082d6-f2a1-4a67-80bc-b05dc2c75aee");
+var template = document.getElementById("a1a25dbd-fbcc-485e-88e2-519be300698a");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+---
+# Pairwise Tests
+
+- Get pairwise comparisons
+
+.pull-left[
+
+
+```r
+# get pairwise tests between all groups
+
+means1 &lt;- emmeans::emmeans(aov_em, specs = "Modality") %&gt;%
+
+pairs(means1)
+```
+]
+
+.pull-right[
+
+&lt;template id="94fe2751-c3e2-437a-9250-83053a73cce7"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-34fe2080{}.cl-34fa08ce{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-34fa1440{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-34fa144a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-34fa59d2{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34fa59d3{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34fa59dc{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34fa59dd{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34fa59e6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-34fa59e7{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-34fe2080'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34fa59e7"&gt;&lt;p class="cl-34fa1440"&gt;&lt;span class="cl-34fa08ce"&gt;Modality&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59e6"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;emmean&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59e6"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59e6"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;df&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59e6"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;lower.CL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59e6"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;upper.CL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34fa59d3"&gt;&lt;p class="cl-34fa1440"&gt;&lt;span class="cl-34fa08ce"&gt;Sight&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.579663&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;0.01889440&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.542518&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.616808&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34fa59d3"&gt;&lt;p class="cl-34fa1440"&gt;&lt;span class="cl-34fa08ce"&gt;Smell&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.471012&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;0.05317357&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.366477&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.575546&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34fa59d3"&gt;&lt;p class="cl-34fa1440"&gt;&lt;span class="cl-34fa08ce"&gt;Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.405193&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;0.03248092&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.341338&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.469047&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34fa59d3"&gt;&lt;p class="cl-34fa1440"&gt;&lt;span class="cl-34fa08ce"&gt;Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.808124&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;0.03878081&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.731884&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59d2"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.884364&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-34fa59dd"&gt;&lt;p class="cl-34fa1440"&gt;&lt;span class="cl-34fa08ce"&gt;Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59dc"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.534435&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59dc"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;0.03224121&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59dc"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59dc"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.471052&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-34fa59dc"&gt;&lt;p class="cl-34fa144a"&gt;&lt;span class="cl-34fa08ce"&gt;5.597818&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="8f6ce54d-235e-4522-a5ee-06b325c6fbeb"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("8f6ce54d-235e-4522-a5ee-06b325c6fbeb");
+var template = document.getElementById("94fe2751-c3e2-437a-9250-83053a73cce7");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+
+
+
+&lt;template id="a736325e-0705-448f-b486-f7b74dc8f1cf"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-350be666{}.cl-3507da8a{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3507e5de{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3507e5df{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-350818a6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-350818b0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-350818ba{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-350818bb{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-350818c4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-350818c5{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-350be666'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818c4"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;contrast&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818c5"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;estimate&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818c5"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818c5"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;df&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818c5"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;t.ratio&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818c5"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;p.value&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Sight - Smell&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.10865148&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.05643072&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;1.925396&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.3055011645361&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Sight - Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.17447036&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.03757671&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;4.643046&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.0000456942086&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Sight - Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-0.22846083&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.04313872&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-5.295957&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.0000019440745&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Sight - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.04522812&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.03736969&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;1.210289&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.7454337311622&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Smell - Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.06581888&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.06230922&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;1.056327&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.8286561493660&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Smell - Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-0.33711231&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.06581321&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-5.122259&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.0000046594174&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Smell - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-0.06342336&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.06218459&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-1.019921&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.8461335445944&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Sound - Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-0.40293120&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.05058618&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-7.965243&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.0000000000000&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818b0"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Sound - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-0.12924225&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.04576577&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;-2.823993&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818a6"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.0397092275599&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-350818bb"&gt;&lt;p class="cl-3507e5de"&gt;&lt;span class="cl-3507da8a"&gt;Taste - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818ba"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.27368895&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818ba"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.05043260&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818ba"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818ba"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;5.426827&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-350818ba"&gt;&lt;p class="cl-3507e5df"&gt;&lt;span class="cl-3507da8a"&gt;0.0000009903166&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="8ce1e7b6-6045-42d0-9bda-d7b801c8ac5c"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("8ce1e7b6-6045-42d0-9bda-d7b801c8ac5c");
+var template = document.getElementById("a736325e-0705-448f-b486-f7b74dc8f1cf");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+]
+---
+# Assumptions
+
+Assumptions for linear modeling still apply
+
+
+```r
+aov(Val~Modality, data=senses) %&gt;%
+check_model()
+```
+
+&lt;img src="More_LM_categorical_files/figure-html/unnamed-chunk-66-1.png" width="36%" /&gt;
+
+---
+# Effect Sizes
+
+partial-eta squared
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
