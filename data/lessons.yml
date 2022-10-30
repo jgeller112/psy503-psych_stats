@@ -128,7 +128,7 @@ lessons:
     reading: "09-reading"
     hasclass: False
     
-  - title: "Interactions"
+  - title: "Centerng, Linear and Nonlinear Transformations"
     date: "Week 10 [MW, 11/7-11/09]"
     slides: ""
     notes: ""
@@ -136,8 +136,8 @@ lessons:
     hasclass: True
     hasassignment: True
     
-  - title: "Comparing Means (*t*-tests and ANOVAs)"
-    date: "Week 11 [MW, 11/14]"
+  - title: "Interactions"
+    date: "Week 11 [M, 11/14]"
     slides: ""
     notes: ""
     reading: ""
@@ -145,14 +145,14 @@ lessons:
     hasassignment: True
   
   - title: "No Class - Psychonomics"
-    date: "Week 11 [MW, 11/16]"
+    date: "Week 11 [W, 11/16]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: FALSE
     hasassignment: FALSE
     
-  - title: "Comparing Means (Categorical variables, Interactions, and Contrast Coding)"
+  - title: "Interactions"
     date: "Week 12 [M, 11/21]"
     slides: ""
     notes: ""
@@ -160,15 +160,15 @@ lessons:
     hasclass: True
     hasassignment: True
     
-  - title: "Thanksgiving"
-    date: "Week 12 [W, 11/23]"
+  - title: "Thanksgiving No Class"
+    date: "Week 12 [MW, 11/23]"
     slides: ""
     notes: ""
     reading: ""
     hasclass: FALSE
     hasassignment: FALSE
     
-  - title: "Comparing Means (Categorical variables, Interactions, and Contrast Coding)"
+  - title: "Logistic Regression"
     date: "Week 13 [MW, 11/28-11/30]"
     slides: ""
     notes: ""
