@@ -5,6 +5,8 @@ title: "09-Readings"
 
 [Brehm & Alday 2022](/readings_pdf/contrast_coding.pdf)
 
-Websites: 
+[Nicenboim, Schad, Vasishth](https://vasishth.github.io/bayescogsci/book/ch-contr.html)
 
-https://debruine.github.io/faux/dev/articles/contrasts.html
+
+[Debrine](https://debruine.github.io/faux/dev/articles/contrasts.html)
+
