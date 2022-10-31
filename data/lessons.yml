@@ -124,6 +124,7 @@ lessons:
   - title: "More LM: Categorical Predictors"
     date: "Week 9 [MW, 10/31-11/02]"
     slides: ""
+    class: "11-Categorical Predictors/More_LM_categorical.html"
     notes: ""
     reading: "09-reading"
     hasclass: False
