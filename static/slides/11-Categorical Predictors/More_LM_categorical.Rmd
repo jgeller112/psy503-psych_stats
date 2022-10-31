@@ -174,7 +174,6 @@ model2 <- lm(CESD_total~PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW, data=maste
 apa_style <- apa_print(model2)
 
 ```
----
 # Outline
 
 - Check-in questions
@@ -185,9 +184,9 @@ apa_style <- apa_print(model2)
 
   - How linear modeling is related to t-tests/ANOVAs
   
-  - Contrast coding for two means 
+  - Contrast coding for categorical predictors with two means 
     
-  - Contrast coding > 2 means
+  - Contrast coding for categorical predictors with three means or more
 ---
 # Check-in Questions
 
@@ -211,7 +210,7 @@ knitr::include_graphics("hetero.webp")
 
 - Consequences:
 
-  - Causes stahdard errors (SE) to be unreliable
+  - Causes standard errors (SE) to be unreliable
   
     - Increased Type 1 and Type 2 Error
 
@@ -391,7 +390,9 @@ partials$estimate^2
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(pwr)
-R2 <- model2$r.squared
+r2=glance(model2)
+
+R2= r2$r.squared
 f2 <- R2 / (1-R2)
 R2
 f2
@@ -433,9 +434,7 @@ senses<- read_csv("data/winter_2016_senses_valence.csv")
 
 senses_filt <- senses %>%
   filter(Modality=="Taste" | Modality=="Smell")
-
 ```
-
 ---
 # Linear Model
 
@@ -453,7 +452,7 @@ $$\red{Y_i} = \beta_0 + \beta_1 \blue{X_i} + \green{\varepsilon_i}$$
 - We can also use linear modeling for categorical variables
 
 ---
-# Categorical Variables?
+# Categorical Variables
 
 - Terminology
 
@@ -471,10 +470,7 @@ What do we do in linear modeling?
 
 - Fit a line (least squares method)
 
-  - Describe relationships
-  - Prediction
-
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
                         X= c(3,5,4,2,6,7,8,9)) %>%
@@ -483,9 +479,7 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
 
 ggplot(some_data, aes(x=X, y=Y))+
   geom_point()+
-  geom_smooth(method='lm', se=FALSE)+
-  geom_point(aes(y=Y_pred), color='red') +
-  geom_segment(aes(xend = X, yend = Y-Y_error), alpha = .5)
+  geom_smooth(method='lm', se=FALSE)
 ```
 
 ---
@@ -498,7 +492,7 @@ t.test() # test mean differences
 ```
 
 
-```{r, fig.align='center', out.width="60%"}
+```{r, echo=FALSE, fig.align='center', out.width="60%"}
 senses_filt %>%
   ggplot(aes(x=Modality, y = Val)) + 
    geom_point2(size = 4, alpha = 0.3) + 
@@ -510,8 +504,11 @@ senses_filt %>%
 
 - First, calculate $SS_{total}$
 
+<br>
+<br>
+
 .pull-left[
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
                         X= c(3,5,4,2,6,7,8,9)) %>%
@@ -529,14 +526,13 @@ some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
             alpha = .2)+
   coord_cartesian(xlim=c(0,10),
                   ylim=c(0,10))+
-  theme_classic()+
   ggtitle("SS Total")
   )
 
 ```
 ]
 .pull-left[
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 # mean is 5.69
 senses_filt %>%
   ggplot(aes(x=Modality, y = Val)) + 
@@ -550,12 +546,10 @@ senses_filt %>%
 ---
 # Fit a line
 
-- Find line using least squares regression
+- Find line using least squares method
 
   - Mean is best line fit
 
-.pull-left[
-
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
@@ -567,57 +561,11 @@ ggplot(some_data, aes(x=X, y=Y))+
   geom_point()+
   geom_smooth(method='lm', se=FALSE)
 ```
-]
-.pull-right[
-
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
-
-senses_filt %>%
-  ggplot(aes(x=Modality["Taste"], y = Val)) + 
-   geom_point2(size = 4, alpha = 0.3) + 
-   stat_summary(fun.y = mean, color = "black", geom ="point", aes(group = 1), size = 9,
-                   show.legend = FALSE, color="red") + 
-  stat_summary(fun="mean", geom="segment", mapping=aes(xend=..x.. - 0.25, yend=..y..), color="blue", size=3) + 
-  stat_summary(fun="mean", geom="segment", mapping=aes(xend=..x.. + 0.25, yend=..y..), color="blue", size=3)
-
-```
-]
 ---
 # Fit a line
-<br>
-<br>
-<br>
-.pull-left[
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
-
-some_data <- data.frame(Y= c(1,2,4,3,5,4,6,5),
-                        X= c(3,5,4,2,6,7,8,9)) %>%
-  mutate(Y_pred = predict.lm(lm(Y~X))) %>%
-  mutate(Y_error = Y - Y_pred)
-
-ggplot(some_data, aes(x=X, y=Y))+
-  geom_point()+
-  geom_smooth(method='lm', se=FALSE)
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
-
-senses_filt %>%
-  ggplot(aes(x=Modality["Smell"], y = Val)) + 
-   geom_point2(size = 4, alpha = 0.3) + 
-   stat_summary(fun.y = mean, color = "black", geom ="point", aes(group = 1), size = 9,
-                   show.legend = FALSE, color="red") + 
-  stat_summary(fun="mean", geom="segment", mapping=aes(xend=..x.. - 0.25, yend=..y..), color="red", size=3) + 
-  stat_summary(fun="mean", geom="segment", mapping=aes(xend=..x.. + 0.25, yend=..y..), color="red", size=3)
-```
-]
----
-```{r, fig.align='center', out.width="80%"}
 library(see)
-
 senses_filt_mean <- senses_filt %>%
   group_by(Modality) %>%
   summarize(mean=mean(Val))
@@ -664,13 +612,13 @@ $X_i$ = Indicator of group (0 or 1)
 ---
 # Dummy Coding/Treatment Coding
 
-- Prediction for Smell ($X_i =0$)
+- Prediction for Smell $X_i =0$
 
 $$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Taste}}0) + \epsilon$$
 $$
 \operatorname{\bar{Y}} = \alpha(Smell_{mean})
 $$
-- Prediction for Taste ($X_i =1$)
+- Prediction for Taste $X_i =1$
 
 $$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Taste}}1) + \epsilon$$
 $$\operatorname{\bar{Y}{taste}} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Taste}}1) + \epsilon$$
@@ -703,7 +651,10 @@ senses_dum  %>%
 # Categorical Contrast Coding
 
 $$slope=\frac{\mu_{diff}}{run}$$ 
+
 .pull-left[
+<br>
+<br>
 ```{r, echo=FALSE, fig.align='center', out.width="80%"}
 
 senses_filt_mean <- senses_filt %>%
@@ -756,7 +707,6 @@ lm(Val ~ Modality, data=senses_filt)
 # Change Reference Level
 .pull-left[
 ```{r}
-
 senses_dum <- senses_filt %>%
   mutate(mod=factor(Modality)) %>% 
   mutate(mod1=relevel(mod, ref="Taste")) # relevel the var 
