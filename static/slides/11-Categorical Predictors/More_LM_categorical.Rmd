@@ -955,7 +955,7 @@ $$\begin{aligned} &&df_{R} = N - 1\\  &&df_{F} = N - a\\ &&SSE(R)=SS_{total}\\&&
 ---
 # F-ratio
 
-$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-a)} = \frac{MS_{model}}{MS_{error}}$$
+$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
 
 - If Full =  Restricted , then F=1
 
@@ -1163,6 +1163,7 @@ $$Y_{ij} = \mu + \epsilon$$
 - Restricted model (Intercept-only): each score $Y_{ij}$ is the result of a single population mean plus random error
 
 $$SS_{error}(R)=\sum(y_i-\bar{y})^2=SS_{total}$$
+
 where:
 
 $y_i$ = observed value
@@ -1222,7 +1223,7 @@ $$\begin{aligned} &&df_{R} = N - 1\\  &&df_{F} = N - a\\ &&SSE(R)=SS_{total}\\&&
 ---
 # F-ratio
 
-$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-a)} = \frac{MS_{model}}{MS_{error}}$$
+$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
 
 - If Full =  Restricted , then F=1
 
@@ -1237,10 +1238,10 @@ $$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-a)} = \frac{MS_{m
 
 ```{r}
 lm(Val~Modality, data=senses) %>%
-  summary()
+  parameters::model_parameters()
 ```
-
 ---
+# ANOVA Table
 ```{r}
 aov1<-aov(Val~ 1, data=senses)
 aov2 <- aov(Val~Modality, data=senses)
@@ -1259,14 +1260,16 @@ within a group) observed, and random sampling of group members?
 
 - Both use sum of squares
 - Both use F-statistic
-- F = MSR / MSE (Same Mean Squared Error on ANOVA table outputs)
+- F = $ \frac{MSR}{MSE}$ (Same Mean Squared Error on ANOVA table outputs)
 ---
 # Post-Hoc Comparisons
 
 ```{r}
+aov_em=aov(Val~Modality, data=senses) # fit ANOVA
 
-aov(Val~Modality, data=senses) %>%
-parameters::model_parameters(.)
+aov_em %>%
+parameters::model_parameters(.) # print out ANOVA table
+
 
 ```
 - The Modality factor is significant. Now what?
@@ -1274,53 +1277,22 @@ parameters::model_parameters(.)
 ---
 # Post-Hoc Comparisons
 
-.pull-left[
 - The best package ever created: `emmeans`
 
 - Allows one to extract marginal means for the model and also test comparisons of interest
 
-  - Get means for each group: 
-
-```{r, echo=TRUE}
-library(emmeans)
-
-aov_em <- aov(Val~Modality, data=senses)
-
-# get our means 
-emmeans::emmeans(aov_em, specs = "Modality") %>%
-  as.data.frame()%>%
-  flextable::flextable()
-```
-]
-
-.pull-right[
-```{r, echo=FALSE}
-library(emmeans)
-
-aov_em <- aov(Val~Modality, data=senses)
-
-# get our means 
-emmeans::emmeans(aov_em, specs = "Modality") %>%
-  as.data.frame()%>%
-  flextable::flextable()
-```
-]
-
-
-
 ---
 # Pairwise Tests
 
-- Get pairwise comparisons
+- Get means and pairwise comparisons
 
 .pull-left[
 
-```{r, echo=TRUE, eval=FALSE}
+```{r, echo=TRUE, eval=TRUE}
 # get pairwise tests between all groups
 
-means1 <- emmeans::emmeans(aov_em, specs = "Modality") %>%
-
-flextable(as.data.frame(means1))
+as.data.frame(emmeans::emmeans(aov_em, specs = "Modality")) %>%
+flextable()
 
 ```
 ]
@@ -1329,8 +1301,7 @@ flextable(as.data.frame(means1))
 ```{r, echo=FALSE}
 library(flextable)
 # get pairwise tests between all groups
-
-means1 <- emmeans::emmeans(aov_em, specs = "Modality")
+means1 = emmeans::emmeans(aov_em, specs = "Modality")
 
 flextable(as.data.frame(pairs(means1)))
 ```
@@ -1373,9 +1344,14 @@ check_model()
 
 - $\eta^2$ 
 
-> Interpretation: % of variance explained 
+> Interpretation: % of variance explained.   
 
 $$\eta^2 = \frac{SS_{model}}{SS_{total}}$$
+
+- .01: Small
+- .06: Medium
+- .14: Large
+
 - $\eta^2$ cannot easily be compared between studies, because the total variability in a study (SStotal) depends on the design of a study, and increases when additional variables are manipulated
 
 ---
@@ -1383,12 +1359,15 @@ $$\eta^2 = \frac{SS_{model}}{SS_{total}}$$
 
 - $\eta_p^2$ 
 
+> Interpretation: % of variance explained for one effect (partailing out others)
 
-$$ \eta_p^2 = \frac{SS_{model}}{SS_{model} + SS_{error}}$$
+$$\eta_p^2 = \frac{SS_{model}}{SS_{model} + SS_{error}}$$
 ---
 # Effect Sizes:eta
 
 - $\eta^2_g$ - Generalized eta-sqaured
+
+$$\frac{SS_{model}}{SS_{model} + SS_{subject} + SS_{error}}$$
 
 ---
 # Less Biased Effect Size: Omega
@@ -1399,6 +1378,11 @@ $$\omega^2 = \frac{SS_{model} - df_{model}\cdot MS_{error}}{SS_{total} + MS_{err
 - $\omega_p^2$
 
 $$\frac{df_{model} \times (MS_{model} - MS_{error})}{SS_{model} + (N - df_{model}) \times MS_{error}}$$
+
+
+- .01: Small
+- .06: Medium
+- .14: Large
 ---
 # Effect Size: Cohen's f
 
@@ -1406,26 +1390,21 @@ $$\text{Cohen's} f_p =
 \sqrt{\frac{\eta^2_p}{1-\eta^2_p}} =
 \sqrt{\frac{SS_{effect}}{SS_{error}}}$$
 
+- .14: Small
+- .39: Medium
+- .59: Large
 
+https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize
 ---
 # Caculate ANOVA Effect Size in R
 
 ```{r}
 library(effectsize)  
 cohens_f(aov_em)
-```
-
-```{r}
-## For one-wa between subjects designs, partial eta squared is equvilant to eta squared.  ## Returning eta squared.
-
 eta_squared(aov_em)
-
-```
-
-```{r}
 omega_squared(aov_em)
-
 ```
+
 ---
 # Power
 
