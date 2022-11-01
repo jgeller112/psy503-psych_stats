@@ -877,8 +877,7 @@ knitr::include_graphics("contrastcodes.bmp")
 
 - We can think about the hypotheses for the overall test being:
 
-
-   - $H_0$: We cannot predict the dependent variable (over and above a restricted model (only an intercept))
+  - $H_0$: We cannot predict the dependent variable (over and above a restricted model (only an intercept))
     
   - $H_1$: We can predict the dependent variable (over and above a model with only an intercept)
 
@@ -1052,21 +1051,19 @@ d <- read_csv("https://raw.githubusercontent.com/ASKurz/Applied-Longitudinal-Dat
 
 1. Change `unemp` variable to a factor with categorical labels
 
-2. Calculate the mean for each group
+2. Dummy code the unemployment variable
 
-3. Dummy code the unemployment variable
+3. Run `lm` on the dummy coded variable
 
-5. Run `lm` on the dummy coded variable
+4. Interpret the output 
 
-6. Interpret the output 
+5. Run `lm` on the contrast coded (.5, -.5) variable
 
-6. Run `lm` on the contrast coded (.5, -.5) variable
+6. Interpret the outputs 
 
-7. Interpret the outputs 
+7. Use output to extract the means for each group only using the output. Are they similar to what you hand coded?
 
-8. Use output to extract the means for each group only using the output. Are they similar to what you hand coded?
-
-9. Plot the results
+8. Plot the results
 ---
 # Linear Models with Multiple Levels
 
@@ -1100,6 +1097,7 @@ lm(Val~Modality, data=senses) %>%
 ---
 # Dummy Coding Extension
 
+.pull-left[
 1. Create one fewer dummy codes than levels (K (number of levels)-1)
 
 2. Choose one of your levels as baseline (default to 0 for whatever comes first alphabetically)
@@ -1113,13 +1111,11 @@ lm(Val~Modality, data=senses) %>%
 6. For third dummy code, assign 1 to third group and 0s for rest of levels
 
 7. For fourth dummy code, assign 1 to fourth group and 0s for rest of levels
+]
 
----
-# Dummy Coding
+.pull-right[
 
-.pull-left[
-
-```{r}
+```{r, echo=FALSE}
 
 x=contr.treatment(5)
 
@@ -1141,7 +1137,7 @@ knitr::include_graphics("morethree.JPG")
 ---
 #Hello Again Sums of Squares
 
-```{r, fig.align='center', out.width="40%"}
+```{r, fig.align='center', out.width="30%"}
 
 knitr::include_graphics("ss_aov.bmp")
 
@@ -1151,7 +1147,7 @@ knitr::include_graphics("ss_aov.bmp")
  
 - We can think about the hypotheses for the overall test being:
 
-$$\operatorname{H_0} =  \beta_{1}(\operatorname{Modality}_{\operatorname{Smell}})= \beta_{2}(\operatorname{Modality}_{\operatorname{Sound}}) = \beta_{3}(\operatorname{Modality}_{\operatorname{Taste}}) = \beta_{4}(\operatorname{Modality}_{\operatorname{Touch}}) = \epsilon$$
+$$H_0: b_1 = 0$$
          
 $$H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5$$
 
@@ -1273,19 +1269,19 @@ aov(Val~Modality, data=senses) %>%
 parameters::model_parameters(.)
 
 ```
-
 - The Modality factor is significant. Now what?
 
 ---
 # Post-Hoc Comparisons
 
+.pull-left[
 - The best package ever created: `emmeans`
 
 - Allows one to extract marginal means for the model and also test comparisons of interest
 
   - Get means for each group: 
 
-```{r}
+```{r, echo=TRUE}
 library(emmeans)
 
 aov_em <- aov(Val~Modality, data=senses)
@@ -1295,6 +1291,23 @@ emmeans::emmeans(aov_em, specs = "Modality") %>%
   as.data.frame()%>%
   flextable::flextable()
 ```
+]
+
+.pull-right[
+```{r, echo=FALSE}
+library(emmeans)
+
+aov_em <- aov(Val~Modality, data=senses)
+
+# get our means 
+emmeans::emmeans(aov_em, specs = "Modality") %>%
+  as.data.frame()%>%
+  flextable::flextable()
+```
+]
+
+
+
 ---
 # Pairwise Tests
 
@@ -1356,40 +1369,29 @@ check_model()
   - Scores are independent of one another
 
 ---
-# Effect Size ANOVA
+# Effect Sizes: eta
 
-$$f = \frac{\sigma_m}{\sigma_s}$$
-Where:
-$\sigma_m$ = between-group standard deviation
+- $\eta^2$ 
 
-$sigma_s$ = within group standard deviation
-
-- Small = 0.1
-- Medium = .25
-- Large = .4
-
----
-# Effect Sizes
-
-- $\eta_^2$ 
+> Interpretation: % of variance explained 
 
 $$\eta^2 = \frac{SS_{model}}{SS_{total}}$$
 - $\eta^2$ cannot easily be compared between studies, because the total variability in a study (SStotal) depends on the design of a study, and increases when additional variables are manipulated
 
 ---
-# Effect Sizes
+# Effect Sizes:eta
 
 - $\eta_p^2$ 
 
 
 $$ \eta_p^2 = \frac{SS_{model}}{SS_{model} + SS_{error}}$$
 ---
-# Effect Sizes
+# Effect Sizes:eta
 
-- $\eta^2_g$
+- $\eta^2_g$ - Generalized eta-sqaured
 
 ---
-# Less Biased Effect Sizes
+# Less Biased Effect Size: Omega
 
 - $\omega^2$
 
@@ -1398,17 +1400,12 @@ $$\omega^2 = \frac{SS_{model} - df_{model}\cdot MS_{error}}{SS_{total} + MS_{err
 
 $$\frac{df_{model} \times (MS_{model} - MS_{error})}{SS_{model} + (N - df_{model}) \times MS_{error}}$$
 ---
-# Effect Size ANOVA
+# Effect Size: Cohen's f
 
-$$f = \frac{\sigma_m}{\sigma_s}$$
-Where:
-$\sigma_m$ = between-group standard deviation
+$$\text{Cohen's} f_p =
+\sqrt{\frac{\eta^2_p}{1-\eta^2_p}} =
+\sqrt{\frac{SS_{effect}}{SS_{error}}}$$
 
-$sigma_s$ = within group standard deviation
-
-- Small = 0.1
-- Medium = .25
-- Large = .4
 
 ---
 # Caculate ANOVA Effect Size in R
@@ -1426,10 +1423,7 @@ eta_squared(aov_em)
 ```
 
 ```{r}
-
-
 omega_squared(aov_em)
-
 
 ```
 ---
@@ -1446,14 +1440,14 @@ omega_squared(aov_em)
 - Same approach we have already done!
 
 ---
-# Power Analysis on ANOVA
+# Power Analysis: ANOVA
 
 - You are planning a reaction-time study involving three groups (k = 3)
 - Pilot research & data from literature suggest population means might be 400, 450  and 500 ms with a sample within-group standard deviation of 100 ms
 - Suppose you want a power of 0.9
 - How many subjects do you need in each sample group?
 ---
-# Power Analysis on ANOVA
+# Power Analysis: ANOVA
 
 ```{r}
 library(pwr)
@@ -1467,8 +1461,6 @@ within.var=100**2,sig.level=0.05,power=0.80)
 # Superpower
 
 ```{r}
-
-
 
 
 ```
