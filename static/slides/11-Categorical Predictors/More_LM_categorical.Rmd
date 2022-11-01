@@ -785,14 +785,14 @@ lm(Val ~ mod_sum, data=senses_filt_sum)
 
 - Intercept is grand mean (mean of means): $\hat \beta_0=5.64$
 
-- Mean of Smell: $\hat\beta_0+\hat\beta_1\times .5=5.64-0.33=5.47$
+- Mean of Smell: $\hat\beta_0+\hat\beta_1\times .5=5.64-0.33(0.5)=5.47$
 
-- Mean of Taste: $\hat\beta_0+\hat\beta_1\times -.5=5.64-0.33=5.80$
+- Mean of Taste: $\hat\beta_0+\hat\beta_1\times -.5=5.64 + (-0.33)*-0.5=5.80$
 
 ---
-# Default R behavior
+# Default Sum Coding R behavior
 
-- Change levels from (0-1) to + (1 and -1)
+- +1 and -1 
 
 ```{r}
 
@@ -808,7 +808,7 @@ senses_filt_sum <- senses_filt_sum %>%
 
 What does this do to our interpretation?
 
-- Intercept is now centered at 0
+- Intercept is now centered at 0 (grand mean)
 
 - Slope rise is still the same (difference between categories) but: 
 
@@ -856,6 +856,7 @@ lm(Val ~ mod_sum11, data=senses_filt_sum)
 ```
 
 --
+
 - Intercept is grand mean: $\hat\beta_0$=5.64
 
 - Mean of Smell: 
@@ -875,6 +876,12 @@ knitr::include_graphics("contrastcodes.bmp")
 - Can test overall influence for 2 or more levels of a factor
 
 - We can think about the hypotheses for the overall test being:
+
+
+   - $H_0$: We cannot predict the dependent variable (over and above a restricted model (only an intercept))
+    
+  - $H_1$: We can predict the dependent variable (over and above a model with only an intercept)
+
 ---
 # Restricted Model
 
@@ -938,10 +945,18 @@ lines(c(w[i],w[i]), c(Y[w[i]], mean(Y[w])), lty=2) }}
 
 - F-ratio is measure of signal to noise
 
-- Tells us if overall model is significant fit (difference between group means is 0)
+- Tells us if overall model is significant fit to the data 
+
+   - $H_0$: We cannot predict the dependent variable (over and above a model with only an intercept)
+    
+    - $H_1$: We can predict the dependent variable (over and above a model with only an intercept)
 
 $$\begin{aligned} &&df_{R} = N - 1\\  &&df_{F} = N - a\\ &&SSE(R)=SS_{total}\\&&SSE(F)=SS_{error}\end{aligned}$$
-$$F^*=\left( \dfrac{SS_{total}-SS_{error}}{(df_R)-(df_F)}\right)\div\left( \dfrac{SS_{model}}{df_F}\right)=\frac{MSR}{MSE}$$
+
+---
+# F-ratio
+
+$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-a)} = \frac{MS_{model}}{MS_{error}}$$
 
 - If Full =  Restricted , then F=1
 
@@ -1106,7 +1121,9 @@ lm(Val~Modality, data=senses) %>%
 
 ```{r}
 
-contr.treatment(5)
+x=contr.treatment(5)
+
+flextable(as.data.frame(x))
 
 ```
 ]
@@ -1116,35 +1133,21 @@ contr.treatment(5)
 
 $$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Smell}}) + \beta_{2}(\operatorname{Modality}_{\operatorname{Sound}}) + \beta_{3}(\operatorname{Modality}_{\operatorname{Taste}}) + \beta_{4}(\operatorname{Modality}_{\operatorname{Touch}}) + \epsilon$$
 
-```{r}
-sense_ml <- lm(Val~Modality, data=senses)
-```
-
 ---
 ```{r, echo=FALSE, fig.align='center', out.width="80%"}
 knitr::include_graphics("morethree.JPG")
 ```
----
-Hello Again Sums of Squares
 
-```{r, fig.align='center', out.width="50%"}
+---
+#Hello Again Sums of Squares
+
+```{r, fig.align='center', out.width="40%"}
 
 knitr::include_graphics("ss_aov.bmp")
 
 ```
-
----
-# Partitoning Variance
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
-
-knitr::include_graphics("part.bmp")
-```
 ---
 # The General Linear F-Test
-
-- Useful if you have more than 2 levels for a factor
-
-- Test overall differences between the groups *F*-test
  
 - We can think about the hypotheses for the overall test being:
 
@@ -1153,11 +1156,13 @@ $$\operatorname{H_0} =  \beta_{1}(\operatorname{Modality}_{\operatorname{Smell}}
 $$H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5$$
 
 $$H_1:  b_1  \neq b_2 \neq b_3 \neq b_4 \neq b_5$$
-- Analysis of Variance (ANOVA)
+$$H_1:  \mu_1  \neq \mu_2 \neq \mu_3 \neq \mu_4 \neq \mu_5$$
+- *Analysis of Variance (ANOVA)*
 ---
 # Restricted Model
 
 $$Y_{ij} = \mu + \epsilon$$
+.pull-left[
 
 - Restricted model (Intercept-only): each score $Y_{ij}$ is the result of a single population mean plus random error
 
@@ -1166,8 +1171,10 @@ where:
 
 $y_i$ = observed value
 $\bar{y}$ = mean value 
+]
 
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+.pull-right[
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 Y <- c(4,5,2,1,3,7,4,6,3,5,6,9,8,5,7)
 myFac <- c(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3)
@@ -1178,12 +1185,12 @@ lines(c(i,i), c(Y[i], mean(Y)), lty=2)}
 
 
 ```
+]
 ---
 # Full Model
 
-.pull-left[
 $$Y_{ij} = \mu_j + \epsilon$$
-
+.pull-left[
 - Full model (all predictors/levels): each score $Y_ij$ is the result of a different group mean plus random error
 
 $$SSE(F)=\sum(y_{ij}-\hat{y}_{ij})^2=SSE$$
@@ -1195,9 +1202,8 @@ $y_i$ = Observed value
 $\hat{y}$ = Value estimated by regression line
 ]
 
-
 .pull-right[
-```{r, echo=FALSE,fig.align='center', out.width="80%"}
+```{r, echo=FALSE,fig.align='center', out.width="100%"}
 
 Y <- c(4,5,2,1,3,7,4,6,3,5,6,9,8,5,7, 4, 5, 6, 7, 4, 5, 6, 7, 4, 5)
 IV0 <- c(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5)
@@ -1216,7 +1222,11 @@ lines(c(w[i],w[i]), c(Y[w[i]], mean(Y[w])), lty=2) }}
 - F-ratio is measure of signal to noise
 
 $$\begin{aligned} &&df_{R} = N - 1\\  &&df_{F} = N - a\\ &&SSE(R)=SS_{total}\\&&SSE(F)=SS_{error}\end{aligned}$$
-$$F^*=\left( \dfrac{SS_{total}-SS_{error}}{(df_R)-(df_F)}\right)\div\left( \dfrac{SS_{model}}{df_F}\right)=\frac{MSR}{MSE}$$
+
+---
+# F-ratio
+
+$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-a)} = \frac{MS_{model}}{MS_{error}}$$
 
 - If Full =  Restricted , then F=1
 
@@ -1227,44 +1237,22 @@ $$F^*=\left( \dfrac{SS_{total}-SS_{error}}{(df_R)-(df_F)}\right)\div\left( \dfra
 *Degrees of freedom: F(a-1, n - a)*
 
 ---
-.pull-left[
+# ANOVA Table
 
 ```{r}
 lm(Val~Modality, data=senses) %>%
   summary()
 ```
-]
 
-.pull-right[
-
+---
 ```{r}
-
 aov1<-aov(Val~ 1, data=senses)
-
 aov2 <- aov(Val~Modality, data=senses)
-
-anova(aov1, aov2)
+#anova(aov1, aov2) compare two models 
 aov(Val~Modality, data=senses) %>%
-  summary()
+  parameters::model_parameters()
 ```
-]
-
 ---
-# Reporting 
-
-`r report(sense_ml) `
-
----
-# `afex` ANOVA package
-
-```{r, fig.align='center', out.width="100%"}
-library(afex)
-
-one_fit <- aov_ez("Word", "Val", data = senses, between = c("Modality"))
-
-afex_plot(one_fit, x="Modality")
-
-```
 # Model Comparison Approach vs Traditional Approach to ANOVA
 
 - Traditional formulation of ANOVA asks the same question in a different way:
@@ -1276,13 +1264,14 @@ within a group) observed, and random sampling of group members?
 - Both use sum of squares
 - Both use F-statistic
 - F = MSR / MSE (Same Mean Squared Error on ANOVA table outputs)
-
 ---
 # Post-Hoc Comparisons
 
 ```{r}
+
 aov(Val~Modality, data=senses) %>%
-  summary()
+parameters::model_parameters(.)
+
 ```
 
 - The Modality factor is significant. Now what?
@@ -1318,7 +1307,8 @@ emmeans::emmeans(aov_em, specs = "Modality") %>%
 
 means1 <- emmeans::emmeans(aov_em, specs = "Modality") %>%
 
-pairs(means1)
+flextable(as.data.frame(means1))
+
 ```
 ]
 
@@ -1329,25 +1319,167 @@ library(flextable)
 
 means1 <- emmeans::emmeans(aov_em, specs = "Modality")
 
-flextable(as.data.frame(means1))
-
 flextable(as.data.frame(pairs(means1)))
 ```
 ]
 ---
-# Assumptions
+# `afex` ANOVA package
 
-Assumptions for linear modeling still apply
+```{r, fig.align='center', out.width="100%"}
+library(afex)
 
-```{r}
-aov(Val~Modality, data=senses) %>%
-check_model()
+one_fit <- aov_ez("Word", "Val", data = senses, between = c("Modality"))
+
+afex_plot(one_fit, x="Modality")
 
 ```
+---
+# Assumptions
+
+- Within linear modeling framework, do normal assumptions checks
+
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
+aov(Val~Modality, data=senses) %>%
+check_model()
+```
+
+---
+# Assumption of the ANOVA test
+
+- If using ANOVA functions make sure: 
+
+  - The scores on the dependent variable Y are normally distributed in the population
+(and normally distributed within each group)
+
+  - The population variances of scores on Y are equal for all groups
+
+  - Scores are independent of one another
+
+---
+# Effect Size ANOVA
+
+$$f = \frac{\sigma_m}{\sigma_s}$$
+Where:
+$\sigma_m$ = between-group standard deviation
+
+$sigma_s$ = within group standard deviation
+
+- Small = 0.1
+- Medium = .25
+- Large = .4
 
 ---
 # Effect Sizes
 
-partial-eta squared
+- $\eta_^2$ 
 
+$$\eta^2 = \frac{SS_{model}}{SS_{total}}$$
+- $\eta^2$ cannot easily be compared between studies, because the total variability in a study (SStotal) depends on the design of a study, and increases when additional variables are manipulated
+
+---
+# Effect Sizes
+
+- $\eta_p^2$ 
+
+
+$$ \eta_p^2 = \frac{SS_{model}}{SS_{model} + SS_{error}}$$
+---
+# Effect Sizes
+
+- $\eta^2_g$
+
+---
+# Less Biased Effect Sizes
+
+- $\omega^2$
+
+$$\omega^2 = \frac{SS_{model} - df_{model}\cdot MS_{error}}{SS_{total} + MS_{error}}$$
+- $\omega_p^2$
+
+$$\frac{df_{model} \times (MS_{model} - MS_{error})}{SS_{model} + (N - df_{model}) \times MS_{error}}$$
+---
+# Effect Size ANOVA
+
+$$f = \frac{\sigma_m}{\sigma_s}$$
+Where:
+$\sigma_m$ = between-group standard deviation
+
+$sigma_s$ = within group standard deviation
+
+- Small = 0.1
+- Medium = .25
+- Large = .4
+
+---
+# Caculate ANOVA Effect Size in R
+
+```{r}
+library(effectsize)  
+cohens_f(aov_em)
+```
+
+```{r}
+## For one-wa between subjects designs, partial eta squared is equvilant to eta squared.  ## Returning eta squared.
+
+eta_squared(aov_em)
+
+```
+
+```{r}
+
+
+omega_squared(aov_em)
+
+
+```
+---
+# Power
+
+- We can also run power analyses for omnibus tests (e.g., number of participants needed  to find a sufficiently powered main effect or interaction)
+
+  - May not sufficiently power one for the smallest desired effect size of interest
+  
+    - Recommendation: Perform on smallest desired effect size (e.g., mean comparison  while controlling for multiple corrections)
+  
+- Often complex tests cannot be performed analytically and you must use numerical  methods
+
+- Same approach we have already done!
+
+---
+# Power Analysis on ANOVA
+
+- You are planning a reaction-time study involving three groups (k = 3)
+- Pilot research & data from literature suggest population means might be 400, 450  and 500 ms with a sample within-group standard deviation of 100 ms
+- Suppose you want a power of 0.9
+- How many subjects do you need in each sample group?
+---
+# Power Analysis on ANOVA
+
+```{r}
+library(pwr)
+
+power.anova.test(groups=3,n=NULL,between.var=	var(c(400,450,500)),
+within.var=100**2,sig.level=0.05,power=0.80)
+
+```
+
+---
+# Superpower
+
+```{r}
+
+
+
+
+```
+---
+# Kruskal Wallis Test
+
+- Can be used if assumptions are not met 
+
+- Extension of Mann-Whitney test
+
+```{r}
+kruskal.test(Val ~ Modality, data=senses)
+```
 
