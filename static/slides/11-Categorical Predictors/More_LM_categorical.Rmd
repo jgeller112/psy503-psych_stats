@@ -119,7 +119,7 @@ style_solarized_dark(
   header_h1_font_size = "36px",
   header_color = "black",
   text_font_google = google_font("Work Sans"),
-  text_font_size = "28px",
+  text_font_size = "24px",
   text_color = "black", 
   background_color = "white", 
   code_font_google = google_font("Share Tech Mono"),
@@ -1055,13 +1055,11 @@ d <- read_csv("https://raw.githubusercontent.com/ASKurz/Applied-Longitudinal-Dat
 
 3. Run `lm` on the dummy coded variable
 
-4. Interpret the output 
-
 5. Run `lm` on the contrast coded (.5, -.5) variable
 
-6. Interpret the outputs 
+6. Interpret the output 
 
-7. Use output to extract the means for each group only using the output. Are they similar to what you hand coded?
+7. Use output to extract the means for each group only using the output 
 
 8. Plot the results
 ---
@@ -1129,13 +1127,12 @@ flextable(as.data.frame(x))
 
 $$\operatorname{Val} = \alpha + \beta_{1}(\operatorname{Modality}_{\operatorname{Smell}}) + \beta_{2}(\operatorname{Modality}_{\operatorname{Sound}}) + \beta_{3}(\operatorname{Modality}_{\operatorname{Taste}}) + \beta_{4}(\operatorname{Modality}_{\operatorname{Touch}}) + \epsilon$$
 
----
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+```{r, echo=FALSE, fig.align='center', out.width="60%"}
 knitr::include_graphics("morethree.JPG")
 ```
 
 ---
-#Hello Again Sums of Squares
+# Hello Again Sums of Squares
 
 ```{r, fig.align='center', out.width="30%"}
 
@@ -1266,6 +1263,7 @@ within a group) observed, and random sampling of group members?
 
 ```{r}
 aov_em=aov(Val~Modality, data=senses) # fit ANOVA
+
 
 aov_em %>%
 parameters::model_parameters(.) # print out ANOVA table
