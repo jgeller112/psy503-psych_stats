@@ -1319,6 +1319,11 @@ afex_plot(one_fit, x="Modality")
 
 - Within linear modeling framework, do normal assumptions checks
 
+```{r, eval=FALSE}
+
+check_model()
+```
+
 ```{r, echo=FALSE, fig.align='center', out.width="100%", out.height="50%"}
 aov(Val~Modality, data=senses) %>%
 check_model()
@@ -1347,7 +1352,7 @@ $$\eta^2 = \frac{SS_{model}}{SS_{total}}$$
 
 $$\eta_p^2 = \frac{SS_{model}}{SS_{model} + SS_{error}}$$
 ---
-# Effect Sizes:eta
+# Effect Sizes: eta
 
 - $\eta^2_g$ - Generalized eta-sqaured
 
