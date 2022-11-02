@@ -126,6 +126,7 @@ lessons:
     slides: ""
     class: "11-Categorical Predictors/More_LM_categorical.html"
     notes: ""
+    assignment: "05" 
     reading: "09-reading"
     hasclass: False
     
