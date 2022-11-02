@@ -150,6 +150,7 @@ style_solarized_dark(
 
 ```{r, echo=FALSE}
 library(parameters)
+library(effectsize) 
 library(papaja)
 library(tidyverse)
 library(performance)
@@ -1053,9 +1054,9 @@ d <- read_csv("https://raw.githubusercontent.com/ASKurz/Applied-Longitudinal-Dat
 
 2. Dummy code the unemployment variable
 
-3. Run `lm` on the dummy coded variable
+3. Contrast code the unemployment variable
 
-5. Run `lm` on the contrast coded (.5, -.5) variable
+3. Run `lm` on the dummy coded variable
 
 6. Interpret the output 
 
@@ -1098,17 +1099,15 @@ lm(Val~Modality, data=senses) %>%
 .pull-left[
 1. Create one fewer dummy codes than levels (K (number of levels)-1)
 
-2. Choose one of your levels as baseline (default to 0 for whatever comes first alphabetically)
+2. Choose one of your levels as baseline and assign all zeros for this level across each dummy code
 
-3. Assign all zeros for this level across each dummy code
+3. For first dummy code, assign 1 to first group and 0s for rest of levels
 
-4. For first dummy code, assign 1 to first group and 0s for rest of levels
+4. For the second dummy code, assign 1 to second group and 0s for rest of levels
 
-5. For the second dummy code, assign 1 to second group and 0s for rest of levels
+5. For third dummy code, assign 1 to third group and 0s for rest of levels
 
-6. For third dummy code, assign 1 to third group and 0s for rest of levels
-
-7. For fourth dummy code, assign 1 to fourth group and 0s for rest of levels
+6. For fourth dummy code, assign 1 to fourth group and 0s for rest of levels
 ]
 
 .pull-right[
@@ -1228,7 +1227,7 @@ $$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{m
 
 - If Full < Restricted, F < 1
 
-*Degrees of freedom: F(a-1, n - a)*
+*Degrees of freedom: F(p-1, n - p)*
 
 ---
 # ANOVA Table
@@ -1257,7 +1256,7 @@ within a group) observed, and random sampling of group members?
 
 - Both use sum of squares
 - Both use F-statistic
-- F = $ \frac{MSR}{MSE}$ (Same Mean Squared Error on ANOVA table outputs)
+- F = $\frac{MSR}{MSE}$ (Same Mean Squared Error on ANOVA table outputs)
 ---
 # Post-Hoc Comparisons
 
@@ -1342,16 +1341,16 @@ check_model()
 
 - $\eta^2$ 
 
-> Interpretation: % of variance explained.   
+> Interpretation: % of variance explained   
 
 $$\eta^2 = \frac{SS_{model}}{SS_{total}}$$
+
+- $\eta^2$ cannot easily be compared between studies, because the total variability in a study ($SS_{total}$) depends on the design of a study, and increases when additional variables are manipulated
+
 
 - .01: Small
 - .06: Medium
 - .14: Large
-
-- $\eta^2$ cannot easily be compared between studies, because the total variability in a study (SStotal) depends on the design of a study, and increases when additional variables are manipulated
-
 ---
 # Effect Sizes:eta
 
@@ -1397,7 +1396,6 @@ https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize
 # Caculate ANOVA Effect Size in R
 
 ```{r}
-library(effectsize)  
 cohens_f(aov_em)
 eta_squared(aov_em)
 omega_squared(aov_em)
@@ -1430,7 +1428,7 @@ omega_squared(aov_em)
 library(pwr)
 
 power.anova.test(groups=3,n=NULL,between.var=	var(c(400,450,500)),
-within.var=100**2,sig.level=0.05,power=0.80)
+within.var=100**2,sig.level=0.05,power=0.9)
 
 ```
 
