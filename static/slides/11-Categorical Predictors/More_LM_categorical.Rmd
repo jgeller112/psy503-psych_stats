@@ -1133,7 +1133,7 @@ knitr::include_graphics("morethree.JPG")
 ---
 # Hello Again Sums of Squares
 
-```{r, fig.align='center', out.width="30%"}
+```{r,echo=FALSE, fig.align='center', out.width="40%"}
 
 knitr::include_graphics("ss_aov.bmp")
 
@@ -1319,23 +1319,10 @@ afex_plot(one_fit, x="Modality")
 
 - Within linear modeling framework, do normal assumptions checks
 
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%", out.height="50%"}
 aov(Val~Modality, data=senses) %>%
 check_model()
 ```
-
----
-# Assumption of the ANOVA test
-
-- If using ANOVA functions make sure: 
-
-  - The scores on the dependent variable Y are normally distributed in the population
-(and normally distributed within each group)
-
-  - The population variances of scores on Y are equal for all groups
-
-  - Scores are independent of one another
-
 ---
 # Effect Sizes: eta
 
@@ -1418,7 +1405,7 @@ omega_squared(aov_em)
 # Power Analysis: ANOVA
 
 - You are planning a reaction-time study involving three groups (k = 3)
-- Pilot research & data from literature suggest population means might be 400, 450  and 500 ms with a sample within-group standard deviation of 100 ms
+- Pilot research & data from literature suggest effect size is medium $f$ = .39
 - Suppose you want a power of 0.9
 - How many subjects do you need in each sample group?
 ---
@@ -1427,26 +1414,53 @@ omega_squared(aov_em)
 ```{r}
 library(pwr)
 
-power.anova.test(groups=3,n=NULL,between.var=	var(c(400,450,500)),
-within.var=100**2,sig.level=0.05,power=0.9)
+pwr.anova.test(k=3,n=NULL,f=.39,sig.level=0.05,power=0.9)
+
+#k = groups
+#n= sample size
+#es = cohen's f
+
 
 ```
 
 ---
 # Superpower
 
+- Same RT study
+
+- Pilot research & data from literature suggest population means might be 400, 450  and 500 ms with a sample within-group standard deviation of 100 ms
+
+- Suppose you want a power of 0.9
+
+- How many subjects do you need in each sample group?
+
 ```{r}
 
 
 ```
 ---
-# Kruskal Wallis Test
+# Non-Parametric
 
-- Can be used if assumptions are not met 
+.pull-left[
+- Kruskal Wallis Test
 
-- Extension of Mann-Whitney test
+  - Can be used if assumptions are not met 
 
-```{r}
+      - Extension of Mann-Whitney test
+      
+    ```{r}
 kruskal.test(Val ~ Modality, data=senses)
 ```
+]
+
+.pull-right[
+- Welch's F test (W-test)
+
+```{r}
+library(onewaytests)
+
+welch.test(Val ~ Modality, data = senses)
+
+```
+]
 
