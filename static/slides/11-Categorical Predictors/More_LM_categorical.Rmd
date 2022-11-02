@@ -1214,7 +1214,7 @@ lines(c(w[i],w[i]), c(Y[w[i]], mean(Y[w])), lty=2) }}
 
 - F-ratio is measure of signal to noise
 
-$$\begin{aligned} &&df_{R} = N - 1\\  &&df_{F} = N - a\\ &&SSE(R)=SS_{total}\\&&SSE(F)=SS_{error}\end{aligned}$$
+$$\begin{aligned} &&df_{R} = N - 1\\  &&df_{F} = N - p\\ &&SSE(R)=SS_{total}\\&&SSE(F)=SS_{error}\end{aligned}$$
 
 ---
 # F-ratio
