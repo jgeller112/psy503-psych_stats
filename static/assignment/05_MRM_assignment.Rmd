@@ -1,0 +1,37 @@
+---
+title: "05-MRM_assignment"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem Set 5: Multiple Regression
+
+Use the state.x77 data in R to predict Life Expectancy (Life Exp) from the other variables in the dataframe.  It is up to you to decide which variables to include in your multiple regression final model but you need to have at least 2. Please decide upon a model and write a “Results and Discussion” section that includes your decision, assumption checks, and the results (including F test for model fit, $R^2$, partial correlations, unstandardized regression coefficients, standardized regression coefficients)  Please include at the very least one scatterplot (it will probably be necessary to report more than one).
+
+The data is a matrix with 50 rows and 8 columns giving the following statistics in the respective columns.
+
+- Population: population estimate as of July 1, 1975.
+
+- Income: per capita income (1974)
+
+- Illiteracy: illiteracy (1970, percent of population)
+
+- Life Exp: life expectancy in years (1969-71)
+
+- Murder: murder and non-negligent manslaughter rate per 100,000 population (1976)
+
+- HS Grad: percent high-school graduates (1970)
+
+- Frost: mean number of days with minimum temperature below freezing (1931-1960) in capital or large city
+
+- Area: land area in square miles
+
+```{r}
+data(state)
+state.x77
+```
+
+
