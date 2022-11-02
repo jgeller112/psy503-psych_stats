@@ -61,7 +61,7 @@ green <- "#007965"
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
   fig.width=9, fig.height=3.5, fig.retina=3,
-  out.width = "36%",
+  out.width = "50%",
   tidy.opts=list(width.cutoff=60),tidy=TRUE, 
   cache = FALSE,
   echo = TRUE,
@@ -119,7 +119,7 @@ style_solarized_dark(
   header_h1_font_size = "36px",
   header_color = "black",
   text_font_google = google_font("Work Sans"),
-  text_font_size = "24px",
+  text_font_size = "20px",
   text_color = "black", 
   background_color = "white", 
   code_font_google = google_font("Share Tech Mono"),
