@@ -766,7 +766,7 @@ check_model()
   - For every one-unit increase in the independent variable, our dependent variable increases by about X%
 
 ---
-# Rules for Interpretation
+# X and Y Log Transforamtion Interpretation
 
 - When dependent/response variable and independent/predictor variable(s) are log-transformed
 
@@ -783,7 +783,7 @@ check_model()
 
     - Common in linguistics and psychology:
     
-      - Frequency
+      - Word frequency
       - Response times
       - Perceptual magnitudes
 
@@ -797,10 +797,18 @@ check_model()
 
 2. If the variances are unequal and/or error terms are not normal, try a "power transformation"
 
-  - Box-Cox Transformation 
-
 3. Be transparent!
 
+---
+# Power Ladder
+
+
+
+```{r, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("power.jpg")
+
+```
 ---
 class: middle 
 
