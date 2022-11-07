@@ -242,22 +242,25 @@ senses %>%
 
 ```
 ---
+- Sum of Squares
+
+```{r, echo=FALSE, fig.align='center', out.width="70%"}
+
+knitr::include_graphics("aov_table.bmp")
+```
+---
 # Restricted and Full Model
 
 $$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
+
+
+
 ```{r}
 
 restricted <- lm(Val~ 1, data=senses) # intercept-only model
 
 full <- lm(Val~Modality, data=senses)  # full model 
 
-```
----
-- Sum of Squares
-
-```{r, echo=FALSE, fig.align='center', out.width="70%"}
-
-knitr::include_graphics("aov_table.bmp")
 ```
 ---
 # Weekly Check-In Questions
