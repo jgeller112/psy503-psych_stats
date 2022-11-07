@@ -217,7 +217,7 @@ df <- mutate(data,
 
 - Use cross validation
 
-- Use other methods tolike lasso or ridge regression
+- Use other methods like lasso or ridge regression
 
 - Only include predictors that are theoretically meaningful
 ]
@@ -228,49 +228,6 @@ knitr::include_graphics("Overfitting-1.png")
 ```
 ]
 ---
-- Sum of Squares
-
-```{r, echo=FALSE, fig.align='center', out.width="70%"}
-
-knitr::include_graphics("aov_table.bmp")
-```
----
-# Restricted and Full Model
-
-$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
-```{r}
-
-restricted <- lm(Val~ 1, data=senses) # intercept-only model
-
-full <- lm(Val~Modality, data=senses)  # full model 
-
-```
-
----
-# Weekly Check-In Questions
-
-- Significance of the intercept value
-
-  -  The *p*-value for the intercept tells us if the intercept is different from 0. Most often this is not of importance. 
-
-$$H_0:\beta_0=0$$
----
-# Weekly Check-In Questions
-
-- In effects coding/sum coding, why is centering necessary/why would we want to use grand mean?
-
-  - Centering is what occurs as a function of taking the mean of dummy codes 
-  
-  - Might not care about reference level 
-  
-  - When dealing with one factor with 2 levels dummy coding vs. sum coding does not matter
-  
-    - Sum coding is what ANOVA is doing to test main effects and interactions (more on this later)
-    - We can use that to run linear models
-
----
-# Weekly Check-In Questions
-
 - What is grand mean?
 
 - It is the mean of the means
@@ -285,14 +242,60 @@ senses %>%
 
 ```
 ---
+# Restricted and Full Model
+
+$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
+```{r}
+
+restricted <- lm(Val~ 1, data=senses) # intercept-only model
+
+full <- lm(Val~Modality, data=senses)  # full model 
+
+```
+---
+- Sum of Squares
+
+```{r, echo=FALSE, fig.align='center', out.width="70%"}
+
+knitr::include_graphics("aov_table.bmp")
+```
+---
+# Weekly Check-In Questions
+
+- Significance of the intercept value
+
+  -  The *p*-value for the intercept tells us if the intercept is different from 0
+  
+    - Most often this is not of importance 
+
+$$H_0:\beta_0=0$$
+---
+# Weekly Check-In Questions
+
+- In effects coding/sum coding, why is centering necessary/why would we want to use grand mean?
+
+  - Centering is what occurs as a function of taking the mean of dummy codes 
+  
+  - Might not care about reference level 
+
+- When dealing with one factor with 2 levels dummy coding vs. sum coding does not matter
+  
+- Sum coding is what ANOVA is doing to test main effects and interactions (more on this later)
+
+---
+# Weekly Check-In Questions
+
+---
 # Weekly Check-In Questions
 
 - Eta-squared vs partial eta-squared 
-$$\eta^2
-% of total variance explained by IV$$
+$$\eta^2$$
 
-$$\eta_p^2:
-% of variance explained by IV partailing out other variables in the model$$
+- % of total variance explained by IV
+
+$$\eta_p^2$$
+
+- % of variance explained by IV partailing out other variables in the model
 
 ---
 # Weekly Check-In Questions
@@ -717,7 +720,7 @@ lm(prop~log_time, data=log_df)
   
     - 1% increase in the independent variable increases (or decreases) the dependent variable by (coefficient/100) units
   
-  -  For x percent increase, multiply the coefficient by log(1.x).
+  -  For x percent increase, multiply the coefficient by log(1.x)
  
 ---
 # Check Assumptions Again 
@@ -802,9 +805,7 @@ check_model()
 ---
 # Power Ladder
 
-
-
-```{r, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="50%"}
 
 knitr::include_graphics("power.jpg")
 
@@ -960,7 +961,7 @@ ELP %>% ggplot(aes(x = Freq, y = LogRT, label = Word)) +
 ELP %>% ggplot(aes(x = Log10Freq, y = LogRT, label = Word)) +
   geom_text() +
   geom_smooth(method = 'lm') +
-  ggtitle('Log RT ~ raw frequency') +
+  ggtitle('Log RT ~ log frequency') +
   theme_minimal()
 
 ```
