@@ -126,13 +126,14 @@ lessons:
     slides: ""
     class: "11-Categorical Predictors/More_LM_categorical.html"
     notes: ""
-    assignment: "05" 
+    assignment: "05"
     reading: "09-reading"
     hasclass: False
     
   - title: "Centerng, Linear and Nonlinear Transformations"
     date: "Week 10 [MW, 11/7-11/09]"
     slides: ""
+    class: "12-Transformations_Centering/More_LM_transformations_centering.html"
     notes: ""
     reading: ""
     hasclass: True

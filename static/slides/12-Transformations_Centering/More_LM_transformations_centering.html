@@ -6,6 +6,8 @@
     <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
     <script src="More_LM_transformations_centering_files/header-attrs/header-attrs.js"></script>
     <link href="More_LM_transformations_centering_files/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link href="More_LM_transformations_centering_files/tabwid/tabwid.css" rel="stylesheet" />
+    <link href="More_LM_transformations_centering_files/tabwid/scrool.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -25,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-05
+### Updated:2022-11-06
 ]
 
 ---
@@ -76,6 +78,7 @@ MathJax.Hub.Config({
 - Check-In Q&amp;A
 
 - Transformations
+
   - Linear Transformations
 
      - Centering
@@ -83,31 +86,28 @@ MathJax.Hub.Config({
     
   - Nonlinear Transformations
   
-    - Logarithms
+      - Logarithms
+      
+- Polynomial regression
 
 ---
 # Check-In Q&amp;A
 
-1. How many predictor variables is too many?
+1. Can a model be too good?
 
 2. What is a grand mean?
 
 3. Intercept of the linear model
 
-4. In effects coding/sum coding, why is centering necessary? Why do we want to change 
-the intercept to correspond to the overall mean?
+4. In effects coding/sum coding, why is centering necessary? 
 
-5. What is a grand mean?
+5. `\(\eta^2\)` vs `\(\eta_p^2\)`
 
-6. `\(\eta^2\)` vs `\(\eta_p^2\)`
-
-7. Would you ever use dummy coding with multiple levels? 
-
-8. Heteroscedasticity
+6. Would you ever use dummy coding with multiple levels? 
 ---
 # Check-in Questions
 
-1. How to avoid overfitting in your regression model?
+- How many predictors is too many?
 
 --
 
@@ -115,48 +115,61 @@ the intercept to correspond to the overall mean?
 
 - General rule of thumb is 10-20 participants for every predictor variable in your model
 
-  -  3 predictors requires 30 participants
+- Use cross validation
 
-- Use other methods like lasso or ridge regression
+- Use other methods tolike lasso or ridge regression
 
-- Only include predictors that a theroretically meaninful
+- Only include predictors that are theoretically meaningful
 ]
 
 .pull-right[
-&lt;img src="overfitting_model.webp" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Overfitting-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 - Sum of Squares
 
 &lt;img src="aov_table.bmp" width="70%" style="display: block; margin: auto;" /&gt;
 ---
-# Restricted and Full Models
+# Restricted and Full Model
 
 `$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$`
 
 ```r
-restricted &lt;- lm(Val~ 1, data=senses) 
+restricted &lt;- lm(Val~ 1, data=senses) # intercept-only model
 
-full &lt;- lm(Val~Modality, data=senses) 
+full &lt;- lm(Val~Modality, data=senses)  # full model 
 ```
 
 ---
 # Weekly Check-In Questions
 
-3. Significance of the intercept of the linear model
+- Significance of the intercept value
 
-- Generally speaking the *p*-value for the intercept tells us if the intercept is different from 0. Most often this is not of importance. 
+  -  The *p*-value for the intercept tells us if the intercept is different from 0. Most often this is not of importance. 
 
-`$$H_0:\beta_{intercept}=0$$`
+`$$H_0:\beta_0=0$$`
 ---
 # Weekly Check-In Questions
 
-6. What is grand mean?
+- In effects coding/sum coding, why is centering necessary/why would we want to use grand mean?
+
+  - Centering is what occurs as a function of taking the mean of dummy codes 
+  
+  - Might not care about reference level 
+  
+  - When dealing with one factor with 2 levels dummy coding vs. sum coding does not matter
+  
+    - Sum coding is what ANOVA is doing to test main effects and interactions (more on this later)
+    - We can use that to run linear models
+
+---
+# Weekly Check-In Questions
+
+- What is grand mean?
 
 - It is the mean of the means
 
 `$$\frac{Group1_{mean} + Group2_{mean}}{2}$$`
-
 
 ```r
 senses %&gt;%
@@ -172,42 +185,186 @@ senses %&gt;%
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.56</td></tr>
 </table>
 
+---
+# Weekly Check-In Questions
+
+- Eta-squared vs partial eta-squared 
+`$$\eta^2
+% of total variance explained by IV$$`
+
+`$$\eta_p^2:
+% of variance explained by IV partailing out other variables in the model$$`
 
 ---
 # Weekly Check-In Questions
 
-6. Eta-squared vs partial eta-squared 
+-  Would you ever use dummy coding with multiple levels? 
 
-`$$\eta^2$$` - % of total variance explained by IV
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-8">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.58&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0189</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">295&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ModalitySmell</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.109&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0564</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.93</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0549&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">ModalitySound</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.174&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0376</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-4.64</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.66e-06</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ModalityTaste</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.228&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0431</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.3&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.96e-07</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">ModalityTouch</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.0452</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0374</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1.21</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.227&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
 
-`$$\eta_p^2$$` - % of variance explained by IV partailing out other variables in the model
 ---
-# Weekly Check-In Questions
+# Dummy Codes (Seidman, Wade, &amp; Geller, 2022)
 
-7. Would you ever use dummy coding with multiple levels? 
+  -  Waitlist (do not complete a group, just measures)
+  -  Group-only (attend a group + measures)
+  
+  - Self-affirmation + group (complete an individual intervention, then attend group, + measures)  
+
+    - GOvsSA = Waitlist (0), Group only (0), Self-affirmation (1)
+
+   - WLvsGO = Waitlist (0), Group only (1) Self-affirmation (1)
+
+    - GroupvsNo = Waitlist (0), Group (1), Self-Affirmation (1) 
+
+---
+# `emmeans`
+
+- Get means and pairwise comparisons
 
 
 ```r
-senses &lt;- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/11-Categorical%20Predictors/data/winter_2016_senses_valence.csv")
-lm(Val~Modality, data=senses) %&gt;%
-  model_parameters()
+# get pairwise tests between all groups
+
+sen &lt;- lm(Val~Modality, data=senses)
+
+as.data.frame(emmeans::emmeans(sen, specs = "Modality")) %&gt;%
+flextable()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-8">
-<col><col><col><col><col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Parameter</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Coefficient</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SE</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_high</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">t</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df_error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p</th></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.58&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0189</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.54&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.62&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">295&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">400</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ModalitySmell</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.109&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0564</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.22&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00229</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.93</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">400</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0549&nbsp;&nbsp;</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">ModalitySound</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.174&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0376</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.248</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.101&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-4.64</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">400</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.66e-06</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ModalityTaste</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.228&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0431</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.144</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.313&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.3&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">400</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.96e-07</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">ModalityTouch</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.0452</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0374</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.119</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0282&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1.21</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">400</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.227&nbsp;&nbsp;&nbsp;</td></tr>
-</table>
 
+&lt;template id="05e04050-7423-4653-b562-7be249fb0fd0"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-dc9e9858{}.cl-dc9a320e{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dc9a4262{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dc9a426c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dc9a7138{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dc9a7142{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dc9a7143{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dc9a714c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dc9a714d{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dc9a7156{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-dc9e9858'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dc9a7156"&gt;&lt;p class="cl-dc9a4262"&gt;&lt;span class="cl-dc9a320e"&gt;Modality&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a714d"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;emmean&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a714d"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a714d"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;df&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a714d"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;lower.CL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a714d"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;upper.CL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dc9a7142"&gt;&lt;p class="cl-dc9a4262"&gt;&lt;span class="cl-dc9a320e"&gt;Sight&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.579663&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;0.01889440&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.542518&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.616808&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dc9a7142"&gt;&lt;p class="cl-dc9a4262"&gt;&lt;span class="cl-dc9a320e"&gt;Smell&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.471012&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;0.05317357&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.366477&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.575546&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dc9a7142"&gt;&lt;p class="cl-dc9a4262"&gt;&lt;span class="cl-dc9a320e"&gt;Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.405193&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;0.03248092&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.341338&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.469047&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dc9a7142"&gt;&lt;p class="cl-dc9a4262"&gt;&lt;span class="cl-dc9a320e"&gt;Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.808124&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;0.03878081&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.731884&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7138"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.884364&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dc9a714c"&gt;&lt;p class="cl-dc9a4262"&gt;&lt;span class="cl-dc9a320e"&gt;Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7143"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.534435&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7143"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;0.03224121&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7143"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7143"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.471052&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dc9a7143"&gt;&lt;p class="cl-dc9a426c"&gt;&lt;span class="cl-dc9a320e"&gt;5.597818&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="8808c7f4-b8a4-4bda-b559-0f2f8208e35a"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("8808c7f4-b8a4-4bda-b559-0f2f8208e35a");
+var template = document.getElementById("05e04050-7423-4653-b562-7be249fb0fd0");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+# Pairwise Comparisons
+
+
+```r
+library(flextable)
+# get pairwise tests between all groups
+means1 = emmeans::emmeans(sen, specs = "Modality")
+# use pairs
+flextable(as.data.frame(pairs(means1)))
+```
+
+
+&lt;template id="7e7ef235-21c9-4edf-8196-78df15741188"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-dcb26252{}.cl-dcae836c{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dcae8e84{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dcae8e85{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dcaebada{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dcaebae4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dcaebae5{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dcaebaee{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dcaebaef{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dcaebaf8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-dcb26252'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebaef"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;contrast&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebaf8"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;estimate&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebaf8"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;SE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebaf8"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;df&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebaf8"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;t.ratio&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebaf8"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;p.value&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Sight - Smell&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.10865148&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.05643072&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;1.925396&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.3055011645361&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Sight - Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.17447036&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.03757671&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;4.643046&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.0000456942086&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Sight - Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-0.22846083&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.04313872&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-5.295957&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.0000019440745&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Sight - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.04522812&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.03736969&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;1.210289&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.7454337311622&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Smell - Sound&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.06581888&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.06230922&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;1.056327&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.8286561493660&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Smell - Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-0.33711231&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.06581321&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-5.122259&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.0000046594174&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Smell - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-0.06342336&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.06218459&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-1.019921&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.8461335445944&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Sound - Taste&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-0.40293120&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.05058618&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-7.965243&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.0000000000000&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebae4"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Sound - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-0.12924225&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.04576577&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;-2.823993&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebada"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.0397092275599&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dcaebaee"&gt;&lt;p class="cl-dcae8e84"&gt;&lt;span class="cl-dcae836c"&gt;Taste - Touch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebae5"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.27368895&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebae5"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.05043260&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebae5"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;400&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebae5"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;5.426827&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dcaebae5"&gt;&lt;p class="cl-dcae8e85"&gt;&lt;span class="cl-dcae836c"&gt;0.0000009903166&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="d26459a5-48c8-4c55-bdcc-67478f7ce613"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("d26459a5-48c8-4c55-bdcc-67478f7ce613");
+var template = document.getElementById("7e7ef235-21c9-4edf-8196-78df15741188");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
 ---
 # Today's Datasets
 
@@ -217,7 +374,6 @@ lm(Val~Modality, data=senses) %&gt;%
 ```r
 data = read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/10-linear_modeling/data/age_pitch.csv")
 ```
-
 ---
 # Today's Datasets
 
@@ -249,30 +405,27 @@ log_df &lt;- tibble::tribble(
 ---
 # Transformations
 
-- Why should we transform our data?
+- When should we transform our data?
 
-  - Sometimes our data is *uninterpretable or nonsensical* 
-
---
-  - Sometimes our data is *non-linear*
-
+  - To make our data more *interpretable*
+  
 --
 
-  - Sometimes our data is *skewed* 
+  - When our data is *non-linear*
+
+--
+
+  - When our data is *skewed* 
+  
 ---
 # Linear Transformations
+
+- Linear transformations
 
   - Adding, subtracting, dividing by, or multiplying a variable with a constant
     
   - Does not change the relationships in a genuine way (“same model”)
---
-- Nonlinear transformations
 
-    - Transformation that affects different data points differently
-  
-    - Changes the relationships (“different model”)
-  
-    - Logarithms 
 
 ---
 # Linear Transformations
@@ -289,38 +442,33 @@ log_df &lt;- tibble::tribble(
 
 - Nonlinear transformations
 
+--
+
    - Transformation that affects different data points differently
   
   - Changes the relationships (“different model”)
   
-    - Common: Logarthims 
+      - Common: Logarthims 
     
   - Makes models more in line with assumptions
 ---
 # Linear Transformations
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Linear Transformations
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Centering
 
-- Most often X = 0 is meaningless
+&gt; Sometimes our data is *nonsensical* (e.g., Intercept when Age = 0)
 
-- Centering changes the model so that 0 means
-something
-  - 0 is now the average value of `\(x\)` 
+- Centering changes the model so that 0 is mean/average of X
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-# Centering - How to Do It
-
-- Centering
+# Centering - How?
 
 
 ```r
@@ -331,27 +479,49 @@ df &lt;- mutate(data,
 
 ```r
 library(datawizard) # package to center and standardize
+
 df_wiz &lt;- data %&gt;% 
   mutate(age_c = datawizard::center(age))
+
+
+head(df_wiz)
 ```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-17">
+<col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">age</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">pitch</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">age_c</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">66.4</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">166</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.66</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">64.3</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">170</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.6&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">61.9</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">172</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.14</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">54.6</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">171</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-4.17</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">69.4</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">156</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10.7&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">62&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">169</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.23</td></tr>
+</table>
+
 ---
-# Standardizing Predictor 
+# Standardize Predictors 
 
 - Dividing centered mean by `\(\sigma\)`
 
 - Puts variables on same metrics 
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-# Standardizing - How to Do It
+# Standardizing - How?
 
 
 ```r
 df_stand &lt;- data %&gt;%
-  mutate(age_z = age_c / sd(age, na.rm = TRUE))# standardize
+  mutate(age_z = age_c / sd(age, na.rm = TRUE))# standardize z score
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-19">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-20">
 <col><col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">age</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">pitch</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">age_c</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">age_z</th></tr>
 <tr>
@@ -369,7 +539,7 @@ df_stand &lt;- data %&gt;%
 </table>
 
 ---
-Output
+# Output
 
 
 ```r
@@ -386,6 +556,10 @@ lm(pitch~age, data=data)
 ##    215.9581      -0.6936
 ```
 
+
+.pull-left[
+
+
 ```r
 lm(pitch~age_c, data=df)
 ```
@@ -399,6 +573,9 @@ lm(pitch~age_c, data=df)
 ## (Intercept)        age_c  
 ##    175.2105      -0.6936
 ```
+]
+
+.pull-right[
 
 ```r
 lm(pitch~age_z, data=df_wiz)
@@ -413,19 +590,7 @@ lm(pitch~age_z, data=df_wiz)
 ## (Intercept)        age_z  
 ##     175.211       -9.192
 ```
-
-- What has changed here?
-- What has not changed?
----
-# Centering
-
-- Uncentering? 
-
-  - Good if zero is *meaningful*
-  
-- Centering?
-
-  - Good if zero is not meaningful
+]
 ---
 # Centering Around Other Values
 
@@ -433,6 +598,13 @@ lm(pitch~age_z, data=df_wiz)
 
   - Smallest logically possible value?
 
+---
+# Centering
+
+  - Good if zero is *not meaningful*
+  
+  - Do not center if zero is meaningful
+  
 ---
 class: middle
 
@@ -446,28 +618,17 @@ class: middle
 ---
 # Logathimthic Transformations 
 
-
-```r
-knitr::include_graphics("log.bmp")
-```
-
-&lt;img src="log.bmp" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log.bmp" width="90%" style="display: block; margin: auto;" /&gt;
 ---
 # Logathimthic Transformations 
 
-
-```r
-knitr::include_graphics("base.PNG")
-```
-
-&lt;img src="base.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="base.PNG" width="90%" style="display: block; margin: auto;" /&gt;
 ---
 # Logathimthic Transformations 
 
 - Exponentiation
 
-- Takes small numbers and grows them 
-
+  - Takes small numbers and grows them 
 
 `$$10^1 = 10$$`
 `$$10^2 = 100$$`
@@ -479,13 +640,17 @@ knitr::include_graphics("base.PNG")
 
 - Logarithmic
 
-- Takes large numbers and shrinks them 
+  - How many times must one “base” number be multiplied by itself to get some other particular number?
+
+  - Takes large numbers and shrinks them 
 
 `$$1 = log_{10}(10)$$`
 `$$2 = log_{10}(100)$$`
 `$$3 = log_{10}(1000)$$`
 `$$4 = log_{10}(10000)$$`
 `$$5 = log_{10}(100000)$$`
+- R uses natural log base = 2.7182
+
 ---
 # Log Transfomrations
 
@@ -493,24 +658,44 @@ knitr::include_graphics("base.PNG")
 
 - Large numbers shrink more than smaller numbers
 
-  - Compression effect
+  - Compression effect (larger values are closer to the other)
   
 
 ```r
+# time in ms
 RTs &lt;- c(600, 650, 700, 1000, 4000)
+
+logRTs &lt;- log(RTs) # base = 2.718282
+
+logRTs # log rts 
 ```
 
+```
+## [1] 6.396930 6.476972 6.551080 6.907755 8.294050
+```
+
+```r
+exp(logRTs) # get ms numbers back 
+```
+
+```
+## [1]  600  650  700 1000 4000
+```
 ---
-# Predictor ($X$) Transformations
+# Predictor `\(X\)` Transformations
 
-- Make more linear
+- Makes `\(X\)` more linear
 
-- Lets plot our memory data
+- Makes `\(X\)` more Normal
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+- Does not fix heteroscedasticity
 
+    - Lets plot our memory data
+    
 ---
-# Other checks
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Other Checks
 
 
 ```r
@@ -518,25 +703,73 @@ lm(prop~time, data=log_df)%&gt;%
 check_model()
 ```
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
-# Fix?
-
-- Log(time)
+# Log Transformation
 
 
 ```r
 log_df &lt;- log_df %&gt;% 
   mutate(log_time=log(time))
+
+head(log_df)
 ```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-29">
+<col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">time</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">prop</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">log_time</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.84</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.71</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.61</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">15</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.71</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">30</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.56</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.4&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">60</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.54</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.09</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">120</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.47</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.79</td></tr>
+</table>
+
 
 ---
 # Check Again
 
 - Much better!
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Let's Analyze 
+
+
+```r
+lm(prop~log_time, data=log_df)
+```
+
+```
+## 
+## Call:
+## lm(formula = prop ~ log_time, data = log_df)
+## 
+## Coefficients:
+## (Intercept)     log_time  
+##     0.84642     -0.07923
+```
+---
+# Interpretation
+
+- When using logarithms, you model percentage increase or decrease instead of absolute differences
+
+- For log transformed predictors
+
+  - Divide the coefficient by 100
+  
+    - 1% increase in the independent variable increases (or decreases) the dependent variable by (coefficient/100) units
+  
+  -  For x percent increase, multiply the coefficient by log(1.x).
+ 
 ---
 # Check Assumptions Again 
 
@@ -546,126 +779,71 @@ lm(prop~log_time, data=log_df)%&gt;%
 check_model()
 ```
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
-# Let's Analyze 
-
-
-```r
-lm(prop~log_time, data=log_df) %&gt;%
-  report()
-```
-
-```
-## We fitted a linear model (estimated using OLS) to predict prop with log_time
-## (formula: prop ~ log_time). The model explains a statistically significant and
-## substantial proportion of variance (R2 = 0.99, F(1, 11) = 1075.70, p &lt; .001,
-## adj. R2 = 0.99). The model's intercept, corresponding to log_time = 0, is at
-## 0.85 (95% CI [0.82, 0.88], t(11) = 59.63, p &lt; .001). Within this model:
-## 
-##   - The effect of log time is statistically significant and negative (beta =
-## -0.08, 95% CI [-0.08, -0.07], t(11) = -32.80, p &lt; .001; Std. beta = -0.99, 95%
-## CI [-1.06, -0.93])
-## 
-## Standardized parameters were obtained by fitting the model on a standardized
-## version of the dataset. 95% Confidence Intervals (CIs) and p-values were
-## computed using a Wald t-distribution approximation.
-```
----
-# Interpretation of Log transformation
-
-- When using logarithms, you model percentage increase or decrease instead of absolute differences
-
-- Not: RTs are 40 ms slower in incongruent trials
-
-- But: RTs are 7% slower in incongruent trials
-
----
-# Outcome (Y) Transformations
-
--  Log RTs
-
-
-```r
-knitr::include_graphics("log.bmp")
-```
-
-&lt;img src="log.bmp" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-# Outcome (Y) Transformations
-
-- Square root ($\sqrt(y)$)
-
-- Inverse transformation (1/y)
-
-  - Makes interpretation hard! 
----
-# Rules for Interpretation
-
-- OK, so you used a log-transform
-
-- Only the dependent/response variable?
-
-  - Exponentiate the coefficient, subtract one from this number, and multiply by 100. This gives the percent increase (or decrease) in the response for every one-unit increase in the independent variable. Example: the coefficient is 0.198. (exp(0.198) – 1) * 100 = 21.9. For every one-unit increase in the independent variable, our dependent variable increases by about 22%
-  
-- Only independent/predictor variable(s) is log-transformed?
-
-  - Divide the coefficient by 100. This tells us that a 1% increase in the independent variable increases (or decreases) the dependent variable by (coefficient/100) units. Example: the coefficient is 0.198. 0.198/100 = 0.00198. For every 1% increase in the independent variable, our dependent variable increases by about 0.002. For x percent increase, multiply the coefficient by log(1.x). Example: For every 10% increase in the independent variable, our dependent variable increases by about 0.198 * log(1.10) = 0.02
----
-# Rules for Interpretation
-
-- Both dependent/response variable and independent/predictor variable(s) are log-transformed?
-
-  - Interpret the coefficient as the percent increase in the dependent variable for every 1% increase in the independent variable. Example: the coefficient is 0.198. For every 1% increase in the independent variable, our dependent variable increases by about 0.20%. For x percent increase, calculate 1.x to the power of the coefficient, subtract 1, and multiply by 100. Example: For every 20% increase in the independent variable, our dependent variable increases by about (1.20 0.198 – 1) * 100 = 3.7 percent.
-
----
-# Let's Analyze 
-
-
-```r
-lm(prop~log_time, data=log_df) %&gt;%
-  report()
-```
-
-```
-## We fitted a linear model (estimated using OLS) to predict prop with log_time
-## (formula: prop ~ log_time). The model explains a statistically significant and
-## substantial proportion of variance (R2 = 0.99, F(1, 11) = 1075.70, p &lt; .001,
-## adj. R2 = 0.99). The model's intercept, corresponding to log_time = 0, is at
-## 0.85 (95% CI [0.82, 0.88], t(11) = 59.63, p &lt; .001). Within this model:
-## 
-##   - The effect of log time is statistically significant and negative (beta =
-## -0.08, 95% CI [-0.08, -0.07], t(11) = -32.80, p &lt; .001; Std. beta = -0.99, 95%
-## CI [-1.06, -0.93])
-## 
-## Standardized parameters were obtained by fitting the model on a standardized
-## version of the dataset. 95% Confidence Intervals (CIs) and p-values were
-## computed using a Wald t-distribution approximation.
-```
----
-# When Should you Log Transform?
-
-- Ideally: When it’s theoretically motivated
-
-- After you look at the relationship to DV 
-
-- Common in linguistics and psychology:
-
-  - Frequency
-  - Response times
-  - Perceptual magnitudes
-  
-- *If you want/need to center, apply log transform after!*
----
-# Other Data Transformations
+# Other `\(X\)` Transformations
 
 - Square root `\(\sqrt(y)\)`
 
-- Inverse transformation (1/y)
+- Inverse transformations (1/y)
+
+  - Makes interpretation hard!
+
+---
+# Outcome `\(Y\)` Transformations
+
+- Makes `\(Y\)` more linear
+
+- Makes `\(Y\)` normal
+
+- Helps correct heteroscadacity 
+
+---
+# Outcome `\(Y\)` Transformations
+
+- logarithmic 
+
+- Power transformations (Box-Cox)
+
+- Square root `\(\sqrt(y)\)`
+
+- Inverse transformations (1/y)
 
   - Makes interpretation hard! 
+---
+# Log Y Interpretation
+
+- Dependent/response variable
+
+  - Exponentiate the coefficient, subtract one from this number, and multiply by 100
+  
+  - For every one-unit increase in the independent variable, our dependent variable increases by about X%
+
+---
+# Rules for Interpretation
+
+- When dependent/response variable and independent/predictor variable(s) are log-transformed
+
+  - Interpret the coefficient as the percent increase in the dependent variable for every 1% increase in the independent variable
+  
+    - Example: the coefficient is 0.198. For every 1% increase in the independent variable, our dependent variable increases by about 0.20%. For x percent increase, calculate 1.x to the power of the coefficient, subtract 1, and multiply by 100
+    
+    - Example: For every 20% increase in the independent variable, our dependent variable increases by about (1.20 0.198 – 1) * 100 = 3.7 percent
+
+---
+# When Should You Log Transform?
+
+- Ideally: When it’s theoretically motivated
+
+    - Common in linguistics and psychology:
+    
+      - Frequency
+      - Response times
+      - Perceptual magnitudes
+
+- After you look at the relationship to DV 
+
+- *If you want/need to center, apply log transform after!*
 ---
 # Data Transformations
 
@@ -683,52 +861,24 @@ class: middle
 # Polynomial Models
 
 ---
-
 # Polynomial Models
 
-.pull-right[
+.pull-left[
 
--  A nonlinear method that models the relationship between X and Y using polynomials
+-  A nonlinear regression method that models the relationship between X and Y using polynomials
 
 - Polynomial is mathematical expression
 of operators and non-negative powers
+
 ]
 
 .pull-right[
-
-```r
-knitr::include_graphics("orthogonal-curves-1.png")
-```
-
-&lt;img src="orthogonal-curves-1.png" width="50%" /&gt;
+&lt;img src="orthogonal-curves-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # Memory Example
 
-&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-33-1.png" width="100%" style="display: block; margin: auto;" /&gt;
----
-# Testing in Polynomial Models
-
-- Lower-order terms must always remain in model 
-
-- Testing only the highest order  
-`\(x\)` terms
-
-- Testing all of the terms
-
-- Testing some of the x terms, starting with the highest order term and including the next lower-order terms from there.
----
-
-`$$\begin{equation}
-Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3x_i^2 + \epsilon_i.
-\end{equation}$$`
-
-`$$H_0: \beta_3 = 0$$`
-
-`$$H_0: \beta_1 = \beta_2 = \beta_3 = 0$$`
-
-`$$H_0: \beta_2 = \beta_3 = 0$$`
-
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Polynomial Regression
 
@@ -738,21 +888,41 @@ Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i.
 
 ```r
 log_df_quad &lt;- log_df%&gt;%
-  mutate(time2=time^2) # add in quadratic
+  mutate(time2=time^-2) # add in quadratic
+```
+
+---
+# Testing Polynomial Models
+
+- Analyze all the terms in model
+
+- Model comparisons
+
+  - Testing some of the `\(X\)` terms, starting with the lowest order term and including the next higher-order terms from there
+
+  - Include all lower terms of that variable
+
+---
+# Polynomial Regression
+
+
+```r
+log_df_quad &lt;- log_df%&gt;%
+  mutate(time2=time^-2) # add in quadratic
   
 lm(prop ~ time + time2,  data=log_df_quad) %&gt;%
   model_parameters()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
 <col><col><col><col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Parameter</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Coefficient</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">SE</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_high</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">t</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df_error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p</th></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.571&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0449&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.471&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.671&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">12.7&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.68e-07</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.487&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.04&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.398&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.576&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">12.2&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.57e-07</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">time</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.000157</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.39e-05</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.000255</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-5.95e-05</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-3.58</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00498&nbsp;</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">time</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-4.99e-05</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.14e-05</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-7.54e-05</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.44e-05</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-4.36</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00141&nbsp;</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">time2</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.11e-08</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.62e-09</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">8.3e-10&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.14e-08</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.41</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0368&nbsp;&nbsp;</td></tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">time2</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.362&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.125&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.084&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.64&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.9&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0158&nbsp;&nbsp;</td></tr>
 </table>
 
 ---
@@ -764,12 +934,22 @@ anim.1&lt;- ggplot(log_df, aes(time,prop))+
    geom_point(size=5)+
   theme_bw(base_size=18)+ 
  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)
+
+anim.1
 ```
+
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-37-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Model Fit Comparison
 
 
 ```r
+# all 
+
+lm_quad &lt;- lm(prop ~ time + time2 + I(time^3),  data=log_df_quad)
+
+# forward
+
 lm_lin &lt;- lm(prop ~ time,  data=log_df_quad) 
 
 lm_quad &lt;- lm(prop ~ time + time2,  data=log_df_quad)
@@ -777,17 +957,195 @@ lm_quad &lt;- lm(prop ~ time + time2,  data=log_df_quad)
 anova(lm_lin, lm_quad)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-38">
 <col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Res.Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">RSS</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Sum of Sq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Pr(&gt;F)</th></tr>
 <tr>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">11</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.255</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;"></td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">11</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.255</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;"></td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.161</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0936</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.8</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0368</td></tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.139</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">8.42</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0158</td></tr>
+</table>
+
+---
+# In-Class Activity
+
+- English Lexicon Project
+
+  - High frequency words responded to faster than low frequency words 
+
+
+```r
+# Load the frequency data
+
+ELP &lt;- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/12-Transformations_Centering/data/ELP_frequency.csv")
+```
+
+
+---
+# Log Transformation
+
+
+```r
+# Log10-transform frequency, log-transform RTs:
+
+ELP &lt;- mutate(ELP,
+              Log10Freq = log10(Freq),
+              LogRT = log(RT))
+
+head(ELP) %&gt;%
+  flextable()
+```
+
+
+&lt;template id="d45a35ab-9d89-40c5-99fb-2a1e2805ed30"&gt;&lt;style&gt;
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-df3e40ae{}.cl-df3a598a{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-df3a6858{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-df3a6862{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-df3a92d8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df3a9300{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df3a9301{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df3a9302{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df3a930a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df3a930b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-df3e40ae'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a930b"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;Word&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a930a"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;Freq&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a930a"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;RT&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a930a"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;Log10Freq&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a930a"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;LogRT&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a9300"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;thing&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;55,522&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;621.77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;4.744465&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;6.432570&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a9300"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;life&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;40,629&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;519.56&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;4.608836&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;6.252982&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a9300"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;door&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;14,895&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;507.38&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;4.173041&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;6.229260&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a9300"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;angel&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;3,992&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;636.56&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;3.601191&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;6.456079&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a9300"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;beer&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;3,850&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;587.18&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;3.585461&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a92d8"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;6.375331&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df3a9301"&gt;&lt;p class="cl-df3a6858"&gt;&lt;span class="cl-df3a598a"&gt;disgrace&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a9302"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;409&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a9302"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;705.00&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a9302"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;2.611723&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df3a9302"&gt;&lt;p class="cl-df3a6862"&gt;&lt;span class="cl-df3a598a"&gt;6.558198&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="6e94f36e-1974-43ea-9a2c-6725b5cd15c1"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("6e94f36e-1974-43ea-9a2c-6725b5cd15c1");
+var template = document.getElementById("d45a35ab-9d89-40c5-99fb-2a1e2805ed30");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+# Plot 
+
+.pull-left[
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-41-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-left[
+&lt;img src="More_LM_transformations_centering_files/figure-html/unnamed-chunk-42-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Regression
+
+
+```r
+# Fit a regression model:
+ELP_mdl &lt;- lm(LogRT ~ Log10Freq, data = ELP) %&gt;%
+model_parameters()
+```
+
+---
+# Centering &amp; Standardizing
+
+--
+
+
+```r
+# Center and standardize in one go:
+
+ELP &lt;- mutate(ELP,
+              Log10Freq_c = Log10Freq - mean(Log10Freq),
+              Log10Freq_z = Log10Freq_c / sd(Log10Freq_c))
+
+# Select the frequency columns to compare:
+
+ELP %&gt;% 
+  dplyr::select(Freq, Log10Freq, Log10Freq_c, Log10Freq_z)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-44">
+<col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Freq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Log10Freq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Log10Freq_c</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Log10Freq_z</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5.55e+04</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.74&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.03&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.41&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.06e+04</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.61&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.89&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.31&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.49e+04</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.17&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.46&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.01&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.99e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.6&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.884</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.614&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.85e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.59&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.868</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.603&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">409&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.61&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.106</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.0736</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.38&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.336</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.233&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.38&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.341</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.237&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.82&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.898</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.624&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.51&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.21&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.842&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.602</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-2.12&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1.47&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.602</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.12&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.47&nbsp;&nbsp;</td></tr>
 </table>
 
 
 
+---
+# Centering &amp; Standardizing
+
+
+```r
+# Same as before, but this time using datawizard:
+
+ELP &lt;- mutate(ELP,
+              Log10Freq_c = datawizard::center(Log10Freq),
+              Log10Freq_z =datawizard::standardise(Log10Freq))
+```
+
+---
+# Regression
+
+
+```r
+# Fit raw, centered and unc
+ELP_mdl_c &lt;- lm(LogRT ~ Log10Freq_c, ELP) %&gt;%
+  model_parameters()
+
+ELP_mdl_z &lt;- lm(LogRT ~ Log10Freq_z, ELP) %&gt;%
+  model_parameters()
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

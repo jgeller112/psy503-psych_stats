@@ -186,7 +186,9 @@ df <- mutate(data,
     
   - Nonlinear Transformations
   
-    - Logarithms
+      - Logarithms
+      
+- Polynomial regression
 
 ---
 # Check-In Q&A
@@ -197,20 +199,15 @@ df <- mutate(data,
 
 3. Intercept of the linear model
 
-4. In effects coding/sum coding, why is centering necessary? Why do we want to change 
-the intercept to correspond to the overall mean?
+4. In effects coding/sum coding, why is centering necessary? 
 
-5. What is a grand mean?
+5. $\eta^2$ vs $\eta_p^2$
 
-6. $\eta^2$ vs $\eta_p^2$
-
-7. Would you ever use dummy coding with multiple levels? 
-
-8. Heteroscedasticity
+6. Would you ever use dummy coding with multiple levels? 
 ---
 # Check-in Questions
 
-1. How to avoid overfitting in your regression model?
+- How many predictors is too many?
 
 --
 
@@ -218,14 +215,15 @@ the intercept to correspond to the overall mean?
 
 - General rule of thumb is 10-20 participants for every predictor variable in your model
 
-- Use other methods to overfitiin like lasso or ridge regression
+- Use cross validation
+
+- Use other methods tolike lasso or ridge regression
 
 - Only include predictors that are theoretically meaningful
 ]
 
 .pull-right[
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
-
 knitr::include_graphics("Overfitting-1.png")
 ```
 ]
@@ -251,15 +249,29 @@ full <- lm(Val~Modality, data=senses)  # full model
 ---
 # Weekly Check-In Questions
 
-3. Significance of the intercept of the linear model
+- Significance of the intercept value
 
-- Generally speaking the *p*-value for the intercept tells us if the intercept is different from 0. Most often this is not of importance. 
+  -  The *p*-value for the intercept tells us if the intercept is different from 0. Most often this is not of importance. 
 
 $$H_0:\beta_0=0$$
 ---
 # Weekly Check-In Questions
 
-6. What is grand mean?
+- In effects coding/sum coding, why is centering necessary/why would we want to use grand mean?
+
+  - Centering is what occurs as a function of taking the mean of dummy codes 
+  
+  - Might not care about reference level 
+  
+  - When dealing with one factor with 2 levels dummy coding vs. sum coding does not matter
+  
+    - Sum coding is what ANOVA is doing to test main effects and interactions (more on this later)
+    - We can use that to run linear models
+
+---
+# Weekly Check-In Questions
+
+- What is grand mean?
 
 - It is the mean of the means
 
@@ -275,21 +287,61 @@ senses %>%
 ---
 # Weekly Check-In Questions
 
-6. Eta-squared vs partial eta-squared 
+- Eta-squared vs partial eta-squared 
+$$\eta^2
+% of total variance explained by IV$$
 
-$$\eta^2$$: % of total variance explained by IV
-
-$$\eta_p^2$$: % of variance explained by IV partailing out other variables in the model
+$$\eta_p^2:
+% of variance explained by IV partailing out other variables in the model$$
 
 ---
 # Weekly Check-In Questions
 
-7. Would you ever use dummy coding with multiple levels? 
+-  Would you ever use dummy coding with multiple levels? 
 
-```{r}
+```{r, echo=FALSE}
 senses <- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/11-Categorical%20Predictors/data/winter_2016_senses_valence.csv")
 lm(Val~Modality, data=senses) %>%
-  model_parameters()
+tidy()
+```
+---
+# Dummy Codes (Seidman, Wade, & Geller, 2022)
+
+  -  Waitlist (do not complete a group, just measures)
+  -  Group-only (attend a group + measures)
+  
+  - Self-affirmation + group (complete an individual intervention, then attend group, + measures)  
+
+    - GOvsSA = Waitlist (0), Group only (0), Self-affirmation (1)
+
+   - WLvsGO = Waitlist (0), Group only (1) Self-affirmation (1)
+
+    - GroupvsNo = Waitlist (0), Group (1), Self-Affirmation (1) 
+
+---
+# `emmeans`
+
+- Get means and pairwise comparisons
+
+```{r, echo=TRUE, eval=TRUE}
+# get pairwise tests between all groups
+
+sen <- lm(Val~Modality, data=senses)
+
+as.data.frame(emmeans::emmeans(sen, specs = "Modality")) %>%
+flextable()
+
+```
+
+---
+# Pairwise Comparisons
+
+```{r, echo=TRUE}
+library(flextable)
+# get pairwise tests between all groups
+means1 = emmeans::emmeans(sen, specs = "Modality")
+# use pairs
+flextable(as.data.frame(pairs(means1)))
 ```
 ---
 # Today's Datasets
@@ -301,7 +353,6 @@ lm(Val~Modality, data=senses) %>%
 data = read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/10-linear_modeling/data/age_pitch.csv")
 
 ```
-
 ---
 # Today's Datasets
 
@@ -333,32 +384,27 @@ log_df <- tibble::tribble(
 ---
 # Transformations
 
-- Why/when should we transform our data?
+- When should we transform our data?
 
-  - Sometimes our data is *uninterpretable or nonsensical* 
+  - To make our data more *interpretable*
   
 --
 
-  - Sometimes our data is *non-linear*
+  - When our data is *non-linear*
 
 --
 
-  - Sometimes our data is *skewed* 
+  - When our data is *skewed* 
+  
 ---
 # Linear Transformations
+
+- Linear transformations
 
   - Adding, subtracting, dividing by, or multiplying a variable with a constant
     
   - Does not change the relationships in a genuine way (“same model”)
---
 
-- Nonlinear transformations
-
-    - Transformation that affects different data points differently
-  
-    - Changes the relationships (“different model”)
-  
-    - Logarithms 
 
 ---
 # Linear Transformations
@@ -375,11 +421,13 @@ log_df <- tibble::tribble(
 
 - Nonlinear transformations
 
+--
+
    - Transformation that affects different data points differently
   
   - Changes the relationships (“different model”)
   
-    - Common: Logarthims 
+      - Common: Logarthims 
     
   - Makes models more in line with assumptions
 ---
@@ -398,20 +446,6 @@ anim.1
 ---
 # Linear Transformations
 
-```{r, fig.align='center', out.width="100%", echo=FALSE}
-#manually
-anim.1<- ggplot(data, aes(age,pitch))+
-   geom_point(size=5)+
-  geom_smooth(method=lm, se=FALSE, fullrange=TRUE, size=3)+
-  theme_bw(base_size=16) + 
-    expand_limits(x = 0)
-
-
-anim.1
-
-```
-
----
 ```{r, fig.align='center', echo=FALSE, out.width="100%"}
 #Animation
 # Change the point sizes manually
@@ -422,18 +456,14 @@ anim.1<- ggplot(data, aes(age,pitch))+
   geom_vline(xintercept=0, linetype="dotted") + 
   geom_point(x=0, y=216, colour="red", size=10, shape=22, fill="red") + 
   expand_limits(x = 0)
-
 anim.1
 ```
 ---
 # Centering
 
-> Sometimes our data is *uninterpretable or nonsensical* (X = 0)
+> Sometimes our data is *nonsensical* (e.g., Intercept when Age = 0)
 
-- Centering changes the model so that 0 means
-something
-
-  - 0 is now the average value of $x$ 
+- Centering changes the model so that 0 is mean/average of X
 
 ```{r, fig.align='center', echo=FALSE, out.width="100%"}
 #Animation# Change the point sizes manually #center
@@ -450,7 +480,7 @@ anim.1<- ggplot(data, aes(age_c,pitch))+
 anim.1
 ```
 ---
-# Centering - How to Do It
+# Centering - How?
 
 ```{r}
 df <- mutate(data,
@@ -459,11 +489,15 @@ df <- mutate(data,
 
 ```{r}
 library(datawizard) # package to center and standardize
+
 df_wiz <- data %>% 
   mutate(age_c = datawizard::center(age))
+
+
+head(df_wiz)
 ```
 ---
-# Standardizing Predictor 
+# Standardize Predictors 
 
 - Dividing centered mean by $\sigma$
 
@@ -489,11 +523,11 @@ anim.1<- ggplot(df_wiz, aes(age_z,pitch))+
 anim.1
 ```
 ---
-# Standardizing - How to Do It
+# Standardizing - How?
 
 ```{r}
 df_stand <- data %>%
-  mutate(age_z = age_c / sd(age, na.rm = TRUE))# standardize
+  mutate(age_z = age_c / sd(age, na.rm = TRUE))# standardize z score
 ```
 
 ```{r, echo=FALSE}
@@ -503,26 +537,25 @@ df_wiz <- mutate(data,
 head(df_wiz)
 ```
 ---
-Output
+# Output
 
 ```{r}
 lm(pitch~age, data=data)
-lm(pitch~age_c, data=df)
-lm(pitch~age_z, data=df_wiz)
 ```
 
-- What has changed here?
-- What has not changed?
----
-# Centering
 
-- Uncentering? 
+.pull-left[
 
-  - Good if zero is *meaningful*
-  
-- Centering?
+```{r}
+lm(pitch~age_c, data=df)
+```
+]
 
-  - Good if zero is not meaningful
+.pull-right[
+```{r}
+lm(pitch~age_z, data=df_wiz)
+```
+]
 ---
 # Centering Around Other Values
 
@@ -530,6 +563,13 @@ lm(pitch~age_z, data=df_wiz)
 
   - Smallest logically possible value?
 
+---
+# Centering
+
+  - Good if zero is *not meaningful*
+  
+  - Do not center if zero is meaningful
+  
 ---
 class: middle
 
@@ -543,7 +583,7 @@ class: middle
 ---
 # Logathimthic Transformations 
 
-```{r, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="90%"}
 
 knitr::include_graphics("log.bmp")
 
@@ -551,7 +591,7 @@ knitr::include_graphics("log.bmp")
 ---
 # Logathimthic Transformations 
 
-```{r, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="90%"}
 
 knitr::include_graphics("base.PNG")
 
@@ -561,8 +601,7 @@ knitr::include_graphics("base.PNG")
 
 - Exponentiation
 
-- Takes small numbers and grows them 
-
+  - Takes small numbers and grows them 
 
 $$10^1 = 10$$
 $$10^2 = 100$$
@@ -574,13 +613,17 @@ $$10^5 = 100000$$
 
 - Logarithmic
 
-- Takes large numbers and shrinks them 
+  - How many times must one “base” number be multiplied by itself to get some other particular number?
+
+  - Takes large numbers and shrinks them 
 
 $$1 = log_{10}(10)$$
 $$2 = log_{10}(100)$$
 $$3 = log_{10}(1000)$$
 $$4 = log_{10}(10000)$$
 $$5 = log_{10}(100000)$$
+- R uses natural log base = 2.7182
+
 ---
 # Log Transfomrations
 
@@ -588,21 +631,30 @@ $$5 = log_{10}(100000)$$
 
 - Large numbers shrink more than smaller numbers
 
-  - Compression effect
+  - Compression effect (larger values are closer to the other)
   
 ```{r}
+# time in ms
 RTs <- c(600, 650, 700, 1000, 4000)
 
+logRTs <- log(RTs) # base = 2.718282
 
+logRTs # log rts 
+
+exp(logRTs) # get ms numbers back 
 ```
-
 ---
-# Predictor ($X$) Transformations
+# Predictor $X$ Transformations
 
-- Make more linear
+- Makes $X$ more linear
 
-- Lets plot our memory data
+- Makes $X$ more Normal
 
+- Does not fix heteroscedasticity
+
+    - Lets plot our memory data
+    
+---
 ```{r, fig.align='center', out.width="100%", echo=FALSE}
 #manually
 anim.1<- ggplot(log_df, aes(time,prop))+
@@ -614,9 +666,8 @@ anim.1<- ggplot(log_df, aes(time,prop))+
 anim.1
 
 ```
-
 ---
-# Other checks
+# Other Checks
 
 ```{r, fig.align='center', out.width="100%"}
 lm(prop~time, data=log_df)%>%
@@ -624,13 +675,13 @@ check_model()
 ```
 
 ---
-# Fix?
-
-- Log(time)
+# Log Transformation
 
 ```{r}
 log_df <- log_df %>% 
   mutate(log_time=log(time))
+
+head(log_df)
 ```
 
 ---
@@ -649,98 +700,96 @@ anim.1
 
 ```
 ---
+# Let's Analyze 
+
+```{r, fig.align='center', out.width="100%"}
+lm(prop~log_time, data=log_df)
+
+```
+---
+# Interpretation
+
+- When using logarithms, you model percentage increase or decrease instead of absolute differences
+
+- For log transformed predictors
+
+  - Divide the coefficient by 100
+  
+    - 1% increase in the independent variable increases (or decreases) the dependent variable by (coefficient/100) units
+  
+  -  For x percent increase, multiply the coefficient by log(1.x).
+ 
+---
 # Check Assumptions Again 
 
 ```{r, fig.align='center', out.width="100%"}
 lm(prop~log_time, data=log_df)%>%
 check_model()
 ```
-
 ---
-# Let's Analyze 
-
-```{r, fig.align='center', out.width="100%"}
-lm(prop~log_time, data=log_df) %>%
-  report()
-
-```
----
-# Interpretation of Log transformation
-
-- When using logarithms, you model percentage increase or decrease instead of absolute differences
-
-- Not: RTs are 40 ms slower in incongruent trials
-
-- But: RTs are 7% slower in incongruent trials
-
----
-# Outcome (Y) Transformations
-
--  Log RTs
-
-```{r, fig.align='center', out.width="100%"}
-
-knitr::include_graphics("log.bmp")
-
-```
-
----
-# Outcome (Y) Transformations
-
-- Square root ($\sqrt(y)$)
-
-- Inverse transformation (1/y)
-
-  - Makes interpretation hard! 
----
-# Rules for Interpretation
-
-- OK, so you used a log-transform
-
-- Only the dependent/response variable?
-
-  - Exponentiate the coefficient, subtract one from this number, and multiply by 100. This gives the percent increase (or decrease) in the response for every one-unit increase in the independent variable. Example: the coefficient is 0.198. (exp(0.198) – 1) * 100 = 21.9. For every one-unit increase in the independent variable, our dependent variable increases by about 22%
-  
-- Only independent/predictor variable(s) is log-transformed?
-
-  - Divide the coefficient by 100. This tells us that a 1% increase in the independent variable increases (or decreases) the dependent variable by (coefficient/100) units. Example: the coefficient is 0.198. 0.198/100 = 0.00198. For every 1% increase in the independent variable, our dependent variable increases by about 0.002. For x percent increase, multiply the coefficient by log(1.x). Example: For every 10% increase in the independent variable, our dependent variable increases by about 0.198 * log(1.10) = 0.02
----
-# Rules for Interpretation
-
-- Both dependent/response variable and independent/predictor variable(s) are log-transformed?
-
-  - Interpret the coefficient as the percent increase in the dependent variable for every 1% increase in the independent variable. Example: the coefficient is 0.198. For every 1% increase in the independent variable, our dependent variable increases by about 0.20%. For x percent increase, calculate 1.x to the power of the coefficient, subtract 1, and multiply by 100. Example: For every 20% increase in the independent variable, our dependent variable increases by about (1.20 0.198 – 1) * 100 = 3.7 percent.
-
----
-# Let's Analyze 
-
-```{r, fig.align='center', out.width="100%"}
-lm(prop~log_time, data=log_df) %>%
-  report()
-
-```
----
-# When Should you Log Transform?
-
-- Ideally: When it’s theoretically motivated
-
-- After you look at the relationship to DV 
-
-- Common in linguistics and psychology:
-
-  - Frequency
-  - Response times
-  - Perceptual magnitudes
-  
-- *If you want/need to center, apply log transform after!*
----
-# Other Data Transformations
+# Other $X$ Transformations
 
 - Square root $\sqrt(y)$
 
-- Inverse transformation (1/y)
+- Inverse transformations (1/y)
+
+  - Makes interpretation hard!
+
+---
+# Outcome $Y$ Transformations
+
+- Makes $Y$ more linear
+
+- Makes $Y$ normal
+
+- Helps correct heteroscadacity 
+
+---
+# Outcome $Y$ Transformations
+
+- logarithmic 
+
+- Power transformations (Box-Cox)
+
+- Square root $\sqrt(y)$
+
+- Inverse transformations (1/y)
 
   - Makes interpretation hard! 
+---
+# Log Y Interpretation
+
+- Dependent/response variable
+
+  - Exponentiate the coefficient, subtract one from this number, and multiply by 100
+  
+  - For every one-unit increase in the independent variable, our dependent variable increases by about X%
+
+---
+# Rules for Interpretation
+
+- When dependent/response variable and independent/predictor variable(s) are log-transformed
+
+  - Interpret the coefficient as the percent increase in the dependent variable for every 1% increase in the independent variable
+  
+    - Example: the coefficient is 0.198. For every 1% increase in the independent variable, our dependent variable increases by about 0.20%. For x percent increase, calculate 1.x to the power of the coefficient, subtract 1, and multiply by 100
+    
+    - Example: For every 20% increase in the independent variable, our dependent variable increases by about (1.20 0.198 – 1) * 100 = 3.7 percent
+
+---
+# When Should You Log Transform?
+
+- Ideally: When it’s theoretically motivated
+
+    - Common in linguistics and psychology:
+    
+      - Frequency
+      - Response times
+      - Perceptual magnitudes
+
+- After you look at the relationship to DV 
+
+- *If you want/need to center, apply log transform after!*
 ---
 # Data Transformations
 
@@ -758,19 +807,19 @@ class: middle
 # Polynomial Models
 
 ---
-
 # Polynomial Models
 
-.pull-right[
+.pull-left[
 
--  A nonlinear method that models the relationship between X and Y using polynomials
+-  A nonlinear regression method that models the relationship between X and Y using polynomials
 
 - Polynomial is mathematical expression
 of operators and non-negative powers
+
 ]
 
 .pull-right[
-```{r}
+```{r, echo=FALSE,fig.align='center', out.width="100%"}
 
 knitr::include_graphics("orthogonal-curves-1.png")
 
@@ -788,29 +837,6 @@ anim.1
 
 ```
 ---
-# Testing in Polynomial Models
-
-- Lower-order terms must always remain in model 
-
-- Testing only the highest order  
-$x$ terms
-
-- Testing all of the terms
-
-- Testing some of the x terms, starting with the highest order term and including the next lower-order terms from there.
----
-
-$$\begin{equation}
-Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3x_i^2 + \epsilon_i.
-\end{equation}$$
-
-$$H_0: \beta_3 = 0$$
-
-$$H_0: \beta_1 = \beta_2 = \beta_3 = 0$$
-
-$$H_0: \beta_2 = \beta_3 = 0$$
-
----
 # Polynomial Regression
 
 $$\begin{equation}
@@ -819,33 +845,168 @@ Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i.
 ```{r}
 
 log_df_quad <- log_df%>%
-  mutate(time2=time^2) # add in quadratic
+  mutate(time2=time^-2) # add in quadratic
+
+```
+
+---
+# Testing Polynomial Models
+
+- Analyze all the terms in model
+
+- Model comparisons
+
+  - Testing some of the $X$ terms, starting with the lowest order term and including the next higher-order terms from there
+
+  - Include all lower terms of that variable
+
+---
+# Polynomial Regression
+
+```{r}
+
+log_df_quad <- log_df%>%
+  mutate(time2=time^-2) # add in quadratic
   
 lm(prop ~ time + time2,  data=log_df_quad) %>%
   model_parameters()
-
 ```
 ---
 # Model Fit Quadratic
 
-```{r}
+```{r, fig.align='center', out.width="100%"}
 anim.1<- ggplot(log_df, aes(time,prop))+
    geom_point(size=5)+
   theme_bw(base_size=18)+ 
  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)
 
+anim.1
 ```
 ---
 # Model Fit Comparison
 
 ```{r}
+# all 
+
+lm_quad <- lm(prop ~ time + time2 + I(time^3),  data=log_df_quad)
+
+# forward
 
 lm_lin <- lm(prop ~ time,  data=log_df_quad) 
 
 lm_quad <- lm(prop ~ time + time2,  data=log_df_quad)
 
 anova(lm_lin, lm_quad)
+```
+---
+# In-Class Activity
+
+- English Lexicon Project
+
+  - High frequency words responded to faster than low frequency words 
+
+```{r}
+# Load the frequency data
+
+ELP <- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/12-Transformations_Centering/data/ELP_frequency.csv")
+```
+
+
+---
+# Log Transformation
+
+```{r}
+# Log10-transform frequency, log-transform RTs:
+
+ELP <- mutate(ELP,
+              Log10Freq = log10(Freq),
+              LogRT = log(RT))
+
+head(ELP) %>%
+  flextable()
+```
+
+---
+# Plot 
+
+.pull-left[
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+# Plot of the raw frequency data:
+
+ELP %>% ggplot(aes(x = Freq, y = LogRT, label = Word)) +
+  geom_text() +
+  geom_smooth(method = 'lm') +
+  ggtitle('Log RT ~ raw frequency') +
+  theme_bw(base_size = 16)
+```
+
+]
+
+.pull-left[
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+# Plot of the raw frequency data:
+
+# Compare to the plot of the Log frequency data:
+
+ELP %>% ggplot(aes(x = Log10Freq, y = LogRT, label = Word)) +
+  geom_text() +
+  geom_smooth(method = 'lm') +
+  ggtitle('Log RT ~ raw frequency') +
+  theme_minimal()
+
+```
+]
+---
+# Regression
+
+```{r}
+# Fit a regression model:
+ELP_mdl <- lm(LogRT ~ Log10Freq, data = ELP) %>%
+model_parameters()
+```
+
+---
+# Centering & Standardizing
+
+--
+
+```{r}
+
+# Center and standardize in one go:
+
+ELP <- mutate(ELP,
+              Log10Freq_c = Log10Freq - mean(Log10Freq),
+              Log10Freq_z = Log10Freq_c / sd(Log10Freq_c))
+
+# Select the frequency columns to compare:
+
+ELP %>% 
+  dplyr::select(Freq, Log10Freq, Log10Freq_c, Log10Freq_z)
 
 ```
 
 
+---
+# Centering & Standardizing
+
+```{r}
+# Same as before, but this time using datawizard:
+
+ELP <- mutate(ELP,
+              Log10Freq_c = datawizard::center(Log10Freq),
+              Log10Freq_z =datawizard::standardise(Log10Freq))
+```
+
+---
+# Regression
+
+```{r}
+# Fit raw, centered and unc
+ELP_mdl_c <- lm(LogRT ~ Log10Freq_c, ELP) %>%
+  model_parameters()
+
+ELP_mdl_z <- lm(LogRT ~ Log10Freq_z, ELP) %>%
+  model_parameters()
+
+```
