@@ -142,6 +142,7 @@ lessons:
   - title: "Interactions"
     date: "Week 11 [M, 11/14]"
     slides: ""
+    class: "13_Interactions/More_LM_interactions.html"
     notes: ""
     reading: ""
     hasclass: True

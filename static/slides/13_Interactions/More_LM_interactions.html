@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 503: Foundations of Statistical Methods in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
+    <script src="More_LM_interactions_files/header-attrs/header-attrs.js"></script>
+    <link href="More_LM_interactions_files/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# PSY 503: Foundations of Statistical Methods in Psychological Science
+]
+.subtitle[
+## More LM: Interactions
+]
+.author[
+### Jason Geller, Ph.D. (he/him/his)
+]
+.institute[
+### Princeton University
+]
+.date[
+### Updated:2022-11-08
+]
+
+---
+
+
+
+
+
+
+
+
+
+&lt;div style = "position:fixed; visibility: hidden"&gt;
+`$$\require{color}\definecolor{red}{rgb}{1, 0, 0}$$`
+`$$\require{color}\definecolor{green}{rgb}{0, 1, 0}$$`
+`$$\require{color}\definecolor{blue}{rgb}{0, 0, 1}$$`
+&lt;/div&gt;
+
+&lt;script type="text/x-mathjax-config"&gt;
+MathJax.Hub.Config({
+  TeX: {
+    Macros: {
+      red: ["{\\color{red}{#1}}", 1],
+      green: ["{\\color{green}{#1}}", 1],
+      blue: ["{\\color{blue}{#1}}", 1]
+    },
+    loader: {load: ['[tex]/color']},
+    tex: {packages: {'[+]': ['color']}}
+  }
+});
+&lt;/script&gt;
+
+&lt;style&gt;
+.red {color: #FF0000;}
+.green {color: #00FF00;}
+.blue {color: #0000FF;}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+# Outline
+
+- Interactions/Moderation Analysis
+
+    - Categorical by Continuous
+    
+      
+    - Continuous by Continuous
+   
+      
+    - Categorical by Categorical (Monday)
+    
+---
+# Interactions Example
+
+
+```r
+lm(plant_growth ~ sun_exposure * water)
+```
+
+---
+# Interactions Example
+
+
+```r
+lm(plant_growth ~ sun_exposure * water)
+```
+
+&lt;img src="sun-water.bmp" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Interactions Example
+
+```r
+lm(plant_growth ~ sun_exposure * water)
+```
+
+&lt;img src="plant-sun.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Interactions Example
+
+
+```r
+lm(plant_growth ~ sun_exposure * water)
+```
+
+&lt;img src="sun-inter.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# What is a moderator?
+
+&lt;img src="moderation1.png" width="100%" style="display: block; margin: auto;" /&gt;
+`$$Y=\beta_{0}+\beta_{1}*X+\epsilon$$`
+---
+# What is a moderator?
+
+- A moderator variable Z is a variable that alters the strength of the relationship between X and Y
+
+&lt;img src="moderation2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+# What Do Interactions Look Like?
+
+&lt;img src="types-of-interaction-flat.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+# Today's Dataset
+
+- Student evaluations for a sample of 463 courses taught by 94 professors from the University of Texas at Austin
+- In addition, six students rate the professors' physical appearance. The result is a data frame where each row contains a different course and each column has information on either the course or the professor
+
+
+```r
+evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/evals.csv")
+
+evals1= evals_agegend %&gt;%
+dplyr::select(ID, score, age, gender)
+```
+
+
+```
+##        ID           prof_ID          score            age       
+##  Min.   :  1.0   Min.   : 1.00   Min.   :2.300   Min.   :29.00  
+##  1st Qu.:116.5   1st Qu.:20.00   1st Qu.:3.800   1st Qu.:42.00  
+##  Median :232.0   Median :43.00   Median :4.300   Median :48.00  
+##  Mean   :232.0   Mean   :45.15   Mean   :4.175   Mean   :48.37  
+##  3rd Qu.:347.5   3rd Qu.:70.50   3rd Qu.:4.600   3rd Qu.:57.00  
+##  Max.   :463.0   Max.   :94.00   Max.   :5.000   Max.   :73.00  
+##     bty_avg         gender           ethnicity          language  
+##  Min.   :1.667   female:195   minority    : 64   english    :435  
+##  1st Qu.:3.167   male  :268   not minority:399   non-english: 28  
+##  Median :4.333                                                    
+##  Mean   :4.418                                                    
+##  3rd Qu.:5.500                                                    
+##  Max.   :8.167                                                    
+##            rank          pic_outfit        pic_color    cls_did_eval   
+##  teaching    :102   formal    : 77   black&amp;white: 78   Min.   :  5.00  
+##  tenure track:108   not formal:386   color      :385   1st Qu.: 15.00  
+##  tenured     :253                                      Median : 23.00  
+##                                                        Mean   : 36.62  
+##                                                        3rd Qu.: 40.00  
+##                                                        Max.   :380.00  
+##   cls_students    cls_level  
+##  Min.   :  8.00   lower:157  
+##  1st Qu.: 19.00   upper:306  
+##  Median : 29.00              
+##  Mean   : 55.18              
+##  3rd Qu.: 60.00              
+##  Max.   :581.00
+```
+---
+#Research Question
+
+- Does Age and Sex (Males, Females) of the instructor influence instructor ratings?
+
+    - DV: Evals
+    - IV:
+        - Age 
+        - Gender
+        - Age*Gender Interaction
+---
+# Scatterplot
+
+
+```r
+ggplot(evals1, aes(x = age, y = score, color = gender)) +
+  geom_point() +
+  labs(x = "Age", y = "Teaching Score", color = "Gender") +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# How to Conduct Moderation Analysis?
+
+- Moderation analysis can be conducted by adding one or multiple interaction terms in a regression analysis
+
+Z is a moderator for the relation between  X and  Y, we can fit a regression model
+
+`$$\begin{eqnarray*} 
+Y &amp; = &amp; \beta_{0}+\beta_{1}*X+\beta_{2}*Z+\beta_{3}*X*Z+\epsilon\\ &amp; = &amp; \begin{cases} \beta_{0}+\beta_{1}*X+\epsilon &amp; \mbox{For females}(Z=0)\\ \beta_{0}+\beta_{2}+(\beta_{1}+\beta_{3})*X+\epsilon &amp; \mbox{For males}(Z=1) \end{cases} \end{eqnarray*}$$`
+
+- When Z=0 (females),the effect of X on Y is β1+β3∗0=β1
+
+- When Z=1 (males), the effect of X on Y is β1+β3∗1 
+
+---
+# Steps for Moderation Analysis
+
+A moderation analysis typically consists of the following steps:
+
+1. Compute the interaction term XZ=X*Z 
+
+2.  Fit a multiple regression model with X, Z, and XZ as predictors
+
+3.  Test whether the regression coefficient for XZ (interaction) is significant
+
+4.  If so, interpret the moderation effect (ignore main effects)
+
+5.  Display the moderation effect graphically
+---
+# Steps for moderation analysis
+
+-  Compute the interaction term XZ=X*Z
+
+  - Center continuous variables
+
+    - Centering solves two problems: 
+      - Interpretation
+      - Multicollinearity
+
+
+```r
+evals_interact &lt;- evals1 %&gt;%
+  mutate(age_c=datawizard::center(age),gender_trt=ifelse(gender=="female", 0, 1), inter=age_c*gender_trt)
+```
+---
+# Steps for moderation analysis
+
+-  Fit a multiple regression model with X, Z, and XZ as predictors
+
+
+```r
+lm(evals_interact$score~age_c*gender_trt, data=evals_interact) %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-18">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.04&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0408&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">99&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">9.18e-312</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">age_c</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.0175</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00447</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-3.92</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000103&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">gender_trt</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.208&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0527&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">8.88e-05&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">age_c:gender_trt</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0135</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00553</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.45</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0148&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
+---
+# Steps for moderation analysis
+
+-   Test whether the regression coefficient for XZ is significant
+
+
+```r
+lm(score~age_c*gender_trt, data=evals_interact) %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-19">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.04&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0408&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">99&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">9.18e-312</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">age_c</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.0175</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00447</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-3.92</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000103&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">gender_trt</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.208&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0527&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">8.88e-05&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">age_c:gender_trt</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0135</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00553</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.45</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0148&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
+---
+# Interpretation
+
+`$$\hat{Y}= b_0 + b_1 X + b_2 Z + b_3 X*Z$$`
+
+- `\(b_0\)`: the intercept, or the predicted outcome when  X = 0 and Z=0
+- `\(b_1\)`: the simple effect or slope of `\(X\)`, for a one unit change in `\(X\)` the predicted change in `\(Y\)`  at  `\(Z = 0\)`
+- `\(b_2\)`:The simple effect or slope of `\(Z\)`, for a one unit change in `\(Z\)` the predicted change in Y  at X  = 0 
+- `\(b_3\)`:The interaction of `\(X\)` and `\(Z\)`, the change in the slope of `\(X\)` for a one-unit increase in `\(Z\)` (or vice versa)
+---
+# Interpretation
+
+
+```r
+lm(score~age_c*gender_trt, data=evals_interact) %&gt;%
+ tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-20">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.04&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0408&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">99&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">9.18e-312</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">age_c</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.0175</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00447</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-3.92</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000103&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">gender_trt</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.208&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0527&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.95</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">8.88e-05&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">age_c:gender_trt</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0135</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00553</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.45</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0148&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
+`\(b_0\)` = 
+`\(b_{age}\)` = 
+`\(b_{gender}\)` = 
+`\(b_{age}*{male}\)` = 
+
+???
+
+Average Score for females is at average age 
+
+age_c: slope of age for z = 0 (females) b0 + b1 + b2(0) + b3 (0)
+
+gender M: slope offset for difference between males and females at average age
+
+age_c*gender: the slope for age for females: age + ageC_* gender (-0.02+ 0.01)
+
+---
+# Moderation: Simple Slopes
+
+- If the interaction is significant, then you usually ignore the other individual effects (age along and gender alone)
+
+- So what do I do if my interaction is significant? **A simple slope analysis**
+
+---
+# Main vs. Simple Effects (slopes)
+
+- Main Effects
+
+  - Coefficients that do no involve interaction terms
+  
+  - Comparison of marginal means
+
+.pull-left[
+
+
+```r
+knitr::include_graphics("marginalMean9.png")
+```
+
+&lt;img src="marginalMean9.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-righ[
+`$$\hat{Y}= b_0 + b_1 X + b_2 Z$$`
+
+`\(b_0\)`: The intercept, or the predicted outcome when  X and Z are 0
+`\(b_1\)`: The slope (or main effect) of X ; for a one unit change in  the predicted change in Y
+`\(b_2\)`: The slope (or main effect) of Y ; for a one unit change in  the predicted change in Y
+
+]
+---
+# Main vs. Simple effects (slopes)
+
+- Simple Effects
+
+  - Comparison of cell means
+
+`$$\hat{Y}= b_0 + b_1 X + b_2 X + b_3 X*Z$$`
+- `\(b_0\)`: the intercept, or the predicted outcome when  X = 0 and Z=0
+- `\(b_1\)`: the simple effect or slope of `\(X\)`, for a one unit change in `\(X\)` the predicted change in `\(Y\)`  at  `\(Z = 0\)`
+- `\(b_2\)`:The simple effect or slope of `\(Z\)`, for a one unit change in `\(Z\)` the predicted change in Y  at X  = 0 
+- `\(b_3\)`:The interaction of `\(X\)` and `\(Z\)`, the change in the slope of `\(X\)` for a one-unit increase in `\(Z\)` (or vice versa)
+
+---
+# Steps for Moderation Analysis
+
+- Obtain simple slopes
+
+  - Is slope &gt; 0 
+
+
+```r
+d=lm(score~age_c*gender_trt, data=evals_interact)
+
+emtrends(d, ~ gender_trt, var="age_c") #simple slopes
+```
+
+```
+##  gender_trt age_c.trend      SE  df lower.CL upper.CL
+##           0    -0.01752 0.00447 459  -0.0263 -0.00874
+##           1    -0.00399 0.00325 459  -0.0104  0.00240
+## 
+## Confidence level used: 0.95
+```
+---
+# Simple Slopes
+
+
+```r
+sim_slopes(d, pred=age_c, modx=gender_trt)
+```
+
+```
+## JOHNSON-NEYMAN INTERVAL 
+## 
+## When gender_trt is OUTSIDE the interval [0.87, 4.05], the slope of age_c is
+## p &lt; .05.
+## 
+## Note: The range of observed values of gender_trt is [0.00, 1.00]
+## 
+## SIMPLE SLOPES ANALYSIS 
+## 
+## Slope of age_c when gender_trt = 0.00 (0): 
+## 
+##    Est.   S.E.   t val.      p
+## ------- ------ -------- ------
+##   -0.02   0.00    -3.92   0.00
+## 
+## Slope of age_c when gender_trt = 1.00 (1): 
+## 
+##    Est.   S.E.   t val.      p
+## ------- ------ -------- ------
+##   -0.00   0.00    -1.23   0.22
+```
+---
+# Steps for Moderation Analysis
+
+- Difference in slopes
+
+  - *testing simple slopes is not the same thing as testing their difference*
+
+
+```r
+d=lm(score~age_c*gender_trt, data=evals_interact)
+
+emtrends(d, pairwise ~ gender_trt, var="age_c")
+```
+
+```
+## $emtrends
+##  gender_trt age_c.trend      SE  df lower.CL upper.CL
+##           0    -0.01752 0.00447 459  -0.0263 -0.00874
+##           1    -0.00399 0.00325 459  -0.0104  0.00240
+## 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast                  estimate      SE  df t.ratio p.value
+##  gender_trt0 - gender_trt1  -0.0135 0.00553 459  -2.446  0.0148
+```
+---
+# Interactions 
+
+- You should only be following up interactions if significant! 
+
+&lt;img src="gelman.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Visualize 
+
+
+```r
+ggplot(evals1, aes(x = age, y = score, color = gender)) +
+  geom_point() +
+  labs(x = "Age", y = "Teaching Score", color = "Gender") +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+# Parallel Slopes
+
+- Parallel slopes models still allow for different intercepts but force all lines to have the same slope.
+
+
+```r
+ggplot(evals1, aes(x = age, y = score, color = gender)) +
+  geom_point() +
+  labs(x = "Age", y = "Teaching Score", color = "Gender") +
+  geom_parallel_slopes(se = FALSE)
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-27-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Parallel Slopes
+
+
+```r
+lm(evals_interact$score~age_c + gender_trt, data=evals_interact) 
+```
+
+```
+## 
+## Call:
+## lm(formula = evals_interact$score ~ age_c + gender_trt, data = evals_interact)
+## 
+## Coefficients:
+## (Intercept)        age_c   gender_trt  
+##    4.064421    -0.008678     0.190571
+```
+---
+# Parallel Slopes
+
+&lt;br&gt;
+&lt;br&gt;
+
+.pull-left[
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+.pull-right[
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-30-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Practice In-Class Activity
+
+- Pick a new categorical and continuous variable to examine as a function of teach evals
+
+- Go through the steps outlined
+
+- Be ready to present to the class on what you found
+
+
+```r
+evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/evals.csv")
+```
+---
+class: middle center
+# Continuous X Continuous
+---
+# Continuous X Continuous Interactions
+
+- Do violent video games make people aggressive? 
+
+    - DV: Aggression
+    - IV:
+    
+        - Callous unemotional traits 
+        - Number of hours spent playing video games per week
+        - Callous unemotional traits*Number of hours spent playing video games per week
+
+
+```r
+# download dataset
+moderation_vio=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/moderation.csv")
+```
+
+---
+# Continuous X Continuous
+
+
+```r
+library(datawizard)
+moderation_vio &lt;- moderation_vio %&gt;%
+  mutate(vid_games_c=center(Vid_Games), caunts_c=center(CaUnTs))
+```
+---
+# Continuous X Continuous
+
+- If the Z variable was categorical, you are basically checking if the separate groups (levels) have different slopes for the non-categorical variable
+
+- However, we cant do that with Continuous x Continuous interactions
+
+---
+# Continuous X Continuous
+
+
+```r
+lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.475&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">84.1&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.72e-272</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">vid_games_c</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.17&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0685&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.48</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0136&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">caunts_c</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.76&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0495&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">15.4&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">6.12e-43&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">vid_games_c:caunts_c</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0271</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00698</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.88</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.000122&nbsp;</td></tr>
+</table>
+
+
+- Interpretation?
+
+???
+
+(Intercept): the intercept, or the predicted outcome when hours = 0 and traits = 0.
+ hours: the simple slope of Hours, for a one unit change in Hours, the predicted change in weight loss at Effort=0. 
+triat: the simple slope of trait, for a one unit change in vio the predicted change in trait at Hours=0.
+ hours:effort: the interaction of Hours and Effort, the change in the slope of Hours for every one unit increase in Effort (or vice versa).
+ 
+---
+Decomposing Continuous X Continuous Interaction: Spotlight Analysis
+
+- For continuous moderator variables, you "create" low, average, and high groups
+
+    - Low groups are people who are one SD below the mean
+    - Average groups are people are at the mean
+    
+    - High groups are people who are one SD above the mean 
+---
+# Moderation: Simple Slopes
+
+- We are examining the interaction between hours of video games and unemotional traits to predict aggression
+
+- Think about which variable you want to know the differences in (i.e., low, average, high)
+
+- So at different levels of callousness, we want to examine the relationship between hours of video game play and aggression
+---
+# Spotlight Analysis
+
+- Low/below created by SUBTRACTING a SD
+
+- High/above created by Adding a SD
+
+- The rule is that we have to bring them to the middle because we centered so that zero is the middle
+
+
+```r
+#create the low and high z score variables 
+a &lt;- mean(moderation_vio$caunts_c) + sd(moderation_vio$caunts_c)
+at &lt;- mean(moderation_vio$caunts_c)
+b &lt;- mean(moderation_vio$caunts_c) - sd(moderation_vio$caunts_c)
+```
+
+---
+# Spotlight Analysis
+
+
+```r
+mylist &lt;- list(caunts_c=c(round(b, 1), round(at,1), round(a, 1)))
+# create a list for values round them
+
+# run lm again
+d=lm(Aggression~vid_games_c*caunts_c,data=moderation_vio)
+
+# get simple slopes at each level
+emtrends(d,~caunts_c, var="vid_games_c", at=mylist)
+```
+
+```
+##  caunts_c vid_games_c.trend     SE  df lower.CL upper.CL
+##      -9.6           -0.0902 0.0990 438   -0.285    0.104
+##       0.0            0.1696 0.0685 438    0.035    0.304
+##       9.6            0.4294 0.0925 438    0.248    0.611
+## 
+## Confidence level used: 0.95
+```
+--
+
+- At high levels of callousness, the strength of hours of video games predicting aggression is the strongest, b = 0.43 ... 
+
+---
+# Graphing Continuous x Continuous Interactions
+
+
+```r
+moderation_vio$caunts_clow &lt;- moderation_vio$caunts_c + sd(moderation_vio$caunts_c) #bring them up
+moderation_vio$caunts_chigh &lt;- moderation_vio$caunts_c - sd(moderation_vio$caunts_c) #bring them down
+modmodellow &lt;- lm(Aggression ~ vid_games_c*caunts_clow, data = moderation_vio)
+modmodelhigh &lt;- lm(Aggression ~ vid_games_c*caunts_chigh, data = moderation_vio)
+```
+
+
+```r
+library(ggplot2)
+
+cleanup &lt;- theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 15))
+modgraph &lt;- ggplot(moderation_vio, aes(vid_games_c, Aggression))
+##change Cal to the new moderator label
+##change xlab for the new X label
+modgraph + 
+  xlab("Centered Video Games") + 
+  geom_point(color = "gray") +
+  geom_abline(aes(intercept = modmodellow$coefficients[1],
+                  slope = modmodellow$coefficients[2], 
+                  linetype = "-1SD Cal"), size = 1) +
+  geom_abline(aes(intercept = d$coefficients[1],
+                  slope = d$coefficients[2], 
+                  linetype = "Average Cal"), size = 1) +
+  geom_abline(aes(intercept = modmodelhigh$coefficients[1],
+                  slope = modmodelhigh$coefficients[2], 
+                  linetype = "+1SD Cal"), size = 1) +
+  scale_linetype_manual(values = c("dotted", "dashed", "solid"),
+                        breaks = c("-1SD Cal", "Average Cal", "+1SD Cal"),
+                        name = "Simple Slope") +
+  cleanup 
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Simplier Way
+
+- Use `interact plot` from the `interactions package`
+
+
+```r
+library(interactions)
+
+interact_plot(d, pred = vid_games_c, modx = caunts_c, interval = TRUE)
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-40-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# Johnson-Neyman Plots: Floodlight Analysis
+
+.pull-left[
+
+- Is a spotlight analysis on the whole range of the moderator
+
+- Provides an interval (2 points) where the slope of a predictor is not statistically significant across different values of the mediator
+
+
+```r
+johnson_neyman(model = d, pred = vid_games_c,
+  modx = caunts_c, control.fdr = TRUE) # important bc otherwise does not correct for multiple comparisons
+```
+
+]
+.pull-right[
+
+&lt;img src="JNplot.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+---
+# Moderation: MeMoBootR
+
+- We can use the `MeMoBootR` to complete the entire processing, including data screening for us! 
+
+- You would enter the raw variables, as the centering is completed for you
+
+
+```r
+#devtools::install_github("doomlab/MeMoBootR")
+library(MeMoBootR)
+mod_model &lt;- moderation1(y = "Aggression",
+                         x = "Vid_Games",
+                         m = "CaUnTs",
+                         df = moderation_vio)
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-43-1.png" width="50%" /&gt;&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-43-2.png" width="50%" /&gt;&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-43-3.png" width="50%" /&gt;
+---
+# Moderation: MeMoBootR
+
+
+```r
+#data screenin
+head(mod_model$datascreening$fulldata)
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-44">
+<col><col><col><col><col><col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">...1</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">ID</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Aggression</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Vid_Games</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CaUnTs</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">vid_games_c</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">caunts_c</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">caunts_clow</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">caunts_chigh</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">badmahal</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">badleverage</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">badcooks</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">totalout</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">69</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">13</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">16</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-5.84</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-18.6</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-8.98</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-28.2</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">55</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">38</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">12</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-9.84</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-18.6</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-8.98</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-28.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">30</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">32</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10.2&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-18.6</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-8.98</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-28.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">96</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">23</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-11.8&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-17.6</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-7.98</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-27.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">5</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">130</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">25</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">11</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-10.8&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-17.6</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-7.98</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-27.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">124</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">46</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">29</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">7.16</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-17.6</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-7.98</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-27.2</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2</td></tr>
+</table>
+
+
+```r
+#models
+summary(mod_model$model1)
+```
+
+```
+## 
+## Call:
+## lm(formula = allformulas$eq1, data = finaldata)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -29.7144  -6.9087  -0.1923   6.9036  29.2290 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      39.967108   0.475057  84.131  &lt; 2e-16 ***
+## Vid_Games         0.169625   0.068473   2.477 0.013616 *  
+## CaUnTs            0.760093   0.049458  15.368  &lt; 2e-16 ***
+## Vid_Games:CaUnTs  0.027062   0.006981   3.877 0.000122 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 9.976 on 438 degrees of freedom
+## Multiple R-squared:  0.3773,	Adjusted R-squared:  0.373 
+## F-statistic: 88.46 on 3 and 438 DF,  p-value: &lt; 2.2e-16
+```
+
+```r
+mod_model$interpretation
+```
+
+```
+## [1] "At low levels of CaUnTs, you see that every unit increase in Vid_Games predicts -0.09 unit change in Aggression. \n\nAt average levels of CaUnTs, you see that every unit increase in Vid_Games predicts 0.17 unit change in Aggression. \n\nAt high levels of CaUnTs, you see that every unit increase in Vid_Games predicts 0.43 unit change in Aggression."
+```
+
+```r
+#graphs
+mod_model$graphslopes
+```
+
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-44-1.png" width="50%" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
