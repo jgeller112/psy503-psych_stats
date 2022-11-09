@@ -1,6 +1,6 @@
 ---
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
-subtitle: "More LM: Interactions"
+subtitle: "More LM: Moderation/Interactions"
 institute: "Princeton University"
 author: "Jason Geller, Ph.D. (he/him/his)"
 date:  'Updated:`r Sys.Date()`'
@@ -181,7 +181,7 @@ library(moderndive)
 
 ```{r, eval=FALSE}
 
-lm(plant_growth ~ sun_exposure * water)
+lm(plant_growth ~ sun_exposure + water)
 
 ```
 
@@ -408,7 +408,7 @@ knitr::include_graphics("marginalMean9.png")
 ```
 ]
 
-.pull-righ[
+.pull-right[
 $$\hat{Y}= b_0 + b_1 X + b_2 Z$$
 
 -$b_0$: The intercept, or the predicted outcome when  X and Z are 0
@@ -432,6 +432,8 @@ $$\hat{Y}= b_0 + b_1 X + b_2 X + b_3 X*Z$$
 # Steps for Moderation Analysis
 
 - Obtain simple slopes
+
+  - When a continuous independent variable interact with a moderating variable, its slope at a particular level of the moderating variable
 
   - Test if slope $\neq$ 0 
 
@@ -533,11 +535,18 @@ ggplot(evals_interact, aes(x = age, y = score, color = gender)) +
 ---
 # Practice In-Class Activity
 
-- Pick a new categorical and continuous variable to examine as a function of teach evals
+- Pick a new categorical and continuous variable to examine if they interact with teaching evals
 
-- Go through the steps outlined
+- Go through the steps outlined in the lecture
 
-- Be ready to present to the class on what you found
+- Be ready to talk as a group about what you ran and found
+
+```{r}
+library(countdown)
+countdown(minutes = 5, seconds = 00)
+
+```
+
 
 ```{r}
 
@@ -545,10 +554,10 @@ evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psyc
 
 ```
 ---
-class: middle center
-# Continuous X Continuous
+class: middle 
+# Continuous x Continuous Interactions
 ---
-# Continuous X Continuous Interactions
+# Continuous x Continuous Interactions
 
 - Do violent video games make people aggressive? 
 
@@ -565,7 +574,7 @@ moderation_vio=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psy
 ```
 
 ---
-# Continuous X Continuous
+# Continuous x Continuous  Model
 
 ```{r}
 library(datawizard)
@@ -581,14 +590,23 @@ moderation_vio <- moderation_vio %>%
 - However, we cant do that with Continuous x Continuous interactions
 
 ---
-# Continuous X Continuous
+# Interpretation Continuous x Continuous Interaction
+
+- $b_0$: the intercept, or the predicted outcome when  X = 0 and Z=0
+- $b_1$: the simple effect or slope of $X$, for a one unit change in $X$ the predicted change in $Y$  at  $Z = 0$
+- $b_2$: The simple effect or slope of $Z$, for a one unit change in $Z$ the predicted change in Y  at X  = 0 
+- $b_3$:The interaction of $X$ and $Z$, the change in the slope of $X$ for a one-unit increase in $Z$ (or vice versa)
+---
+# Continuous X Continuous Regression
 
 ```{r}
 lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
   tidy()
 ```
 
-- Interpretation?
+--
+
+- How do we interpretate?
 
 ???
 
@@ -598,7 +616,7 @@ triat: the simple slope of trait, for a one unit change in vio the predicted cha
  hours:effort: the interaction of Hours and Effort, the change in the slope of Hours for every one unit increase in Effort (or vice versa).
  
 ---
-Decomposing Continuous X Continuous Interaction: Spotlight Analysis
+# Decomposing Continuous X Continuous Interaction: Spotlight Analysis
 
 - For continuous moderator variables, you "create" low, average, and high groups
 
@@ -617,9 +635,9 @@ Decomposing Continuous X Continuous Interaction: Spotlight Analysis
 ---
 # Spotlight Analysis
 
-- Low/below created by SUBTRACTING a SD
+- Low/below created by *SUBTRACTING* 1 SD
 
-- High/above created by Adding a SD
+- High/above created by *ADDING* 1 SD
 
 - The rule is that we have to bring them to the middle because we centered so that zero is the middle
 
@@ -788,3 +806,5 @@ mod_model <- moderation1(y = "Aggression",
 #graphs
 #mod_model$graphslopes
 ```
+---
+# 

@@ -6,6 +6,8 @@
     <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
     <script src="More_LM_interactions_files/header-attrs/header-attrs.js"></script>
     <link href="More_LM_interactions_files/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link href="More_LM_interactions_files/countdown/countdown.css" rel="stylesheet" />
+    <script src="More_LM_interactions_files/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -16,7 +18,7 @@ class: center, middle, inverse, title-slide
 # PSY 503: Foundations of Statistical Methods in Psychological Science
 ]
 .subtitle[
-## More LM: Interactions
+## More LM: Moderation/Interactions
 ]
 .author[
 ### Jason Geller, Ph.D. (he/him/his)
@@ -84,7 +86,7 @@ MathJax.Hub.Config({
 
 
 ```r
-lm(plant_growth ~ sun_exposure * water)
+lm(plant_growth ~ sun_exposure + water)
 ```
 
 ---
@@ -363,7 +365,7 @@ age_c*gender: the offset slope males
 &lt;img src="marginalMean9.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
-.pull-righ[
+.pull-right[
 `$$\hat{Y}= b_0 + b_1 X + b_2 Z$$`
 
 -$b_0$: The intercept, or the predicted outcome when  X and Z are 0
@@ -387,6 +389,8 @@ age_c*gender: the offset slope males
 # Steps for Moderation Analysis
 
 - Obtain simple slopes
+
+  - When a continuous independent variable interact with a moderating variable, its slope at a particular level of the moderating variable
 
   - Test if slope `\(\neq\)` 0 
 
@@ -534,21 +538,33 @@ anova(main, inter)
 ---
 # Practice In-Class Activity
 
-- Pick a new categorical and continuous variable to examine as a function of teach evals
+- Pick a new categorical and continuous variable to examine if they interact with teaching evals
 
-- Go through the steps outlined
+- Go through the steps outlined in the lecture
 
-- Be ready to present to the class on what you found
+- Be ready to talk as a group about what you ran and found
+
+
+```r
+library(countdown)
+countdown(minutes = 5, seconds = 00)
+```
+
+<div class="countdown" id="timer_6a062da2" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
 
 
 ```r
 evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/evals.csv")
 ```
 ---
-class: middle center
-# Continuous X Continuous
+class: middle 
+# Continuous x Continuous Interactions
 ---
-# Continuous X Continuous Interactions
+# Continuous x Continuous Interactions
 
 - Do violent video games make people aggressive? 
 
@@ -566,7 +582,7 @@ moderation_vio=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psy
 ```
 
 ---
-# Continuous X Continuous
+# Continuous x Continuous  Model
 
 
 ```r
@@ -582,7 +598,14 @@ moderation_vio &lt;- moderation_vio %&gt;%
 - However, we cant do that with Continuous x Continuous interactions
 
 ---
-# Continuous X Continuous
+# Interpretation Continuous x Continuous Interaction
+
+- `\(b_0\)`: the intercept, or the predicted outcome when  X = 0 and Z=0
+- `\(b_1\)`: the simple effect or slope of `\(X\)`, for a one unit change in `\(X\)` the predicted change in `\(Y\)`  at  `\(Z = 0\)`
+- `\(b_2\)`: The simple effect or slope of `\(Z\)`, for a one unit change in `\(Z\)` the predicted change in Y  at X  = 0 
+- `\(b_3\)`:The interaction of `\(X\)` and `\(Z\)`, the change in the slope of `\(X\)` for a one-unit increase in `\(Z\)` (or vice versa)
+---
+# Continuous X Continuous Regression
 
 
 ```r
@@ -590,7 +613,7 @@ lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-35">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -604,7 +627,9 @@ lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %&gt;%
 </table>
 
 
-- Interpretation?
+--
+
+- How do we interpretate?
 
 ???
 
@@ -614,7 +639,7 @@ triat: the simple slope of trait, for a one unit change in vio the predicted cha
  hours:effort: the interaction of Hours and Effort, the change in the slope of Hours for every one unit increase in Effort (or vice versa).
  
 ---
-Decomposing Continuous X Continuous Interaction: Spotlight Analysis
+# Decomposing Continuous X Continuous Interaction: Spotlight Analysis
 
 - For continuous moderator variables, you "create" low, average, and high groups
 
@@ -633,9 +658,9 @@ Decomposing Continuous X Continuous Interaction: Spotlight Analysis
 ---
 # Spotlight Analysis
 
-- Low/below created by SUBTRACTING a SD
+- Low/below created by *SUBTRACTING* 1 SD
 
-- High/above created by Adding a SD
+- High/above created by *ADDING* 1 SD
 
 - The rule is that we have to bring them to the middle because we centered so that zero is the middle
 
@@ -717,11 +742,11 @@ modgraph +
   cleanup 
 ```
 
-&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Simplier Way
 
@@ -734,7 +759,7 @@ library(interactions)
 interact_plot(d, pred = vid_games_c, modx = caunts_c, interval = TRUE)
 ```
 
-&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-40-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-41-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Johnson-Neyman Plots: Floodlight Analysis
@@ -777,7 +802,7 @@ mod_model &lt;- moderation1(y = "Aggression",
                          df = moderation_vio)
 ```
 
-&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-43-1.png" width="50%" /&gt;&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-43-2.png" width="50%" /&gt;&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-43-3.png" width="50%" /&gt;
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-44-1.png" width="50%" /&gt;&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-44-2.png" width="50%" /&gt;&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-44-3.png" width="50%" /&gt;
 ---
 # Moderation: MeMoBootR
 
@@ -791,6 +816,8 @@ mod_model &lt;- moderation1(y = "Aggression",
 #graphs
 #mod_model$graphslopes
 ```
+---
+# 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
