@@ -741,6 +741,8 @@ johnson_neyman(model = d, pred = vid_games_c,
 ```
 
 ]
+<br>
+<br>
 .pull-right[
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%", warning=FALSE, message=FALSE, fig.align='center'}
@@ -770,11 +772,10 @@ mod_model <- moderation1(y = "Aggression",
 
 ```{r}
 #data screenin
-head(mod_model$datascreening$fulldata)
+#mod_model$datascreening$fulldata
 #models
-summary(mod_model$model1)
-
-mod_model$interpretation
+#summary(mod_model$model1)
+#mod_model$interpretation
 #graphs
-mod_model$graphslopes
+#mod_model$graphslopes
 ```
