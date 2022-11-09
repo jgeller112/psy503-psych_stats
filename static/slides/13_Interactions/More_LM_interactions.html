@@ -73,7 +73,7 @@ MathJax.Hub.Config({
 
 # Outline
 
-- Testing interactions/Moderation Analysis
+- Testing interactions/moderation analysis
 
   - Categorical by Continuous
   - Continuous by Continuous
@@ -92,7 +92,7 @@ lm(plant_growth ~ sun_exposure * water)
 
 
 ```r
-lm(plant_growth ~ sun_exposure * water)
+lm(plant_growth ~ sun_exposure +  water)
 ```
 
 &lt;img src="sun-water.bmp" width="100%" style="display: block; margin: auto;" /&gt;
@@ -130,11 +130,16 @@ lm(plant_growth ~ sun_exposure * water)
 
 &lt;img src="types-of-interaction-flat.png" width="90%" style="display: block; margin: auto;" /&gt;
 ---
+class: middle
+
+# Categorical x Continuous Interactions
+
+---
 # Today's Dataset
 
 - Student evaluations for a sample of 463 courses taught by 94 professors from the University of Texas at Austin
 
-- In addition, six students rate the professors' physical appearance 
+- Six students rated the professors' physical appearance 
 
 
 ```r
@@ -175,7 +180,7 @@ dplyr::select(ID, score, age, gender)
 ##  Max.   :581.00
 ```
 ---
-#Research Question
+# Research Question
 
 - Does Age and Sex (Males, Females) of the instructor influence instructor ratings?
 
@@ -233,6 +238,7 @@ A moderation analysis typically consists of the following steps:
   - Center continuous variables
 
     - Centering solves two problems: 
+    
       - Interpretation
       
       - Multicollinearity
@@ -269,7 +275,7 @@ lm(evals_interact$score~age_c*gender_trt, data=evals_interact) %&gt;%
 ---
 # Steps for moderation analysis
 
--   Test whether the regression coefficient for XZ is significant
+- Test whether the regression coefficient for XZ is significant
 
 
 ```r
@@ -297,8 +303,8 @@ lm(score~age_c*gender_trt, data=evals_interact) %&gt;%
 
 - `\(b_0\)`: the intercept, or the predicted outcome when  X = 0 and Z=0
 - `\(b_1\)`: the simple effect or slope of `\(X\)`, for a one unit change in `\(X\)` the predicted change in `\(Y\)`  at  `\(Z = 0\)`
-- `\(b_2\)`:The simple effect or slope of `\(Z\)`, for a one unit change in `\(Z\)` the predicted change in Y  at X  = 0 
-- `\(b_3\)`:The interaction of `\(X\)` and `\(Z\)`, the change in the slope of `\(X\)` for a one-unit increase in `\(Z\)` (or vice versa)
+- `\(b_2\)`: The offset/difference in the intercept for a one unit change in `\(Z\)` the predicted change in Y  at X  = 0 
+- `\(b_3\)`: The interaction of `\(X\)` and `\(Z\)`, the offset in slope for `\(Z\)` for a one-unit increase in `\(X\)` (or vice versa)
 ---
 # Interpretation
 
@@ -334,12 +340,12 @@ age_c: slope of age for z = 0 (females) b0 + b1 + b2(0) + b3 (0)
 
 gender M: slope offset for difference between males and females at average age
 
-age_c*gender: the slope for age for females: age + ageC_* gender (-0.02+ 0.01)
+age_c*gender: the offset slope males
 
 ---
 # Moderation: Simple Slopes
 
-- If the interaction is significant, then you usually ignore the other individual effects (age along and gender alone)
+- If the interaction is significant, then you usually ignore the other individual effects (age and  gender)
 
 - So what do I do if my interaction is significant? **A simple slope analysis**
 
@@ -354,21 +360,15 @@ age_c*gender: the slope for age for females: age + ageC_* gender (-0.02+ 0.01)
 
 .pull-left[
 
-
-```r
-knitr::include_graphics("marginalMean9.png")
-```
-
 &lt;img src="marginalMean9.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-righ[
 `$$\hat{Y}= b_0 + b_1 X + b_2 Z$$`
 
-`\(b_0\)`: The intercept, or the predicted outcome when  X and Z are 0
-`\(b_1\)`: The slope (or main effect) of X ; for a one unit change in  the predicted change in Y
-`\(b_2\)`: The slope (or main effect) of Y ; for a one unit change in  the predicted change in Y
-
+-$b_0$: The intercept, or the predicted outcome when  X and Z are 0
+-$b_1$: The slope (or main effect) of X ; for a one unit change in  the predicted change in Y
+-$b_2$: The slope (or main effect) of Y ; for a one unit change in  the predicted change in Y
 ]
 ---
 # Main vs. Simple effects (slopes)
@@ -388,10 +388,12 @@ knitr::include_graphics("marginalMean9.png")
 
 - Obtain simple slopes
 
-  - Is slope &gt; 0 
+  - Test if slope `\(\neq\)` 0 
 
 
 ```r
+#hello to our friend emmeans 
+#library(emmeans)
 d=lm(score~age_c*gender_trt, data=evals_interact)
 
 emtrends(d, ~ gender_trt, var="age_c") #simple slopes
@@ -465,7 +467,7 @@ emtrends(d, pairwise ~ gender_trt, var="age_c")
 
 - You should only be following up interactions if significant! 
 
-&lt;img src="gelman.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="gelman.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Visualize 
@@ -499,18 +501,21 @@ ggplot(evals1, aes(x = age, y = score, color = gender)) +
 
 
 ```r
-lm(evals_interact$score~age_c + gender_trt, data=evals_interact) 
+main&lt;-lm(score~age_c + gender_trt, data=evals_interact) 
+inter&lt;- lm(score~age_c*gender_trt, data=evals_interact) 
+
+anova(main, inter)
 ```
 
-```
-## 
-## Call:
-## lm(formula = evals_interact$score ~ age_c + gender_trt, data = evals_interact)
-## 
-## Coefficients:
-## (Intercept)        age_c   gender_trt  
-##    4.064421    -0.008678     0.190571
-```
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-28">
+<col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Res.Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">RSS</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Sum of Sq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Pr(&gt;F)</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">460</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">131</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;"></td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">459</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">130</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.69</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.98</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0148</td></tr>
+</table>
+
 ---
 # Parallel Slopes
 
@@ -782,14 +787,7 @@ mod_model &lt;- moderation1(y = "Aggression",
 #mod_model$datascreening$fulldata
 #models
 #summary(mod_model$model1)
-mod_model$interpretation
-```
-
-```
-## [1] "At low levels of CaUnTs, you see that every unit increase in Vid_Games predicts -0.09 unit change in Aggression. \n\nAt average levels of CaUnTs, you see that every unit increase in Vid_Games predicts 0.17 unit change in Aggression. \n\nAt high levels of CaUnTs, you see that every unit increase in Vid_Games predicts 0.43 unit change in Aggression."
-```
-
-```r
+#mod_model$interpretation
 #graphs
 #mod_model$graphslopes
 ```

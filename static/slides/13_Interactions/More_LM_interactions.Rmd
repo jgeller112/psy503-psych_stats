@@ -170,7 +170,7 @@ library(moderndive)
 ```
 # Outline
 
-- Testing interactions/Moderation Analysis
+- Testing interactions/moderation analysis
 
   - Categorical by Continuous
   - Continuous by Continuous
@@ -190,7 +190,7 @@ lm(plant_growth ~ sun_exposure * water)
 
 ```{r, eval=FALSE}
 
-lm(plant_growth ~ sun_exposure * water)
+lm(plant_growth ~ sun_exposure +  water)
 
 ```
 
@@ -249,11 +249,16 @@ knitr::include_graphics("moderation2.png")
 knitr::include_graphics("types-of-interaction-flat.png")
 ```
 ---
+class: middle
+
+# Categorical x Continuous Interactions
+
+---
 # Today's Dataset
 
 - Student evaluations for a sample of 463 courses taught by 94 professors from the University of Texas at Austin
 
-- In addition, six students rate the professors' physical appearance 
+- Six students rated the professors' physical appearance 
 
 ```{r}
 evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/evals.csv")
@@ -265,7 +270,7 @@ dplyr::select(ID, score, age, gender)
 summary(evals)
 ```
 ---
-#Research Question
+# Research Question
 
 - Does Age and Sex (Males, Females) of the instructor influence instructor ratings?
 
@@ -320,6 +325,7 @@ A moderation analysis typically consists of the following steps:
   - Center continuous variables
 
     - Centering solves two problems: 
+    
       - Interpretation
       
       - Multicollinearity
@@ -340,7 +346,7 @@ lm(evals_interact$score~age_c*gender_trt, data=evals_interact) %>%
 ---
 # Steps for moderation analysis
 
--   Test whether the regression coefficient for XZ is significant
+- Test whether the regression coefficient for XZ is significant
 
 ```{r}
 lm(score~age_c*gender_trt, data=evals_interact) %>%
@@ -353,8 +359,8 @@ $$\hat{Y}= b_0 + b_1 X + b_2 Z + b_3 X*Z$$
 
 - $b_0$: the intercept, or the predicted outcome when  X = 0 and Z=0
 - $b_1$: the simple effect or slope of $X$, for a one unit change in $X$ the predicted change in $Y$  at  $Z = 0$
-- $b_2$:The simple effect or slope of $Z$, for a one unit change in $Z$ the predicted change in Y  at X  = 0 
-- $b_3$:The interaction of $X$ and $Z$, the change in the slope of $X$ for a one-unit increase in $Z$ (or vice versa)
+- $b_2$: The offset/difference in the intercept for a one unit change in $Z$ the predicted change in Y  at X  = 0 
+- $b_3$: The interaction of $X$ and $Z$, the offset in slope for $Z$ for a one-unit increase in $X$ (or vice versa)
 ---
 # Interpretation
 
@@ -375,12 +381,12 @@ age_c: slope of age for z = 0 (females) b0 + b1 + b2(0) + b3 (0)
 
 gender M: slope offset for difference between males and females at average age
 
-age_c*gender: the slope for age for females: age + ageC_* gender (-0.02+ 0.01)
+age_c*gender: the offset slope males
 
 ---
 # Moderation: Simple Slopes
 
-- If the interaction is significant, then you usually ignore the other individual effects (age along and gender alone)
+- If the interaction is significant, then you usually ignore the other individual effects (age and  gender)
 
 - So what do I do if my interaction is significant? **A simple slope analysis**
 
@@ -395,7 +401,7 @@ age_c*gender: the slope for age for females: age + ageC_* gender (-0.02+ 0.01)
 
 .pull-left[
 
-```{r, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 knitr::include_graphics("marginalMean9.png")
 
@@ -405,10 +411,9 @@ knitr::include_graphics("marginalMean9.png")
 .pull-righ[
 $$\hat{Y}= b_0 + b_1 X + b_2 Z$$
 
-$b_0$: The intercept, or the predicted outcome when  X and Z are 0
-$b_1$: The slope (or main effect) of X ; for a one unit change in  the predicted change in Y
-$b_2$: The slope (or main effect) of Y ; for a one unit change in  the predicted change in Y
-
+-$b_0$: The intercept, or the predicted outcome when  X and Z are 0
+-$b_1$: The slope (or main effect) of X ; for a one unit change in  the predicted change in Y
+-$b_2$: The slope (or main effect) of Y ; for a one unit change in  the predicted change in Y
 ]
 ---
 # Main vs. Simple effects (slopes)
@@ -428,10 +433,11 @@ $$\hat{Y}= b_0 + b_1 X + b_2 X + b_3 X*Z$$
 
 - Obtain simple slopes
 
-  - Is slope > 0 
+  - Test if slope $\neq$ 0 
 
 ```{r}
-
+#hello to our friend emmeans 
+#library(emmeans)
 d=lm(score~age_c*gender_trt, data=evals_interact)
 
 emtrends(d, ~ gender_trt, var="age_c") #simple slopes
@@ -461,7 +467,7 @@ emtrends(d, pairwise ~ gender_trt, var="age_c")
 
 - You should only be following up interactions if significant! 
 
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
 
 knitr::include_graphics("gelman.png")
 
@@ -493,7 +499,10 @@ ggplot(evals1, aes(x = age, y = score, color = gender)) +
 # Parallel Slopes
 
 ```{r}
-lm(evals_interact$score~age_c + gender_trt, data=evals_interact) 
+main<-lm(score~age_c + gender_trt, data=evals_interact) 
+inter<- lm(score~age_c*gender_trt, data=evals_interact) 
+
+anova(main, inter)
 
 ```
 ---
