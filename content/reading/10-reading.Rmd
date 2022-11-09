@@ -1,0 +1,9 @@
+---
+title: "10-Readings"
+---
+#  Transformations
+
+[Gelman et al. Regression and Other Stories Chapter 12](/readings_pdf/Regression and Other Stories by Andrew Gelman, Jennifer Hill, Aki Vehtari.pdf)
+
+
+
