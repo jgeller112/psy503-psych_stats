@@ -1,0 +1,293 @@
+---
+title: "Problem Set 6"
+output: html_document
+---
+
+# Problem Set 6
+
+This set covers multiple aspects of a multiple regression analysis, including:
+
+1.  Centering
+2.  Log-transforming
+3. Categorical predictors
+4. Multiple regression: collinearity
+5. Multiple regression: standardized predictors
+
+## Introduction to dataset
+
+We will be analyzing data from the following paper:
+
+Winter, B., Perlman, M., Perry, L. K., & Lupyan, G. (2017). Which words are most iconic? Iconicity in English sensory words. Interaction Studies, 18(3), 433-454.
+
+For this study, Winter et al. collected iconicity ratings from 2,500 native American English speakers for 3,000 words. Participants were asked to rate each word for whether "it sounds like what it means" or "it sounds like the opposite of what it means" on a scale from -5.0 to +5.0. Here, we will be looking at each word's average iconicity score, and we want to look at what words are most iconic.
+
+## Analysis 1: Centering a predictor
+
+Let's load the data into R 
+
+```{r warning=F, message=F, echo=T}
+
+icon <- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/13_Interactions/data/perry_winter_2017_iconicity.csv")
+
+# Check dataset:
+
+```
+
+A quick explanation of some of the columns.
+
+- word = the word (should be unique words)
+
+- SER = sensory experience ratings from Juhasz & Jap (2013)
+
+- imageability = imageability ratings from Cortese & Fugett (2004)
+- concreteness = concreteness ratings from Brysbaert et al. (2014)
+- systematicity = systematicity ratings from Monaghan et al. (2014)
+- frequency = frequency of words  from SUBTLEX (Brysbaert & New, 2009)
+
+Check whether there are any duplicates (`get_dupes` from Janitor package is good one to use)
+
+```{r}
+
+```
+
+
+If so, which ones are they? Get rid of those:
+
+```{r}
+
+```
+
+
+Fit a model regressing iconicity onto the predictor SER (sensory experience ratings):
+
+```{r}
+
+```
+
+Check model with `tidy()`:
+
+```{r}
+
+```
+
+Create a centered predictor:
+
+```{r}
+
+```
+
+Create a centered model:
+
+```{r}
+
+```
+
+Check model with `tidy()` and compare to the other model:
+
+```{r}
+# Centered:
+
+
+
+# Uncentered:
+
+
+```
+
+Compare the two model summaries with `glance()`:
+
+```{r}
+# Centered:
+
+
+
+# Uncentered:
+
+
+```
+
+Any differences between the two? 
+
+## Analysis 2: Log-transforming a predictor
+
+Create a ggplot2 density graph of the frequency predictor:
+
+```{r}
+
+```
+
+Check the same frequency predictor on a log scale:
+
+```{r}
+
+```
+
+Use `mutate()` to log transform the frequency predictor:
+
+```{r}
+```
+
+Fit two models, one regressing iconicity onto raw frequency, and one regressing it onto log frequency:
+
+```{r}
+
+```
+
+Compare model summaries with `glance()`:
+
+```{r}
+
+```
+
+Interpret both models: 
+
+## Analysis 3: Using a categorical predictor
+
+Count the POS column:
+
+```{r}
+
+```
+
+Reduce dataset to nouns and verbs. Call the resultant tibble `NV`:
+
+```{r}
+
+```
+
+Fit a model regressing iconicity on the noun/verb distinction. Don't forget that we're now working with the `NV` tibble instead!
+
+```{r}
+# NV_mdl <- 
+```
+
+Print the coefficient table:
+
+```{r}
+
+```
+
+What is in the intercept?
+
+Extract the regression coefficients and perform the math:
+
+```{r}
+# Extract:
+
+
+# Prediction for nouns:
+
+
+
+# Prediction for verbs:
+
+
+```
+
+Let's make `Verb` the reference level instead by defining a factor by hand:
+
+```{r}
+
+```
+
+Refit the model with this new predictor:
+
+```{r}
+
+```
+
+Compare:
+
+```{r}
+# Releveled model coefficient table:
+
+
+
+# Original model coefficients:
+
+```
+
+## Analysis 4: Multiple predictors
+
+For the main analysis presented in Winter et al. (2017), they regressed iconicity simultaneously onto SER, concreteness, imageability, systematicity and log frequency.
+
+```{r warning=F, message=F, echo=T}
+# Build a model with all predictors:
+
+icon_mdl <- lm(iconicity ~ 1 + SER + imageability +
+                 concreteness + log_frequency + systematicity,
+               data = icon)
+
+# Summarize the model:
+
+tidy(icon_mdl)
+```
+
+Check how the concreteness predictor behaves if imageability is not in the model:
+
+```{r}
+tidy(lm(iconicity ~ 1 + SER + concreteness +
+          log_frequency + systematicity,
+        data = icon))
+```
+
+Check correlation of the two:
+
+```{r}
+
+```
+
+Is it high?
+
+Run the `vif()` function on the main model `icon_mdl`:
+
+```{r}
+
+```
+
+There's a lot of talk about different thresholds, with some saying >10 is worrisome, others saying >4 worrisome. All we can say that if something is substantially in excess of 1, it indicates near collinearity, with higher values indicating higher collinearity.
+
+The model we went with did not include concreteness because we didn't think it was sufficiently distinct from imageability, also on a theoretical level.
+
+```{r}
+tidy(lm(iconicity ~ 1 + SER + imageability +
+          log_frequency + systematicity,
+        data = icon))
+```
+
+## Analysis 5: Standardizing predictors
+
+What predictors have the biggest influence on iconicity ratings? 
+
+```{r}
+
+```
+
+The problem is that the slopes are unstandardized, which makes them difficult to compare. Remember that each coefficient is given as a rate of how much iconicity has to change "per one unit of that variable". The problem is that "one unit" has very different meanings for the different variables. Let's look at the range of SER and systematicity values.
+
+```{r warning=F, message=F, echo = T}
+
+# Check range of SER:
+
+range(icon$SER, na.rm = TRUE)
+
+# Check range of systematicity:
+
+range(icon$systematicity, na.rm = TRUE)
+```
+
+Whereas the SER variable ranges from 1 to about 6.5, the systematicity variable has a really narrow range. A one unit (=1.0) change is a massive jump for a variable with this metric.
+
+Let us standardize each predictor by dividing by the respective standard deviations. Then we re-fit the model with the standardized predictors.
+
+```{r warning=F, message=F, echo = T}
+
+```
+
+Rank order the coefficients minus the intercept:
+
+```{r}
+
+```
+
+which one is biggest?

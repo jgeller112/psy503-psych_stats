@@ -143,7 +143,8 @@ lessons:
     date: "Week 11 [M, 11/14]"
     slides: ""
     class: "13_Interactions/More_LM_interactions.html"
-    notes: ""
+    notes: "Pset 6 due 11-20"
+    assignment: "06"
     reading: ""
     hasclass: True
     hasassignment: True
