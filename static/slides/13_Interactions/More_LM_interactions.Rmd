@@ -13,8 +13,6 @@ output:
       highlightLines: true
       ratio: 16:9
       countIncrementalSlides: true
-      background-image: url("lover.png")
-      background-size: cover
       
 ---
 ```{r xaringan-extra-styles, echo=FALSE}
@@ -23,39 +21,8 @@ xaringanExtra::use_extra_styles(
   hover_code_line = TRUE,         #<<
   mute_unhighlighted_code = TRUE  #<<
 )
-```
 
-```{html, echo=FALSE}
-<div style = "position:fixed; visibility: hidden">
-$$\require{color}\definecolor{yellow}{rgb}{1, 0.8, 0.16078431372549}$$
-$$\require{color}\definecolor{orange}{rgb}{0.96078431372549, 0.525490196078431, 0.203921568627451}$$
-$$\require{color}\definecolor{green}{rgb}{0, 0.474509803921569, 0.396078431372549}$$
-</div>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: {
-    Macros: {
-      yellow: ["{\\color{yellow}{#1}}", 1],
-      orange: ["{\\color{orange}{#1}}", 1],
-      green: ["{\\color{green}{#1}}", 1]
-    },
-    loader: {load: ['[tex]/color']},
-    tex: {packages: {'[+]': ['color']}}
-  }
-});
-</script>
-<style>
-.yellow {color: #FFCC29;}
-.orange {color: #F58634;}
-.green {color: #007965;}
-</style>
-```{r, echo=FALSE}
-library(flair)
-yellow <- "#FFCC29"
-orange <- "#F58634"
-green <- "#007965"
 ```
-
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -77,41 +44,6 @@ knitr::knit_hooks$set(source = function(x, options) {
 })
 ```
 
-<div style = "position:fixed; visibility: hidden">
-$$\require{color}\definecolor{red}{rgb}{1, 0, 0}$$
-$$\require{color}\definecolor{green}{rgb}{0, 1, 0}$$
-$$\require{color}\definecolor{blue}{rgb}{0, 0, 1}$$
-</div>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: {
-    Macros: {
-      red: ["{\\color{red}{#1}}", 1],
-      green: ["{\\color{green}{#1}}", 1],
-      blue: ["{\\color{blue}{#1}}", 1]
-    },
-    loader: {load: ['[tex]/color']},
-    tex: {packages: {'[+]': ['color']}}
-  }
-});
-</script>
-
-<style>
-.red {color: #FF0000;}
-.green {color: #00FF00;}
-.blue {color: #0000FF;}
-</style>
-
-
-```{r flair_color, echo=FALSE}
-library(flair)
-red <- "#FF0000"
-green <- "#00FF00"
-blue <- "#0000FF"
-```
-
-
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(xaringanthemer)
 style_solarized_dark(
@@ -122,7 +54,7 @@ style_solarized_dark(
   text_font_size = "30px",
   text_color = "black", 
   background_color = "white", 
-  code_font_google = google_font("Share Tech Mono"),
+  code_font_google = google_font("Work Sans"),
   extra_css = list(
     ".remark-slide-content h2" = list(
       "margin-top" = "2em",
@@ -148,6 +80,7 @@ style_solarized_dark(
 )
 ```
 
+
 ```{r, echo=FALSE}
 library(parameters)
 library(effectsize) 
@@ -168,6 +101,7 @@ library(huxtable)
 library(skimr)
 library(papaja)
 library(moderndive)
+library(Superpower)
 ```
 # Outline
 
@@ -592,24 +526,28 @@ not_c<- lm(`Life Exp`~Murder*Income, data=data_c ) %>%
   tidy() %>%
   mutate_if(is.numeric, round, 3)
 
+not_c
+
 c<- lm(`Life Exp`~murder_c*income_c, data=data_c ) %>%
   tidy() %>% 
   mutate_if(is.numeric, round, 3)
 
+c
 ```
 ---
-# Standardizing Data vs. Coef
+# Standardizing Data vs. Standardizing Coef
 
 - Same thing
 
 .pull-left[
 ```{r}
-
 z <- lm(`Life Exp`~scale(Murder)*scale(Income), data=data_c) %>%
- model_parameters()
-
+tidy()
 z
+```
 
+.pull-right[
+```{r}
 z_coef<-lm(`Life Exp`~murder_c*income_c, data=data_c) %>%
  standardize_parameters(
 include_response=FALSE) # by default standardizes response/outcome
@@ -617,8 +555,12 @@ include_response=FALSE) # by default standardizes response/outcome
 z_coef
 ```
 
+]
+
 ---
-# Parallel Slopes
+# Weekly Q 
+
+- Parallel Slopes
 
 - In practice, you will probably always care about interactions, However...
 
@@ -630,6 +572,15 @@ inter<- lm(score~age_c*gender_trt, data=evals_interact)
 anova(main, inter)
 ```
 
+---
+# Weekly Q 
+
+- Checking Heterogeneity Assumption
+
+  - Performing this test does not do anything to alpha 
+  
+  - Differing degrees of heterogeneity can lead ro Type 1 error
+  
 ---
 class: middle 
 # Continuous x Continuous Interactions
@@ -646,7 +597,7 @@ class: middle
         - Callous unemotional traits*Number of hours spent playing video games per week
 
 ```{r}
-# download dataset
+# grab dataset
 moderation_vio=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/moderation.csv")
 ```
 
@@ -670,17 +621,10 @@ moderation_vio <- moderation_vio %>%
 ---
 # How does this look?
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.align="center", out.width="100%"}
 
 knitr::include_graphics("interexamp.png")
 ```
----
-# Continuous X Continuous Interactions
-
-- If the Z (moderato variable) was categorical, you are basically checking if the separate groups (levels) have different slopes for the non-categorical variable
-
-- However, we cant do that with continuous x continuous interactions
-
 ---
 # Continuous X Continuous Regression
 
@@ -688,7 +632,6 @@ knitr::include_graphics("interexamp.png")
 ds=lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
   tidy()
 ```
-
 
 ???
 
@@ -700,17 +643,29 @@ triat: the simple slope of trait, for a one unit change in vio the predicted cha
 ---
 # Interpretation Continuous x Continuous Interactions
 
+```{r}
+ds=lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
+  tidy()
+```
+
 - $b_0$: the intercept, or the predicted outcome when  X = 0 and Z=0
 - $b_1$: the simple effect or slope of $X$, for a one unit change in $X$ the predicted change in $Y$  at  $Z = 0$
 - $b_2$: The simple effect or slope of $Z$, for a one unit change in $Z$ the predicted change in Y  at X  = 0 
 - $b_3$:The interaction of $X$ and $Z$, the change in the slope of $X$ for a one-unit increase in $Z$ (or vice versa)
 ---
+# Continuous X Continuous Interactions
 
-# Decomposing Continuous X Continuous Interaction: Spotlight Analysis
+- If the Z (moderator variable) was categorical, you would be checking if separate groups (levels) have different slopes for the non-categorical variable
+
+- However, we cant do that with continuous x continuous interactions
+
+---
+# Decomposing Continuous X Continuous Interactions: Spotlight Analysis
 
 - For continuous moderator variables, you "create" low, average, and high groups
 
     - Low groups are people who are one SD below the mean
+    
     - Average groups are people are at the mean
     
     - High groups are people who are one SD above the mean 
@@ -841,7 +796,7 @@ modgraph +
 ```{r, fig.align='center', out.width="80%"}
 library(interactions)
 
-interact_plot(d, pred = vid_games_c, modx = caunts_c, interval = TRUE)
+interact_plot(d, pred = vid_games_c, modx = caunts_c, interval = TRUE, plot.points = TRUE)
 
 ```
 
@@ -850,7 +805,7 @@ interact_plot(d, pred = vid_games_c, modx = caunts_c, interval = TRUE)
 
 .pull-left[
 
-- Is a Floodlight analysis on the whole range of the moderator
+- Is a floodlight analysis on the whole range of the moderator
 
 - Provides an interval (2 points) where the slope of a predictor is not statistically significant across different values of the mediator
 
@@ -868,7 +823,6 @@ johnson_neyman(model = d, pred = vid_games_c,
 
 knitr::include_graphics("JNplot.png")
 ```
-
 
 ]
 ---
@@ -901,21 +855,21 @@ mod_model <- moderation1(y = "Aggression",
 ---
 # In-Class Activity
 
-- High school and beyond dataset
+> A simulated data set containing information on ten thousand customers. The aim here is to predict which customers will default on their credit card debt.
 
-> A national longitudinal survey of students from public and private high schools in the United States, with information such as students' cognitive and non-cognitive skills, high school experiences, work experiences and future plans collected.
+```{r}
+library(ISLR)
+data=ISLR::Credit
+```
+---
+# In-Class Activity
+
+- Have a look at variables (?ISLR::Credit)
 
 - Pick two continuous variables to model
 
 - Plot their interaction and test for significance using both the spotlight and floodlight analyses
 
-```{r}
-library(descriptr)
-hsb=descriptr::hsb
-
-summary(hsb)
-
-```
 ---
 class: middle
 
@@ -928,9 +882,10 @@ class: middle
   - Commonly used to refer to experiments where more than one factor is manipulated
 
   - 2-way (most common), 3-way factorial designs, 4-way... 
-
+  
 > Brysbaert, M. (2019). How many participants do we have to include in properly powered experiments? A tutorial of power analysis with reference tables. Journal of Cognition, 2(1), 16. DOI: http://doi.org/10.5334/joc.72
 
+- Commonly referered to as 2 x 2 ANOVA
 ---
 # Types of Categorical x Categorical Interactions
 
@@ -959,15 +914,14 @@ knitr::include_graphics("interinter3.png")
 gen<- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/13_Interactions/in_gen_2x2.csv")
 
 gen <- gen %>%
-  mutate(Gender=as.factor(Gender), Fluency=as.factor(Fluency)) %>%
-  rename("id" = `Subject Number`)
+  mutate(Gender=as.factor(Gender), Fluency=as.factor(Fluency))
 ```
 ---
 # 2-way (Factorial) ANOVA
 
 - In the example above we have two factors
-Factor A (e.g., Gender) with 2 levels (e.g., male vs. female)
-Factor B (e.g., Fluency) with 2 levels (e.g., Disfluency vs. Fluency)
+  - Factor A (e.g., Gender) with 2 levels (e.g., male vs. female)
+  - Factor B (e.g., Fluency) with 2 levels (e.g., Disfluency vs. Fluency)
 
 - Fully crossed design
   - Every level of factor A is tested with every level of factor B
@@ -1021,25 +975,13 @@ $$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{m
 ---
 # Linear Modeling Approach: Treatment/Dummy
 
-- Fit this model
+- Fit this as a linear model
 
-.pull-left[
 ```{r}
 
 lm(Quiz~Gender*Fluency, data=gen) %>%
   tidy()
 ```
-
-]
-.pull-right[
-
-```{r}
-lm(Quiz~Gender*Fluency, data=gen) %>%
-  estimate_means()
-```
-
-]
-
 ---
 # Treatment Coding/Dummy Coding
 
@@ -1087,7 +1029,6 @@ tibble::tribble(
   )
 
 ```
-
 
 $$\hat{Y}= b_0 + b_1{1} + b_2 {0} + b_3{0}$$
 $$\bar Y_{Male,Disfluent} = b_0 + b_1 {1}$$
@@ -1170,12 +1111,13 @@ knitr::include_graphics("ss_2x2.jpg")
 
 > Does Gender contribute significantly over and above a intercept-only model?
 
-```{r}
+```{r,}
 knitr::kable(tibble::tribble(
                    ~V1,                ~V2,
          "Restricted/Null model:",     "`Quiz ~ 1`",
   "Full/Alternative model:", "`Quiz ~ Gender`"
-  ), col.names= c("", ""))
+  ), col.names= c("", "")) %>%
+  kableExtra::kable_material_dark()
 ```
 
 ---
@@ -1190,31 +1132,30 @@ f = lm(Quiz~Gender, data=gen) # gender
 
 anova(r, f) %>% 
   knitr::kable( digits=3)#  allows us to compare models 
-
-# aov uses type 1 ss
-aov(lm(Quiz~Fluency*Gender, data=gen)) %>% 
-  tidy() # clean up output
 ```
 ]
 
-.pull_right[
+.pull-right[
 
 ```{r, echo=FALSE,  fig.align='center', out.width="100%"}
-knitr::include_graphics("2wayaov.png")
+# aov uses type 1 ss
+aov(lm(Quiz~Gender*Fluency, data=gen)) %>% 
+  tidy() # clean up output
 ```
 
 ]
 ---
 # Main Effect of *B*
 
-> Does Fluency contribute meaninful to the model over and above Gender?
+> Does Fluency contribute meaningfully to the model over and above Gender?
 
-```{r}
+```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
                    ~V1,                ~V2,
          "Restricted/Null model:",     "`Quiz ~ Gender`",
   "Full/Alternative model:", "`Quiz ~ Gender + Fluency`"
-  ), col.names= c("", ""))
+  ), col.names= c("", "")) %>%
+  kableExtra::kable_material_dark()
 ```
 
 
@@ -1231,30 +1172,29 @@ f = lm(Quiz~Gender + Fluency , data=gen) # gender + Fluency
 
 anova(r, f) %>%
    tidy()
-
-# aov uses type 1 ss
-aov(lm(Quiz~Gender*Fluency, data=gen)) %>% tidy(digits=3)
   
 ```
 ]
 
-.pull_right[
+.pull-right[
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
-knitr::include_graphics("2wayaov.png")
+# aov uses type 1 ss
+aov(lm(Quiz~Gender*Fluency, data=gen)) %>% tidy(digits=3)
 ```
 ]
 ---
 # Interaction Effect of *AB*
 
-> Does the interaction between Fluency and Gender contribute meaninful to the model over and above the  main effects?
+> Does the interaction between Fluency and Gender contribute meaningfully to the model over and above the main effects?
 
-```{r}
+```{r, echo=FALSE}
 
 knitr::kable(tibble::tribble(
                    ~V1,                ~V2,
          "Restricted/Null model:",     "`Quiz ~ Gender + Fluency`",
   "Full/Alternative model:", "`Quiz ~ Gender + Fluency + Gender:Fluency`"
-  ), col.names= c("", ""))
+  ), col.names= c("", "")) %>%
+  kableExtra::kable_material_dark()
 
 ```
 ---
@@ -1266,15 +1206,15 @@ r = lm(Quiz~Gender+Fluency, data=gen) # main effects only
 f = lm(Quiz~Gender+Fluency + Fluency:Gender, data=gen) # main +inter
 
 anova(r, f) %>%
-  knitr::kable( digits=3)# compare both models
+  knitr::kable( digits=3) %>% # compare both models %>%
+kableExtra::kable_material_dark()
 
-aov(lm(Quiz~Fluency*Gender, data=gen)) %>% tidy(digits=3)
-  
 ```
 ]
-.pull_right[
+.pull-right[
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
-knitr::include_graphics("2wayaov.png")
+
+aov(lm(Quiz~Gender*Fluency, data=gen)) %>% tidy(digits=3)
 ```
 ]
 ---
@@ -1297,34 +1237,42 @@ knitr::include_graphics("2wayaov.png")
   
   - Based the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it
 ---
+# Type II SS
+
 - Main Effect Gender
-```{r}
+
+```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
                    ~V1,                                               ~V2,
          "Reduced/Null model:",     "`Quiz ~ Fluency`",
-  "Full.Alternative model:", "`Quiz ~ Fluency  + Gender`"
-  ), col.names = c("", ""))
-
+  "Full/Alternative model:", "`Quiz ~ Fluency  + Gender`"
+  ), col.names = c("", "")) %>% 
+  kableExtra::kable_material_dark()
 
 ```
+
 - Main effect Fluency
-```{r}
+
+```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
                    ~V1,                                               ~V2,
          "Reduced/Null model:",     "`Quiz ~ Gender`",
   "Full/Alternative model:", "`Quiz ~ Gender + Fluency`"
-  ), col.names = c("", ""))
+  ), col.names = c("", "")) %>%
+  kableExtra::kable_material_dark()
 
 
 ```
-
+---
+# Type II SS
 - Interaction
-```{r}
+```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
                    ~V1,                                               ~V2,
          "Reduced/Null model:",     "`Quiz ~ Gender + Fluency`",
   "Full/Alternative model:", "`Quiz ~ Gender + Fluency + Gender:Fluency`"
-  ), col.names = c("", ""))
+  ), col.names = c("", "")) %>% 
+  kableExtra::kable_material_dark()
 
 
 ```
@@ -1349,20 +1297,23 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %>%
   
   - Fit full model and remove effect of interest
   
-```{r}
+```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
                    ~V1,                ~V2,
-         "Null model:",     "`babble ~ milk + sugar:milk`",
-  "Alternative model:", "`babble ~ sugar + milk + sugar:milk`"
-  ), col.names= c("", ""))
+         "Null model:", "`babble~milk + sugar:milk`",
+  "Alternative model:", "`babble~sugar + milk + sugar:milk`"
+  ), col.names= c("", "")) %>%
+  kableExtra::kable_material_dark()
 ```
 
-    - Unique contribution that is not attributable to any of the other effects in the model - main effects or interactions. So the effect of X is its unique contribution while controlling both for group and for group:X(interaction)
+- Unique contribution that is not attributable to any of the other effects in the model - main effects or interactions
+
+- So the effect of X is its unique contribution while controlling both for group and for group:X(interaction)
 
 ---
 # Type III SS
 
-```{r}
+```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
                      ~V1,                                 ~V2,                                     ~V3,
 
@@ -1373,7 +1324,8 @@ knitr::kable(tibble::tribble(
                  "`A:C`",   "`A + B + C + A:B + B:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
                  "`B:C`",   "`A + B + C + A:B + A:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
                "`A:B:C`",     "`A + B + C + A:B + A:C + B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`"
-  ), col.names = c(  "Term being tested is",     "Null model is `outcome ~ ...`",  "Alternative model is `outcome ~ ...`"))
+  ), col.names = c(  "Term being tested is",     "Null model is `outcome ~ ...`",  "Alternative model is `outcome ~ ...`")) %>%
+  kableExtra::kable_material_dark()
 
 ```
 
@@ -1387,33 +1339,153 @@ knitr::kable(tibble::tribble(
   - Pick what you care about most 
 
   - DON’T bother looking at involved main effects (not informative)
+  
+  - If not, follow-up with main effect comparisons
 
 *For learning purposes we will examine the interaction*  
 
 ---
 - Simple Effects Analysis
 
-- An examination of the effect of one variable at one level of the other variable
+- An examination of one factor at the level of another
+
+    - Gender at  Fluent
+    - Gender at  Disfluent
+
+    - Get F test for these comparisons (2 one-way ANOVAs)
+    
+      $$F=\frac{MS_{gender_{oneway}}}{MS_{W_{omnibus}}}$$
+
+```{r}
+
+lm(Quiz~Gender*Fluency, data=gen) %>%
+  emmeans::emmeans(pairwise~Gender|Fluency) %>%
+  joint_tests(by="Fluency")
+
+```
+- Simple effect for Fluency, *F*(1, 46) = 0.29, *p* = .867
+
+- Simple effect for Disfluency, *F*(1, 46) = 0.596, *p* = .867
+
+---
+# As *t*-tests
 
 ```{r}
 lm(Quiz~Gender*Fluency, data=gen) %>%
-  emmeans::emmeans(pairwise~Gender|Fluency) %>%
-  contrast(interaction = "pairwise") 
+  emmeans::emmeans(pairwise~Gender|Fluency) 
 ```
+
+```{r}
+
+# get eta 
+t_to_eta2(
+  t = c(0.169, 0.772),
+  df_error = 46
+)
+
+# get omega 
+t_to_omega2(
+  t = c(0.169, 0.772),
+  df_error = 46
+)
+```
+
+---
+# Effect Sizes: Main Effect and Interaction
+
+```{r}
+
+lm(Quiz~Gender*Fluency, data=gen) %>%
+  effectsize::omega_squared()
+ 
+```
+---
+# Power
+
+- `Superpower`
+
+```{r}
+string <- "2b*2b"
+n <- 100
+# We are thinking of running 100 people in each condition
+mu <- c(7.25, 6.38, 7.38, 7)
+# Enter means in the order that matches the labels below.
+# In this case, control, pet.
+sd <-c(1.76,1.80,2.63,1.54)
+labelnames <- c("Gender", "male", "female", "Flu", "Disfluency", "Fluency") #
+# the label names should be in the order of the means specified above.
+design_result <- ANOVA_design(design = string,
+                   n = n,
+                   mu = mu,
+                   sd = sd,
+                   labelnames = labelnames)
+```
+
+---
+# Run Simulation
+
+```{r}
+#100 is not enough
+simulation_result <- ANOVA_power(design_result, 
+                                 alpha_level = .05, 
+                                 nsims = 100,
+                                 verbose = FALSE)
+```
+
+---
+# 2 x 2 ANOVA Assumptions 
+
+- Remember to check for normality and homogeneity before running 
+
+```{r, eval=FALSE}
+
+lm(Quiz~Gender*Fluency, data=gen) %>%
+  check_normality() %>%
+  check_homogeneity()
+
+```
+---
+# Reporting Results
+
+> A two-way ANOVA was performed to analyze the effect of [independent variable 1] and [independent variable 2] on [dependent variable].
+
+> A two-way ANOVA revealed that there [was or was not] a statistically significant interaction between the effects of [independent variable 1] and [independent variable 2] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$).
+
+> Simple main effects analysis showed that [independent variable 1] [did or did not] have a statistically significant effect on [dependent variable] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$).Simple main effects analysis showed that [independent variable 2] [did or did not] have a statistically significant effect on (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$)
+
 ---
 # Thoughts on Interactions
 
 1. Avoid them if not theoretically motivated
 
-  - Use contrasts instead 
+  - Use contrasts when you can 
   
-2. Interactions require a lot of data
+2. Interactions require lots of data
 
   - They are hard to power sufficiently
   
-    - Power is worse in observational studies compared to experimental 
-
+    - Power is worse in observational studies compared to experimental
+    
 3. Use model comparison approach to determine if interactions are warranted
 
 4. Center continuous variables and sum code categorical predictors 
+
+5. For non-simple designs use ANOVA framework
 ---
+# In-Class Activity
+
+> A simulated data set containing information on ten thousand customers. The aim here is to predict which customers will default on their credit card debt.
+
+```{r}
+library(ISLR)
+data=ISLR::Credit
+```
+---
+# In-Class Activity
+
+- Have a look at variables (?ISLR::Credit)
+
+- Pick two categorical variables to model as a function of 
+
+- Plot their interaction and follow-up with simple effects analysis
+
