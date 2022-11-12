@@ -1,4 +1,4 @@
-Subject Number,Gender,Fluency,Quiz
+id,Gender,Fluency,Quiz
 100,F,Disfluent,10
 200,F,Disfluent,9
 101,F,Disfluent,8
