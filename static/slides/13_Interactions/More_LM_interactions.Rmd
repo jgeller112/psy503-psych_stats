@@ -497,6 +497,8 @@ evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psyc
   - Interaction: The effect of one factor depends on levels of an additional variable
 
       - Simple effects/simple slopes
+      
+            - Comparison of cell means 
   
            - Follows up any statistically significant interaction
             - Helps break down interaction to tell us where the interaction is happening
