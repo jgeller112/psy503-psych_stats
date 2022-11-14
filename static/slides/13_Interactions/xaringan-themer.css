@@ -20,7 +20,7 @@
  * ------------------------------------------------------- */
 @import url(https://fonts.googleapis.com/css?family=Work+Sans&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Work+Sans&display=swap);
-@import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Work+Sans&display=swap);
 
 
 :root {
@@ -32,7 +32,7 @@
   --header-font-family: 'Work Sans';
   --header-font-is-google: 1;
   --header-font-family-fallback: Georgia, serif;
-  --code-font-family: 'Share Tech Mono';
+  --code-font-family: 'Work Sans';
   --code-font-is-google: 1;
   --base-font-size: 20px;
   --text-font-size: 30px;

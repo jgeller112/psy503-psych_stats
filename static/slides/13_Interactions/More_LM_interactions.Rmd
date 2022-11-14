@@ -481,27 +481,42 @@ evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psyc
 
 ```
 ---
-# Today
-
+# Today (11/14)
 
 - Weekly Q & A
 
 - More interactions! 
 
 ---
-# Last Class
+# Weekly Qs
 
-- Test of one simple slope for one group can be extracted from the summary output (age_c:women slope)
+- Main Effects and Simple Effects
 
-- Sum coded categorical variable 
+  - Main Effect: The effect of one factor on the dependent variable
+
+  - Interaction: The effect of one factor depends on levels of an additional variable
+
+  - Simple effects/simple slopes
+  
+    - Follows up any statistically significant interaction
+    - Helps break down interaction to tell us where the interaction is happening
+
 ---
-# Effect Sizes
 
-- Effect size for moderation
+```{r}
+d=lm(score~age_c*gender_trt, data=evals_interact)
+d
+emtrends(d, pairwise ~ gender_trt, var="age_c")
+```
 
-  - *d* for the difference (t-test)
+---
+# Weekly Qs
 
-  - For specific effects $\eta_p^2$ 
+- Effect Sizes
+
+   - *d* for the difference (t-test)
+
+      - For specific effects $\eta_p^2$ 
 
 ```{r}
 library(effectsize)
@@ -518,35 +533,48 @@ data=as.data.frame(state.x77)
 
 data_c <- data  %>%
   mutate(murder_c=datawizard::center(Murder), income_c=datawizard::center(Income), murder_z=scale(murder_c), income_z=scale(income_c), life=scale(`Life Exp`))
+
+not_c<- lm(`Life Exp`~Murder*Income, data=data_c )
+c<- lm(`Life Exp`~murder_c*income_c, data=data_c )
 ```
-
-```{r}
-
-not_c<- lm(`Life Exp`~Murder*Income, data=data_c ) %>% 
-  tidy() %>%
-  mutate_if(is.numeric, round, 3)
-
-not_c
-
-c<- lm(`Life Exp`~murder_c*income_c, data=data_c ) %>%
-  tidy() %>% 
-  mutate_if(is.numeric, round, 3)
-
-c
-```
----
-# Standardizing Data vs. Standardizing Coef
-
-- Same thing
 
 .pull-left[
+```{r}
+lm(`Life Exp`~Murder*Income, data=data_c ) %>%
+check_collinearity()
+
+```
+
+
+---
+```{r}
+
+c %>% 
+  check_collinearity()
+```
+
+---
+class: middle
+
+# When in doubt, center!
+
+---
+# Weekly Qs
+
+- Standardizing Data vs. Standardizing Coefs
+
 ```{r}
 z <- lm(`Life Exp`~scale(Murder)*scale(Income), data=data_c) %>%
 tidy()
 z
 ```
 
-.pull-right[
+
+---
+# Weekly Qs
+
+- Standardizing Data vs. Standardizing Coefs
+
 ```{r}
 z_coef<-lm(`Life Exp`~murder_c*income_c, data=data_c) %>%
  standardize_parameters(
@@ -554,15 +582,12 @@ include_response=FALSE) # by default standardizes response/outcome
 
 z_coef
 ```
-
-]
-
 ---
-# Weekly Q 
+# Weekly Qs
 
 - Parallel Slopes
 
-- In practice, you will probably always care about interactions, However...
+  - Way to see if interaction term is warranted
 
 ```{r}
 main<-lm(score~age_c + gender_trt, data=evals_interact) 
@@ -575,11 +600,11 @@ anova(main, inter)
 ---
 # Weekly Q 
 
-- Checking Heterogeneity Assumption
+- Checking heterogeneity assumption
 
   - Performing this test does not do anything to alpha 
   
-  - Differing degrees of heterogeneity can lead ro Type 1 error
+  - Differing degrees of heterogeneity can lead to Type 1 error
   
 ---
 class: middle 
@@ -595,25 +620,26 @@ class: middle
         - Callous unemotional traits 
         - Number of hours spent playing video games per week
         - Callous unemotional traits*Number of hours spent playing video games per week
+        
+- If callous-unemotional traits were a moderator then we're saying that the strength or direction of the relationship between game playing and aggression depends on the strength of callous-unemotional traits
 
 ```{r}
-# grab dataset
+# grab dataset from link
 moderation_vio=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/moderation.csv")
 ```
 
 ---
 # Continuous x Continuous Interactions
 
-- The center of each IV represents the mean of that IV
+- Centering 
 
-- Thus when you interact them $X*Z$, that means $0*0 = 0$
-
-- Also, this can reduce multicollinearity issues
+  - Can reduce multicollinearity
 
   - This is because if $X*Z$ creates a line, it means you have added a new predictor (XZ) that strongly correlates with X and Z
 
 ```{r}
 library(datawizard)
+# centering vars
 moderation_vio <- moderation_vio %>%
   mutate(vid_games_c=center(Vid_Games), caunts_c=center(CaUnTs))
 
@@ -626,32 +652,32 @@ moderation_vio <- moderation_vio %>%
 knitr::include_graphics("interexamp.png")
 ```
 ---
-# Continuous X Continuous Regression
+# Continuous x Continuous Regression
 
 ```{r}
-ds=lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
+lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
   tidy()
 ```
 
 ???
 
 (Intercept): the intercept, or the predicted outcome when hours = 0 and traits = 0.
- hours: the simple slope of Hours, for a one unit change in Hours, the predicted change in weight loss at Effort=0. 
-triat: the simple slope of trait, for a one unit change in vio the predicted change in trait at Hours=0.
- hours:effort: the interaction of Hours and Effort, the change in the slope of Hours for every one unit increase in Effort (or vice versa).
+ hours: the slope of Hours, for a one unit change in Hours, the predicted change in weight loss at Effort=0. 
+triat: the slope of trait, for a one unit change in vio the predicted change in trait at Hours=0.
+ hours:effort: the interaction of Hours and Effort, the change in the slope of HRS for every one unit increase in CALLOUSNESS (or vice versa).
  
 ---
 # Interpretation Continuous x Continuous Interactions
-
-```{r}
-ds=lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
-  tidy()
-```
 
 - $b_0$: the intercept, or the predicted outcome when  X = 0 and Z=0
 - $b_1$: the simple effect or slope of $X$, for a one unit change in $X$ the predicted change in $Y$  at  $Z = 0$
 - $b_2$: The simple effect or slope of $Z$, for a one unit change in $Z$ the predicted change in Y  at X  = 0 
 - $b_3$:The interaction of $X$ and $Z$, the change in the slope of $X$ for a one-unit increase in $Z$ (or vice versa)
+
+```{r, echo=FALSE}
+lm(Aggression~ vid_games_c*caunts_c,  data=moderation_vio) %>%
+  tidy()
+```
 ---
 # Continuous X Continuous Interactions
 
@@ -791,7 +817,7 @@ modgraph +
 ---
 # Probing Interactions: Simplier Way
 
-- Use `interact plot` from the `interactions package`
+- Use `interact_plot` from the `interactions`
 
 ```{r, fig.align='center', out.width="80%"}
 library(interactions)
@@ -810,6 +836,7 @@ interact_plot(d, pred = vid_games_c, modx = caunts_c, interval = TRUE, plot.poin
 - Provides an interval (2 points) where the slope of a predictor is not statistically significant across different values of the mediator
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.align='center', eval=FALSE}
+library(interactions)
 johnson_neyman(model = d, pred = vid_games_c,
   modx = caunts_c, control.fdr = TRUE) # important bc otherwise does not correct for multiple comparisons
 ```
@@ -875,36 +902,11 @@ class: middle
 
 # Categorical x Categorical Interaction
 ---
-# Categorical x Categorical Interaction
-
-- Factorial design
-
-  - Commonly used to refer to experiments where more than one factor is manipulated
-
-  - 2-way (most common), 3-way factorial designs, 4-way... 
-  
-> Brysbaert, M. (2019). How many participants do we have to include in properly powered experiments? A tutorial of power analysis with reference tables. Journal of Cognition, 2(1), 16. DOI: http://doi.org/10.5334/joc.72
-
-- Commonly referered to as 2 x 2 ANOVA
----
-# Types of Categorical x Categorical Interactions
-
-```{r,echo=FALSE, fig.align='center', out.width="100%"}
-
-knitr::include_graphics("interpinter1.png")
-```
----
-# Interpretation Interactions
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
-
-knitr::include_graphics("interinter3.png")
-```
----
 # 2 x 2 Between Factorial Dataset
 
 - LaPaglia, Miller, and Protexter (2022)
 
-  - Looked at the impact of instructor fluency and gender on test performance
+  - Looked at the impact of instructor fluency and gender on test performance (Quiz)
   
   - *N* = 72 (49 females, 23 males)
   
@@ -916,22 +918,53 @@ gen<- read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/
 gen <- gen %>%
   mutate(Gender=as.factor(Gender), Fluency=as.factor(Fluency))
 ```
+
+---
+# Categorical x Categorical Interaction
+
+- Factorial design (ANOVA)
+
+  - Commonly used to refer to experiments where more than one factor is manipulated
+
+  - 2-way (most common), 3-way factorial designs, 4-way... 
+
 ---
 # 2-way (Factorial) ANOVA
 
-- In the example above we have two factors
+- In the example above we have two factors:
+
   - Factor A (e.g., Gender) with 2 levels (e.g., male vs. female)
   - Factor B (e.g., Fluency) with 2 levels (e.g., Disfluency vs. Fluency)
 
 - Fully crossed design
+
   - Every level of factor A is tested with every level of factor B
-  - total # groups (cells) is a x b
+  - Total # groups (cells) is a x b
 
 - We will see how to formulate in terms of model comparisons:
 
   - Main effect of A
   - Main effect of B
   - Interaction effect A x B
+---
+# Main Effects and Interactions
+
+.pull-left[
+
+```{r,echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("8diff.png")
+```
+]
+
+.pull-right[
+
+```{r,echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("mp4.png")
+```
+]
+
 ---
 Same approach as before
 
@@ -958,7 +991,7 @@ indexes subjects within each (j,k) cell)
 - $β_k$: is the effect of the kth level of factor B
 - $(α · β)_{jk}$: is the interaction effect of level j of A and level k of B
 ---
-# Hypothesis Testing using Modeling Approach
+# Modeling Approach to Hypothesis Testing 
 
 - Two-Factor (A x B) design: 3 null hypotheses to be tested:
 
@@ -968,27 +1001,15 @@ indexes subjects within each (j,k) cell)
   
 - We will formulate a separate restricted model for each hypothesis test
 
-- Each test will involve the same full model we will use the usual F test
-
 $$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
 
 ---
-# Linear Modeling Approach: Treatment/Dummy
-
-- Fit this as a linear model
-
-```{r}
-
-lm(Quiz~Gender*Fluency, data=gen) %>%
-  tidy()
-```
----
-# Treatment Coding/Dummy Coding
+# Linear Modeling Approach: Treatment/Dummy Coding
 
 ```{r, echo=FALSE}
 
 tibble::tribble(
-     ~Gender, ~Language, ~D1, ~D2, ~Interaction,
+     ~Gender, ~Fluency, ~D1, ~D2, ~Interaction,
   "Female=0",     "Disfluent=0",  0L,  0L,           0L,
   "Female=0",  "Fluent=1",  0L,  1L,           0L,
     "Male=1",     "Disfluent=0",  1L,  0L,           0L,
@@ -1050,17 +1071,32 @@ $$\hat{Y}= b_0 + b_1{1} + b_2 {1} + b_3{1}$$
 
 $$\bar Y_{Male,Fluent} = b_1{1} + b_2{1} + b_3{1} $$
 ---
-# Marginal Means: `Emmeans`
+# Fitting the model
+
+- Fit this as a linear model
 
 ```{r}
 lm(Quiz~Gender*Fluency, data=gen) %>%
-  emmeans::emmeans(specs=~Gender|Fluency)
+  tidy()
+```
+
+
+---
+# Marginal Means: Using `Emmeans`
+
+```{r}
+
+lm(Quiz~Gender*Fluency, data=gen) %>%
+  emmeans::emmeans(specs=~Gender|Fluency) %>%
+  as.data.frame()
+
 ```
 
 ---
-# Marginal Means:`Easystats`
+# Marginal Means: Using `Easystats`
 
 ```{r}
+library(modelbased) # load to use estimate_means
 lm(Quiz~Gender*Fluency, data=gen) %>%
   estimate_means()
 ```
@@ -1070,16 +1106,14 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 
 - Treatment coding tests simple effects in LM 
 
-- Sum coding tests main effects/interaction effects
+    - Sum coding tests main effects/interaction effects
 
 ```{r}
-
-contrasts(gen$Gender) <- c(0.5, -0.5)# sum code
-contrasts(gen$Fluency) <- c(0.5, -0.5)# sum code
-
+contrasts(gen$Gender) <- c(0.5, -0.5)# sum code gend
+contrasts(gen$Fluency) <- c(0.5, -0.5)# sum code fluency
+# fit linear model
 lm(Quiz~Gender*Fluency, data=gen) %>%
   tidy()
-
 ```
 ---
 # ANOVA 
@@ -1092,13 +1126,12 @@ aov_ez(id="id", between=c("Gender", "Fluency"), dv="Quiz", data=gen) %>%
   tidy()
 ```
 ---
-# ANOVA
+# Visualzing Categorical x Cateorgical Interactions
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
   aov_ez(id="id", between=c("Gender", "Fluency"), dv="Quiz", data=gen) %>%
   afex_plot(x="Fluency", trace="Gender", between=c("Fluency", "Gender"))
 ```
-
 ---
 # Using the F Test: Sums of Squares  
 
@@ -1109,9 +1142,9 @@ knitr::include_graphics("ss_2x2.jpg")
 ---
 # Main Effect of Gender $SS_A$
 
-> Does Gender contribute significantly over and above a intercept-only model?
+> Does Gender contribute significantly over and above an intercept-only model?
 
-```{r,}
+```{r,echo=FALSE}
 knitr::kable(tibble::tribble(
                    ~V1,                ~V2,
          "Restricted/Null model:",     "`Quiz ~ 1`",
@@ -1123,27 +1156,14 @@ knitr::kable(tibble::tribble(
 ---
 # F-Statistic for Gender Main Effect: $SS_A$
 
-$$\mbox{SS}_{A} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2$$
-
-.pull-left[
-```{r}
+```{r, echo=FALSE}
 r = lm(Quiz~1, data=gen) # intercept-only
 f = lm(Quiz~Gender, data=gen) # gender
 
 anova(r, f) %>% 
-  knitr::kable( digits=3)#  allows us to compare models 
-```
-]
-
-.pull-right[
-
-```{r, echo=FALSE,  fig.align='center', out.width="100%"}
-# aov uses type 1 ss
-aov(lm(Quiz~Gender*Fluency, data=gen)) %>% 
-  tidy() # clean up output
+tidy()#  allows us to compare models 
 ```
 
-]
 ---
 # Main Effect of *B*
 
@@ -1162,10 +1182,8 @@ knitr::kable(tibble::tribble(
 ---
 # F-Statistic for Fluency Main Effect: $SS_B$
 
-$$\mbox{SS}_{B} = (N \times C)  \sum_{r=1}^R  \left( \bar{Y}_{r.} - \bar{Y}_{..} \right)^2$$
-
 .pull-left[
-```{r}
+```{r, echo=FALSE}
 
 r = lm(Quiz~Gender, data=gen) # gender-only
 f = lm(Quiz~Gender + Fluency , data=gen) # gender + Fluency
@@ -1173,13 +1191,6 @@ f = lm(Quiz~Gender + Fluency , data=gen) # gender + Fluency
 anova(r, f) %>%
    tidy()
   
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
-# aov uses type 1 ss
-aov(lm(Quiz~Gender*Fluency, data=gen)) %>% tidy(digits=3)
 ```
 ]
 ---
@@ -1198,10 +1209,9 @@ knitr::kable(tibble::tribble(
 
 ```
 ---
-# F-Statistic for Gender:Fluency Effect: $SS_{AB}$
+# F-Statistic for Gender*Fluency Effect: $SS_{AB}$
 
-.pull-left[
-```{r}
+```{r, echo=FALSE}
 r = lm(Quiz~Gender+Fluency, data=gen) # main effects only
 f = lm(Quiz~Gender+Fluency + Fluency:Gender, data=gen) # main +inter
 
@@ -1210,36 +1220,50 @@ anova(r, f) %>%
 kableExtra::kable_material_dark()
 
 ```
-]
-.pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
+---
+# Full ANOVA Table
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+# aov uses type 1 ss
 aov(lm(Quiz~Gender*Fluency, data=gen)) %>% tidy(digits=3)
 ```
-]
+
 ---
-# Type I, Type II, and Type III ANOVAs
+# Type I, Type II, and Type III SS
 
 - By default R `aov` calculates Type I (SS)
 
   - Sequential (order listed in model) 
   
-    - Each term is attributed with a portion of the variation (represented by its SS) in Y that has not yet been attributed to any of the PREVIOUS terms!
+    - First assign a maximum of variation to variable A
     
-- Can change depending on order terms are placed in the model
+    - In the remaining variation, assign the maximum of variation to variable B
+
+    - In the remaining variation, assign the maximum of variation to the interaction effect
+    
+    -  Assign the rest to the residual SS
+    
+- *Can change depending on order terms are placed in the model*
   
 ---
 # Type I, Type II, and Type III ANOVAs
 
 - Type II
 
-  - Simultaneous SS
+  - Hierarchical SS 
   
   - Based the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it
+  
+  - Tests main effects first
+  - Ignores interactions
+  
+$$SS(A | B) A$$
+$$SS(B | A) B$$
+
 ---
 # Type II SS
 
-- Main Effect Gender
+- Main effect Gender
 
 ```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
@@ -1261,24 +1285,9 @@ knitr::kable(tibble::tribble(
   ), col.names = c("", "")) %>%
   kableExtra::kable_material_dark()
 
-
 ```
 ---
 # Type II SS
-- Interaction
-```{r, echo=FALSE}
-knitr::kable(tibble::tribble(
-                   ~V1,                                               ~V2,
-         "Reduced/Null model:",     "`Quiz ~ Gender + Fluency`",
-  "Full/Alternative model:", "`Quiz ~ Gender + Fluency + Gender:Fluency`"
-  ), col.names = c("", "")) %>% 
-  kableExtra::kable_material_dark()
-
-
-```
-
----
-# Type II
 
 - `Anova` function in `car` package can handle these cases
 
@@ -1289,79 +1298,57 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %>%
   tidy()
 ```
 ---
-# Type I, Type II, and Type III ANOVAs
+# Type I, Type II, and Type III SS
 
 - Type III
 
-  - Treats main effects and interactions equally
+  - Treats main effects and interactions simultaneously
   
   - Fit full model and remove effect of interest
   
+    - How much of the variance is accounted for by X after taking into consideration all the other effects
+  
 ```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
-                   ~V1,                ~V2,
-         "Null model:", "`babble~milk + sugar:milk`",
-  "Alternative model:", "`babble~sugar + milk + sugar:milk`"
-  ), col.names= c("", "")) %>%
+                   ~V1,                                               ~V2,
+         "Reduced/Null model:",     "`Quiz ~ Fluency + Gender:Fluency`",
+  "Full/Alternative model:", "`Quiz ~ Gender + Fluency + Gender:Fluency`"
+  ), col.names = c("", "")) %>%
   kableExtra::kable_material_dark()
 ```
-
-- Unique contribution that is not attributable to any of the other effects in the model - main effects or interactions
-
-- So the effect of X is its unique contribution while controlling both for group and for group:X(interaction)
-
----
-# Type III SS
-
-```{r, echo=FALSE}
-knitr::kable(tibble::tribble(
-                     ~V1,                                 ~V2,                                     ~V3,
-
-                   "`A`", "`B + C + A:B + A:C + B:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
-                   "`B`", "`A + C + A:B + A:C + B:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
-                   "`C`", "`A + B + A:B + A:C + B:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
-                 "`A:B`",   "`A + B + C + A:C + B:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
-                 "`A:C`",   "`A + B + C + A:B + B:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
-                 "`B:C`",   "`A + B + C + A:B + A:C + A:B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`",
-               "`A:B:C`",     "`A + B + C + A:B + A:C + B:C`", "`A + B + C + A:B + A:C + B:C + A:B:C`"
-  ), col.names = c(  "Term being tested is",     "Null model is `outcome ~ ...`",  "Alternative model is `outcome ~ ...`")) %>%
-  kableExtra::kable_material_dark()
-
-```
-
 ---
 # Testing Categorical x Categorial Interactions
 
 - First look at the interaction effect
 
-  - IF interaction effect is significant, perform mean comparisons (e.g., t-tests)
+  - IF interaction effect is significant, perform mean comparisons (e.g., *F* or *t*)
 
-  - Pick what you care about most 
-
-  - DON’T bother looking at involved main effects (not informative)
+      - DON’T bother looking at involved main effects (not informative)
   
   - If not, follow-up with main effect comparisons
 
 *For learning purposes we will examine the interaction*  
 
 ---
-- Simple Effects Analysis
+# Simple Effects Analysis
 
 - An examination of one factor at the level of another
 
-    - Gender at  Fluent
-    - Gender at  Disfluent
+  Our example:
+  
+  - Difference in Quiz performance for videos with Males and Females at Disfluent    
+  - Difference in quiz performance for videos with Males and Females at Fluent
 
     - Get F test for these comparisons (2 one-way ANOVAs)
     
       $$F=\frac{MS_{gender_{oneway}}}{MS_{W_{omnibus}}}$$
+---
+# Simple Effects Analysis
 
 ```{r}
-
 lm(Quiz~Gender*Fluency, data=gen) %>%
   emmeans::emmeans(pairwise~Gender|Fluency) %>%
   joint_tests(by="Fluency")
-
 ```
 - Simple effect for Fluency, *F*(1, 46) = 0.29, *p* = .867
 
@@ -1372,9 +1359,11 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 
 ```{r}
 lm(Quiz~Gender*Fluency, data=gen) %>%
-  emmeans::emmeans(pairwise~Gender|Fluency) 
+  emmeans::emmeans(., ~Gender|Fluency) %>% 
+  pairs(adjust="bon") # in 2x2 design does not need to be corrected as it is only one test per family
 ```
-
+---
+# Effect Sizes for Simple Effects
 ```{r}
 
 # get eta 
@@ -1384,10 +1373,10 @@ t_to_eta2(
 )
 
 # get omega 
-t_to_omega2(
-  t = c(0.169, 0.772),
-  df_error = 46
-)
+#t_to_omega2(
+ # t = c(0.169, 0.772),
+  #df_error = 46
+#)
 ```
 
 ---
@@ -1400,11 +1389,12 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
  
 ```
 ---
-# Power
+# ANOVA Power
 
 - `Superpower`
 
-```{r}
+.pull-left[
+```{r, fig.align='center', out.width="100%"}
 string <- "2b*2b"
 n <- 100
 # We are thinking of running 100 people in each condition
@@ -1414,12 +1404,19 @@ mu <- c(7.25, 6.38, 7.38, 7)
 sd <-c(1.76,1.80,2.63,1.54)
 labelnames <- c("Gender", "male", "female", "Flu", "Disfluency", "Fluency") #
 # the label names should be in the order of the means specified above.
+```
+]
+
+.pull-right[
+```{r,fig.align='center', out.width="100%"}
 design_result <- ANOVA_design(design = string,
                    n = n,
                    mu = mu,
                    sd = sd,
                    labelnames = labelnames)
+
 ```
+]
 
 ---
 # Run Simulation
@@ -1430,6 +1427,8 @@ simulation_result <- ANOVA_power(design_result,
                                  alpha_level = .05, 
                                  nsims = 100,
                                  verbose = FALSE)
+
+simulation_result
 ```
 
 ---
@@ -1449,9 +1448,9 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 
 > A two-way ANOVA was performed to analyze the effect of [independent variable 1] and [independent variable 2] on [dependent variable].
 
-> A two-way ANOVA revealed that there [was or was not] a statistically significant interaction between the effects of [independent variable 1] and [independent variable 2] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$).
+> A two-way ANOVA revealed that there [was or was not] a statistically significant interaction between the effects of [independent variable 1] and [independent variable 2] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$ or $\omega_p^2$).
 
-> Simple main effects analysis showed that [independent variable 1] [did or did not] have a statistically significant effect on [dependent variable] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$).Simple main effects analysis showed that [independent variable 2] [did or did not] have a statistically significant effect on (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$)
+> Simple main effects analysis showed that [independent variable 1] [did or did not] have a statistically significant effect on [dependent variable] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$).Simple main effects analysis showed that [independent variable 2] [did or did not] have a statistically significant effect on (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$ or $\omega_p^2$)
 
 ---
 # Thoughts on Interactions
@@ -1460,26 +1459,15 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 
   - Use contrasts when you can 
   
-2. Interactions require lots of data
-
-  - They are hard to power sufficiently
+2. Testing interactions require lots of data
   
-    - Power is worse in observational studies compared to experimental
+    - Power is worse in observational studies compared to experimental paradigms
     
 3. Use model comparison approach to determine if interactions are warranted
 
 4. Center continuous variables and sum code categorical predictors 
 
-5. For non-simple designs use ANOVA framework
----
-# In-Class Activity
-
-> A simulated data set containing information on ten thousand customers. The aim here is to predict which customers will default on their credit card debt.
-
-```{r}
-library(ISLR)
-data=ISLR::Credit
-```
+5. For non-simple designs (lots of factors) use ANOVA framework
 ---
 # In-Class Activity
 
@@ -1488,4 +1476,3 @@ data=ISLR::Credit
 - Pick two categorical variables to model as a function of 
 
 - Plot their interaction and follow-up with simple effects analysis
-
