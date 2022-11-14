@@ -496,10 +496,10 @@ evals_agegend=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psyc
 
   - Interaction: The effect of one factor depends on levels of an additional variable
 
-  - Simple effects/simple slopes
+      - Simple effects/simple slopes
   
-    - Follows up any statistically significant interaction
-    - Helps break down interaction to tell us where the interaction is happening
+           - Follows up any statistically significant interaction
+            - Helps break down interaction to tell us where the interaction is happening
 
 ---
 
@@ -550,7 +550,6 @@ check_collinearity()
 c %>% 
   check_collinearity()
 ```
-
 ---
 class: middle
 
@@ -566,7 +565,6 @@ z <- lm(`Life Exp`~scale(Murder)*scale(Income), data=data_c) %>%
 tidy()
 z
 ```
-
 
 ---
 # Weekly Qs
@@ -596,6 +594,36 @@ anova(main, inter)
 ```
 
 ---
+# Weekly Qs
+
+- Power Transformations
+
+.pull-left[
+  - Box-Cox  
+  
+    - Is there a transformation that will normalize my data?
+    - What is the optimal value of the transformation parameter?
+
+```{r, echo=FALSE, fig.align="center", out.width="50%"}
+
+knitr::include_graphics("power.PNG")
+```
+]
+
+.pull-right[
+
+```{r, eval=FALSE}
+library(MASS)
+#run test
+boxcox(lm(x ~ 1))
+# Exact lambda
+lambda <- b$x[which.max(b$y)]
+lambda
+
+```
+]
+---
+
 # Weekly Q 
 
 - Checking heterogeneity assumption
