@@ -538,13 +538,11 @@ not_c<- lm(`Life Exp`~Murder*Income, data=data_c )
 c<- lm(`Life Exp`~murder_c*income_c, data=data_c )
 ```
 
-.pull-left[
 ```{r}
 lm(`Life Exp`~Murder*Income, data=data_c ) %>%
 check_collinearity()
 
 ```
-
 
 ---
 ```{r}

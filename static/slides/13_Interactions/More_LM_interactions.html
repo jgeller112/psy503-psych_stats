@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-13
+### Updated:2022-11-14
 ]
 
 ---
@@ -603,7 +603,6 @@ effectsize::eta_squared(inter) # partial eta squared
 
 
 
-.pull-left[
 
 ```r
 lm(`Life Exp`~Murder*Income, data=data_c ) %&gt;%
@@ -620,7 +619,6 @@ check_collinearity()
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Murder:Income</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">62&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">38.4</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">100&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.88</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0161</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.00995</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.026</td></tr>
 </table>
-
 
 
 ---
@@ -1794,18 +1792,18 @@ simulation_result
 ```
 ## Power and Effect sizes for ANOVA tests
 ##                  power effect_size
-## anova_Gender        46    0.011119
-## anova_Flu           91    0.028208
-## anova_Gender:Flu    15    0.005125
+## anova_Gender        38    0.010587
+## anova_Flu           92    0.030015
+## anova_Gender:Flu    20    0.005265
 ## 
 ## Power and Effect sizes for pairwise comparisons (t-tests)
 ##                                                           power effect_size
-## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         98    -0.48503
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     7     0.07058
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       22    -0.16635
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       88     0.45013
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          71     0.34931
-## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     32    -0.20047
+## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         97    -0.49627
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     8     0.07101
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       26    -0.17848
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       94     0.46121
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          76     0.35214
+## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     32    -0.20927
 ```
 
 ---
