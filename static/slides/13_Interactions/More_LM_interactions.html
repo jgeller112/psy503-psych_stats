@@ -1212,7 +1212,7 @@ indexes subjects within each (j,k) cell)
 
 `$$\hat{Y}= b_0 + b_1{1} + b_2 {1} + b_3{1}$$`
 
-$$\bar Y_{Male,Fluent} = b_1{1} + b_2{1} + b_3{1} $$
+$$\bar Y_{Male,Fluent} = b_0+b_1{1} + b_2{1} + b_3{1} $$
 ---
 # Fitting the model
 
@@ -1794,18 +1794,18 @@ simulation_result
 ```
 ## Power and Effect sizes for ANOVA tests
 ##                  power effect_size
-## anova_Gender        44    0.011052
-## anova_Flu           88    0.026622
-## anova_Gender:Flu    26    0.007574
+## anova_Gender        46    0.011119
+## anova_Flu           91    0.028208
+## anova_Gender:Flu    15    0.005125
 ## 
 ## Power and Effect sizes for pairwise comparisons (t-tests)
 ##                                                           power effect_size
-## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         90    -0.49926
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     8     0.04438
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       18    -0.15410
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       86     0.44053
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          78     0.38100
-## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     22    -0.16478
+## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         98    -0.48503
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     7     0.07058
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       22    -0.16635
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       88     0.45013
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          71     0.34931
+## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     32    -0.20047
 ```
 
 ---

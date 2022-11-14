@@ -1069,7 +1069,7 @@ tibble::tribble(
 
 $$\hat{Y}= b_0 + b_1{1} + b_2 {1} + b_3{1}$$
 
-$$\bar Y_{Male,Fluent} = b_1{1} + b_2{1} + b_3{1} $$
+$$\bar Y_{Male,Fluent} = b_0+b_1{1} + b_2{1} + b_3{1} $$
 ---
 # Fitting the model
 
