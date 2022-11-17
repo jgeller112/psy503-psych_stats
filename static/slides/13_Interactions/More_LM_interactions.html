@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-14
+### Updated:2022-11-16
 ]
 
 ---
@@ -1126,7 +1126,9 @@ gen &lt;- gen %&gt;%
 ]
 
 ---
-Same approach as before
+# Model Comparisons
+
+- Same approach as before
 
 `$$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$`
 
@@ -1201,7 +1203,7 @@ indexes subjects within each (j,k) cell)
 
 `$$\hat{Y}= b_0 + b_1{0} + b_2 {1} + b_3{0}$$`
 
-`$$\bar Y_{Female,Fluent}= b_2$$`
+`$$\bar Y_{Female,Fluent}= b_0 +  b_2$$`
 ---
 <table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-61">
 <col><col><col><col><col><tr>
@@ -1316,8 +1318,7 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
 # Linear Modeling Approach: Sum-Coding
 
 - Treatment coding tests simple effects in LM 
-
-    - Sum coding tests main effects/interaction effects
+- Sum coding tests main effects/interaction effects (2 x 2)
 
 
 ```r
@@ -1343,6 +1344,8 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
 
 ---
 # ANOVA 
+
+- Sum coded LM is the same as running an ANOVA!
 
 
 ```r
@@ -1633,6 +1636,8 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %&gt;%
   - Fit full model and remove effect of interest
   
     - How much of the variance is accounted for by X after taking into consideration all the other effects
+    
+- *Preferable if unequal cell sizes*
   
 &lt;table class=" lightable-material-dark" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
  &lt;thead&gt;
@@ -1653,6 +1658,36 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 ---
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-81">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">sumsq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.45e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">618&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.64e-28</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Gender</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.75&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.443</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.509&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Fluency</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.87&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.23&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.273&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Gender:Fluency</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.721&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.182</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.672&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Residuals</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">46</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-81">
+<col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Sum of Sq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">RSS</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F value</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Pr(&gt;F)</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;"></td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">182</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">72.7</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.76&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">184</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">71.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.443</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.509</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.87&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">187</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">72&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.23&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.273</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.721</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">183</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">70.9</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.182</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.672</td></tr>
+</table>
+
+
+
 # Testing Categorical x Categorial Interactions
 
 - First look at the interaction effect
@@ -1672,7 +1707,7 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %&gt;%
 
   Our example:
   
-  - Difference in Quiz performance for videos with Males and Females at Disfluent    
+  - Difference in quiz performance for videos with Males and Females at Disfluent    
   - Difference in quiz performance for videos with Males and Females at Fluent
 
     - Get F test for these comparisons (2 one-way ANOVAs)
@@ -1688,7 +1723,7 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
   joint_tests(by="Fluency")
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-81">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-82">
 <col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">model term</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Fluency</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df1</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df2</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F.ratio</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -1731,7 +1766,7 @@ t_to_eta2(
 )
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-83">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-84">
 <col><col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Eta2_partial</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_high</th></tr>
 <tr>
@@ -1750,7 +1785,9 @@ t_to_eta2(
 ```
 
 ---
-# Effect Sizes: Main Effect and Interaction
+# Effect Sizes: Main Effects and Interaction
+
+-Report `\(eta_p^2\)` or `\(\omega_2^2\)` for Main Effects and interactions
 
 
 ```r
@@ -1758,7 +1795,7 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
   effectsize::omega_squared()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-84">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-85">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Parameter</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Omega2_partial</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_low</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">CI_high</th></tr>
 <tr>
@@ -1799,7 +1836,7 @@ design_result &lt;- ANOVA_design(design = string,
                    labelnames = labelnames)
 ```
 
-&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-86-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="More_LM_interactions_files/figure-html/unnamed-chunk-87-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1819,18 +1856,18 @@ simulation_result
 ```
 ## Power and Effect sizes for ANOVA tests
 ##                  power effect_size
-## anova_Gender        55     0.01276
-## anova_Flu           92     0.02687
-## anova_Gender:Flu    25     0.00628
+## anova_Gender        48    0.011330
+## anova_Flu           91    0.028274
+## anova_Gender:Flu    24    0.006765
 ## 
 ## Power and Effect sizes for pairwise comparisons (t-tests)
 ##                                                           power effect_size
-## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         97    -0.48796
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     7     0.07091
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       16    -0.13698
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       89     0.46086
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          80     0.38623
-## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     22    -0.18112
+## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         96    -0.50985
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     7     0.05172
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       19    -0.15707
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       91     0.45708
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          82     0.38574
+## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     20    -0.17655
 ```
 
 ---
@@ -1847,11 +1884,17 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
 ---
 # Reporting Results
 
-&gt; A two-way ANOVA was performed to analyze the effect of [independent variable 1] and [independent variable 2] on [dependent variable].
+I would report the three effects from this model as follows:
 
-&gt; A two-way ANOVA revealed that there [was or was not] a statistically significant interaction between the effects of [independent variable 1] and [independent variable 2] (F(df interaction, df within) = [F-value], p = [p-value] `\(\eta_p^2\)` or `\(\omega_p^2\)`).
+  - Main effect 1
+  - Main effect 2
+  - Interaction
 
-&gt; Simple main effects analysis showed that [independent variable 1] [did or did not] have a statistically significant effect on [dependent variable] (F(df interaction, df within) = [F-value], p = [p-value] `\(\eta_p^2\)`).Simple main effects analysis showed that [independent variable 2] [did or did not] have a statistically significant effect on (F(df interaction, df within) = [F-value], p = [p-value] `\(\eta_p^2\)` or `\(\omega_p^2\)`)
+    - *M* and *SD* for main effects
+    - Significance tests (F, degrees of freedom, p, effect size)
+      - If interaction is significant, simple effects analysis
+          - Interpretation of simple effects
+    - Figure visualizing either the main effects (if interaction is not significant) or interaction
 
 ---
 # Thoughts on Interactions
@@ -1872,11 +1915,6 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
 ---
 # In-Class Activity
 
-- Have a look at variables (?ISLR::Credit)
-
-- Pick two categorical variables to model as a function of 
-
-- Plot their interaction and follow-up with simple effects analysis
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -1884,7 +1922,7 @@ lm(Quiz~Gender*Fluency, data=gen) %&gt;%
 "slideNumberFormat": "%current%",
 "highlightStyle": "github",
 "highlightLines": true,
-"ratio": "16:9",
+"ratio": "19:11",
 "countIncrementalSlides": true
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {

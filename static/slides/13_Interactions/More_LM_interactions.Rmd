@@ -11,7 +11,7 @@ output:
       slideNumberFormat: "%current%"
       highlightStyle: github
       highlightLines: true
-      ratio: 16:9
+      ratio: 19:11
       countIncrementalSlides: true
       
 ---
@@ -51,7 +51,7 @@ style_solarized_dark(
   header_h1_font_size = "36px",
   header_color = "black",
   text_font_google = google_font("Work Sans"),
-  text_font_size = "30px",
+  text_font_size = "25px",
   text_color = "black", 
   background_color = "white", 
   code_font_google = google_font("Work Sans"),
@@ -994,7 +994,9 @@ knitr::include_graphics("mp4.png")
 ]
 
 ---
-Same approach as before
+# Model Comparisons
+
+- Same approach as before
 
 $$F = \frac{SS_{R}-SS_{F}/{df_{R}-df_{F}} (p-1)}{SS_{F}/df_F(N-p)} = \frac{MS_{model}}{MS_{error}}$$
 
@@ -1065,7 +1067,7 @@ tibble::tribble(
 
 $$\hat{Y}= b_0 + b_1{0} + b_2 {1} + b_3{0}$$
 
-$$\bar Y_{Female,Fluent}= b_2$$
+$$\bar Y_{Female,Fluent}= b_0 +  b_2$$
 ---
 ```{r, echo=FALSE}
 
@@ -1133,8 +1135,7 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 # Linear Modeling Approach: Sum-Coding
 
 - Treatment coding tests simple effects in LM 
-
-    - Sum coding tests main effects/interaction effects
+- Sum coding tests main effects/interaction effects (2 x 2)
 
 ```{r}
 contrasts(gen$Gender) <- c(0.5, -0.5)# sum code gend
@@ -1145,6 +1146,8 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 ```
 ---
 # ANOVA 
+
+- Sum coded LM is the same as running an ANOVA!
 
 ```{r}
 library(afex)
@@ -1335,6 +1338,8 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %>%
   - Fit full model and remove effect of interest
   
     - How much of the variance is accounted for by X after taking into consideration all the other effects
+    
+- *Preferable if unequal cell sizes*
   
 ```{r, echo=FALSE}
 knitr::kable(tibble::tribble(
@@ -1345,6 +1350,18 @@ knitr::kable(tibble::tribble(
   kableExtra::kable_material_dark()
 ```
 ---
+
+```{r, echo=FALSE}
+options(contrasts = c("contr.sum","contr.poly"))
+
+Anova(lm(Quiz~Gender*Fluency, data=gen), type="III") %>%
+  tidy()
+
+model <- lm(Quiz~Gender*Fluency, data=gen)
+drop1(model, .~., test="F") # DROP 1 effect and compare to full model
+```
+
+
 # Testing Categorical x Categorial Interactions
 
 - First look at the interaction effect
@@ -1364,7 +1381,7 @@ knitr::kable(tibble::tribble(
 
   Our example:
   
-  - Difference in Quiz performance for videos with Males and Females at Disfluent    
+  - Difference in quiz performance for videos with Males and Females at Disfluent    
   - Difference in quiz performance for videos with Males and Females at Fluent
 
     - Get F test for these comparisons (2 one-way ANOVAs)
@@ -1408,7 +1425,9 @@ t_to_eta2(
 ```
 
 ---
-# Effect Sizes: Main Effect and Interaction
+# Effect Sizes: Main Effects and Interaction
+
+-Report $eta_p^2$ or $\omega_2^2$ for Main Effects and interactions
 
 ```{r}
 
@@ -1474,11 +1493,17 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 ---
 # Reporting Results
 
-> A two-way ANOVA was performed to analyze the effect of [independent variable 1] and [independent variable 2] on [dependent variable].
+I would report the three effects from this model as follows:
 
-> A two-way ANOVA revealed that there [was or was not] a statistically significant interaction between the effects of [independent variable 1] and [independent variable 2] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$ or $\omega_p^2$).
+  - Main effect 1
+  - Main effect 2
+  - Interaction
 
-> Simple main effects analysis showed that [independent variable 1] [did or did not] have a statistically significant effect on [dependent variable] (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$).Simple main effects analysis showed that [independent variable 2] [did or did not] have a statistically significant effect on (F(df interaction, df within) = [F-value], p = [p-value] $\eta_p^2$ or $\omega_p^2$)
+    - *M* and *SD* for main effects
+    - Significance tests (F, degrees of freedom, p, effect size)
+      - If interaction is significant, simple effects analysis
+          - Interpretation of simple effects
+    - Figure visualizing either the main effects (if interaction is not significant) or interaction
 
 ---
 # Thoughts on Interactions
@@ -1499,8 +1524,3 @@ lm(Quiz~Gender*Fluency, data=gen) %>%
 ---
 # In-Class Activity
 
-- Have a look at variables (?ISLR::Credit)
-
-- Pick two categorical variables to model as a function of 
-
-- Plot their interaction and follow-up with simple effects analysis
