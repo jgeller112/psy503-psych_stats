@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PSY 503: Foundations of Statistical Methods in Psychological Science</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Geller, Ph.D. (he/him/his)" />
+    <script src="log_reg_files/header-attrs/header-attrs.js"></script>
+    <link href="log_reg_files/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# PSY 503: Foundations of Statistical Methods in Psychological Science
+]
+.subtitle[
+## Generalized Linear Modeling: Logistic Regression
+]
+.author[
+### Jason Geller, Ph.D. (he/him/his)
+]
+.institute[
+### Princeton University
+]
+.date[
+### Updated:2022-11-22
+]
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+# Today
+
+- Finishing cat x cat interactions
+
+- Introduction to logistic regression
+
+---
+#  Linear Model
+
+- Model `\(y\)` as a linear function of predictors
+
+$$ y = b_0 + b_1*x $$
+
+--
+
+`$$y\sim~Normal(\mu, \sigma)$$`
+---
+- What about if `\(y\)` is not normal?
+
+$$ y = b_0 + b_1*x $$
+
+`$$y\sim~Normal(\mu, \sigma)$$`
+`$$y = b_0 + b_1*x$$`
+`$$y\sim~Bernoulli(p)$$`
+--
+
+- 🤯
+
+--
+
+*Logistic regression*
+
+---
+# Binomial Distribution
+
+The simplest kind of categorical data is each case is binary
+
+&lt;img src="images/examples.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Binomial Distribution
+
+&gt; Distribution of discrete counts of independent outcomes over a certain set of trials
+
+.pull-left[
+
+`$$y\sim binomial(N,p)$$`
+- *N* = trial (how many trials)
+
+- *p* = probability (probability of `\(y\)` being 1)
+
+]
+
+.pull-right[
+
+&lt;img src="images/bigraph2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Bernoulli Distribution
+
+&gt;  Distribution of a single, discrete binary outcome
+
+.pull-left[
+`$$y\sim Bernoulli(p)$$`]
+.pull-right[
+&lt;img src="images/bigraph.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+&lt;img src="images/bernoulli2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Generalized Linear Model
+
+- A form of linear modeling where the dependent variable (and thus the residuals) are not expected to be normally distributed
+
+`$$\begin{align*}
+  Y_i &amp; \sim \mathrm{Dist}(\mu_i, \tau)  \\
+  g(\mu_i) &amp; = \eta_i \\
+  \eta_i &amp; = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \ldots
+\end{align*}$$`
+
+- Where: 
+
+  - `\(y\)` is referenced with `\(\mu\)` 
+  
+  - `\(g\)` is link function
+
+`$$p(y = 1)  = p$$`
+`$$log(\frac{p}{1 - p})$$`
+---
+&lt;img src="images/dist.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Logit Link Function
+
+  * There's nothing to keep a typical linear model (i.e., a bunch of `\(\beta\)` parameters connected to variables) from predicting outside of the 0 to 1 range
+
+  * When we use the logit link, we are attaching the linear model to the log-odds of 1
+
+  * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
+
+---
+# Logistic Link
+
+- The logit link transforms a linear model in the log-odds metric:
+
+`$$\begin{equation*}
+\log\left(\frac{p}{1 - p}\right)=\beta_0+\beta_1X 
+ \end{equation*}$$`
+
+- To a non-linear model in the probability metric: 
+`$$\begin{equation*} 
+p(logit)=\frac{e^{logit}}{1+e^{logit}}
+\end{equation*}=\frac{exp(logit)}{1+exp(logit)}$$`
+---
+# Logit Link 
+
+- Step 1
+
+  - Transform probability into odds
+  
+    - The "odds" of an event are just the probability it happens divided by the probability it does not happen
+
+`$$\textrm{Odds} = \frac{\# \textrm{successes}}{\# \textrm{failures}}=
+\frac{\# \textrm{successes}/n}{\# \textrm{failures}/n}=
+\frac{p}{1-p}$$`
+
+---
+# Logistic Link 
+
+- Step 2
+
+.pull-left[
+
+  - When we convert a probability to odds, odds always  &gt; 0 
+  
+  - Problematic for linear model 
+
+  -  Take log of the odds
+  
+  $$ logit = log(\frac{p}{1-p})$$
+]
+
+.pull-right[
+
+&lt;img src="images/odds_fig.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Logic Link 
+
+.pull-left[
+
+- This log odds conversion has a nice property
+
+  - It converts odds of less than one to negative numbers, because the log of a number between 0 and 1 is always negative
+
+
+]
+
+.pull-right[
+            
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+---
+# However...
+
+- We need a function that scrunches the output of the linear predictor into a range appropriate for this parameter
+
+&lt;img src="images/lin2.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+# Squiggles
+
+- We need a function that scrunches the output of the linear predictor into a range appropriate for this parameter
+
+- A squiggle (logistic or Sigmoid curve) to the rescue!
+
+&lt;img src="images/lin3.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+&lt;img src="images/lin4.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+&lt;img src="images/lin5.png" width="100%" style="display: block; margin: auto;" /&gt;
+`$$p(logit)=\frac{e^{logit}}{1+e^{{logit}}}$$`
+---
+# Probabilities, Odds, and Log Odds
+
+&lt;img src="images/relationship.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-16-1.png" width="100%" /&gt;
+
+---
+&lt;img src="images/odds.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+---
+# Best Fitting Squiggle
+
+- In standard linear regression we use least squares to find best fitting line
+
+&lt;img src="images/lin_fit.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# Likelihood
+
+- Similar to probability but not the same
+
+--
+
+- Probablity
+
+&gt; How probable (or likely) it is to draw a sample from a given distribution with certain parameters 
+
+  - Here distribution is fixed and data can change
+
+&lt;img src="images/probability.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+# Likelihood
+
+.pull-left[
+&gt; Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
+
+  - Here data is fixed and distribution can change
+]
+
+.pull-right[
+&lt;img src="images/likelihood-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Likelihood
+
+# Likelihood
+
+.pull-left[
+&gt; Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
+
+  - Here data is fixed and distribution can change
+]
+
+.pull-right[
+&lt;img src="images/likelihood-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: middle center
+# What the fuck are likelhoods and how do they apply to logistic regression?
+
+---
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.pull-left[
+
+&lt;img src="images/logit_points.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+
+.pull-right[
+
+&lt;img src="images/logit_line.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Likelihood
+
+&lt;img src="images/likelihood.svg" width="50%" style="display: block; margin: auto;" /&gt;
+---
+
+# Now What?
+
+- We keep rotating the log odds(line) and projecting data on to it and transforming into probabilities
+
+  - Until we find maximum likelihood!
+
+&lt;img src="images/mle-many.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+
+.pull-left[
+
+&lt;img src="images/MLE_1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+&lt;img src="images/mle-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Dataset
+
+&lt;img src="images/BechdelTest.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+```r
+glimpse(bechdel)
+```
+
+```
+## Rows: 1,794
+## Columns: 16
+## $ year          &lt;int&gt; 2013, 2012, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 20…
+## $ imdb          &lt;chr&gt; "tt1711425", "tt1343727", "tt2024544", "tt1272878", "tt0…
+## $ title         &lt;chr&gt; "21 &amp; Over", "Dredd 3D", "12 Years a Slave", "2 Guns", "…
+## $ test          &lt;chr&gt; "notalk", "ok-disagree", "notalk-disagree", "notalk", "m…
+## $ clean_test    &lt;ord&gt; notalk, ok, notalk, notalk, men, men, notalk, ok, ok, no…
+## $ binary        &lt;chr&gt; "FAIL", "PASS", "FAIL", "FAIL", "FAIL", "FAIL", "FAIL", …
+## $ budget        &lt;int&gt; 13000000, 45000000, 20000000, 61000000, 40000000, 225000…
+## $ domgross      &lt;dbl&gt; 25682380, 13414714, 53107035, 75612460, 95020213, 383624…
+## $ intgross      &lt;dbl&gt; 42195766, 40868994, 158607035, 132493015, 95020213, 1458…
+## $ code          &lt;chr&gt; "2013FAIL", "2012PASS", "2013FAIL", "2013FAIL", "2013FAI…
+## $ budget_2013   &lt;int&gt; 13000000, 45658735, 20000000, 61000000, 40000000, 225000…
+## $ domgross_2013 &lt;dbl&gt; 25682380, 13611086, 53107035, 75612460, 95020213, 383624…
+## $ intgross_2013 &lt;dbl&gt; 42195766, 41467257, 158607035, 132493015, 95020213, 1458…
+## $ period_code   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ decade_code   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ pass          &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0,…
+```
+
+---
+# Linear Model?
+
+ Not good for two reasons: 
+ 
+1. Outcome is non-normal
+2. The predicted regression line is unbounded, meaning that it can go from ∞to-∞
+
+.pull-left[
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-30">
+<col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">binary</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">pass</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">FAIL</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">PASS</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">FAIL</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">FAIL</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">FAIL</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">FAIL</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0</td></tr>
+</table>
+
+]
+
+.pull-right[
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Model
+
+`$$\begin{align*}
+\text{pass}_i &amp; \sim \operatorname{Bernoulli}(n = 1, p_i) \\
+\operatorname{logit}(p_i) &amp; = \beta_0 + \beta_1 \text{budget_2013}_i,
+\end{align*}$$`
+
+
+```r
+fit &lt;- glm(
+  data = bechdel,
+  family = binomial(link="logit"),
+  pass ~ 1 + budget_2013)
+
+fit %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.111&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-5.97e-09</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
+</table>
+
+
+---
+# Fit the Model
+
+
+```r
+fit &lt;- glm(
+  data = bechdel,
+  family = binomial(link = "logit"),
+  pass ~ 1 + budget_2013) %&gt;%
+  tidy()
+
+fit
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-33">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.111&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-5.97e-09</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
+</table>
+
+
+```r
+new=-5.972374e-09*1e8
+```
+
+---
+# Summary Output
+
+.pull-left[
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.111&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-5.97e-09</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
+</table>
+
+]
+
+.pull-right[
+
+- Coefficients 
+
+  - Log odds 
+  
+    - Intercept = 0.11 which is interpreted as the log odds of a movie with a budget of zero passing the test
+  
+    - Budget_2013 = pretty small so change to -0.5972374 which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
+] 
+---
+# Coffiencet Effect Size: Odd's Ratio
+
+
+```r
+exp(new)
+```
+
+```
+## [1] 0.5503299
+```
+- For every 100,000,000 spent in movie budget, the odds of passing are decreased by a factor of .55:1
+
+- Describe as percentage increase/decrease
+
+  - *Remember how to interpret logs for DV* 
+
+
+```r
+exp(new)-1 # get probability of increase/decrease
+```
+
+```
+## [1] -0.4496701
+```
+
+- For every 100,000,000 spent on movie budget, the odds of passing the test is reduced by 45% 
+
+---
+
+
+```
+## 
+## Call:
+## glm(formula = pass ~ 1 + budget_2013, family = binomial(link = "logit"), 
+##     data = bechdel)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.225  -1.127  -0.870   1.199   2.020  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  1.113e-01  6.897e-02   1.614    0.107    
+## budget_2013 -5.972e-09  9.556e-10  -6.250 4.11e-10 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2467.3  on 1793  degrees of freedom
+## Residual deviance: 2424.7  on 1792  degrees of freedom
+## AIC: 2428.7
+## 
+## Number of Fisher Scoring iterations: 4
+```
+---
+
+
+---
+#Output: Test Statistic Z (Wald)
+
+`$$W=\frac{\hat{\beta}}{\widehat{\operatorname{se}}(\hat{\beta})}\sim \mathcal{N}(0,1)$$`
+
+- Logits are asymptotically normal `\({N}(0,1)\)`
+
+ - `Asymptotic` refers to how an estimator behaves as the sample size gets larger (i.e. tends to infinity)
+
+---
+# Deviance and Model Fit
+
+- Model of Deviance
+
+`$${\rm Deviance} = -2 \ln ({\rm likelihood})$$`
+- In logistic regression goal is to maximize log-likelihood
+
+- `glm()` two deviances are calculated: 
+
+  1. Residual deviance (model deviance)
+  2. Null deviance (intercept only)
+  
+*lower deviance the better model*
+
+- Sound familiar?
+
+--
+- Similar to F-ratio
+---
+# Model Fit
+
+- McFadden Psuedo `\(R^2\)`
+
+`$$R^2 = \frac{SSM}{SST} = \frac{SST-SSE}{SST}=1-\frac{SSE}{SST}$$`
+`$$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$`
+- A ratio indicating how "good" the fit
+
+---
+# Visualzing Logistic Data
+- How boring! 
+.pull-left[
+
+```r
+p %&gt;% 
+  ggplot(aes(x = budget_2013, y = fit)) +
+  geom_ribbon(aes(ymin = ll, ymax = ul),
+              alpha = 1/2) +
+  geom_line() +
+  geom_point(data = bechdel,
+             aes(y = pass),
+             alpha = 1/2) +
+  scale_y_continuous("probability of passing", 
+                     expand = expansion(mult = 0.01))
+```
+]
+
+.pull-right[
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-39-1.png" width="100%" /&gt;
+]
+---
+# Better?
+
+.pull-left[
+
+```r
+p %&gt;% 
+  ggplot(aes(x = budget_2013, y = fit)) +
+  geom_ribbon(aes(ymin = ll, ymax = ul),
+              alpha = 1/2) +
+  geom_line() +
+  geom_jitter(data = bechdel,
+              aes(y = pass),
+              size = 1/4, alpha = 1/2, height = 0.05) +
+  scale_y_continuous("probability of passing", 
+                     expand = c(0, 0))
+```
+
+]
+
+
+.pull-right[
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-41-1.png" width="100%" /&gt;
+
+]
+
+---
+# Better?
+
+.pull-left[
+
+```r
+p %&gt;% 
+  ggplot(aes(x = budget_2013)) +
+  geom_ribbon(aes(ymin = ll, ymax = ul),
+              alpha = 1/2) +
+  geom_line(aes(y = fit)) +
+  stat_dots(data = bechdel,
+            aes(y = pass, side = ifelse(pass == 0, "top", "bottom")),
+            scale = 1/3) +
+  scale_y_continuous("probability of passing",
+                     expand = c(0, 0))
+```
+
+]
+
+.pull-right[
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-43-1.png" width="100%" height="80%" /&gt;
+
+]
+
+---
+# Better?
+
+.pull-left[
+
+
+```r
+p %&gt;% 
+  ggplot(aes(x = budget_2013)) +
+  geom_ribbon(aes(ymin = ll, ymax = ul),
+              alpha = 1/2) +
+  geom_line(aes(y = fit)) +
+  stat_dots(data = bechdel %&gt;% 
+              mutate(binary = factor(binary, levels = c("PASS", "FAIL"))),
+            aes(y = pass, 
+                side = ifelse(pass == 0, "top", "bottom"),
+                color = binary),
+            scale = 0.4, shape = 19) +
+  scale_color_manual("Bechdel test", values = c("#009E73", "#D55E00")) +
+  scale_x_continuous("budget (in 2013 dollars)",
+                     breaks = c(0, 1e8, 2e8, 3e8, 4e8),
+                     labels = c(0, str_c(1:4 * 100, " mill")),
+                     expand = c(0, 0), limits = c(0, 48e7)) +
+  scale_y_continuous("probability of passing",
+                     expand = c(0, 0)) +
+  theme(panel.grid = element_blank())
+```
+
+]
+
+.pull-right[
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+# Case Study: loseing weight
+
+- These data are a sample of 500 teens from data collected in 2009 through the U.S. Youth Risk Behavior Surveillance System (YRBSS)
+
+- Are the odds that young females report trying to lose weight greater than the odds that males do? Is increasing BMI associated with an interest in losing weight, regardless of sex? 
+
+Here we complete the data wrangling necessary to derive `risk2009` from `risk2009.samp`.
+
+
+```r
+risk2009.data &lt;- foreign::read.spss(
+  file = "https://github.com/proback/BeyondMLR/blob/master/data/yrbs09.sav?raw=true",
+  to.data.frame = TRUE)
+
+set.seed(33)
+
+risk2009.samp &lt;- risk2009.data %&gt;%
+  sample_n(500)
+
+rm(risk2009.data)
+
+dim(risk2009.samp)
+```
+
+```
+## [1] 500 208
+```
+---
+# Trying to lose weight
+
+
+```r
+risk2009 &lt;- risk2009.samp %&gt;% 
+  transmute(lose.wt    = ifelse(Q66 == "Lose weight", "Lose weight", "No weight loss") %&gt;% factor(),
+            lose.wt.01 = ifelse(Q66 == "Lose weight", 1, 0),
+            sex        = Q2,
+            sport      = ifelse(Q84 == "0 teams", "No sports", "Sports") %&gt;% factor(),
+            sport_fac  = Q84,
+            sport_num  = str_extract(Q84, "\\d") %&gt;% as.double(),
+            media      = as.numeric(Q81) - 2,
+            media      = ifelse(media == 0, 0.5, media),
+            media      = ifelse(media == -1, 0, media),
+            bmipct     = bmipct) %&gt;%
+  mutate(female = ifelse(sex == "Female", 1, 0)) %&gt;% 
+  filter(complete.cases(.))
+
+# what have we done?
+glimpse(risk2009)
+```
+
+```
+## Rows: 445
+## Columns: 9
+## $ lose.wt    &lt;fct&gt; Lose weight, No weight loss, No weight loss, No weight loss…
+## $ lose.wt.01 &lt;dbl&gt; 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0,…
+## $ sex        &lt;fct&gt; Male, Female, Male, Male, Male, Male, Male, Male, Male, Mal…
+## $ sport      &lt;fct&gt; No sports, No sports, Sports, No sports, No sports, No spor…
+## $ sport_fac  &lt;fct&gt; 0 teams, 0 teams, 1 team, 0 teams, 0 teams, 0 teams, 0 team…
+## $ sport_num  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 1, 1, 3, 0, 0, 1, 1, 3, 1, 1, 1, 3, 1,…
+## $ media      &lt;dbl&gt; 3.0, 1.0, 3.0, 3.0, 3.0, 2.0, 0.0, 0.5, 1.0, 1.0, 5.0, 2.0,…
+## $ bmipct     &lt;dbl&gt; 98, 41, 6, 41, 99, 97, 0, 100, 3, 8, 99, 13, 87, 71, 93, 97…
+## $ female     &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1,…
+```
+
+*`lose.wt.01`, which is coded 1 when someone indicated they were trying to lost weight and 0 when they were not trying to. This is a dichotomized version of the `lose.wt` factor variable.
+
+- Our two predictor variables will be:
+
+* `sex` and its related dummy variable `female` and `male`
+* `bmipct`, which is the percentile for a given BMI for members of the same sex
+
+---
+# Exploratory Data Analysis
+
+- Here are two versions of comparing `lose.wt.01` by `sex`
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-48-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="log_reg_files/figure-html/unnamed-chunk-48-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+---
+# Exploratory Data Analysis
+
+- Here are the histograms for `bmipct`, faceted by `lose.wt`.
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-49-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+# Exploratory Data Analysis
+
+- Here are the histograms for `bmipct`, faceted by both `lose.wt` and `sex`.
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-50-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+---
+# Logistic Regression: Fitting Model
+
+- Let's fit an intercepts-only model
+
+$$
+`\begin{align*}
+\text{lose.wt.01}_i &amp; \sim \operatorname{Binomial}(n = 1, p_i)\\
+\text{logit}(p_i) &amp; = \beta_0
+\end{align*}`
+$$
+---
+# Logistic Regression: Fitting Model
+
+
+```r
+# fit
+fit1 &lt;- glm(
+  data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1
+  ) 
+fit1 %&gt;% 
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-51">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.212</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0953</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-2.22</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0262</td></tr>
+</table>
+
+
+- The intercept `\(\beta_0\)` is in the log-odds metric 
+
+- We can convert it to probability
+
+
+```r
+b0 &lt;- coef(fit1)
+
+exp(b0) / (1 + exp(b0))
+```
+
+```
+## (Intercept) 
+##    0.447191
+```
+
+---
+- Thus, the overall probability of students wanting to lose weight was about .45
+
+- Let's check that with the empirical proportions.
+
+
+```r
+risk2009 %&gt;% 
+  count(lose.wt.01) %&gt;% 
+  mutate(proportion = n / sum(n))
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-53">
+<col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">lose.wt.01</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">n</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">proportion</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">246</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.553</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">199</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.447</td></tr>
+</table>
+
+
+- We can actually do that transformation with the base **R** `plogis()` function.
+
+
+```r
+plogis(b0)
+```
+
+```
+## (Intercept) 
+##    0.447191
+```
+
+---
+# Logistic Regression
+
+- Add our binary predictor `female`, which gives us the model
+
+$$
+`\begin{align*}
+\text{lose.wt.01}_i &amp; \sim \operatorname{Binomial}(n = 1, p_i) \\
+\text{logit}(p_i) &amp; = \beta_0 + \beta_1 \text{female}_i,
+\end{align*}`
+$$
+
+where `female` is an 0/1 dummy variable.
+
+
+```r
+# fit
+fit2 &lt;- glm(
+  data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1 + female
+  )
+
+# summarize
+fit2 %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-55">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.752</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.141</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-5.33</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">9.59e-08</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">female</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.09&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.198</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.52</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.38e-08</td></tr>
+</table>
+
+
+---
+
+- Now we can compute the probabilities for young men and women as follows
+
+
+```r
+b0 &lt;- coef(fit2)[1] %&gt;% as.double()
+b1 &lt;- coef(fit2)[2] %&gt;% as.double()
+
+# young men
+plogis(b0 + b1 * 0)
+```
+
+```
+## [1] 0.3203463
+```
+
+```r
+# young women
+plogis(b0 + b1 * 1)
+```
+
+```
+## [1] 0.5841121
+```
+
+- Check these with the empirical probabilities
+
+
+```r
+risk2009 %&gt;% 
+  group_by(sex) %&gt;% 
+  count(lose.wt.01) %&gt;% 
+  mutate(proportion_by_sex = n / sum(n))
+```
+
+```
+## # A tibble: 4 × 4
+## # Groups:   sex [2]
+##   sex    lose.wt.01     n proportion_by_sex
+##   &lt;fct&gt;       &lt;dbl&gt; &lt;int&gt;             &lt;dbl&gt;
+## 1 Female          0    89             0.416
+## 2 Female          1   125             0.584
+## 3 Male            0   157             0.680
+## 4 Male            1    74             0.320
+```
+
+---
+# `Emmeans`
+
+- Can use `emmeans` to get probabilities directly from model
+
+- Can also get odds ratio !
+
+```r
+emm &lt;- emmeans(fit2, "female", type = "response")
+
+pairs(emm, reverse=TRUE)
+```
+
+```
+##  contrast          odds.ratio    SE  df null z.ratio p.value
+##  female1 / female0       2.98 0.589 Inf    1   5.520  &lt;.0001
+## 
+## Tests are performed on the log odds ratio scale
+```
+
+```r
+emm
+```
+
+```
+##  female  prob     SE  df asymp.LCL asymp.UCL
+##       0 0.320 0.0307 Inf     0.263     0.383
+##       1 0.584 0.0337 Inf     0.517     0.648
+## 
+## Confidence level used: 0.95 
+## Intervals are back-transformed from the logit scale
+```
+---
+# Logistic Regression Continuous 
+
+Now we add our continuous predictor `bmipct`, which gives us the model:
+
+$$
+`\begin{align*}
+\text{lose.wt.01}_i &amp; \sim \operatorname{Binomial}(n = 1, p_i) \\
+\text{logit}(p_i) &amp; = \beta_0 + \beta_1 \text{bmipct}_i,
+\end{align*}`
+$$
+
+
+```r
+# fit
+fit3 &lt;- glm(
+  data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1 + bmipct
+  )
+
+# summarize
+fit3 %&gt;%
+  tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-59">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-2.57&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.314&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-8.19</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.72e-16</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">bmipct</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.0355</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00428</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">8.3&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.04e-16</td></tr>
+</table>
+
+
+The coefficient for `bmipct` seems small at 0.036, but recall that `bmipct` ranges from 0 to 100.
+
+
+```r
+range(risk2009$bmipct)
+```
+
+```
+## [1]   0 100
+```
+
+Thus a one point increase being a one percentile increase in BMI, which isn't very much
+
+---
+# Logistic Multiple Predictors
+
+Now we'll fit two multivariable logistic regression models. The first will have both `female` and `bmipct` as predictors:
+
+$$
+`\begin{align*}
+\text{lose.wt.01}_i &amp; \sim \operatorname{Binomial}(n = 1, p_i) \\
+\text{logit}(p_i) &amp; = \beta_0 + \beta_1 \text{female}_i + \beta_2 \text{bmipct}_i.
+\end{align*}`
+$$
+
+The second multivariable model will add an interaction term between the two predictors:
+
+$$
+`\begin{align*}
+\text{lose.wt.01}_i &amp; \sim \operatorname{Binomial}(n = 1, p_i) \\
+\text{logit}(p_i) &amp; = \beta_0 + \beta_1 \text{female}_i + \beta_2 \text{bmipct}_i + \beta_3 \text{female}_i \cdot \text{bmipct}_i.
+\end{align*}`
+$$
+
+
+
+
+```r
+fit4 &lt;- glm(
+  data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1 + female + bmipct
+  )
+
+fit5 &lt;- glm(
+  data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1 + female + bmipct + female:bmipct
+  )
+```
+---
+# Model Comparison 
+
+For practice, let's compare the parameters of all five of our models in a coefficient plot. We'll pull the necessary parameter estimates with the handy `broom::tidy()` function
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-62-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+By conventional metrics, the interaction term `female:bmipct` (i.e., `\(\beta_3\)`) would not be statistically significant. Let's compare the models by their information criteria. 
+
+
+```r
+bind_rows(
+  glance(fit1),
+  glance(fit2),
+  glance(fit3),
+  glance(fit4),
+  glance(fit5)
+) %&gt;% 
+  mutate(fit = str_c("fit", 1:5)) %&gt;% 
+  select(fit, everything())
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-63">
+<col><col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">fit</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">null.deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.null</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">logLik</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">BIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.residual</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">nobs</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">fit1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">612</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">444</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-306</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">614</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">618</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">612</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">444</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">445</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">fit2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">612</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">444</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-290</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">584</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">593</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">580</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">443</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">445</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">fit3</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">612</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">444</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-263</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">529</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">537</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">525</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">443</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">445</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">fit4</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">612</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">444</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-231</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">469</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">481</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">463</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">442</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">445</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">fit5</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">612</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">444</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-231</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">470</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">487</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">462</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">441</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">445</td></tr>
+</table>
+
+
+when you compare the multivariable model `fit4` with the interaction model `fit5`, it appears that the interaction term does not add anything
+
+Let's plot the results from `fit4`.
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-64-1.png" width="80%" /&gt;
+
+---
+
+```r
+library(sjPlot) # need to plot predictors
+library(sjmisc)
+
+plot_model(fit4, type="pred", terms=c("bmipct", "female")) + theme_bw() # pred is predictors 
+```
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-65-1.png" width="80%" /&gt;
+
+---
+DV: Attended a religious service in the last week
+
+Independent Variables:
+
+  - Age
+
+  - Sex
+
+  - Socioeconomic Status (SES)
+
+  - Negative attitudes toward  premarital sex
+
+---
+
+# Report Logistic Regression
+
+
+- State your hypothesis, statistical test, its link function, and
+justify the use of a logistic regression
+
+&gt; We hypothesized that people who were against premarital
+sex would be more likely to have attended a religious event
+in the previous week. Religious event attendance was a
+binary outcome as the person either attended an event or
+they did not, which violated the normality assumption
+required for traditional regression. Thus, a logistic
+regression with a logit link function was used to model
+religious event attendance using R 4.0.4 (R Core Team,
+2020).
+
+
+---
+# Report Logistic Regression
+
+
+- State the full model and your results, including the Odds Ratio
+
+
+&gt; Religious event attendance was modelled as a function of
+attitudes about premarital sex, controlling for the age, sex, and
+socioeconomic status of the respondent. As shown in Figure 1,
+this analysis revealed that attitudes about premarital sex
+significantly predicted religious event attendance, b = 0.72, SE
+= 0.05, z(1303) = 13.24, p &lt; 0.01, Odds Ratio = 2.05:1. This
+implies that every 1-unit increase in negative attitudes toward
+premarital sex predicted a 2-fold increase in the likelihood that
+the person had attended religious services in the previous
+week. Table 1 provides the model estimates for all predictors.
+
+
+---
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": true,
+"background-image": "url(\"lover.png\")",
+"background-size": "cover"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
