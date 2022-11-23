@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-22
+### Updated:2022-11-23
 ]
 
 ---
@@ -60,11 +60,9 @@ $$ y = b_0 + b_1*x $$
 ---
 - What about if `\(y\)` is not normal?
 
-$$ y = b_0 + b_1*x $$
-
-`$$y\sim~Normal(\mu, \sigma)$$`
 `$$y = b_0 + b_1*x$$`
 `$$y\sim~Bernoulli(p)$$`
+`$$y\sim~Binomial(n,p)$$`
 --
 
 - 🤯
@@ -79,6 +77,15 @@ $$ y = b_0 + b_1*x $$
 The simplest kind of categorical data is each case is binary
 
 &lt;img src="images/examples.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+
+--
+
+0–1
+Pass/fail
+Choose/Don’t choose
+Support/Not support
+Relapse/Not relapse
+
 ---
 # Binomial Distribution
 
@@ -87,9 +94,9 @@ The simplest kind of categorical data is each case is binary
 .pull-left[
 
 `$$y\sim binomial(N,p)$$`
-- *N* = trial (how many trials)
-
-- *p* = probability (probability of `\(y\)` being 1)
+- n = number of trials
+- p = probability of “y = 1”
+- y = {0, 1}
 
 ]
 
@@ -114,7 +121,7 @@ The simplest kind of categorical data is each case is binary
 ---
 # Generalized Linear Model
 
-- A form of linear modeling where the dependent variable (and thus the residuals) are not expected to be normally distributed
+- Regression models with non-normal response likelihoods
 
 `$$\begin{align*}
   Y_i &amp; \sim \mathrm{Dist}(\mu_i, \tau)  \\
@@ -131,13 +138,33 @@ The simplest kind of categorical data is each case is binary
 `$$p(y = 1)  = p$$`
 `$$log(\frac{p}{1 - p})$$`
 ---
-&lt;img src="images/dist.png" width="80%" style="display: block; margin: auto;" /&gt;
+# Generalized linear models
+
+In a generalized linear model (GLM), we specify 2 things:
+
+1. Response likelihood (“family”)
+  - e.g., Normal (“Gaussian”), Binomial, Poisson, etc.
+  - Until now, we’ve used the default family = "gaussian" (Normal)
+  - Now we are changing it up!
+    - e.g., family = "binomial" or    family = binomial(link = "logit")
+
+-Linear models for each distribution parameter
+  - e.g., 𝜇𝑖 = 𝛽0 +𝛽_1 𝑥_1𝑖+𝛽_2 𝑥_2𝑖 ; log(𝜎_𝑖 )=𝛾_0+𝛾_1 𝑥_1𝑖
+---
+# Fitting a Binomial Regression in R
+
+
+```r
+bi_model &lt;- glm(
+  rvote ~ income,
+  family = binomial(
+    link = "logit"))
+```
+
 ---
 # Logit Link Function
 
   * There's nothing to keep a typical linear model (i.e., a bunch of `\(\beta\)` parameters connected to variables) from predicting outside of the 0 to 1 range
-
-  * When we use the logit link, we are attaching the linear model to the log-odds of 1
 
   * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
 
@@ -188,7 +215,7 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 &lt;img src="images/odds_fig.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 ---
-# Logic Link 
+# Logit Link 
 
 .pull-left[
 
@@ -271,8 +298,6 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 ---
 # Likelihood
 
-# Likelihood
-
 .pull-left[
 &gt; Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
 
@@ -327,7 +352,12 @@ class: middle center
 ---
 # Dataset
 
-&lt;img src="images/BechdelTest.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+- The Bechdel test
+
+&lt;img src="images/BechdelTest.jpeg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Data
 
 
 ```r
@@ -528,7 +558,7 @@ exp(new)-1 # get probability of increase/decrease
 
 
 ---
-#Output: Test Statistic Z (Wald)
+# Output: Test Statistic Z (Wald)
 
 `$$W=\frac{\hat{\beta}}{\widehat{\operatorname{se}}(\hat{\beta})}\sim \mathcal{N}(0,1)$$`
 
@@ -539,14 +569,14 @@ exp(new)-1 # get probability of increase/decrease
 ---
 # Deviance and Model Fit
 
-- Model of Deviance
-
 `$${\rm Deviance} = -2 \ln ({\rm likelihood})$$`
 - In logistic regression goal is to maximize log-likelihood
 
 - `glm()` two deviances are calculated: 
 
   1. Residual deviance (model deviance)
+    - Measure of how much the observed data differs from what is measured using the likelihood function
+    
   2. Null deviance (intercept only)
   
 *lower deviance the better model*
@@ -556,6 +586,7 @@ exp(new)-1 # get probability of increase/decrease
 --
 - Similar to F-ratio
 ---
+
 # Model Fit
 
 - McFadden Psuedo `\(R^2\)`
@@ -564,6 +595,17 @@ exp(new)-1 # get probability of increase/decrease
 `$$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$`
 - A ratio indicating how "good" the fit
 
+---
+# Testing Deviance
+
+- We can use the anova function to conduct this test
+
+  - Add test = "Chisq" to conduct the drop-in-deviance test
+  
+
+```r
+anova(model1, model2, test = "Chisq")
+```
 ---
 # Visualzing Logistic Data
 - How boring! 
@@ -585,7 +627,7 @@ p %&gt;%
 
 .pull-right[
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-39-1.png" width="100%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-40-1.png" width="100%" /&gt;
 ]
 ---
 # Better?
@@ -609,7 +651,7 @@ p %&gt;%
 
 
 .pull-right[
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-41-1.png" width="100%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-42-1.png" width="100%" /&gt;
 
 ]
 
@@ -634,7 +676,7 @@ p %&gt;%
 ]
 
 .pull-right[
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-43-1.png" width="100%" height="80%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-44-1.png" width="100%" height="80%" /&gt;
 
 ]
 
@@ -670,7 +712,7 @@ p %&gt;%
 
 .pull-right[
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -752,19 +794,19 @@ glimpse(risk2009)
 
 - Here are two versions of comparing `lose.wt.01` by `sex`
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-48-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="log_reg_files/figure-html/unnamed-chunk-48-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-49-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="log_reg_files/figure-html/unnamed-chunk-49-2.png" width="100%" style="display: block; margin: auto;" /&gt;
 ---
 # Exploratory Data Analysis
 
 - Here are the histograms for `bmipct`, faceted by `lose.wt`.
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-49-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-50-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 # Exploratory Data Analysis
 
 - Here are the histograms for `bmipct`, faceted by both `lose.wt` and `sex`.
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-50-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-51-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ---
 # Logistic Regression: Fitting Model
 
@@ -791,7 +833,7 @@ fit1 %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-51">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-52">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -827,7 +869,7 @@ risk2009 %&gt;%
   mutate(proportion = n / sum(n))
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-53">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-54">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">lose.wt.01</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">n</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">proportion</th></tr>
 <tr>
@@ -877,7 +919,7 @@ fit2 %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-55">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-56">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -992,7 +1034,7 @@ fit3 %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-59">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-60">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -1057,7 +1099,7 @@ fit5 &lt;- glm(
 
 For practice, let's compare the parameters of all five of our models in a coefficient plot. We'll pull the necessary parameter estimates with the handy `broom::tidy()` function
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-62-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-63-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 By conventional metrics, the interaction term `female:bmipct` (i.e., `\(\beta_3\)`) would not be statistically significant. Let's compare the models by their information criteria. 
 
@@ -1074,7 +1116,7 @@ bind_rows(
   select(fit, everything())
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-63">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-64">
 <col><col><col><col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">fit</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">null.deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.null</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">logLik</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">BIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.residual</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">nobs</th></tr>
 <tr>
@@ -1094,7 +1136,7 @@ when you compare the multivariable model `fit4` with the interaction model `fit5
 
 Let's plot the results from `fit4`.
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-64-1.png" width="80%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-65-1.png" width="80%" /&gt;
 
 ---
 
@@ -1105,7 +1147,7 @@ library(sjmisc)
 plot_model(fit4, type="pred", terms=c("bmipct", "female")) + theme_bw() # pred is predictors 
 ```
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-65-1.png" width="80%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-66-1.png" width="80%" /&gt;
 
 ---
 DV: Attended a religious service in the last week

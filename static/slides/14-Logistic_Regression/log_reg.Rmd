@@ -154,11 +154,9 @@ $$y\sim~Normal(\mu, \sigma)$$
 ---
 - What about if $y$ is not normal?
 
-$$ y = b_0 + b_1*x $$
-
-$$y\sim~Normal(\mu, \sigma)$$
 $$y = b_0 + b_1*x$$
 $$y\sim~Bernoulli(p)$$
+$$y\sim~Binomial(n,p)$$
 --
 
 - 🤯
@@ -175,6 +173,15 @@ The simplest kind of categorical data is each case is binary
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
 knitr::include_graphics("images/examples.PNG")
 ```
+
+--
+
+0–1
+Pass/fail
+Choose/Don’t choose
+Support/Not support
+Relapse/Not relapse
+
 ---
 # Binomial Distribution
 
@@ -183,9 +190,9 @@ knitr::include_graphics("images/examples.PNG")
 .pull-left[
 
 $$y\sim binomial(N,p)$$
-- *N* = trial (how many trials)
-
-- *p* = probability (probability of $y$ being 1)
+- n = number of trials
+- p = probability of “y = 1”
+- y = {0, 1}
 
 ]
 
@@ -220,7 +227,7 @@ knitr::include_graphics("images/bernoulli2-1.png")
 ---
 # Generalized Linear Model
 
-- A form of linear modeling where the dependent variable (and thus the residuals) are not expected to be normally distributed
+- Regression models with non-normal response likelihoods
 
 $$\begin{align*}
   Y_i & \sim \mathrm{Dist}(\mu_i, \tau)  \\
@@ -237,17 +244,34 @@ $$\begin{align*}
 $$p(y = 1)  = p$$
 $$log(\frac{p}{1 - p})$$
 ---
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+# Generalized linear models
 
-knitr::include_graphics("images/dist.png")
+In a generalized linear model (GLM), we specify 2 things:
+
+1. Response likelihood (“family”)
+  - e.g., Normal (“Gaussian”), Binomial, Poisson, etc.
+  - Until now, we’ve used the default family = "gaussian" (Normal)
+  - Now we are changing it up!
+    - e.g., family = "binomial" or    family = binomial(link = "logit")
+
+-Linear models for each distribution parameter
+  - e.g., 𝜇𝑖 = 𝛽0 +𝛽_1 𝑥_1𝑖+𝛽_2 𝑥_2𝑖 ; log(𝜎_𝑖 )=𝛾_0+𝛾_1 𝑥_1𝑖
+---
+# Fitting a Binomial Regression in R
+
+```{r, eval=FALSE}
+
+bi_model <- glm(
+  rvote ~ income,
+  family = binomial(
+    link = "logit"))
 
 ```
+
 ---
 # Logit Link Function
 
   * There's nothing to keep a typical linear model (i.e., a bunch of $\beta$ parameters connected to variables) from predicting outside of the 0 to 1 range
-
-  * When we use the logit link, we are attaching the linear model to the log-odds of 1
 
   * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
 
@@ -302,7 +326,7 @@ knitr::include_graphics("images/odds_fig.png")
 ```
 ]
 ---
-# Logic Link 
+# Logit Link 
 
 .pull-left[
 
@@ -452,8 +476,6 @@ knitr::include_graphics("images/likelihood-1.png")
 ---
 # Likelihood
 
-# Likelihood
-
 .pull-left[
 > Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
 
@@ -536,9 +558,14 @@ knitr::include_graphics("images/mle-2.png")
 ---
 # Dataset
 
-```{r, echo=FALSE, fig.align='center', out.width="50%"}
+- The Bechdel test
+
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 knitr::include_graphics("images/BechdelTest.jpeg")
 ```
+
+---
+# Data
 
 ```{r}
 glimpse(bechdel)
@@ -698,7 +725,7 @@ summary(fit)
 
 
 ---
-#Output: Test Statistic Z (Wald)
+# Output: Test Statistic Z (Wald)
 
 $$W=\frac{\hat{\beta}}{\widehat{\operatorname{se}}(\hat{\beta})}\sim \mathcal{N}(0,1)$$
 
@@ -709,14 +736,14 @@ $$W=\frac{\hat{\beta}}{\widehat{\operatorname{se}}(\hat{\beta})}\sim \mathcal{N}
 ---
 # Deviance and Model Fit
 
-- Model of Deviance
-
 $${\rm Deviance} = -2 \ln ({\rm likelihood})$$
 - In logistic regression goal is to maximize log-likelihood
 
 - `glm()` two deviances are calculated: 
 
   1. Residual deviance (model deviance)
+    - Measure of how much the observed data differs from what is measured using the likelihood function
+    
   2. Null deviance (intercept only)
   
 *lower deviance the better model*
@@ -726,6 +753,7 @@ $${\rm Deviance} = -2 \ln ({\rm likelihood})$$
 --
 - Similar to F-ratio
 ---
+
 # Model Fit
 
 - McFadden Psuedo $R^2$
@@ -734,6 +762,19 @@ $$R^2 = \frac{SSM}{SST} = \frac{SST-SSE}{SST}=1-\frac{SSE}{SST}$$
 $$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
 - A ratio indicating how "good" the fit
 
+---
+# Testing Deviance
+
+- We can use the anova function to conduct this test
+
+  - Add test = "Chisq" to conduct the drop-in-deviance test
+  
+```{r, eval=FALSE}
+
+anova(model1, model2, test = "Chisq")
+
+
+```
 ---
 # Visualzing Logistic Data
 - How boring! 
