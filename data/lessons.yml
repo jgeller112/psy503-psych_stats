@@ -177,7 +177,7 @@ lessons:
     date: "Week 13 [MW, 11/28-11/30]"
     slides: ""
     notes: ""
-    class: "14_Logistic_Regression/log_reg.html"
+    class: "14-Logistic_Regression/log_reg.html"
     reading: ""
     hasclass: False
     hasassignment: True
