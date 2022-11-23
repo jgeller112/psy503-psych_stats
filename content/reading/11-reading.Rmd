@@ -1,0 +1,9 @@
+---
+title: "11-Readings"
+---
+#  Logistic Regression
+
+[Gelman et al](/readings_pdf/Gelman.ch-05.logistic-regression 2.pdf.pdf)
+
+
+
