@@ -252,7 +252,7 @@ In a generalized linear model (GLM), we specify 2 things:
   - e.g., Normal (“Gaussian”), Binomial, Poisson, etc.
   - Until now, we’ve used the default family = "gaussian" (Normal)
   - Now we are changing it up!
-    - e.g., family = "binomial" or    family = binomial(link = "logit")
+    - e.g., family = "binomial" or  family = binomial(link = "logit")
 
 -Linear models for each distribution parameter
   - e.g., 𝜇𝑖 = 𝛽0 +𝛽_1 𝑥_1𝑖+𝛽_2 𝑥_2𝑖 ; log(𝜎_𝑖 )=𝛾_0+𝛾_1 𝑥_1𝑖
@@ -432,7 +432,7 @@ knitr::include_graphics("images/odds.png")
 
 - In standard linear regression we use least squares to find best fitting line
 
-```{r, echo=FALSE, fig.align='center', out.width="80%"}
+```{r, echo=FALSE, fig.align='center', out.width="60%"}
 
 knitr::include_graphics("images/lin_fit.png")
 ```
@@ -440,17 +440,17 @@ knitr::include_graphics("images/lin_fit.png")
 ---
 # Likelihood
 
-- Similar to probability but not the same
+- Similar but not the same as probability
 
 --
 
-- Probablity
+  - Probability
 
 > How probable (or likely) it is to draw a sample from a given distribution with certain parameters 
 
   - Here distribution is fixed and data can change
 
-```{r, echo=FALSE, fig.align='center', out.width="50%"}
+```{r, echo=FALSE, fig.align='center', out.width="40%"}
 
 knitr::include_graphics("images/probability.png")
 
@@ -466,7 +466,7 @@ knitr::include_graphics("images/probability.png")
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="70%"}
 
 knitr::include_graphics("images/likelihood-1.png")
 
@@ -477,13 +477,13 @@ knitr::include_graphics("images/likelihood-1.png")
 # Likelihood
 
 .pull-left[
-> Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
+> Computes how likely the parameters are given the observed data
 
   - Here data is fixed and distribution can change
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="50%"}
 
 knitr::include_graphics("images/likelihood-2.png")
 
@@ -492,7 +492,7 @@ knitr::include_graphics("images/likelihood-2.png")
 
 ---
 class: middle center
-# What the fuck are likelhoods and how do they apply to logistic regression?
+# What the fuck are likelihoods and how do they apply to logistic regression?
 
 ---
 
@@ -648,7 +648,7 @@ fit %>%
 ```
 
 ---
-# Fit the Model
+# Logistic Regression in R 
 
 ```{r}
 
@@ -667,30 +667,60 @@ new=-5.972374e-09*1e8
 ---
 # Summary Output
 
-.pull-left[
-```{r, echo=FALSE}
+```{r, echo=FASLE}
 
 fit <- glm(
   data = bechdel,
   family = binomial(link = "logit"),
-  pass ~ 1 + budget_2013) %>%
-  tidy()
+  pass ~ 1 + budget_2013)
+```
 
-fit
+
+```{r}
+tidy(fit,exponentiate = FALSE) # get log odds
+tidy(fit,exponentiate = TRUE) # odds ratio
 
 ```
-]
 
-.pull-right[
+---
+# Interpreting the intercept: β0
 
-- Coefficients 
+```{r, echo=FALSE}
+tidy(fit,exponentiate = FALSE) # get log odds
+```
 
-  - Log odds 
+- Intercept
+
+  - When budget = 0, log-odds of Y are 0.11
   
-    - Intercept = 0.11 which is interpreted as the log odds of a movie with a budget of zero passing the test
-  
-    - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
+    -  A movie with a budget of zero has a .11 log of passing the test
+    
+
+---
+# Interpreting slope: β1
+
+```{r, echo=FALSE}
+tidy(fit,exponentiate = FALSE) # get log odds
+
+```
+
+If X is quantitative predictor: 
+
+- As $X_i$ increases by 1 unit, log-odds of Y increases by β1
+
+- As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  exp{β1}
+
+  - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
 ] 
+---
+# Interpreting slope: β1
+
+- If X is a categorical predictor
+
+  - The difference in the log-odds between group X and the baseline is β1
+  
+  - The odds of Y for group X are expected to be exp{β1} times the odds of Y for the baseline group.
+
 ---
 # Coffiencet Effect Size: Odd's Ratio
 
@@ -710,28 +740,132 @@ exp(new)-1 # get probability of increase/decrease
 - For every 100,000,000 spent on movie budget, the odds of passing the test is reduced by 45% 
 
 ---
+# Hypothesis test for $\beta_j$
 
-```{r, echo=FALSE}
+.vocab[Hypotheses]: $H_0: \beta_j = 0 \hspace{2mm} \text{ vs } \hspace{2mm} H_a: \beta_j \neq 0$
 
-fit <- glm(
-  data = bechdel,
-  family = binomial(link = "logit"),
-  pass ~ 1 + budget_2013)
+--
 
-summary(fit)
+.vocab[Test Statistic]: $$z = \frac{\hat{\beta}_j - 0}{SE_{\hat{\beta}_j}}$$
+
+--
+
+.vocab[P-value]: $P(|Z| > |z|)$, 
+
+where $Z \sim N(0, 1)$, the Standard Normal distribution
+
+
+---
+
+## Confidence interval for $\beta_j$
+
+We can calculate the .vocab[C% confidence interval] for $\beta_j$ as the following: 
+
+.eq[
+$$\Large{\hat{\beta}_j \pm z^* SE_{\hat{\beta}_j}}$$
+
+where $z^*$ is calculated from the $N(0,1)$ distribution
+
+]
+---
+$$
+$$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$
+---
+
+# Model Fit
+
+- McFadden Psuedo $R^2$
+
+$$R^2 = \frac{SSM}{SST} = \frac{SST-SSE}{SST}=1-\frac{SSE}{SST}$$
+$$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
+- A ratio indicating how "good" the fit
+
+---
+## Log likelihood
+
+.eq[
+$$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\pi}_i)]$$
+]
+
+--
+
+- Measure of how well the model fits the data 
+
+--
+
+- Higher values of $\log L$ are better
+
+--
+
+- .vocab[Deviance] = $-2 \log L$
+  - $-2 \log L$ follows a $\chi^2$ distribution with $n - p - 1$ degrees of freedom
+  
+---
+# Comparing nested models
+
+- Suppose there are two models: 
+    - Reduced Model includes predictors $x_1, \ldots, x_q$
+    - Full Model includes predictors $x_1, \ldots, x_q, x_{q+1}, \ldots, x_p$
+
+--
+- We want to test the hypotheses
+$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+& H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
+
+--
+
+- To do so, we will use the .vocab[Drop-in-deviance test] (also known as the Nested Likelihood Ratio test)
+
+---
+# Drop-in-deviance test
+
+.vocab[Hypotheses]:
+$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+& H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
+
+--
+
+.vocab[Test Statistic]: $$G = (-2 \log L_{reduced}) - (-2 \log L_{full})$$
+
+--
+.vocab[P-value]: $P(\chi^2 > G)$, 
+
+calculated using a $\chi^2$ distribution with degrees of freedom equal to the difference in the number of parameters in the full and reduced models
+
+---
+# $\chi^2$ distribution 
+
+```{r, echo=F, fig.height = 6}
+x <- seq(from =0, to = 10, length = 100)
+# Evaluate the densities
+y_1 <- dchisq(x, 1)
+y_2 <- dchisq(x,2)
+y_3 <- dchisq(x,3)
+y_4 <- dchisq(x,5)
+# Plot the densities
+plot(x, y_1, col = 1, type = "l", ylab="",lwd=3, ylim = c(0, 0.5), 
+     main  = "Chi-square Distribution")
+lines(x,y_2, col = 2,lwd=3)
+lines(x, y_3, col = 3,lwd=3)
+lines(x, y_4, col = 4,lwd=3)
+# Add the legend
+legend("topright",
+       c("df = 1", "df = 2 ", "df = 3", "df = 5"), 
+       col = c(1, 2, 3, 4), lty = 1)
+```
+
+---
+# Testing Deviance
+
+- We can use the anova function to conduct this test
+
+  - Add test = "Chisq" to conduct the drop-in-deviance test
+  
+```{r, eval=FALSE}
+
+anova(model1, model2, test = "Chisq")
 
 ```
----
-
-
----
-# Output: Test Statistic Z (Wald)
-
-$$W=\frac{\hat{\beta}}{\widehat{\operatorname{se}}(\hat{\beta})}\sim \mathcal{N}(0,1)$$
-
-- Logits are asymptotically normal ${N}(0,1)$
-
- - `Asymptotic` refers to how an estimator behaves as the sample size gets larger (i.e. tends to infinity)
 
 ---
 # Deviance and Model Fit
@@ -752,15 +886,6 @@ $${\rm Deviance} = -2 \ln ({\rm likelihood})$$
 
 --
 - Similar to F-ratio
----
-
-# Model Fit
-
-- McFadden Psuedo $R^2$
-
-$$R^2 = \frac{SSM}{SST} = \frac{SST-SSE}{SST}=1-\frac{SSE}{SST}$$
-$$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
-- A ratio indicating how "good" the fit
 
 ---
 # Testing Deviance
@@ -773,10 +898,10 @@ $$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
 
 anova(model1, model2, test = "Chisq")
 
-
 ```
 ---
 # Visualzing Logistic Data
+
 - How boring! 
 .pull-left[
 ```{r, eval=FALSE}
@@ -954,13 +1079,11 @@ p %>%
 ]
 
 ---
-# Case Study: loseing weight
+# Case Study: Loseing Weight
 
 - These data are a sample of 500 teens from data collected in 2009 through the U.S. Youth Risk Behavior Surveillance System (YRBSS)
 
 - Are the odds that young females report trying to lose weight greater than the odds that males do? Is increasing BMI associated with an interest in losing weight, regardless of sex? 
-
-Here we complete the data wrangling necessary to derive `risk2009` from `risk2009.samp`.
 
 ```{r}
 risk2009.data <- foreign::read.spss(
@@ -971,8 +1094,6 @@ set.seed(33)
 
 risk2009.samp <- risk2009.data %>%
   sample_n(500)
-
-rm(risk2009.data)
 
 dim(risk2009.samp)
 ```
@@ -997,6 +1118,9 @@ risk2009 <- risk2009.samp %>%
 # what have we done?
 glimpse(risk2009)
 ```
+---
+# Trying to lose weight
+
 
 *`lose.wt.01`, which is coded 1 when someone indicated they were trying to lost weight and 0 when they were not trying to. This is a dichotomized version of the `lose.wt` factor variable.
 
@@ -1010,22 +1134,26 @@ glimpse(risk2009)
 
 - Here are two versions of comparing `lose.wt.01` by `sex`
 
-```{r, echo=FALSE, out.width="100%", fig.align='center'}
+.pull-left[
+```{r, echo=FALSE, fig.align='center', out.width="70%"}
 risk2009 %>% 
   mutate(lose.wt.01 = factor(lose.wt.01)) %>% 
-  
   ggplot(aes(x = lose.wt.01)) +
   geom_bar() +
   facet_wrap(~ sex)
+```
+]
 
-# figure 6.5
+.pull-left[
+```{r, echo=FALSE, fig.align='center', out.width="70%"}
 risk2009 %>% 
   ggplot(aes(x = sex, fill = lose.wt)) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d(option = "C", begin = .2) +
   labs(x = NULL, 
        y = "Proportion")
-```
+```      
+]
 ---
 # Exploratory Data Analysis
 
@@ -1075,8 +1203,16 @@ fit1 %>%
   tidy()
 ```
 
-- The intercept $\beta_0$ is in the log-odds metric 
+---
+# Interpreting $\beta_0$
 
+```{r, echo=FALSE}
+
+tidy(fit1)
+
+```
+
+- The intercept $\beta_0$ is in the log-odds metric 
 - We can convert it to probability
 
 ```{r}
@@ -1086,10 +1222,9 @@ exp(b0) / (1 + exp(b0))
 
 ```
 
----
 - Thus, the overall probability of students wanting to lose weight was about .45
-
-- Let's check that with the empirical proportions.
+---
+- Let's check that with the empirical proportions
 
 ```{r}
 risk2009 %>% 
@@ -1132,7 +1267,6 @@ fit2 %>%
 ```
 
 ---
-
 - Now we can compute the probabilities for young men and women as follows
 
 ```{r}
@@ -1160,7 +1294,7 @@ risk2009 %>%
 
 - Can use `emmeans` to get probabilities directly from model
 
-- Can also get odds ratio !
+- Can also get odds ratios!
 ```{r}
 
 emm <- emmeans(fit2, "female", type = "response")
@@ -1204,7 +1338,7 @@ Thus a one point increase being a one percentile increase in BMI, which isn't ve
 ---
 # Logistic Multiple Predictors
 
-Now we'll fit two multivariable logistic regression models. The first will have both `female` and `bmipct` as predictors:
+- The first will have both `female` and `bmipct` as predictors:
 
 $$
 \begin{align*}
@@ -1213,7 +1347,10 @@ $$
 \end{align*}
 $$
 
-The second multivariable model will add an interaction term between the two predictors:
+---
+# Logistic Multiple Predictors
+
+- The second multivariable model will add an interaction term between the two predictors:
 
 $$
 \begin{align*}
@@ -1222,9 +1359,9 @@ $$
 \end{align*}
 $$
 
-
-
-```{r}
+---
+# Fitting Both Models
+```{r, echo=TRUE}
 fit4 <- glm(
   data = risk2009,
   family = binomial,
@@ -1238,11 +1375,9 @@ fit5 <- glm(
   )
 ```
 ---
-# Model Comparison 
+# Model Comparisons 
 
-For practice, let's compare the parameters of all five of our models in a coefficient plot. We'll pull the necessary parameter estimates with the handy `broom::tidy()` function
-
-```{r, echo=FALSE, out.width="60%", fig.align='center'}
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 levels <- c("(Intercept)", "female", "bmipct", "female:bmipct")
 
 bind_rows(
@@ -1264,7 +1399,7 @@ bind_rows(
   facet_grid(fit ~ term, scales = "free_x")
 ```
 
-By conventional metrics, the interaction term `female:bmipct` (i.e., $\beta_3$) would not be statistically significant. Let's compare the models by their information criteria. 
+The interaction term `female:bmipct` (i.e., $\beta_3$) would not be statistically significant. Let's compare the models by their information criteria
 
 ```{r}
 bind_rows(
@@ -1365,17 +1500,14 @@ religious event attendance using R 4.0.4 (R Core Team,
 - State the full model and your results, including the Odds Ratio
 
 
-> Religious event attendance was modelled as a function of
-attitudes about premarital sex, controlling for the age, sex, and
-socioeconomic status of the respondent. As shown in Figure 1,
-this analysis revealed that attitudes about premarital sex
+> Religious event attendance was modelled as a function of attitudes about premarital sex, controlling for the age, sex, and
+socioeconomic status of the respondent. As shown in Figure 1, this analysis revealed that attitudes about premarital sex
 significantly predicted religious event attendance, b = 0.72, SE
 = 0.05, z(1303) = 13.24, p < 0.01, Odds Ratio = 2.05:1. This
 implies that every 1-unit increase in negative attitudes toward
 premarital sex predicted a 2-fold increase in the likelihood that
 the person had attended religious services in the previous
 week. Table 1 provides the model estimates for all predictors.
-
 
 ---
 
