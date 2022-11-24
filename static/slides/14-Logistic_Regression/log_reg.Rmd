@@ -154,6 +154,9 @@ $$y\sim~Normal(\mu, \sigma)$$
 ---
 - What about if $y$ is not normal?
 
+<br>
+<br>
+
 $$y = b_0 + b_1*x$$
 $$y\sim~Bernoulli(p)$$
 $$y\sim~Binomial(n,p)$$
@@ -190,9 +193,13 @@ Relapse/Not relapse
 .pull-left[
 
 $$y\sim binomial(N,p)$$
-- n = number of trials
+- N = number of trials
 - p = probability of “y = 1”
 - y = {0, 1}
+
+  - E(X) = Np
+
+  - Var(X) = Np(1 − p)
 
 ]
 
@@ -255,7 +262,7 @@ In a generalized linear model (GLM), we specify 2 things:
     - e.g., family = "binomial" or  family = binomial(link = "logit")
 
 -Linear models for each distribution parameter
-  - e.g., 𝜇𝑖 = 𝛽0 +𝛽_1 𝑥_1𝑖+𝛽_2 𝑥_2𝑖 ; log(𝜎_𝑖 )=𝛾_0+𝛾_1 𝑥_1𝑖
+
 ---
 # Fitting a Binomial Regression in R
 
@@ -276,7 +283,7 @@ bi_model <- glm(
   * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
 
 ---
-# Logistic Link
+# Logit Link
 
 - The logit link transforms a linear model in the log-odds metric:
 
@@ -319,7 +326,7 @@ $$\textrm{Odds} = \frac{\# \textrm{successes}}{\# \textrm{failures}}=
 
 .pull-right[
 
-```{r, echo=FALSE,fig.align='center', out.width="50%"}
+```{r, echo=FALSE,fig.align='center', out.width="100%"}
 
 knitr::include_graphics("images/odds_fig.png")
 
@@ -520,13 +527,20 @@ knitr::include_graphics("images/logit_line.jpeg")
 ---
 # Likelihood
 
+
+```{r,echo=FALSE, fig.align='center', out.width="50%"}
+
+knitr::include_graphics("images/max.png")
+
+```
+---
+# Likelihood
+
 ```{r,echo=FALSE, fig.align='center', out.width="50%"}
 
 knitr::include_graphics("images/likelihood.svg")
 
 ```
----
-
 # Now What?
 
 - We keep rotating the log odds(line) and projecting data on to it and transforming into probabilities
@@ -667,7 +681,7 @@ new=-5.972374e-09*1e8
 ---
 # Summary Output
 
-```{r, echo=FASLE}
+```{r, echo=FALSE}
 
 fit <- glm(
   data = bechdel,
@@ -747,7 +761,6 @@ exp(new)-1 # get probability of increase/decrease
 --
 
 .vocab[Test Statistic]: $$z = \frac{\hat{\beta}_j - 0}{SE_{\hat{\beta}_j}}$$
-
 --
 
 .vocab[P-value]: $P(|Z| > |z|)$, 
@@ -756,8 +769,7 @@ where $Z \sim N(0, 1)$, the Standard Normal distribution
 
 
 ---
-
-## Confidence interval for $\beta_j$
+# Confidence interval for $\beta_j$
 
 We can calculate the .vocab[C% confidence interval] for $\beta_j$ as the following: 
 
@@ -767,11 +779,11 @@ $$\Large{\hat{\beta}_j \pm z^* SE_{\hat{\beta}_j}}$$
 where $z^*$ is calculated from the $N(0,1)$ distribution
 
 ]
----
-$$
+
+--
+
 $$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$
 ---
-
 # Model Fit
 
 - McFadden Psuedo $R^2$
@@ -781,7 +793,7 @@ $$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
 - A ratio indicating how "good" the fit
 
 ---
-## Log likelihood
+# Log likelihood
 
 .eq[
 $$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\pi}_i)]$$
@@ -804,10 +816,12 @@ $$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\p
 # Comparing nested models
 
 - Suppose there are two models: 
+
     - Reduced Model includes predictors $x_1, \ldots, x_q$
     - Full Model includes predictors $x_1, \ldots, x_q, x_{q+1}, \ldots, x_p$
 
 --
+
 - We want to test the hypotheses
 $$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
 & H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
@@ -866,43 +880,11 @@ legend("topright",
 anova(model1, model2, test = "Chisq")
 
 ```
-
----
-# Deviance and Model Fit
-
-$${\rm Deviance} = -2 \ln ({\rm likelihood})$$
-- In logistic regression goal is to maximize log-likelihood
-
-- `glm()` two deviances are calculated: 
-
-  1. Residual deviance (model deviance)
-    - Measure of how much the observed data differs from what is measured using the likelihood function
-    
-  2. Null deviance (intercept only)
-  
-*lower deviance the better model*
-
-- Sound familiar?
-
---
-- Similar to F-ratio
-
----
-# Testing Deviance
-
-- We can use the anova function to conduct this test
-
-  - Add test = "Chisq" to conduct the drop-in-deviance test
-  
-```{r, eval=FALSE}
-
-anova(model1, model2, test = "Chisq")
-
-```
 ---
 # Visualzing Logistic Data
 
-- How boring! 
+- How boring!
+
 .pull-left[
 ```{r, eval=FALSE}
 
@@ -1159,7 +1141,7 @@ risk2009 %>%
 
 - Here are the histograms for `bmipct`, faceted by `lose.wt`.
 
-```{r, echo=FALSE, out.width="70%", fig.align='center'}
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
 
 risk2009 %>% 
   ggplot(aes(x = bmipct)) +
@@ -1171,7 +1153,7 @@ risk2009 %>%
 
 - Here are the histograms for `bmipct`, faceted by both `lose.wt` and `sex`.
 
-```{r, echo=FALSE, out.width="70%", fig.align='center'}
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
 
 risk2009 %>% 
   ggplot(aes(x = bmipct)) +
@@ -1181,7 +1163,7 @@ risk2009 %>%
 ---
 # Logistic Regression: Fitting Model
 
-- Let's fit an intercepts-only model
+- Let's fit an intercept-only model
 
 $$
 \begin{align*}
@@ -1251,6 +1233,8 @@ $$
 $$
 
 where `female` is an 0/1 dummy variable.
+---
+# Fit Model
 
 ```{r}
 # fit
@@ -1265,7 +1249,6 @@ fit2 %>%
   tidy()
 
 ```
-
 ---
 - Now we can compute the probabilities for young men and women as follows
 
@@ -1333,7 +1316,7 @@ The coefficient for `bmipct` seems small at 0.036, but recall that `bmipct` rang
 range(risk2009$bmipct)
 ```
 
-Thus a one point increase being a one percentile increase in BMI, which isn't very much
+- Thus a one point increase being a one percentile increase in BMI, which isn't very much
 
 ---
 # Logistic Multiple Predictors
@@ -1452,6 +1435,8 @@ predict(
 ```
 
 ---
+# Visualization
+
 ```{r}
 
 library(sjPlot) # need to plot predictors
@@ -1460,6 +1445,26 @@ library(sjmisc)
 plot_model(fit4, type="pred", terms=c("bmipct", "female")) + theme_bw() # pred is predictors 
 
 ```
+
+---
+# Visualization
+
+```{r, fig.align="center", out.width="100%"}
+
+library(ggeffects)
+
+plot(ggpredict(fit4, "bmipct"), ci = FALSE, add.data = TRUE) 
+
+```
+
+---
+# Table
+
+```{r, fig.align="center", out.width="80%"}
+tab_model(fit3, auto.label = FALSE)
+```
+
+
 
 ---
 DV: Attended a religious service in the last week

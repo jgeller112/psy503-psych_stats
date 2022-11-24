@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-23
+### Updated:2022-11-24
 ]
 
 ---
@@ -59,6 +59,9 @@ $$ y = b_0 + b_1*x $$
 `$$y\sim~Normal(\mu, \sigma)$$`
 ---
 - What about if `\(y\)` is not normal?
+
+&lt;br&gt;
+&lt;br&gt;
 
 `$$y = b_0 + b_1*x$$`
 `$$y\sim~Bernoulli(p)$$`
@@ -94,9 +97,13 @@ Relapse/Not relapse
 .pull-left[
 
 `$$y\sim binomial(N,p)$$`
-- n = number of trials
+- N = number of trials
 - p = probability of “y = 1”
 - y = {0, 1}
+
+  - E(X) = Np
+
+  - Var(X) = Np(1 − p)
 
 ]
 
@@ -146,10 +153,10 @@ In a generalized linear model (GLM), we specify 2 things:
   - e.g., Normal (“Gaussian”), Binomial, Poisson, etc.
   - Until now, we’ve used the default family = "gaussian" (Normal)
   - Now we are changing it up!
-    - e.g., family = "binomial" or    family = binomial(link = "logit")
+    - e.g., family = "binomial" or  family = binomial(link = "logit")
 
 -Linear models for each distribution parameter
-  - e.g., 𝜇𝑖 = 𝛽0 +𝛽_1 𝑥_1𝑖+𝛽_2 𝑥_2𝑖 ; log(𝜎_𝑖 )=𝛾_0+𝛾_1 𝑥_1𝑖
+
 ---
 # Fitting a Binomial Regression in R
 
@@ -169,7 +176,7 @@ bi_model &lt;- glm(
   * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
 
 ---
-# Logistic Link
+# Logit Link
 
 - The logit link transforms a linear model in the log-odds metric:
 
@@ -212,7 +219,7 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 
 .pull-right[
 
-&lt;img src="images/odds_fig.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/odds_fig.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # Logit Link 
@@ -265,16 +272,16 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 
 - In standard linear regression we use least squares to find best fitting line
 
-&lt;img src="images/lin_fit.png" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/lin_fit.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Likelihood
 
-- Similar to probability but not the same
+- Similar but not the same as probability
 
 --
 
-- Probablity
+  - Probability
 
 &gt; How probable (or likely) it is to draw a sample from a given distribution with certain parameters 
 
@@ -292,14 +299,14 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 ]
 
 .pull-right[
-&lt;img src="images/likelihood-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/likelihood-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 # Likelihood
 
 .pull-left[
-&gt; Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
+&gt; Computes how likely the parameters are given the observed data
 
   - Here data is fixed and distribution can change
 ]
@@ -310,7 +317,7 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 
 ---
 class: middle center
-# What the fuck are likelhoods and how do they apply to logistic regression?
+# What the fuck are likelihoods and how do they apply to logistic regression?
 
 ---
 
@@ -330,9 +337,12 @@ class: middle center
 ---
 # Likelihood
 
-&lt;img src="images/likelihood.svg" width="50%" style="display: block; margin: auto;" /&gt;
----
 
+&lt;img src="images/max.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+# Likelihood
+
+&lt;img src="images/likelihood.svg" width="50%" style="display: block; margin: auto;" /&gt;
 # Now What?
 
 - We keep rotating the log odds(line) and projecting data on to it and transforming into probabilities
@@ -394,7 +404,7 @@ glimpse(bechdel)
 2. The predicted regression line is unbounded, meaning that it can go from ∞to-∞
 
 .pull-left[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-30">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-31">
 <col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">binary</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">pass</th></tr>
 <tr>
@@ -414,7 +424,7 @@ glimpse(bechdel)
 ]
 
 .pull-right[
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ---
 # Model
@@ -435,7 +445,7 @@ fit %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-33">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -459,7 +469,7 @@ fit &lt;- glm(
 fit
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-33">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -477,16 +487,14 @@ new=-5.972374e-09*1e8
 # Summary Output
 
 
-```r
-fit &lt;- glm(
-  data = bechdel,
-  family = binomial(link = "logit"),
-  pass ~ 1 + budget_2013)
 
+
+
+```r
 tidy(fit,exponentiate = FALSE) # get log odds
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -500,7 +508,7 @@ tidy(fit,exponentiate = FALSE) # get log odds
 tidy(fit,exponentiate = TRUE) # odds ratio
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -513,21 +521,13 @@ tidy(fit,exponentiate = TRUE) # odds ratio
 ---
 # Interpreting the intercept: β0
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-35">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-37">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.111&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-5.97e-09</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
-</table>
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-35">
-<col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.12</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
 </table>
 
 
@@ -536,24 +536,18 @@ tidy(fit,exponentiate = TRUE) # odds ratio
   - When budget = 0, log-odds of Y are 0.11
   
     -  A movie with a budget of zero has a .11 log of passing the test
+    
+
 ---
 # Interpreting slope: β1
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-38">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.111&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-5.97e-09</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
-</table>
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
-<col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.12</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.069&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.61</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.107&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">budget_2013</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.56e-10</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.25</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.11e-10</td></tr>
 </table>
 
 
@@ -603,14 +597,13 @@ exp(new)-1 # get probability of increase/decrease
 - For every 100,000,000 spent on movie budget, the odds of passing the test is reduced by 45% 
 
 ---
-## Hypothesis test for `\(\beta_j\)`
+# Hypothesis test for `\(\beta_j\)`
 
 .vocab[Hypotheses]: `\(H_0: \beta_j = 0 \hspace{2mm} \text{ vs } \hspace{2mm} H_a: \beta_j \neq 0\)`
 
 --
 
 .vocab[Test Statistic]: `$$z = \frac{\hat{\beta}_j - 0}{SE_{\hat{\beta}_j}}$$`
-
 --
 
 .vocab[P-value]: `\(P(|Z| &gt; |z|)\)`, 
@@ -619,8 +612,7 @@ where `\(Z \sim N(0, 1)\)`, the Standard Normal distribution
 
 
 ---
-
-## Confidence interval for `\(\beta_j\)`
+# Confidence interval for `\(\beta_j\)`
 
 We can calculate the .vocab[C% confidence interval] for `\(\beta_j\)` as the following: 
 
@@ -630,11 +622,11 @@ We can calculate the .vocab[C% confidence interval] for `\(\beta_j\)` as the fol
 where `\(z^*\)` is calculated from the `\(N(0,1)\)` distribution
 
 ]
----
-$$
+
+--
+
 `$$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$`
 ---
-
 # Model Fit
 
 - McFadden Psuedo `\(R^2\)`
@@ -644,7 +636,7 @@ $$
 - A ratio indicating how "good" the fit
 
 ---
-## Log likelihood
+# Log likelihood
 
 .eq[
 `$$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\pi}_i)]$$`
@@ -664,7 +656,25 @@ $$
   - `\(-2 \log L\)` follows a `\(\chi^2\)` distribution with `\(n - p - 1\)` degrees of freedom
   
 ---
-## Drop-in-deviance test
+# Comparing nested models
+
+- Suppose there are two models: 
+
+    - Reduced Model includes predictors `\(x_1, \ldots, x_q\)`
+    - Full Model includes predictors `\(x_1, \ldots, x_q, x_{q+1}, \ldots, x_p\)`
+
+--
+
+- We want to test the hypotheses
+`$$\begin{aligned}&amp;H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+&amp; H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$`
+
+--
+
+- To do so, we will use the .vocab[Drop-in-deviance test] (also known as the Nested Likelihood Ratio test)
+
+---
+# Drop-in-deviance test
 
 .vocab[Hypotheses]:
 `$$\begin{aligned}&amp;H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
@@ -682,27 +692,7 @@ calculated using a `\(\chi^2\)` distribution with degrees of freedom equal to th
 ---
 # `\(\chi^2\)` distribution 
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-39-1.png" width="80%" /&gt;
-
----
-# Deviance and Model Fit
-
-`$${\rm Deviance} = -2 \ln ({\rm likelihood})$$`
-- In logistic regression goal is to maximize log-likelihood
-
-- `glm()` two deviances are calculated: 
-
-  1. Residual deviance (model deviance)
-    - Measure of how much the observed data differs from what is measured using the likelihood function
-    
-  2. Null deviance (intercept only)
-  
-*lower deviance the better model*
-
-- Sound familiar?
-
---
-- Similar to F-ratio
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-41-1.png" width="80%" /&gt;
 
 ---
 # Testing Deviance
@@ -718,7 +708,8 @@ anova(model1, model2, test = "Chisq")
 ---
 # Visualzing Logistic Data
 
-- How boring! 
+- How boring!
+
 .pull-left[
 
 ```r
@@ -737,7 +728,7 @@ p %&gt;%
 
 .pull-right[
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-42-1.png" width="100%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-44-1.png" width="100%" /&gt;
 ]
 ---
 # Better?
@@ -761,7 +752,7 @@ p %&gt;%
 
 
 .pull-right[
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-44-1.png" width="100%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-46-1.png" width="100%" /&gt;
 
 ]
 
@@ -786,7 +777,7 @@ p %&gt;%
 ]
 
 .pull-right[
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-46-1.png" width="100%" height="80%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-48-1.png" width="100%" height="80%" /&gt;
 
 ]
 
@@ -822,19 +813,17 @@ p %&gt;%
 
 .pull-right[
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-48-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-50-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ]
 
 ---
-# Case Study: loseing weight
+# Case Study: Loseing Weight
 
 - These data are a sample of 500 teens from data collected in 2009 through the U.S. Youth Risk Behavior Surveillance System (YRBSS)
 
 - Are the odds that young females report trying to lose weight greater than the odds that males do? Is increasing BMI associated with an interest in losing weight, regardless of sex? 
-
-Here we complete the data wrangling necessary to derive `risk2009` from `risk2009.samp`.
 
 
 ```r
@@ -846,8 +835,6 @@ set.seed(33)
 
 risk2009.samp &lt;- risk2009.data %&gt;%
   sample_n(500)
-
-rm(risk2009.data)
 
 dim(risk2009.samp)
 ```
@@ -891,6 +878,9 @@ glimpse(risk2009)
 ## $ bmipct     &lt;dbl&gt; 98, 41, 6, 41, 99, 97, 0, 100, 3, 8, 99, 13, 87, 71, 93, 97…
 ## $ female     &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1,…
 ```
+---
+# Trying to lose weight
+
 
 *`lose.wt.01`, which is coded 1 when someone indicated they were trying to lost weight and 0 when they were not trying to. This is a dichotomized version of the `lose.wt` factor variable.
 
@@ -904,23 +894,29 @@ glimpse(risk2009)
 
 - Here are two versions of comparing `lose.wt.01` by `sex`
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-51-1.png" width="70%" style="display: block; margin: auto;" /&gt;&lt;img src="log_reg_files/figure-html/unnamed-chunk-51-2.png" width="70%" style="display: block; margin: auto;" /&gt;
+.pull-left[
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-53-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-left[
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-54-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+]
 ---
 # Exploratory Data Analysis
 
 - Here are the histograms for `bmipct`, faceted by `lose.wt`.
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-52-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-55-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 # Exploratory Data Analysis
 
 - Here are the histograms for `bmipct`, faceted by both `lose.wt` and `sex`.
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-53-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-56-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 ---
 # Logistic Regression: Fitting Model
 
-- Let's fit an intercepts-only model
+- Let's fit an intercept-only model
 
 $$
 `\begin{align*}
@@ -943,7 +939,7 @@ fit1 %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-54">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-57">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -952,9 +948,9 @@ fit1 %&gt;%
 
 
 ---
-# Interpreting `\(\Beta_0\)`
+# Interpreting `\(\beta_0\)`
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-55">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-58">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -988,7 +984,7 @@ risk2009 %&gt;%
   mutate(proportion = n / sum(n))
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-57">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-60">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">lose.wt.01</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">n</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">proportion</th></tr>
 <tr>
@@ -1023,6 +1019,8 @@ $$
 $$
 
 where `female` is an 0/1 dummy variable.
+---
+# Fit Model
 
 
 ```r
@@ -1038,7 +1036,7 @@ fit2 %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-59">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-62">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -1047,9 +1045,7 @@ fit2 %&gt;%
 <td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">female</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.09&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.198</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.52</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.38e-08</td></tr>
 </table>
 
-
 ---
-
 - Now we can compute the probabilities for young men and women as follows
 
 
@@ -1100,7 +1096,7 @@ risk2009 %&gt;%
 
 - Can use `emmeans` to get probabilities directly from model
 
-- Can also get odds ratio !
+- Can also get odds ratios!
 
 ```r
 emm &lt;- emmeans(fit2, "female", type = "response")
@@ -1153,7 +1149,7 @@ fit3 %&gt;%
   tidy()
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-63">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-66">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -1174,12 +1170,12 @@ range(risk2009$bmipct)
 ## [1]   0 100
 ```
 
-Thus a one point increase being a one percentile increase in BMI, which isn't very much
+- Thus a one point increase being a one percentile increase in BMI, which isn't very much
 
 ---
 # Logistic Multiple Predictors
 
-Now we'll fit two multivariable logistic regression models. The first will have both `female` and `bmipct` as predictors:
+- The first will have both `female` and `bmipct` as predictors:
 
 $$
 `\begin{align*}
@@ -1188,7 +1184,10 @@ $$
 \end{align*}`
 $$
 
-The second multivariable model will add an interaction term between the two predictors:
+---
+# Logistic Multiple Predictors
+
+- The second multivariable model will add an interaction term between the two predictors:
 
 $$
 `\begin{align*}
@@ -1197,7 +1196,8 @@ $$
 \end{align*}`
 $$
 
-
+---
+# Fitting Both Models
 
 ```r
 fit4 &lt;- glm(
@@ -1213,13 +1213,11 @@ fit5 &lt;- glm(
   )
 ```
 ---
-# Model Comparison 
+# Model Comparisons 
 
-For practice, let's compare the parameters of all five of our models in a coefficient plot. We'll pull the necessary parameter estimates with the handy `broom::tidy()` function
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-69-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-66-1.png" width="60%" style="display: block; margin: auto;" /&gt;
-
-By conventional metrics, the interaction term `female:bmipct` (i.e., `\(\beta_3\)`) would not be statistically significant. Let's compare the models by their information criteria. 
+The interaction term `female:bmipct` (i.e., `\(\beta_3\)`) would not be statistically significant. Let's compare the models by their information criteria
 
 
 ```r
@@ -1234,7 +1232,7 @@ bind_rows(
   select(fit, everything())
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-67">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-70">
 <col><col><col><col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">fit</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">null.deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.null</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">logLik</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">BIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.residual</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">nobs</th></tr>
 <tr>
@@ -1254,9 +1252,11 @@ when you compare the multivariable model `fit4` with the interaction model `fit5
 
 Let's plot the results from `fit4`.
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-68-1.png" width="80%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-71-1.png" width="80%" /&gt;
 
 ---
+# Visualization
+
 
 ```r
 library(sjPlot) # need to plot predictors
@@ -1265,7 +1265,63 @@ library(sjmisc)
 plot_model(fit4, type="pred", terms=c("bmipct", "female")) + theme_bw() # pred is predictors 
 ```
 
-&lt;img src="log_reg_files/figure-html/unnamed-chunk-69-1.png" width="80%" /&gt;
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-72-1.png" width="80%" /&gt;
+
+---
+# Visualization
+
+
+```r
+library(ggeffects)
+
+plot(ggpredict(fit4, "bmipct"), ci = FALSE, add.data = TRUE) 
+```
+
+&lt;img src="log_reg_files/figure-html/unnamed-chunk-73-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Table
+
+
+```r
+tab_model(fit3, auto.label = FALSE)
+```
+
+&lt;table style="border-collapse:collapse; border:none;"&gt;
+&lt;tr&gt;
+&lt;th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; "&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; "&gt;lose.wt.01&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; "&gt;Predictors&lt;/td&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  "&gt;Odds Ratios&lt;/td&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  "&gt;CI&lt;/td&gt;
+&lt;td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  "&gt;p&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; "&gt;(Intercept)&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.08&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;0.04&amp;nbsp;&amp;ndash;&amp;nbsp;0.14&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; "&gt;bmipct&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;1.04&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;1.03&amp;nbsp;&amp;ndash;&amp;nbsp;1.05&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;"&gt;Observations&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3"&gt;445&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;"&gt;R&lt;sup&gt;2&lt;/sup&gt; Tjur&lt;/td&gt;
+&lt;td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3"&gt;0.181&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;/table&gt;
+
+
 
 ---
 DV: Attended a religious service in the last week
@@ -1306,17 +1362,14 @@ religious event attendance using R 4.0.4 (R Core Team,
 - State the full model and your results, including the Odds Ratio
 
 
-&gt; Religious event attendance was modelled as a function of
-attitudes about premarital sex, controlling for the age, sex, and
-socioeconomic status of the respondent. As shown in Figure 1,
-this analysis revealed that attitudes about premarital sex
+&gt; Religious event attendance was modelled as a function of attitudes about premarital sex, controlling for the age, sex, and
+socioeconomic status of the respondent. As shown in Figure 1, this analysis revealed that attitudes about premarital sex
 significantly predicted religious event attendance, b = 0.72, SE
 = 0.05, z(1303) = 13.24, p &lt; 0.01, Odds Ratio = 2.05:1. This
 implies that every 1-unit increase in negative attitudes toward
 premarital sex predicted a 2-fold increase in the likelihood that
 the person had attended religious services in the previous
 week. Table 1 provides the model estimates for all predictors.
-
 
 ---
 
