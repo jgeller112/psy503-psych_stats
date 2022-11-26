@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-16
+### Updated:2022-11-26
 ]
 
 ---
@@ -1686,8 +1686,7 @@ Anova(lm(Quiz~Gender*Fluency, data=gen), type="II") %&gt;%
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.721</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">183</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">70.9</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.182</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.672</td></tr>
 </table>
 
-
-
+---
 # Testing Categorical x Categorial Interactions
 
 - First look at the interaction effect
@@ -1856,18 +1855,18 @@ simulation_result
 ```
 ## Power and Effect sizes for ANOVA tests
 ##                  power effect_size
-## anova_Gender        48    0.011330
-## anova_Flu           91    0.028274
-## anova_Gender:Flu    24    0.006765
+## anova_Gender        50    0.012456
+## anova_Flu           90    0.028623
+## anova_Gender:Flu    16    0.005696
 ## 
 ## Power and Effect sizes for pairwise comparisons (t-tests)
 ##                                                           power effect_size
-## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         96    -0.50985
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency     7     0.05172
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       19    -0.15707
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       91     0.45708
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          82     0.38574
-## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     20    -0.17655
+## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         91    -0.48947
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency    13     0.07582
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       16    -0.15089
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       91     0.46474
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          78     0.37166
+## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     31    -0.19608
 ```
 
 ---
@@ -1894,6 +1893,7 @@ I would report the three effects from this model as follows:
     - Significance tests (F, degrees of freedom, p, effect size)
       - If interaction is significant, simple effects analysis
           - Interpretation of simple effects
+          
     - Figure visualizing either the main effects (if interaction is not significant) or interaction
 
 ---
@@ -1902,18 +1902,15 @@ I would report the three effects from this model as follows:
 1. Avoid them if not theoretically motivated
 
   - Use contrasts when you can 
+  - Use model comparison approach to determine if interactions are warranted
   
 2. Testing interactions require lots of data
   
     - Power is worse in observational studies compared to experimental paradigms
     
-3. Use model comparison approach to determine if interactions are warranted
+3. Center continuous variables and sum code categorical predictors 
 
-4. Center continuous variables and sum code categorical predictors 
-
-5. For non-simple designs (lots of factors) use ANOVA framework
----
-# In-Class Activity
+4. For non-simple designs (&gt; 2:2) use `afex::aov_ez` (uses Type III SS)
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
