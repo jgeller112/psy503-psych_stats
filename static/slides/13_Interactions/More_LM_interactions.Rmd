@@ -1283,7 +1283,7 @@ aov(lm(Quiz~Gender*Fluency, data=gen)) %>% tidy(digits=3)
 
   - Hierarchical SS 
   
-  - Based the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it
+    - Based the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it
   
   - Tests main effects first
   - Ignores interactions
@@ -1520,4 +1520,20 @@ I would report the three effects from this model as follows:
 3. Center continuous variables and sum code categorical predictors 
 
 4. For non-simple designs (> 2:2) use `afex::aov_ez` (uses Type III SS)
+---
+# Class Activity
+
+Does dress attire and tattoos influence how long a person will interact with a stranger asking for directions?
+
+- Time (in s): Long long person interacted
+- Tattoos: 0 (no tat visible) 1(tat visible)
+- Dress: 0 (causal dress) 1 (professional dress)
+
+```{r}
+data=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/13_Interactions/data/tats.csv")
+```
+- Conduct 2 x 2 ANOVA (discuss main effects and interaction effects)
+- Follow-up interaction with simple effects analysis
+- Create a figure of results
+
 

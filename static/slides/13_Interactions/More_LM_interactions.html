@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Princeton University
 ]
 .date[
-### Updated:2022-11-26
+### Updated:2022-11-27
 ]
 
 ---
@@ -1548,7 +1548,7 @@ aov_ez(id="id", between=c("Gender", "Fluency"), dv="Quiz", data=gen) %&gt;%
 
   - Hierarchical SS 
   
-  - Based the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it
+    - Based the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it
   
   - Tests main effects first
   - Ignores interactions
@@ -1855,18 +1855,18 @@ simulation_result
 ```
 ## Power and Effect sizes for ANOVA tests
 ##                  power effect_size
-## anova_Gender        50    0.012456
-## anova_Flu           90    0.028623
-## anova_Gender:Flu    16    0.005696
+## anova_Gender        45    0.010939
+## anova_Flu           88    0.026972
+## anova_Gender:Flu    28    0.007015
 ## 
 ## Power and Effect sizes for pairwise comparisons (t-tests)
 ##                                                           power effect_size
-## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         91    -0.48947
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency    13     0.07582
-## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       16    -0.15089
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       91     0.46474
-## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          78     0.37166
-## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     31    -0.19608
+## p_Gender_male_Flu_Disfluency_Gender_male_Flu_Fluency         94    -0.49412
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Disfluency    10     0.05204
+## p_Gender_male_Flu_Disfluency_Gender_female_Flu_Fluency       21    -0.15855
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Disfluency       86     0.44305
+## p_Gender_male_Flu_Fluency_Gender_female_Flu_Fluency          79     0.37062
+## p_Gender_female_Flu_Disfluency_Gender_female_Flu_Fluency     26    -0.17665
 ```
 
 ---
@@ -1911,6 +1911,23 @@ I would report the three effects from this model as follows:
 3. Center continuous variables and sum code categorical predictors 
 
 4. For non-simple designs (&gt; 2:2) use `afex::aov_ez` (uses Type III SS)
+---
+# Class Activity
+
+Does dress attire and tattoos influence how long a person will interact with a stranger asking for directions?
+
+- Time (in s): Long long person interacted
+- Tattoos: 0 (no tat visible) 1(tat visible)
+- Dress: 0 (causal dress) 1 (professional dress)
+
+
+```r
+data=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/13_Interactions/data/tats.csv")
+```
+- Conduct 2 x 2 ANOVA (discuss main effects and interaction effects)
+- Follow-up interaction with simple effects analysis
+- Create a figure of results
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
