@@ -5,5 +5,7 @@ title: "11-Readings"
 
 [Gelman et al](/readings_pdf/Gelman.ch-05.logistic-regression 2.pdf.pdf)
 
+http://people.linguistics.mcgill.ca/~morgan/qmld-book/logistic-regression.html
+
 
 

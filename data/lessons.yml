@@ -178,7 +178,7 @@ lessons:
     slides: ""
     notes: ""
     class: "14-Logistic_Regression/log_reg.html"
-    reading: ""
+    reading: "11-reading"
     hasclass: False
     hasassignment: True
     

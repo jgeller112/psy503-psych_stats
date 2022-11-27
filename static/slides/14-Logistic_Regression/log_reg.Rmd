@@ -1,6 +1,6 @@
 ---
 title: "PSY 503: Foundations of Statistical Methods in Psychological Science"
-subtitle: "Generalized Linear Modeling: Logistic Regression"
+subtitle: "Generalized Linear Madness: Logistic Regression"
 institute: "Princeton University"
 author: "Jason Geller, Ph.D. (he/him/his)"
 date:  'Updated:`r Sys.Date()`'
@@ -140,6 +140,11 @@ library(ggdist)
 - Finishing cat x cat interactions
 
 - Introduction to logistic regression
+  
+    - Binomial Distribution
+    - Logit Link
+    - Maximum Likelihood
+    - Statistical inference
 
 ---
 #  Linear Model
@@ -197,10 +202,9 @@ $$y\sim binomial(N,p)$$
 - p = probability of “y = 1”
 - y = {0, 1}
 
-  - E(X) = Np
-
-  - Var(X) = Np(1 − p)
-
+  - $\mu=E(X)=np$
+  - $Var(X)=np(1-p)$
+  - $SD(X)=\sqrt{np(1-p)} \text{, where \(p\) is the probability of the “success"}$
 ]
 
 .pull-right[
@@ -211,6 +215,12 @@ knitr::include_graphics("images/bigraph2.png")
 
 ```
 ]
+
+---
+
+background-image: url(images/bour.jpg)
+background-size: contain
+
 
 ---
 # Bernoulli Distribution
@@ -261,13 +271,14 @@ In a generalized linear model (GLM), we specify 2 things:
   - Now we are changing it up!
     - e.g., family = "binomial" or  family = binomial(link = "logit")
 
--Linear models for each distribution parameter
+2. Linear models for each distribution parameter
 
 ---
 # Fitting a Binomial Regression in R
 
 ```{r, eval=FALSE}
-
+# use GLM istead of LM
+# family changes
 bi_model <- glm(
   rvote ~ income,
   family = binomial(
@@ -309,7 +320,7 @@ $$\textrm{Odds} = \frac{\# \textrm{successes}}{\# \textrm{failures}}=
 \frac{p}{1-p}$$
 
 ---
-# Logistic Link 
+# Logit Link 
 
 - Step 2
 
@@ -332,6 +343,7 @@ knitr::include_graphics("images/odds_fig.png")
 
 ```
 ]
+
 ---
 # Logit Link 
 
@@ -340,6 +352,8 @@ knitr::include_graphics("images/odds_fig.png")
 - This log odds conversion has a nice property
 
   - It converts odds of less than one to negative numbers, because the log of a number between 0 and 1 is always negative
+  
+  - Our data is now linear!
 
 
 ]
@@ -387,6 +401,8 @@ knitr::include_graphics("images/lin2.png")
 # Squiggles
 
 - We need a function that scrunches the output of the linear predictor into a range appropriate for this parameter
+
+--
 
 - A squiggle (logistic or Sigmoid curve) to the rescue!
 
@@ -498,10 +514,8 @@ knitr::include_graphics("images/likelihood-2.png")
 ]
 
 ---
-class: middle center
-# What the fuck are likelihoods and how do they apply to logistic regression?
 
----
+- Find where points lie on line and get corresponding logits 
 
 <br>
 <br>
@@ -527,6 +541,8 @@ knitr::include_graphics("images/logit_line.jpeg")
 ---
 # Likelihood
 
+<br>
+<br>
 
 ```{r,echo=FALSE, fig.align='center', out.width="50%"}
 
@@ -541,6 +557,7 @@ knitr::include_graphics("images/max.png")
 knitr::include_graphics("images/likelihood.svg")
 
 ```
+---
 # Now What?
 
 - We keep rotating the log odds(line) and projecting data on to it and transforming into probabilities
@@ -582,13 +599,15 @@ knitr::include_graphics("images/BechdelTest.jpeg")
 # Data
 
 ```{r}
+#install.packages(fivethirtyeight)
+bechdel=fivethirtyeight::bechdel
 glimpse(bechdel)
 ```
 
 ---
 # Linear Model?
 
- Not good for two reasons: 
+Not good for two reasons: 
  
 1. Outcome is non-normal
 2. The predicted regression line is unbounded, meaning that it can go from ∞to-∞
@@ -658,6 +677,8 @@ fit <- glm(
 fit %>%
   tidy()
 
+new=-5.972374e-09*1e8
+
 
 ```
 
@@ -674,8 +695,6 @@ fit <- glm(
 
 fit
 
-new=-5.972374e-09*1e8
-
 ```
 
 ---
@@ -686,18 +705,14 @@ new=-5.972374e-09*1e8
 fit <- glm(
   data = bechdel,
   family = binomial(link = "logit"),
-  pass ~ 1 + budget_2013)
+  pass ~ 1 + budget)
+
+summary(fit)
 ```
 
-
-```{r}
-tidy(fit,exponentiate = FALSE) # get log odds
-tidy(fit,exponentiate = TRUE) # odds ratio
-
-```
 
 ---
-# Interpreting the intercept: β0
+# Interpreting the intercept: $\beta_0$
 
 ```{r, echo=FALSE}
 tidy(fit,exponentiate = FALSE) # get log odds
@@ -705,27 +720,22 @@ tidy(fit,exponentiate = FALSE) # get log odds
 
 - Intercept
 
-  - When budget = 0, log-odds of Y are 0.11
+  - When budget = 0, log-odds of Y are 0.04
   
-    -  A movie with a budget of zero has a .11 log of passing the test
+    -  A movie with a budget of zero has a 51% passing the test
     
-
 ---
-# Interpreting slope: β1
+# Interpreting slope: $\beta_1$
 
-```{r, echo=FALSE}
-tidy(fit,exponentiate = FALSE) # get log odds
+- If X is quantitative predictor: 
 
-```
+  - As $X_i$ increases by 1 unit, log-odds of Y increases by β1
 
-If X is quantitative predictor: 
+  - As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  exp{β1}
 
-- As $X_i$ increases by 1 unit, log-odds of Y increases by β1
-
-- As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  exp{β1}
-
-  - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
-] 
+    - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
+    
+      - Divide by 4 rule to get upper limit of max probability change (Gelman & Hill, 2007) (every 1 unit increase in X,P(y) will increase by no more than $B/4$)
 ---
 # Interpreting slope: β1
 
@@ -738,14 +748,14 @@ If X is quantitative predictor:
 ---
 # Coffiencet Effect Size: Odd's Ratio
 
-```{r}
-exp(new)
+```{r, echo=FALSE}
+tidy(fit,exponentiate = TRUE) # odds ratio from tidy object 
 ```
 - For every 100,000,000 spent in movie budget, the odds of passing are decreased by a factor of .55:1
 
-- Describe as percentage increase/decrease
+  - Describe as percentage increase/decrease
 
-  - *Remember how to interpret logs for DV* 
+    - *Remember how to interpret logs for DV* 
 
 ```{r}
 exp(new)-1 # get probability of increase/decrease
@@ -784,15 +794,6 @@ where $z^*$ is calculated from the $N(0,1)$ distribution
 
 $$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$
 ---
-# Model Fit
-
-- McFadden Psuedo $R^2$
-
-$$R^2 = \frac{SSM}{SST} = \frac{SST-SSE}{SST}=1-\frac{SSE}{SST}$$
-$$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
-- A ratio indicating how "good" the fit
-
----
 # Log likelihood
 
 .eq[
@@ -812,40 +813,6 @@ $$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\p
 - .vocab[Deviance] = $-2 \log L$
   - $-2 \log L$ follows a $\chi^2$ distribution with $n - p - 1$ degrees of freedom
   
----
-# Comparing nested models
-
-- Suppose there are two models: 
-
-    - Reduced Model includes predictors $x_1, \ldots, x_q$
-    - Full Model includes predictors $x_1, \ldots, x_q, x_{q+1}, \ldots, x_p$
-
---
-
-- We want to test the hypotheses
-$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
-& H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
-
---
-
-- To do so, we will use the .vocab[Drop-in-deviance test] (also known as the Nested Likelihood Ratio test)
-
----
-# Drop-in-deviance test
-
-.vocab[Hypotheses]:
-$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
-& H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
-
---
-
-.vocab[Test Statistic]: $$G = (-2 \log L_{reduced}) - (-2 \log L_{full})$$
-
---
-.vocab[P-value]: $P(\chi^2 > G)$, 
-
-calculated using a $\chi^2$ distribution with degrees of freedom equal to the difference in the number of parameters in the full and reduced models
-
 ---
 # $\chi^2$ distribution 
 
@@ -867,7 +834,41 @@ legend("topright",
        c("df = 1", "df = 2 ", "df = 3", "df = 5"), 
        col = c(1, 2, 3, 4), lty = 1)
 ```
+---
+# Comparing Nested Models
 
+- Suppose there are two models: 
+
+    - Reduced model includes predictors $x_1, \ldots, x_q$
+    - Full model includes predictors $x_1, \ldots, x_q, x_{q+1}, \ldots, x_p$
+
+--
+
+- We want to test the hypotheses
+$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+& H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
+
+--
+
+- To do so, we will use the .vocab[Drop-in-deviance test] (also known as the Nested Likelihood Ratio test)
+
+---
+# Drop-In-Deviance Test
+
+.vocab[Hypotheses]:
+$$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
+& H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
+
+--
+
+.vocab[Test Statistic]: $$G = (-2 \log L_{reduced}) - (-2 \log L_{full})$$
+
+--
+.vocab[P-value]: $P(\chi^2 > G)$, 
+
+calculated using a $\chi^2$ distribution
+
+- df = $df_1$ - $df_2$
 ---
 # Testing Deviance
 
@@ -878,6 +879,41 @@ legend("topright",
 ```{r, eval=FALSE}
 
 anova(model1, model2, test = "Chisq")
+
+```
+
+- `Performance` package
+
+```{rm eval=FALSE}
+
+test_likelihoodratio(model1, model2)
+
+```
+
+---
+
+# Model Fit
+
+- McFadden Psuedo $R^2$
+
+$$R^2 = \frac{SSM}{SST} = \frac{SST-SSE}{SST}=1-\frac{SSE}{SST}$$
+$$R_{MF}^2 = 1-\frac{D_{\rm residual}}{D_{\rm null}}$$
+
+- Tjur's R2 (`easystats`)
+
+```{r, eval=FALSE}
+
+r2_tjur(model)
+
+```
+
+- Both a ratio indicating how "good" the model fit
+---
+# Logistic Diagnostics
+
+```{r, eval=FALSE, fig.align='center', out.width="100%"}
+
+check_model(model)
 
 ```
 ---
@@ -1277,7 +1313,7 @@ risk2009 %>%
 
 - Can use `emmeans` to get probabilities directly from model
 
-- Can also get odds ratios!
+  - Can also get odds ratios for comparisons!
 ```{r}
 
 emm <- emmeans(fit2, "female", type = "response")
@@ -1396,7 +1432,7 @@ bind_rows(
   select(fit, everything())
 ```
 
-when you compare the multivariable model `fit4` with the interaction model `fit5`, it appears that the interaction term does not add anything
+- when you compare the multivariable model `fit4` with the interaction model `fit5`, it appears that the interaction term does not add anything
 
 Let's plot the results from `fit4`.
 
@@ -1449,7 +1485,18 @@ plot_model(fit4, type="pred", terms=c("bmipct", "female")) + theme_bw() # pred i
 ---
 # Visualization
 
-```{r, fig.align="center", out.width="100%"}
+```{r}
+
+library(sjPlot) # need to plot predictors
+library(sjmisc)
+
+plot_model(fit4, type="pred", terms=c("bmipct")) + theme_bw() # pred is predictors 
+
+```
+---
+# Visualization
+
+```{r, fig.align="center", out.width="80%"}
 
 library(ggeffects)
 
@@ -1461,12 +1508,20 @@ plot(ggpredict(fit4, "bmipct"), ci = FALSE, add.data = TRUE)
 # Table
 
 ```{r, fig.align="center", out.width="80%"}
-tab_model(fit3, auto.label = FALSE)
+#library(sjplot)
+fit3 %>%
+  tab_model()
+```
+
+---
+
+```{r}
+
+data=read_csv("https://raw.githubusercontent.com/jgeller112/psy503-psych_stats/master/static/slides/14-Logistic_Regression/data/gss.csv")
+
 ```
 
 
-
----
 DV: Attended a religious service in the last week
 
 Independent Variables:
@@ -1508,11 +1563,7 @@ religious event attendance using R 4.0.4 (R Core Team,
 > Religious event attendance was modelled as a function of attitudes about premarital sex, controlling for the age, sex, and
 socioeconomic status of the respondent. As shown in Figure 1, this analysis revealed that attitudes about premarital sex
 significantly predicted religious event attendance, b = 0.72, SE
-= 0.05, z(1303) = 13.24, p < 0.01, Odds Ratio = 2.05:1. This
-implies that every 1-unit increase in negative attitudes toward
-premarital sex predicted a 2-fold increase in the likelihood that
-the person had attended religious services in the previous
-week. Table 1 provides the model estimates for all predictors.
+= 0.05, z(1303) = 13.24, p < 0.01, Odds Ratio = 2.05:1. This implies that every 1-unit increase in negative attitudes toward premarital sex predicted a 2-fold increase in the likelihood that the person had attended religious services in the previous week. Table 1 provides the model estimates for all predictors.
 
 ---
 
