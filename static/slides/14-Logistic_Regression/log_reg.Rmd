@@ -483,6 +483,7 @@ knitr::include_graphics("images/probability.png")
 # Likelihood
 
 .pull-left[
+
 > Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
 
   - Here data is fixed and distribution can change
