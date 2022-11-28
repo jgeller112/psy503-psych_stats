@@ -145,7 +145,7 @@ library(ggdist)
         - Binomial distribution
         - Logit Link
         - Maximum Likelihood
-        - Paramater interpretation
+        - Parameter interpretation
          
     - Statistical inference: 
       - Model fit and model diagnoistics
