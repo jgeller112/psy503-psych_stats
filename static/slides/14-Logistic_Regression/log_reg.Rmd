@@ -1468,7 +1468,7 @@ predict(
 ---
 # Visualization
 
-```{r}
+```{r,fig.align="center", out.width="50%"}
 
 library(sjPlot) # need to plot predictors
 library(sjmisc)
@@ -1480,7 +1480,7 @@ plot_model(fit4, type="pred", terms=c("bmipct", "female")) + theme_bw() # pred i
 ---
 # Visualization
 
-```{r}
+```{r,fig.align="center", out.width="50%"}
 
 library(sjPlot) # need to plot predictors
 library(sjmisc)
@@ -1491,7 +1491,7 @@ plot_model(fit4, type="pred", terms=c("bmipct")) + theme_bw() # pred is predicto
 ---
 # Visualization
 
-```{r, fig.align="center", out.width="80%"}
+```{r, echo=FALSE, fig.align="center", out.width="60%"}
 
 library(ggeffects)
 
@@ -1502,7 +1502,7 @@ plot(ggpredict(fit4, "bmipct"), ci = FALSE, add.data = TRUE)
 ---
 # Table
 
-```{r, fig.align="center", out.width="80%"}
+```{r, fig.align="center", out.width="60%"}
 #library(sjplot)
 fit3 %>%
   tab_model()
