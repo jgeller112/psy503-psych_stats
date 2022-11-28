@@ -456,19 +456,24 @@ knitr::include_graphics("images/lin_fit.png")
 - Similar, but not the same as probability
 
 --
-
+.pull-left[
   - Probability
 
 > How probable it is to draw a sample from a given distribution with certain parameters 
 
   - Here distribution is fixed and data can change
+  
+]
 
-```{r, echo=FALSE, fig.align='center', out.width="40%"}
+.pull-right[
+
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 knitr::include_graphics("images/probability.png")
 
 ```
 
+]
 ---
 # Likelihood
 
@@ -497,7 +502,7 @@ knitr::include_graphics("images/likelihood-1.png")
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="50%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 knitr::include_graphics("images/likelihood-2.png")
 
@@ -613,9 +618,9 @@ bechdel <- bechdel  %>%
   mutate(pass = ifelse(binary == "FAIL", 0, 1)) 
 
 # compare
-bechdel %>% 
-  select(binary, pass) %>% 
-  head()
+#bechdel %>% 
+ # select(binary, pass) %>% 
+ # head()
 
 fit <- glm(
   data = bechdel,
@@ -666,9 +671,6 @@ fit <- glm(
   data = bechdel,
   family = binomial(link="logit"),
   pass ~ 1 + budget_2013)
-
-fit %>%
-  tidy()
 
 new=-5.972374e-09*1e8
 
@@ -722,9 +724,9 @@ tidy(fit,exponentiate = FALSE) # get log odds
 
 - If X is quantitative predictor: 
 
-  - As $X_i$ increases by 1 unit, log-odds of Y increases by β1
+  - As $X_i$ increases by 1 unit, log-odds of Y increases by $\beta_1$
 
-  - As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  exp{β1}
+  - As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  exp{$\beta_1$}
 
     - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
     
@@ -734,7 +736,7 @@ tidy(fit,exponentiate = FALSE) # get log odds
 
 - If X is a categorical predictor
 
-  - The difference in the log-odds between group X and the baseline is β1
+  - The difference in the log-odds between group X and the baseline is $\beta_1$
   
   - The odds of Y for group X are expected to be exp{β1} times the odds of Y for the baseline group.
 
