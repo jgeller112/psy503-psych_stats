@@ -47,10 +47,15 @@ class: center, middle, inverse, title-slide
 
 - Introduction to logistic regression
   
-    - Binomial Distribution
-    - Logit Link
-    - Maximum Likelihood
-    - Statistical inference
+    - Fitting the model: 
+        - Binomial distribution
+        - Logit Link
+        - Maximum Likelihood
+        - Paramater interpretation
+         
+    - Statistical inference: 
+      - Model fit and model diagnoistics
+      - Comparing models
 
 ---
 #  Linear Model
@@ -64,6 +69,8 @@ $$ y = b_0 + b_1*x $$
 `$$y\sim~Normal(\mu, \sigma)$$`
 ---
 - What about if `\(y\)` is not normal?
+
+  - What if `\(y\)` is categorical with two possible outcomes?
 
 &lt;br&gt;
 &lt;br&gt;
@@ -155,20 +162,7 @@ background-size: contain
 `$$p(y = 1)  = p$$`
 `$$log(\frac{p}{1 - p})$$`
 ---
-# Generalized linear models
-
-In a generalized linear model (GLM), we specify 2 things:
-
-1. Response likelihood (“family”)
-  - e.g., Normal (“Gaussian”), Binomial, Poisson, etc.
-  - Until now, we’ve used the default family = "gaussian" (Normal)
-  - Now we are changing it up!
-    - e.g., family = "binomial" or  family = binomial(link = "logit")
-
-2. Linear models for each distribution parameter
-
----
-# Fitting a Binomial Regression in R
+# Fitting a Logistic Regression in R
 
 
 ```r
@@ -179,13 +173,6 @@ bi_model &lt;- glm(
   family = binomial(
     link = "logit"))
 ```
-
----
-# Logit Link Function
-
-  * There's nothing to keep a typical linear model (i.e., a bunch of `\(\beta\)` parameters connected to variables) from predicting outside of the 0 to 1 range
-
-  * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
 
 ---
 # Logit Link
@@ -244,8 +231,6 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
   - It converts odds of less than one to negative numbers, because the log of a number between 0 and 1 is always negative
   
   - Our data is now linear!
-
-
 ]
 
 .pull-right[
@@ -287,20 +272,25 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 ---
 # Best Fitting Squiggle
 
-- In standard linear regression we use least squares to find best fitting line
+- In standard linear regression we use least squares to find the best fitting line
+
 
 &lt;img src="images/lin_fit.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Likelihood
 
-- Similar but not the same as probability
+-  In logistic regression we try to maximize the likelihood of the data
+
+  - Minimize the *deviance*
+
+- Similar, but not the same as probability
 
 --
 
   - Probability
 
-&gt; How probable (or likely) it is to draw a sample from a given distribution with certain parameters 
+&gt; How probable it is to draw a sample from a given distribution with certain parameters 
 
   - Here distribution is fixed and data can change
 
@@ -317,7 +307,7 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 ]
 
 .pull-right[
-&lt;img src="images/likelihood-1.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/likelihood-1.png" width="90%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -335,7 +325,7 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 
 ---
 
-- Find where points lie on line and get corresponding logits 
+- We need find where points lie on line and get corresponding logits 
 
 &lt;br&gt;
 &lt;br&gt;
@@ -353,6 +343,8 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 ---
 # Likelihood
 
+- Then plot them 
+
 &lt;br&gt;
 &lt;br&gt;
 
@@ -360,7 +352,7 @@ p(logit)=\frac{e^{logit}}{1+e^{logit}}
 ---
 # Likelihood
 
-&lt;img src="images/likelihood.svg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="images/likelihood.svg" width="90%" style="display: block; margin: auto;" /&gt;
 ---
 # Now What?
 

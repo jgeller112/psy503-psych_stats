@@ -141,10 +141,15 @@ library(ggdist)
 
 - Introduction to logistic regression
   
-    - Binomial Distribution
-    - Logit Link
-    - Maximum Likelihood
-    - Statistical inference
+    - Fitting the model: 
+        - Binomial distribution
+        - Logit Link
+        - Maximum Likelihood
+        - Paramater interpretation
+         
+    - Statistical inference: 
+      - Model fit and model diagnoistics
+      - Comparing models
 
 ---
 #  Linear Model
@@ -158,6 +163,8 @@ $$ y = b_0 + b_1*x $$
 $$y\sim~Normal(\mu, \sigma)$$
 ---
 - What about if $y$ is not normal?
+
+  - What if $y$ is categorical with two possible outcomes?
 
 <br>
 <br>
@@ -261,20 +268,7 @@ $$\begin{align*}
 $$p(y = 1)  = p$$
 $$log(\frac{p}{1 - p})$$
 ---
-# Generalized linear models
-
-In a generalized linear model (GLM), we specify 2 things:
-
-1. Response likelihood (“family”)
-  - e.g., Normal (“Gaussian”), Binomial, Poisson, etc.
-  - Until now, we’ve used the default family = "gaussian" (Normal)
-  - Now we are changing it up!
-    - e.g., family = "binomial" or  family = binomial(link = "logit")
-
-2. Linear models for each distribution parameter
-
----
-# Fitting a Binomial Regression in R
+# Fitting a Logistic Regression in R
 
 ```{r, eval=FALSE}
 # use GLM istead of LM
@@ -285,13 +279,6 @@ bi_model <- glm(
     link = "logit"))
 
 ```
-
----
-# Logit Link Function
-
-  * There's nothing to keep a typical linear model (i.e., a bunch of $\beta$ parameters connected to variables) from predicting outside of the 0 to 1 range
-
-  * The logit link allows us to transform the unbounded predictions of the log-odds to the bounded 0-to-1 metric of the probability space
 
 ---
 # Logit Link
@@ -354,8 +341,6 @@ knitr::include_graphics("images/odds_fig.png")
   - It converts odds of less than one to negative numbers, because the log of a number between 0 and 1 is always negative
   
   - Our data is now linear!
-
-
 ]
 
 .pull-right[
@@ -453,7 +438,8 @@ knitr::include_graphics("images/odds.png")
 ---
 # Best Fitting Squiggle
 
-- In standard linear regression we use least squares to find best fitting line
+- In standard linear regression we use least squares to find the best fitting line
+
 
 ```{r, echo=FALSE, fig.align='center', out.width="60%"}
 
@@ -463,13 +449,17 @@ knitr::include_graphics("images/lin_fit.png")
 ---
 # Likelihood
 
-- Similar but not the same as probability
+-  In logistic regression we try to maximize the likelihood of the data
+
+  - Minimize the *deviance*
+
+- Similar, but not the same as probability
 
 --
 
   - Probability
 
-> How probable (or likely) it is to draw a sample from a given distribution with certain parameters 
+> How probable it is to draw a sample from a given distribution with certain parameters 
 
   - Here distribution is fixed and data can change
 
@@ -490,7 +480,7 @@ knitr::include_graphics("images/probability.png")
 ]
 
 .pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="70%"}
+```{r, echo=FALSE, fig.align='center', out.width="90%"}
 
 knitr::include_graphics("images/likelihood-1.png")
 
@@ -516,7 +506,7 @@ knitr::include_graphics("images/likelihood-2.png")
 
 ---
 
-- Find where points lie on line and get corresponding logits 
+- We need find where points lie on line and get corresponding logits 
 
 <br>
 <br>
@@ -542,6 +532,8 @@ knitr::include_graphics("images/logit_line.jpeg")
 ---
 # Likelihood
 
+- Then plot them 
+
 <br>
 <br>
 
@@ -553,7 +545,7 @@ knitr::include_graphics("images/max.png")
 ---
 # Likelihood
 
-```{r,echo=FALSE, fig.align='center', out.width="50%"}
+```{r,echo=FALSE, fig.align='center', out.width="90%"}
 
 knitr::include_graphics("images/likelihood.svg")
 
