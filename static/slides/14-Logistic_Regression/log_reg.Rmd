@@ -617,7 +617,10 @@ knitr::include_graphics("images/mle-many.png")
 
 ```
 ---
+# Slope and Intercept Parameters
 
+<br>
+<br>
 .pull-left[
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
@@ -634,7 +637,7 @@ knitr::include_graphics("images/mle-2.png")
 ```
 ]
 ---
-class: center 
+class: middle 
 
 # Interactive: Understanding Maximum Likelihood Estimation: https://rpsychologist.com/likelihood/
 
