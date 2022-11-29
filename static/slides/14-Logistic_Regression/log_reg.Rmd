@@ -870,21 +870,22 @@ $$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\p
 
 --
 
-- Measure of how well the model fits the data 
+  - Measure of how well the model fits the data 
 
 --
 
-- Higher values of $\log L$ are better
+  - Higher values of $\log L$ are better
 
 --
 
 - .vocab[Deviance] = $-2 \log L$
+
   - $-2 \log L$ follows a $\chi^2$ distribution with $n - p - 1$ degrees of freedom
   
 ---
 # $\chi^2$ distribution 
 
-```{r, echo=F, fig.height = 6}
+```{r, echo=F, fig.height = 6, fig.align='center'}
 x <- seq(from =0, to = 10, length = 100)
 # Evaluate the densities
 y_1 <- dchisq(x, 1)
@@ -1206,8 +1207,9 @@ glimpse(risk2009)
 ---
 # Trying to lose weight
 
+- Selected variables: 
 
-*`lose.wt.01`, which is coded 1 when someone indicated they were trying to lost weight and 0 when they were not trying to. This is a dichotomized version of the `lose.wt` factor variable.
+DV: *`lose.wt.01`, which is coded 1 when someone indicated they were trying to lost weight and 0 when they were not trying to. This is a dichotomized version of the `lose.wt` factor variable.
 
 - Our two predictor variables will be:
 
@@ -1355,13 +1357,14 @@ fit2 %>%
 ---
 - Now we can compute the probabilities for young men and women as follows
 
-```{r}
+```{r, echo=FALSE}
 b0 <- coef(fit2)[1] %>% as.double()
 b1 <- coef(fit2)[2] %>% as.double()
+```
 
+```{r}
 # young men
 plogis(b0 + b1 * 0)
-
 # young women
 plogis(b0 + b1 * 1)
 ```
@@ -1407,7 +1410,11 @@ fit3 <- glm(
   family = binomial,
   lose.wt.01 ~ 1 + bmipct
   )
+```
 
+---
+# Model 3
+```{r}
 # summarize
 fit3 %>%
   tidy()
@@ -1436,7 +1443,7 @@ $$
 ---
 # Logistic Multiple Predictors
 
-- The second multivariable model will add an interaction term between the two predictors:
+- The second model will add an interaction term between the two predictors:
 
 $$
 \begin{align*}
@@ -1461,6 +1468,26 @@ fit5 <- glm(
   )
 ```
 ---
+# Model 4
+```{r, echo=FALSE}
+fit4 <- glm(
+  data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1 + female + bmipct
+  )
+
+fit4
+```
+---
+# Model 5
+
+```{r}
+glm(data = risk2009,
+  family = binomial,
+  lose.wt.01 ~ 1 + female + bmipct + female:bmipct
+  ) %>%
+  tidy()
+```
 # Model Comparisons 
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
@@ -1501,6 +1528,7 @@ bind_rows(
 
 - when you compare the multivariable model `fit4` with the interaction model `fit5`, it appears that the interaction term does not add anything
 
+---
 Let's plot the results from `fit4`.
 
 ```{r, echo=FALSE}
@@ -1571,7 +1599,7 @@ plot_model(fit4, type="pred", terms=c("bmipct")) + theme_bw() # pred is predicto
 ---
 # Visualization
 
-```{r, echo=FALSE, fig.align="center", out.width="60%"}
+```{r, echo=TRUE, fig.align="center", out.width="60%"}
 
 library(ggeffects)
 
