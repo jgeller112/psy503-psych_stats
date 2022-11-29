@@ -84,7 +84,7 @@ style_solarized_dark(
   header_h1_font_size = "36px",
   header_color = "black",
   text_font_google = google_font("Work Sans"),
-  text_font_size = "30px",
+  text_font_size = "28px",
   text_color = "black", 
   background_color = "white", 
   code_font_google = google_font("Share Tech Mono"),
@@ -388,12 +388,20 @@ knitr::include_graphics("images/lin2.png")
 - We need a function that scrunches the output of the linear predictor into a range appropriate for this parameter
 
 --
-
 - A squiggle (logistic or Sigmoid curve) to the rescue!
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
 knitr::include_graphics("images/lin3.png")
+
+```
+
+---
+# Anatomy of Logistic Curve
+
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("images/anatlog.png")
 
 ```
 
@@ -453,7 +461,7 @@ knitr::include_graphics("images/lin_fit.png")
 
   - Minimize the *deviance*
 
-- Similar, but not the same as probability
+- *Similar, but not the same as probability*
 
 ---
 # Probabality vs. Likelihood
@@ -541,7 +549,6 @@ knitr::include_graphics("images/like6.png")
   - Specify a likelihood function
   - Add data
   - Find the parameters values that maximize the -     likelihood function, given the observed data
-  - Maximum likelihood estimation
 ---
 # ML: Logistic Regression
 
@@ -584,10 +591,17 @@ knitr::include_graphics("images/max.png")
 ---
 # ML: Logistic Regression
 
+
 ```{r,echo=FALSE, fig.align='center', out.width="90%"}
 
-knitr::include_graphics("images/likelihood.svg")
+knitr::include_graphics("images/log_ML2.png")
+```
+---
+# ML: Logistic Regression
 
+```{r,echo=FALSE, fig.align='center', out.width="90%"}
+
+knitr::include_graphics("images/log_ML1.png")
 ```
 ---
 # Now What?
@@ -595,6 +609,7 @@ knitr::include_graphics("images/likelihood.svg")
 - We keep rotating the log odds(line) and projecting data on to it and transforming into probabilities
 
   - Until we find maximum likelihood!
+  
 
 ```{r, echo=FALSE, fig.align='center', out.width="70%"}
 
@@ -642,7 +657,7 @@ glimpse(bechdel)
 ```
 
 ---
-# Linear Model?
+# Fitting a Linear Model
 
 Not good for two reasons: 
  
@@ -698,6 +713,8 @@ p %>%
 ```
 ]
 ---
+
+
 # Model
 
 $$\begin{align*}
@@ -782,9 +799,6 @@ tidy(fit,exponentiate = FALSE) # get log odds
 ---
 # Coffiencet Effect Size: Odd's Ratio
 
-```{r, echo=FALSE}
-tidy(fit,exponentiate = TRUE) # odds ratio from tidy object 
-```
 - For every 100,000,000 spent in movie budget, the odds of passing are decreased by a factor of .55:1
 
   - Describe as percentage increase/decrease
@@ -798,6 +812,22 @@ exp(new)-1 # get probability of increase/decrease
 - For every 100,000,000 spent on movie budget, the odds of passing the test is reduced by 45% 
 
 ---
+
+---
+# Coffiencet Effect Size: Odd's Ratio
+
+```{r}
+tidy(fit,exponentiate = TRUE) # get odds ratio
+```
+
+- Greater than 1: As the continuous variable increases, the event is more likely to occur 
+
+- Less than 1: As the variable increases, the event is less likely to occur 
+
+- Equals 1: As the variable increases, the likelihood of the event does not change
+
+---
+
 # Hypothesis test for $\beta_j$
 
 .vocab[Hypotheses]: $H_0: \beta_j = 0 \hspace{2mm} \text{ vs } \hspace{2mm} H_a: \beta_j \neq 0$
@@ -883,6 +913,7 @@ legend("topright",
 --
 
 - We want to test the hypotheses
+
 $$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
 & H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
 
@@ -950,7 +981,6 @@ r2_tjur(model)
 
 ```{r, eval=FALSE, fig.align='center', out.width="100%"}
 
-check_model(model)
 
 ```
 ---
