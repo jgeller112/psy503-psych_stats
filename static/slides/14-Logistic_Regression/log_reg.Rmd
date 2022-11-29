@@ -455,50 +455,42 @@ knitr::include_graphics("images/lin_fit.png")
 
 - Similar, but not the same as probability
 
---
+---
+# Probabality vs. Likelihood
+
+- Probability
+
 .pull-left[
-  - Probability
 
-> How probable it is to draw a sample from a given distribution with certain parameters 
+> If I assume a distribution with certain parameters, how often do I see a particular value in the data?
 
-  - Here distribution is fixed and data can change
-  
+- Pr⁡〖(𝑦>0│𝜇=0,𝜎=1)=.50〗
+- Pr⁡〖(−1<𝑦<1│𝜇=0,𝜎=1)=.68〗
+- Pr⁡〖(0<𝑦<1│𝜇=0,𝜎=1)=.34〗
+- Pr⁡〖(𝑦>2│𝜇=0,𝜎=1)=.02〗
+
+  -*Here distribution is fixed and data can change*
 ]
 
 .pull-right[
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
 
-knitr::include_graphics("images/probability.png")
+knitr::include_graphics("images/normal.png")
 
 ```
-
 ]
 ---
 # Likelihood
 
 .pull-left[
+- $L(𝜇,𝜎│𝑥)$
 
-> Computes how likely the parameters are given the observed data – in a practical context, we change the parameters of the distribution and see how it affects the likelihood
+- Holding a sample of data constant, which parameter values are more likely?
 
-  - Here data is fixed and distribution can change
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="90%"}
-
-knitr::include_graphics("images/likelihood-1.png")
-
-```
-]
-
----
-# Likelihood
-
-.pull-left[
-> Computes how likely the parameters are given the observed data
-
-  - Here data is fixed and distribution can change
+  - Which values have higher likelihood?
+  
+  *Here data is fixed and distribution can change*
 ]
 
 .pull-right[
@@ -510,6 +502,48 @@ knitr::include_graphics("images/likelihood-2.png")
 ]
 
 ---
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("images/like1.png")
+
+```
+
+---
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("images/like2.png")
+
+```
+
+---
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("images/like4.png")
+
+```
+---
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("images/like5.png")
+
+```
+---
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+knitr::include_graphics("images/like6.png")
+
+```
+---
+# Maximum Likelihood Estimation
+
+- Logistic regression
+
+  - Specify a likelihood function
+  - Add data
+  - Find the parameters values that maximize the -     likelihood function, given the observed data
+  - Maximum likelihood estimation
+---
+# ML: Logistic Regression
 
 - We need find where points lie on line and get corresponding logits 
 
@@ -535,9 +569,9 @@ knitr::include_graphics("images/logit_line.jpeg")
 ```
 ]
 ---
-# Likelihood
+# ML: Logistic Regression
 
-- Then plot them 
+- plot them as a function of probabilitiy
 
 <br>
 <br>
@@ -548,7 +582,7 @@ knitr::include_graphics("images/max.png")
 
 ```
 ---
-# Likelihood
+# ML: Logistic Regression
 
 ```{r,echo=FALSE, fig.align='center', out.width="90%"}
 
@@ -584,6 +618,11 @@ knitr::include_graphics("images/mle-2.png")
 
 ```
 ]
+---
+class: center 
+
+# Interactive: Understanding Maximum Likelihood Estimation: https://rpsychologist.com/likelihood/
+
 ---
 # Dataset
 
@@ -726,11 +765,11 @@ tidy(fit,exponentiate = FALSE) # get log odds
 
   - As $X_i$ increases by 1 unit, log-odds of Y increases by $\beta_1$
 
-  - As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  exp{$\beta_1$}
+  - As $X_i$ increases by 1 unit, the odds of Y multiply by a factor of  $exp(\beta_1)$
 
-    - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
+        - Budget_2013 = pretty small so change to `r new` which is interpreted as the expected change in log odds for every 100,000,000 spent on movie budget
     
-      - Divide by 4 rule to get upper limit of max probability change (Gelman & Hill, 2007) (every 1 unit increase in X,P(y) will increase by no more than $B/4$)
+          - Divide by 4 rule to get upper limit of max probability change (Gelman & Hill, 2007) (every 1 unit increase in X,P(y) will increase by no more than $\beta/4$)
 ---
 # Interpreting slope: β1
 
@@ -790,6 +829,10 @@ where $z^*$ is calculated from the $N(0,1)$ distribution
 $$\exp\{\hat{\beta}_1 \pm z^* SE(\hat{\beta}_1)\}$$
 ---
 # Log likelihood
+
+- With large samples, likelihood values ℒ(𝜇,𝜎│𝑥)  get very small very fast
+
+  - To make them easier to work with, we usually work with the log-likelihood
 
 .eq[
 $$\log L = \sum\limits_{i=1}^n[y_i \log(\hat{\pi}_i) + (1 - y_i)\log(1 - \hat{\pi}_i)]$$
@@ -853,7 +896,6 @@ $$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
 .vocab[Hypotheses]:
 $$\begin{aligned}&H_0: \beta_{q+1} = \dots = \beta_p = 0 \\
 & H_a: \text{ at least 1 }\beta_j \text{ is not } 0\end{aligned}$$
-
 --
 
 .vocab[Test Statistic]: $$G = (-2 \log L_{reduced}) - (-2 \log L_{full})$$
@@ -1465,6 +1507,14 @@ predict(
 
 ```
 
+---
+# Model Comparisons
+
+```{r,fig.align='center', out.width="100%"}
+#easystats package
+plot(compare_performance(fit1,fit2,fit3, fit4))
+
+```
 ---
 # Visualization
 
