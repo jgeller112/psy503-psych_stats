@@ -176,9 +176,10 @@ lessons:
   - title: "Logistic Regression"
     date: "Week 13 [MW, 11/28-11/30]"
     slides: ""
-    notes: ""
+    notes: "Pset 8 due 11-5"
     class: "14-Logistic_Regression/log_reg.html"
     reading: "11-reading"
+    assignment: "08"
     hasclass: False
     hasassignment: True
     

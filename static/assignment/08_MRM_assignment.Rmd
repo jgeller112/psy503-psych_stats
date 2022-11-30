@@ -1,0 +1,20 @@
+---
+title: "08-MRM_assignment"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem Set 8: Categorical by Cateogorical Interactions
+
+A student brought up an interesting issue. The motivation variable (while it is labeled numerical/continuous) takes only certain values. For this assignment use the same data, but I want you to re-run the analysis by categorizing the motivation variable (into 4 levels) and run a 2 X 4 ANOVA on the data. 
+
+Please test the appropriate assumptions and interpret the findings. Please include an ANOVA table (use the `nice` function in `afex` or knitr::kable) and a figure.
+
+```{r, eval=FALSE}
+# get the data
+install.packages("candisc")
+load(HSB)
+```
