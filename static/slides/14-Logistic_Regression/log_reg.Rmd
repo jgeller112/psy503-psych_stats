@@ -1501,9 +1501,14 @@ bind_rows(
   facet_grid(fit ~ term, scales = "free_x")
 ```
 
-- The interaction term `female:bmipct` (i.e., $\beta_3$) would not be statistically significant. Let's compare the models by performing likelihood ratio test
+- The interaction term `female:bmipct` (i.e., $\beta_3$) would not be statistically significant.
 
-```{r, eval=FALSE}
+---
+# Likelihood Ratio Test
+
+- Let's compare the models by performing likelihood ratio test
+
+```{r}
 test_likelihoodratio(fit4, fit5)
 ```
 ---
@@ -1662,6 +1667,4 @@ religious event attendance using R 4.0.4 (R Core Team,
 socioeconomic status of the respondent. As shown in Figure 1, this analysis revealed that attitudes about premarital sex
 significantly predicted religious event attendance, b = 0.72, SE
 = 0.05, z(1303) = 13.24, p < 0.01, Odds Ratio = 2.05:1. This implies that every 1-unit increase in negative attitudes toward premarital sex predicted a 2-fold increase in the likelihood that the person had attended religious services in the previous week. Table 1 provides the model estimates for all predictors.
-
----
 
