@@ -142,9 +142,10 @@ library(ggdist)
 - Introduction to logistic regression
   
     - Fitting the model: 
+    
         - Binomial distribution
         - Logit Link
-        - Maximum Likelihood
+        - Likelihood
         - Parameter interpretation
          
     - Statistical inference: 
@@ -388,6 +389,7 @@ knitr::include_graphics("images/lin2.png")
 - We need a function that scrunches the output of the linear predictor into a range appropriate for this parameter
 
 --
+
 - A squiggle (logistic or Sigmoid curve) to the rescue!
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
@@ -459,7 +461,7 @@ knitr::include_graphics("images/lin_fit.png")
 
 -  In logistic regression we try to maximize the likelihood of the data
 
-  - Minimize the *deviance*
+  - Minimize the *deviance* (more on this later)
 
 - *Similar, but not the same as probability*
 
@@ -594,14 +596,14 @@ knitr::include_graphics("images/max.png")
 
 ```{r,echo=FALSE, fig.align='center', out.width="90%"}
 
-knitr::include_graphics("images/log_ML2.png")
+knitr::include_graphics("images/log_ML1.png")
 ```
 ---
 # ML: Logistic Regression
 
 ```{r,echo=FALSE, fig.align='center', out.width="90%"}
 
-knitr::include_graphics("images/log_ML1.png")
+knitr::include_graphics("images/log_ML2.png")
 ```
 ---
 # Now What?
@@ -662,13 +664,7 @@ glimpse(bechdel)
 ---
 # Fitting a Linear Model
 
-Not good for two reasons: 
- 
-1. Outcome is non-normal
-2. The predicted regression line is unbounded, meaning that it can go from ∞to-∞
-
-.pull-left[
-```{r, echo=FALSE}
+```{r, echo=FALSE, fi}
 
 # compute
 bechdel <- bechdel  %>% 
@@ -701,23 +697,19 @@ p <-
   mutate_all(plogis) %>%
   bind_cols(nd)
 
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
 p %>% 
   ggplot(aes(x = budget_2013, y = fit)) +
   geom_smooth(method='lm') +
   geom_point(data = bechdel,
              aes(y = pass),
              alpha = 1/2)
-
 ```
-]
+- Not good for two reasons:
+
+  1. Outcome is non-normal
+  2. The predicted regression line is unbounded, meaning that it can go from ∞to-∞
+ 
 ---
-
-
 # Model
 
 $$\begin{align*}
@@ -1216,8 +1208,8 @@ DV: *`lose.wt.01`, which is coded 1 when someone indicated they were trying to l
 
 - Our two predictor variables will be:
 
-* `sex` and its related dummy variable `female` and `male`
-* `bmipct`, which is the percentile for a given BMI for members of the same sex
+  * `sex` and its related dummy variable `female` and `male`
+  * `bmipct`, which is the percentile for a given BMI for members of the same sex
 
 ---
 # Exploratory Data Analysis
@@ -1225,7 +1217,7 @@ DV: *`lose.wt.01`, which is coded 1 when someone indicated they were trying to l
 - Here are two versions of comparing `lose.wt.01` by `sex`
 
 .pull-left[
-```{r, echo=FALSE, fig.align='center', out.width="70%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 risk2009 %>% 
   mutate(lose.wt.01 = factor(lose.wt.01)) %>% 
   ggplot(aes(x = lose.wt.01)) +
@@ -1235,7 +1227,7 @@ risk2009 %>%
 ]
 
 .pull-left[
-```{r, echo=FALSE, fig.align='center', out.width="70%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
 risk2009 %>% 
   ggplot(aes(x = sex, fill = lose.wt)) +
   geom_bar(position = "fill") +
@@ -1261,7 +1253,7 @@ risk2009 %>%
 
 - Here are the histograms for `bmipct`, faceted by both `lose.wt` and `sex`.
 
-```{r, echo=FALSE, out.width="80%", fig.align='center'}
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 
 risk2009 %>% 
   ggplot(aes(x = bmipct)) +
@@ -1303,6 +1295,9 @@ tidy(fit1)
 ```
 
 - The intercept $\beta_0$ is in the log-odds metric 
+
+--
+
 - We can convert it to probability
 
 ```{r}
@@ -1372,15 +1367,6 @@ plogis(b0 + b1 * 0)
 plogis(b0 + b1 * 1)
 ```
 
-- Check these with the empirical probabilities
-
-```{r}
-risk2009 %>% 
-  group_by(sex) %>% 
-  count(lose.wt.01) %>% 
-  mutate(proportion_by_sex = n / sum(n))
-```
-
 ---
 # `Emmeans`
 
@@ -1425,10 +1411,6 @@ fit3 %>%
 
 The coefficient for `bmipct` seems small at 0.036, but recall that `bmipct` ranges from 0 to 100.
 
-```{r}
-range(risk2009$bmipct)
-```
-
 - Thus a one point increase being a one percentile increase in BMI, which isn't very much
 
 ---
@@ -1472,6 +1454,7 @@ fit5 <- glm(
 ```
 ---
 # Model 4
+
 ```{r, echo=FALSE}
 fit4 <- glm(
   data = risk2009,
@@ -1490,7 +1473,10 @@ glm(data = risk2009,
   lose.wt.01 ~ 1 + female + bmipct + female:bmipct
   ) %>%
   tidy()
+
+
 ```
+---
 # Model Comparisons 
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
@@ -1515,8 +1501,12 @@ bind_rows(
   facet_grid(fit ~ term, scales = "free_x")
 ```
 
-The interaction term `female:bmipct` (i.e., $\beta_3$) would not be statistically significant. Let's compare the models by their information criteria
+- The interaction term `female:bmipct` (i.e., $\beta_3$) would not be statistically significant. Let's compare the models by performing likelihood ratio test
 
+```{r, eval=FALSE}
+test_likelihoodratio(fit4, fit5)
+```
+---
 ```{r}
 bind_rows(
   glance(fit1),
@@ -1529,7 +1519,7 @@ bind_rows(
   select(fit, everything())
 ```
 
-- when you compare the multivariable model `fit4` with the interaction model `fit5`, it appears that the interaction term does not add anything
+- When you compare model `fit4` with the interaction model `fit5`, it appears that the interaction term does not add anything
 
 ---
 Let's plot the results from `fit4`.
@@ -1571,7 +1561,9 @@ predict(
 ---
 # Model Comparisons
 
-```{r,fig.align='center', out.width="100%"}
+- Radar plots
+
+```{r,fig.align='center', out.width="90%"}
 #easystats package
 plot(compare_performance(fit1,fit2,fit3, fit4))
 
