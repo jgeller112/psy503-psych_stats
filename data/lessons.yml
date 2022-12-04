@@ -186,6 +186,7 @@ lessons:
   - title: "Extensions to the GLM: Multilevel Modeling"
     date: "Week 14 [MW,12/5-12-7]"
     slides: ""
+    class: "15-MLM/mlm.html"
     notes: ""
     reading: "12-reading"
     hasclass: True
