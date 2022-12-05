@@ -604,7 +604,7 @@ knitr::include_graphics("images/interdep.png")
 ---
 # Fixed and Random Effects
 
-- *Fixed effect*: 
+- **Fixed effect**: 
 
   - Population-level (i.e., average) effects that should persist across experiments
   
@@ -614,7 +614,7 @@ knitr::include_graphics("images/interdep.png")
 ---
 # Fixed and Random Effects
 
-- **Random effects**
+- **Random effects**:
 
   - Randomly sampled observations over which you plan to generalize
 
