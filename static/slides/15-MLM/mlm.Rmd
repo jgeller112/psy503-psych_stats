@@ -131,7 +131,7 @@ library(ggdist)
 
   - Gets rid of all the messages and warnings
   
-```{r setup1, include=FALSE, eval=FALSE}
+```{r setup1, eval=FALSE}
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -467,7 +467,7 @@ knitr::include_graphics("images/nestingdolls.webp")
 ---
 # Two-level Hierarchy
 
-- Nested Designs
+- Nested designs
 
 ```{r, echo=FALSE, fig.align='center', out.width="100%"}
 knitr::include_graphics("images/nested.png")
@@ -712,7 +712,6 @@ lmer(DV ~ IV + IV2 (1|participant))
 
 ```
 
-- 1 within formula represents the intercept and slope correlation
 
 ]
 
@@ -881,7 +880,7 @@ The size of the groups affects how many random effects can be estimated for each
 Max random coefficients = ((# level 1 observations)/  group) - 1
 
 ---
-# Putting It All Together
+# All Together
 
 - In regression you just estimate the outcome, $y$
 
@@ -901,13 +900,13 @@ knitr::include_graphics("images/EQ.png")
 $$y_{ij} = \beta_{0j} + \beta_{1j}x_{ij} + e_{ij}$$
 - Level 2: 
 
-- Multilevel Equation
+  - Multilevel Equation
 
-    - Predicted Intercept: 
+          - Predicted Intercept: 
 
 $$\beta_{0j} = \beta_{0} + u_{0j}$$
 
-  - Predicted Slope: 
+          - Predicted Slope: 
 
 $$\beta_{1j} = \beta_{1} + u_{1j}$$
 - Mixed Model Equation
@@ -930,7 +929,6 @@ class: middle
 
 # How to run MLM
 ---
-
 # Basic MLMs
 
 - Same as GLM in how fixed effects are specified
@@ -943,7 +941,7 @@ class: middle
 ---
 # Data
 
-- Brown (2021) (*on the website*)
+- Brown (2021) (*article on course website*)
 
   - 55 participants and 533 items
   
@@ -1012,11 +1010,11 @@ tibble(rt_data)
 ---
 # Group- vs. Grand-Mean  Centering
 
-- Grand-mean Centering: $x_{ij} - x$
+- Grand-mean centering: $x_{ij} - x$
 
   - Variable represents each observation’s deviation  from everyone’s norm, regardless of group
 
-- Group-mean Centering: $x_{ij} - x_j$
+- Group-mean centering: $x_{ij} - x_j$
 
   - Variable represents each observation’s deviation  from their group’s norm
 
@@ -1047,7 +1045,7 @@ x <- demean(x, select=c("x"), group="ID") #gets within-group cluster
 
   - Estimate the variance components using the sample residuals not the sample data
   
-  - It is conditional on the fixed effects, so it accounts for uncertainty in fixed effects estimates. This results in unbiased estimates of variance components
+  - It is cond itional on the fixed effects, so it accounts for uncertainty in fixed effects estimates. This results in unbiased estimates of variance components
 ---
 # ML or REML? 
 
@@ -1088,7 +1086,6 @@ m0<-lmer(RT ~ 1 + (1|PID), data=rt_data) #baseline
 summary(m0)
 
 ```
-
 ---
 # ICC
 
@@ -1192,21 +1189,22 @@ summary(modality_item_mod_slope)
 
 - Solutions:
 
-  - First remove the correlations between random effects 
+  - Try a different optimzier
   
-  - If that doesn’t converge, remove the by-items slopes for one factor (which explains the least variance) first 
-  
-  - If that doesn’t converge, remove the remaining by-items slopes
----
-# Find Right Optimizer
-
 ```{r, eval=FALSE}
 
 #compare which optimizers converge and dont converge
 all_fit(modality_item_mod_slope)
 
 ```
+---
+# Convergence Warnings
 
+  - Remove the correlations between random effects, if any
+  
+  - If that doesn’t converge, remove the by-items slopes for one factor (which explains the least variance) first 
+  
+  - If that doesn’t converge, remove the remaining by-items slopes
 ---
 # Convergence Issues
 
@@ -1319,9 +1317,12 @@ lrt <- mixed(RT ~ 1 + modality + (1+ modality|PID) + (1+ modality|stim), method=
 ```
 
 ---
-# Interepreting the Model
+class: middle
 
-- Full model
+# Interepreting MLM Models
+
+---
+# Full model
 
 ```{r}
 
@@ -1369,13 +1370,13 @@ emmeans(modality_item_mod_slopes, specs = "modality") %>%
 # Random Effects
 
 ```{r}
-tidy(modality_item_mod_slopes)
+summary(modality_item_mod_slopes)$varco
 ```
 ---
 # Plotting Random Effects
 
 ```{r}
-plot_model(modality_item_mod_slopes, type = "re")
+plot_model(modality_item_mod_slopes, type = "re", terms = "PID")
 ```
 
 ---
