@@ -681,11 +681,11 @@ ols.mod <- lm(yvar ~ xvar, data = figuredata)
 ggplot(figuredata, aes(x = xvar, y = yvar)) + 
   stat_smooth(method = lm, se = FALSE, linetype = "solid", 
               color = "black", size = .6) +
-  geom_point(aes(shape = PID), size = 3.25, color = "grey70") +
+  geom_point(aes(shape = PID), size = 3.25, color = "red") +
   scale_shape_manual(values = c(15, 16, 17, 18)) + 
   geom_segment(aes(x = xvar, xend = xvar, 
                    y = yvar, yend = fitted(ols.mod)), 
-               color = "grey70") +
+               color = "red") +
   scale_y_continuous(expand = c(0, 0), breaks = c(0, 750, 1500, 2250, 3000), 
                      limits = c(0, 2600)) +
   scale_x_continuous(expand = c(0, 0), breaks = c(0, 2, 4, 6, 8, 10), 
@@ -775,12 +775,12 @@ ggplot(figuredata, aes(x = xvar, y = yvar)) +
               linetype = "solid", color = "black", size = 1) + 
   geom_abline(mapping = aes(slope = slopes, 
                             intercept = intercepts2, linetype = PID), 
-              linetype = "dashed", color = "grey70", size = .4) +
-  geom_point(aes(shape = PID), size = 3.25, color = "grey70") + 
+              linetype = "dashed", color = "red", size = .4) +
+  geom_point(aes(shape = PID), size = 3.25, color = "red") + 
   scale_shape_manual(values = c(15, 16, 17, 18)) + 
   geom_segment(aes(x = xvar, xend = xvar, 
                    y = yvar, yend = fitted(random_slopes.mod)), 
-               color = "grey70") +
+               color = "red") +
   scale_y_continuous(expand = c(0, 0), breaks = c(0, 750, 1500, 2250), 
                      limits = c(0, 2600)) +
   scale_x_continuous(expand = c(0, 0), breaks = c(0, 2, 4, 6, 8, 10), 
