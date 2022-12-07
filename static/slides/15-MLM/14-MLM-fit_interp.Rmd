@@ -123,7 +123,7 @@ plogis(b0 + b1 * 1)# get prob for females
 ```
 
 
-- Continuous predictors
+- Continuous Probabilities
 
 ```{r, eval=FALSE}
 # take intercept and add slope for factor of interest and sub to get effect specific prob
@@ -145,6 +145,7 @@ plogis(b0 + b1(premartrial.sex)) - plogis(b0)
   - e.g., $\alpha_0, \alpha_1, \beta_0, \beta_1$
   
 - English letters denote the preliminary effects at lower levels that will not be estimated directly
+
   - e.g. $a_i, b_i$ 
 
   - i (individual) and j (group-level)
@@ -173,9 +174,8 @@ class: middle
 
   - 55 participants and 533 items
   
-  - How audio and audio-visual elements affect intelligibility of words
+  - Effect of audio and audio-visual elements on intelligibility of words
   
-    - Does audio-visual feedback improve intelligibility?
     - https://twitter.com/juliafstrand/status/997528489984131072
 
 - DV: Reaction time
@@ -218,6 +218,7 @@ knitr::include_graphics("images/pivot_longer.png")
 # Data Organization
 
 .pull-left[
+
 - Data Structure
 
   - Long vs. wide
@@ -237,7 +238,7 @@ tibble(rt_data)
 
 - You must ensure that the zero value for each predictor is meaningful before running the model
 
-  - Categorical Variables:
+  - Categorical variables:
 
         - Effect-coding or contrast-coding  
         
@@ -270,9 +271,10 @@ tibble(rt_data)
   - Group-mean center 
 
     -  Level 1 coefficient will always be with within-group effect, regardless of whether the group means are included at Level 2 or not
+    
     - If level 2 means included, coefficient represents the between-groups effect
    
-   
+
 .footnote[.small[https://centerstat.org/centering/]]
 ---
 # Group Mean Center in R
@@ -291,7 +293,7 @@ d <- d %>%
   ungroup %>%
   # Grand mean centering of the aggregated variable
   mutate(iv.cmc = iv.cm-mean(iv.cm))
-
+# data wizard way
 x <- demean(x, select=c("x"), group="ID") #gets within-group cluster
 
 ```
@@ -301,13 +303,13 @@ x <- demean(x, select=c("x"), group="ID") #gets within-group cluster
 - Two flavors of maximum likelihood
   
   - Maximum Likelihood (ML or FIML)
-
+    
     - Jointly estimate the fixed effects and variance components using all the sample data
-  
     - Can be used to draw conclusions about fixed and random effects
   
-  - Issue: Fixed effects are treated as known values when estimating variance components
-    - Results in biased estimates of variance components (especially when sample size is small)
+    - Issue: Fixed effects are treated as known values when estimating variance components
+    
+      - Results in biased estimates of variance components (especially when sample size is small)
 ---
 # ML and REML
 
@@ -378,7 +380,7 @@ $$
 m0<-lmer(RT ~ 1 + (1|PID), data=rt_data) #baseline
 ```
 ---
-# Interclass Correlation Coef (ICC) 
+# Interclass Correlation (ICC) 
 
 - ICC is a standardized way of expressing how much variance is due to clustering/group 
 
