@@ -265,13 +265,10 @@ tibble(rt_data)
   - Grand-mean center
 
      - **Include means of level 2**  
-  
-    - Allows us to directly test within-group effect
+     - Allows us to directly test within-group effect
     
   - Group-mean center 
-
-    -  Level 1 coefficient will always be with within-group effect, regardless of whether the group means are included at Level 2 or not
-    
+    - Level 1 coefficient will always be with within-group effect, regardless of whether the group means are included at Level 2 or not
     - If level 2 means included, coefficient represents the between-groups effect
    
 
@@ -419,10 +416,6 @@ summary(m0)$varcor # get variance
 model_performance(m0)$ICC
 
 ```
-
-<br>
-<br>
-<br>
 $$\frac{\sigma^{2}_{subj}+\sigma^{2}_{item}}{\sigma^{2}_{subj}+\sigma^{2}_{item}+\sigma^{2}_{res}}$$
 ---
 # Fixed Effect, Random Intercept
